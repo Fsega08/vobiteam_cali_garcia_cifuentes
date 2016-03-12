@@ -33,7 +33,7 @@
 					<p:dataTable value="#{vtEmpresaView.lasEmpresas}" var="empresa"
 						paginator="true" rows="5"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5, 10, 15"
+						rowsPerPageTemplate="5, 10, 15" rowKey="empresa.emprCodigo"
 						emptyMessage="No hay empresas seleccionadas para este usuario">
 
 						<p:column headerText="Nombre de Empresa" filterBy="#{empresa.nombre}"

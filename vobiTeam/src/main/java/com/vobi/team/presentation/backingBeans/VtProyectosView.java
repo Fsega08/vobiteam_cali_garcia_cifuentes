@@ -259,7 +259,9 @@ public class VtProyectosView {
 
 			businessDelegatorView.saveVtProyecto(vtProyecto);
 
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se ha creado con éxito"));
+			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se ha creado el Proyecto con éxito"));
+			
+			losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresaSelected);
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
 

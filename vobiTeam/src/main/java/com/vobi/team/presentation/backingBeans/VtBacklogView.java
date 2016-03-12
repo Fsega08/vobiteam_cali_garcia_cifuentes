@@ -1,5 +1,6 @@
 package com.vobi.team.presentation.backingBeans;
 
+import java.nio.file.attribute.AclEntry.Builder;
 import java.util.Date;
 
 import java.util.List;
@@ -238,27 +239,23 @@ public class VtBacklogView {
 			
 			VtPilaProducto vtPilaProducto= new VtPilaProducto();
 			
-			vtPilaProducto.setNombre(txtCNombre.getValue().toString());
-			
-			vtPilaProducto.setDescripcion(txtCDescripcion.getValue().toString());
-			
-			vtPilaProducto.setFechaCreacion(new Date());
-			
-			vtPilaProducto.setFechaCreacion(new Date());
-			
-			vtPilaProducto.setUsuCreador(1L);
-			
-			vtPilaProducto.setUsuModificador(1L);
-			
+			vtPilaProducto.setNombre(txtCNombre.getValue().toString());			
+			vtPilaProducto.setDescripcion(txtCDescripcion.getValue().toString());			
+			vtPilaProducto.setFechaCreacion(new Date());			
+			vtPilaProducto.setFechaCreacion(new Date());			
+			vtPilaProducto.setUsuCreador(1L);			
+			vtPilaProducto.setUsuModificador(1L);			
 			vtPilaProducto.setActivo("S");
 			
 			vtPilaProducto.setVtProyecto(proyectoSeleccionado);
 			
 			businessDelegatorView.saveVtPilaProducto(vtPilaProducto);
 			
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se ha creado con éxito"));
+			FacesUtils.addInfoMessage("Se ha creado el backlog con éxito");
+			
+			losBacklogs = businessDelegatorView.findBacklogByProyecto(proyectoSeleccionado);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesUtils.addErrorMessage(e.getMessage());
 
 		}
 	}

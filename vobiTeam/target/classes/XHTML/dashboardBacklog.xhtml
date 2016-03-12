@@ -25,7 +25,6 @@
 
 
 		<h:form id="formDialog">
-			<p:messages id="msg" />
 			<p:growl id="men" />
 
 			<p:panel header="Dashboard Backlog" id="pnlDashboard">
@@ -34,10 +33,26 @@
 						var="sprint" paginator="true" rows="5"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15" rendered="true">
-						<p:column headerText="Nombre Sprint">
+						<p:column headerText="Nombre Sprint" filterBy="#{sprint.nombre}"
+						sortBy="#{sprint.nombre}">
 							<h:outputText value="#{sprint.nombre}" />
 						</p:column>
-
+						
+						<p:column headerText="Objetivo Sprint" filterBy="#{sprint.objetivo}"
+						sortBy="#{sprint.objetivo}">
+							<h:outputText value="#{sprint.objetivo}" />
+						</p:column>
+						
+						<p:column headerText="Inicio" filterBy="#{sprint.fechaInicio}"
+						sortBy="#{sprint.fechaInicio}">
+							<h:outputText value="#{sprint.fechaInicio}" />
+						</p:column>
+						
+						<p:column headerText="Inicio" filterBy="#{sprint.fechaFin}"
+						sortBy="#{sprint.fechaFin}">
+							<h:outputText value="#{sprint.fechaFin}" />
+						</p:column>
+						
 						<p:column headerText="Listar Artefactos">
 							<p:commandButton id="btnSprintSeleccionado"
 								icon="ui-icon ui-icon-search" update="formDialog">
@@ -46,13 +61,49 @@
 									target="#{vtSprintView.sprintSeleccionado}" />
 							</p:commandButton>
 						</p:column>
-					</p:dataTable>
+					</p:dataTable>					
 				</p:column>
 			</p:panel>
 
+			<p:panel id="panelBotones">
+				<div align="center">
+					<p:commandButton id="btnCrearSprint" value="Crear Sprint"
+						binding="#{vtSprintView.btnCrearSprint}" 
+						onclick="PF('dlgCrearSprint').show();"		/>
+				</div>
+			</p:panel>
 
+			<p:dialog header="Crear Sprint" widgetVar="dlgCrearSprint" modal="true">
+				<div align="center">
+					<p:panel header="Crear Sprint" id="pnlCrearSprint">
+						<h:panelGrid columns="1">
+	
+								<p:inputText id="txtCNombre" placeholder="Nombre"
+									 binding="#{vtSprintView.txtNombre}"/>
+	
+								<p:inputText id="txtCDescripcion" placeholder="Descripción"
+									 binding="#{vtSprintView.txtDescripcion}"/>
+									 
+								<p:calendar id="clndFechaIncio" placeholder="Fecha de Inicio"
+									binding="#{vtSprintView.clndFechaIncio}" 
+									value="#{vtSprintView.fechaInicio}"/>
+								<p:calendar id="clndFechaFin" placeholder="Fecha de Fin"
+									binding="#{vtSprintView.clndFechaFin}"
+									value="#{vtSprintView.fechaFin}"/>
+							</h:panelGrid>
+						</p:panel>
+					<p:commandButton id="btnCrear" value="Crear"
+							icon="ui-icon-disk" update="formDialog" 
+							binding="#{vtSprintView.btnCrearNuevo}"
+							action="#{vtSprintView.crearAction}" />
 
-
+					<p:commandButton id="btnCLimpiar" value="Limpiar"
+							icon="ui-icon-refresh"  update="pnlCrearSprint" 
+							binding="#{vtSprintView.btnLimpiar}"
+							action="#{vtSprintView.limpiarAction}"/>
+				</div>			
+			
+			</p:dialog>
 
 		</h:form>
 

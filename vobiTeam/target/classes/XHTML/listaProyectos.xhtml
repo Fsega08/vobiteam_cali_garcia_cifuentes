@@ -29,38 +29,41 @@
 			<p:growl id="men" />
 
 			<p:panel header="Dashboard del Proyecto" id="pnlDashboard">
-		
+
 				<p:dataTable id="dtProyectos"
 					value="#{vtProyectosView.losProyectos}" var="proyecto"
 					paginator="true" rows="5"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15" rendered="true">
-					<p:column headerText="Nombre Proyecto">
+					rowsPerPageTemplate="5,10,15" rowKey="proyecto.proyCodigo"
+					rendered="true">
+					
+					<p:column headerText="Nombre Proyecto" filterBy="#{proyecto.nombre}"
+						sortBy="#{proyecto.nombre}">
 						<h:outputText value="#{proyecto.nombre}" />
 					</p:column>
-					<p:column headerText="Activa">
+					<p:column headerText="Activa" filterBy="#{proyecto.activo}"
+						sortBy="#{proyecto.activo}">
 						<h:outputText value="#{proyecto.activo}" />
 					</p:column>
-					<p:column headerText="Entrar a Backlog">				
-					
-						<p:commandButton icon="ui-icon-search"  id="btnSeleccionarBacklog"
+					<p:column headerText="Entrar a Backlog">
+
+						<p:commandButton icon="ui-icon-search" id="btnSeleccionarBacklog"
 							binding="#{vtProyectosView.btnSeleccionarBacklog}"
-							action="#{vtProyectosView.backlogListener}"
-							update="formDialog">
-							
+							action="#{vtProyectosView.backlogListener}" update="formDialog">
+
 							<f:setPropertyActionListener id="elProyecto" value="#{proyecto}"
 								target="#{vtProyectosView.proyectoSeleccionado}" />
 						</p:commandButton>
-						
-						
+
+
 					</p:column>
-					
-					<p:column headerText="Seleccionar Proyecto">
+
+					<p:column headerText="Modificar Proyecto">
 
 						<p:commandButton id="btnProyectoSeleccionado"
 							binding="#{vtProyectosView.btnSeleccionarProyecto}"
 							action="#{vtProyectosView.modificarListener}"
-							icon="ui-icon ui-icon-search" update="formDialog" >
+							icon="ui-icon ui-icon-search" update="formDialog">
 
 							<f:setPropertyActionListener id="elProyecto" value="#{proyecto}"
 								target="#{vtProyectosView.proyectoSeleccionado}" />
@@ -68,8 +71,8 @@
 					</p:column>
 				</p:dataTable>
 			</p:panel>
-				
-				
+
+
 			<!-- Aca estan los botones que abren el dialogo
 				 en la vista solo tengo el binding del boton
 				 sin ninguna action
@@ -89,26 +92,27 @@
 						onclick="PF('dlg2').show();" />
 				</div>
 			</p:panel>
-			
+
 			<!-- Aca lo que hago es meter todo el panel que quiere que muestre
 				 en el dialog y le doy modal para que lo que este afuera
 				 del panel que abre se vea opaco, eso es todo no tiene mucha ciencia
 				 pero es efectivo como el solo TENER en cuenta que widgetVar
 				 es el nombre del dialog que quiero abrir -->
-			<p:dialog header="Crear Proyecto" widgetVar="dlgCrearProyecto" modal="true">
+			<p:dialog header="Crear Proyecto" widgetVar="dlgCrearProyecto"
+				modal="true">
 				<div align="center">
-				<p:panel header="Crear Proyecto" id="pnlCrearProyecto">
-					<h:panelGrid columns="1">
+					<p:panel header="Crear Proyecto" id="pnlCrearProyecto">
+						<h:panelGrid columns="1">
 
-						<p:inputText id="txtCNombre" placeholder="Nombre"
-							binding="#{vtProyectosView.txtCNombre}" maxlength="255" />
+							<p:inputText id="txtCNombre" placeholder="Nombre"
+								binding="#{vtProyectosView.txtCNombre}" maxlength="255" />
 
-						<p:inputText id="txtCDescripcion" placeholder="Descripción"
-							binding="#{vtProyectosView.txtCDescripcion}"
-							maxlength="100000000" />
+							<p:inputText id="txtCDescripcion" placeholder="Descripción"
+								binding="#{vtProyectosView.txtCDescripcion}"
+								maxlength="100000000" />
 
-					</h:panelGrid>
-
+						</h:panelGrid>
+					</p:panel>
 					<p:commandButton id="btnCrear" value="Crear"
 						binding="#{vtProyectosView.btnCrear}"
 						action="#{vtProyectosView.crearAction}" icon="ui-icon-disk"
@@ -116,8 +120,8 @@
 
 					<p:commandButton id="btnCLimpiar" value="Limpiar"
 						icon="ui-icon-refresh" binding="#{vtProyectosView.btnCLimpiar}"
-						action="#{vtProyectosView.limpiarCAction}" update="pnlCrearProyecto" />
-				</p:panel>
+						action="#{vtProyectosView.limpiarCAction}"
+						update="pnlCrearProyecto" />
 				</div>
 			</p:dialog>
 
