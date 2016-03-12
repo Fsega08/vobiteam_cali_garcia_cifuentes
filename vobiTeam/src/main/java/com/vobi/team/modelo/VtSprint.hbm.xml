@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.vobi.team.modelo.VtSprint" table="vt_sprint" schema="public" optimistic-lock="version">
+        <id name="spriCodigo" type="java.lang.Long">
+            <column name="spri_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select">
+            <column name="pila_codigo" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="java.lang.String">
+            <column name="nombre" not-null="true" />
+        </property>
+        <property name="fechaInicio" type="java.util.Date">
+            <column name="fecha_inicio" length="13" />
+        </property>
+        <property name="fechaFin" type="java.util.Date">
+            <column name="fecha_fin" length="13" />
+        </property>
+        <property name="objetivo" type="java.lang.String">
+            <column name="objetivo" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="fecha_creacion" length="29" not-null="true" />
+        </property>
+        <property name="fechaModificacion" type="java.util.Date">
+            <column name="fecha_modificacion" length="29" />
+        </property>
+        <property name="usuCreador" type="java.lang.Long">
+            <column name="usu_creador" not-null="true" />
+        </property>
+        <property name="usuModificador" type="java.lang.Long">
+            <column name="usu_modificador" />
+        </property>
+        <property name="activo" type="java.lang.String">
+            <column name="activo" length="1" not-null="true" />
+        </property>
+        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="spri_codigo" />
+            </key>
+            <one-to-many class="com.vobi.team.modelo.VtArtefacto" />
+        </set>
+    </class>
+</hibernate-mapping>

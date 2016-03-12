@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:messages id="msg" />
+			<p:growl id="men" />
+			<p:panel id="panelVtEmpresa" header="Gestión de una Empresa">
+				<h:panelGrid columns="1">
+
+					<p:inputText id="txtIdentificacion"
+						placeholder="Identificación (NIT)"
+						binding="#{vtEmpresaView.txtIdentificacion}" maxlength="50">
+						<p:ajax listener="#{vtEmpresaView.identificacionListener}" 
+							update="panelVtEmpresa, panelBotones" />
+					</p:inputText>
+
+					<p:inputText id="txtNombre" placeholder="Nombre"
+						binding="#{vtEmpresaView.txtNombre}" maxlength="60" />
+
+					<p:selectOneMenu id="somEmpresaActiva"
+						binding="#{vtEmpresaView.somEmpresaActiva}">
+						<f:selectItem itemValue="-1" itemLabel="Empresa Activa" />
+						<f:selectItem itemValue="S" itemLabel="Si" />
+						<f:selectItem itemValue="N" itemLabel="No" />
+					</p:selectOneMenu>
+
+
+				</h:panelGrid>
+			</p:panel>
+			<p:panel id="panelBotones">
+				<div align="center">
+					<p:commandButton id="btnCrear" binding="#{vtEmpresaView.btnCrear}"
+						disabled="true" value="Save" action="#{vtEmpresaView.crearAction}"
+						update="panelVtEmpresa,men,panelBotones" />
+					
+					<p:commandButton id="btnModificar" binding="#{vtEmpresaView.btnModificar}"
+						disabled="true" value="Modify" action="#{vtEmpresaView.modificarAction}"
+						update="panelVtEmpresa,men,panelBotones" />
+					
+					<p:commandButton id="btnClear" value="Limpiar"
+						action="#{vtEmpresaView.limpiarAction}"
+						update="panelVtEmpresa,men,panelBotones" />
+				</div>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

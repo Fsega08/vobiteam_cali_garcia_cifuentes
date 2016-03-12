@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.vobi.team.modelo.VtArtefacto" table="vt_artefacto" schema="public" optimistic-lock="version">
+        <id name="arteCodigo" type="java.lang.Long">
+            <column name="arte_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="vtEstado" class="com.vobi.team.modelo.VtEstado" fetch="select">
+            <column name="esta_codigo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select">
+            <column name="pila_codigo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="vtPrioridad" class="com.vobi.team.modelo.VtPrioridad" fetch="select">
+            <column name="prio_codigo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="vtSprint" class="com.vobi.team.modelo.VtSprint" fetch="select">
+            <column name="spri_codigo" />
+        </many-to-one>
+        <many-to-one name="vtTipoArtefacto" class="com.vobi.team.modelo.VtTipoArtefacto" fetch="select">
+            <column name="tpar_codigo" not-null="true" />
+        </many-to-one>
+        <property name="titulo" type="java.lang.String">
+            <column name="titulo" not-null="true" />
+        </property>
+        <property name="descripcion" type="java.lang.String">
+            <column name="descripcion" />
+        </property>
+        <property name="esfuerzoEstimado" type="java.lang.Integer">
+            <column name="esfuerzo_estimado" />
+        </property>
+        <property name="esfuerzoRestante" type="java.lang.Integer">
+            <column name="esfuerzo_restante" />
+        </property>
+        <property name="esfuerzoReal" type="java.lang.Integer">
+            <column name="esfuerzo_real" />
+        </property>
+        <property name="puntos" type="java.lang.Integer">
+            <column name="puntos" />
+        </property>
+        <property name="origen" type="java.lang.String">
+            <column name="origen" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="fecha_creacion" length="29" not-null="true" />
+        </property>
+        <property name="fechaModificacion" type="java.util.Date">
+            <column name="fecha_modificacion" length="29" />
+        </property>
+        <property name="usuCreador" type="java.lang.Long">
+            <column name="usu_creador" not-null="true" />
+        </property>
+        <property name="usuModificador" type="java.lang.Long">
+            <column name="usu_modificador" />
+        </property>
+        <property name="activo" type="java.lang.String">
+            <column name="activo" length="1" not-null="true" />
+        </property>
+        <set name="vtArchivos" table="vt_archivo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="arte_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vobi.team.modelo.VtArchivo" />
+        </set>
+        <set name="vtHistoriaArtefactos" table="vt_historia_artefacto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="arte_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vobi.team.modelo.VtHistoriaArtefacto" />
+        </set>
+        <set name="vtUsuarioArtefactos" table="vt_usuario_artefacto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="arte_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vobi.team.modelo.VtUsuarioArtefacto" />
+        </set>
+    </class>
+</hibernate-mapping>

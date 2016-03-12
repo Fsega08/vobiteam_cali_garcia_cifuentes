@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:messages id="msg" />
+			<p:growl id="men" />
+			<p:panel header="Dashboard de la Empresa" id="pnlDashboard">
+				<h:panelGrid columns="1" layout="grid">
+
+					<p:dataTable value="#{vtEmpresaView.lasEmpresas}" var="empresa"
+						paginator="true" rows="5"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5, 10, 15"
+						emptyMessage="No hay empresas seleccionadas para este usuario">
+
+						<p:column headerText="Nombre de Empresa" filterBy="#{empresa.nombre}"
+						sortBy="#{empresa.nombre}">
+							<h:outputText value="#{empresa.nombre}" />
+						</p:column>
+
+						<p:column headerText="Identificación" filterBy="#{empresa.identificacion}"
+						sortBy="#{empresa.identificacion}">
+							<h:outputText value="#{empresa.identificacion}" />
+						</p:column>
+
+						<p:column headerText="Activa" filterBy="#{empresa.activo}"
+						sortBy="#{empresa.activo}">
+							<h:outputText value="#{empresa.activo}" />
+						</p:column>
+
+						<p:column headerText="Proyectos">
+
+							<p:commandButton id="btnProyectoSeleccionado"
+								binding="#{vtEmpresaView.btnListaEmpresa}"
+								action="#{vtEmpresaView.listaEmpresaListener}" icon="ui-icon-search"
+								update="formDialog" >
+									
+								<f:setPropertyActionListener id="laEmpresa" value="#{empresa}"
+									target="#{vtEmpresaView.laEmpresaSeleccionada}" />
+							</p:commandButton>
+
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGrid>
+			</p:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

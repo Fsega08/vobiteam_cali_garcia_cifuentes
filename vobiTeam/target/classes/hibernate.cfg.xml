@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <mapping resource="com/vobi/team/modelo/VtArchivo.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtArtefacto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtEstado.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtRol.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtTipoArtefacto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtUsuarioArtefacto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtUsuarioRol.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtEmpresa.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtInteres.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtPilaProducto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtPrioridad.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtHistoriaArtefacto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtUsuario.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtSprint.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtProyectoUsuario.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtProyecto.hbm.xml" />
+    </session-factory>
+</hibernate-configuration>

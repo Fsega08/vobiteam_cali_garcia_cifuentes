@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.vobi.team.modelo.VtArchivo" table="vt_archivo" schema="public" optimistic-lock="version">
+        <id name="archCodigo" type="java.lang.Long">
+            <column name="arch_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select">
+            <column name="arte_codigo" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="java.lang.String">
+            <column name="nombre" not-null="true" />
+        </property>
+        <property name="archivo" type="binary">
+            <column name="archivo" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="fecha_creacion" length="29" not-null="true" />
+        </property>
+        <property name="fechaModificacion" type="java.util.Date">
+            <column name="fecha_modificacion" length="29" />
+        </property>
+        <property name="usuCreador" type="java.lang.Long">
+            <column name="usu_creador" not-null="true" />
+        </property>
+        <property name="usuModificador" type="java.lang.Long">
+            <column name="usu_modificador" />
+        </property>
+        <property name="activo" type="java.lang.String">
+            <column name="activo" length="1" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
