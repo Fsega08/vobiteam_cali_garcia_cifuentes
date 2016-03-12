@@ -30,15 +30,17 @@
 			<p:panel header="Dashboard Backlog" id="pnlDashboard">
 				<p:column>
 					<p:dataTable id="dtSprint" value="#{vtSprintView.losSprint}"
-						var="sprint" paginator="true" rows="5"
+						var="Sprint" paginator="true" rows="5"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15" rendered="true">
+						
+						
 						<p:column headerText="Nombre Sprint" filterBy="#{sprint.nombre}"
 						sortBy="#{sprint.nombre}">
 							<h:outputText value="#{sprint.nombre}" />
 						</p:column>
 						
-						<p:column headerText="Objetivo Sprint" filterBy="#{sprint.objetivo}"
+						<p:column headerText="Sprint Objetivo" filterBy="#{sprint.objetivo}"
 						sortBy="#{sprint.objetivo}">
 							<h:outputText value="#{sprint.objetivo}" />
 						</p:column>
