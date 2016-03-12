@@ -326,7 +326,19 @@ public class VtBacklogView {
 
 	}
 	
-	
+	public String sprintListener(){
+		
+		//Guardo objeto en la sesion
+		if (backogSeleccionado.getActivo().equals("S")) {
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("backlogSeleccionado", backogSeleccionado);
+			return "/XHTML/dashboardBacklog.xhtml";
+		}
+		else{
+			FacesUtils.addErrorMessage("La pila producto esta inactiva");
+			return "";
+		}
+		
+	}
 	
 	
 }

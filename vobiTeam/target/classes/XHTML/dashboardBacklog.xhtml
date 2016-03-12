@@ -30,7 +30,7 @@
 
 			<p:panel header="Dashboard Backlog" id="pnlDashboard">
 				<p:column>
-					<p:dataTable id="dtSprint" value="#{dashboardSprintView.losSprint}"
+					<p:dataTable id="dtSprint" value="#{vtSprintView.losSprint}"
 						var="sprint" paginator="true" rows="5"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15" rendered="true">
@@ -39,13 +39,11 @@
 						</p:column>
 
 						<p:column headerText="Listar Artefactos">
-							<p:commandButton id="btnBacklogSeleccionado"
-								binding="#{dashboardSprintView.btnSeleccionarSprint}"
-								action="#{dashboardSprintView.listarArtefactos}"
+							<p:commandButton id="btnSprintSeleccionado"
 								icon="ui-icon ui-icon-search" update="formDialog">
 
 								<f:setPropertyActionListener id="elSprint" value="#{sprint}"
-									target="#{dashboardSprintView.sprintSeleccionado}" />
+									target="#{vtSprintView.sprintSeleccionado}" />
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>

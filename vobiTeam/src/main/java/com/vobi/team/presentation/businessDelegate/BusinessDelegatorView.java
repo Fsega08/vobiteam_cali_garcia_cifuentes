@@ -1035,4 +1035,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtPilaProducto> findBacklogByProyecto(VtProyecto vtProyecto) throws Exception {
 		return vtPilaProductoLogic.findBacklogByProyecto(vtProyecto);
 	}
+
+	@Override
+	public List<VtSprint> findSprintByBacklog(VtPilaProducto vtBacklog) throws Exception {
+		return vtSprintLogic.findSprintByBacklog(vtBacklog);
+	}
 }

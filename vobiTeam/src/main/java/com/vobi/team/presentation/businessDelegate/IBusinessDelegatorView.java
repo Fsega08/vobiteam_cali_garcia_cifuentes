@@ -366,7 +366,10 @@ public interface IBusinessDelegatorView {
     public List<VtSprint> findByCriteriaInVtSprint(Object[] variables,
         Object[] variablesBetween, Object[] variablesBetweenDates)
         throws Exception;
-
+    
+    public List<VtSprint> findSprintByBacklog(VtPilaProducto vtBacklog) 
+			throws Exception;
+    
     public List<VtSprint> findPageVtSprint(String sortColumnName,
         boolean sortAscending, int startRow, int maxResults)
         throws Exception;

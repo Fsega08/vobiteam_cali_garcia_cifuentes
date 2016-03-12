@@ -89,8 +89,7 @@
 
 					<p:column headerText="Seleccionar Backlog">
 						<p:commandButton icon="ui-icon-search" id="btnSeleccionarBacklog"
-							binding="#{vtProyectosView.btnSeleccionarBacklog}"
-							action="#{vtProyectosView.backlogListener}" update="formDialog">
+							action="#{vtBacklogView.sprintListener}" update="formDialog">
 
 							<f:setPropertyActionListener id="elBacklog" value="#{backlog}"
 								target="#{vtBacklogView.backogSeleccionado}" />

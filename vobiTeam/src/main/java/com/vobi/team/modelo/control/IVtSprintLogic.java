@@ -1,5 +1,6 @@
 package com.vobi.team.modelo.control;
 
+import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 
@@ -53,4 +54,7 @@ public interface IVtSprintLogic {
     public Long findTotalNumberVtSprint() throws Exception;
 
     public List<VtSprintDTO> getDataVtSprint() throws Exception;
+    
+    public List<VtSprint> findSprintByBacklog(VtPilaProducto vtBacklog) 
+			throws Exception;
 }
