@@ -36,34 +36,74 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="5,10,15" rowKey="proyecto.proyCodigo"
 					rendered="true">
-					
-					<p:column headerText="Nombre Proyecto" filterBy="#{proyecto.nombre}"
-						sortBy="#{proyecto.nombre}">
+
+					<p:column headerText="Nombre Proyecto"
+						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}">
 						<h:outputText value="#{proyecto.nombre}" />
 					</p:column>
 					<p:column headerText="Activa" filterBy="#{proyecto.activo}"
 						sortBy="#{proyecto.activo}">
 						<h:outputText value="#{proyecto.activo}" />
 					</p:column>
-					<p:column headerText="Entrar a Backlog">
 
-						<p:commandButton icon="ui-icon-search" id="btnSeleccionarBacklog"
-							binding="#{vtProyectosView.btnSeleccionarBacklog}"
-							action="#{vtProyectosView.backlogListener}" update="formDialog">
+					<p:column headerText="Modificar Proyecto">
+						<p:commandButton id="btnModificarProyecto"
+							value="#{vtProyectosView.btnModificarProyecto}"
+							action="#{vtProyectosView.modificarListener}"
+							icon="ui-icon-refresh" oncomplete="PF('dlg2').show();"
+							update="modProyecto">
 
 							<f:setPropertyActionListener id="elProyecto" value="#{proyecto}"
 								target="#{vtProyectosView.proyectoSeleccionado}" />
 						</p:commandButton>
 
+						<p:dialog header="Modificar Proyecto" widgetVar="dlg2"
+							modal="true" id="modProyecto">
+							<p:panel header="Modificar Proyecto" id="pnlModificarProyecto">
+								<h:panelGrid columns="1">
 
+									<p:inputText id="txtMNombre" placeholder="Nombre"
+										binding="#{vtProyectosView.txtMNombre}" maxlength="50">
+									</p:inputText>
+
+									<p:inputText id="txtMDescripcion" placeholder="Descripción"
+										binding="#{vtProyectosView.txtMDescripcion}"
+										maxlength="100000000" />
+
+									<p:selectOneMenu id="somProyectoActivo"
+										binding="#{vtProyectosView.somProyectoActivo}">
+										<f:selectItem itemValue="-1" itemLabel="Proyecto Activo" />
+										<f:selectItem itemValue="S" itemLabel="Si" />
+										<f:selectItem itemValue="N" itemLabel="No" />
+									</p:selectOneMenu>
+
+									<p:selectOneMenu id="somProyectoPublico"
+										binding="#{vtProyectosView.somProyectoPublico}">
+										<f:selectItem itemValue="-1" itemLabel="Proyecto Publico" />
+										<f:selectItem itemValue="S" itemLabel="Si" />
+										<f:selectItem itemValue="N" itemLabel="No" />
+									</p:selectOneMenu>
+								</h:panelGrid>
+
+								<p:commandButton id="btnModificar" icon="ui-icon-refresh"
+									binding="#{vtProyectosView.btnModificar}"
+									action="#{vtProyectosView.modificarAction}" 
+									update="formDialog" />
+
+								<p:commandButton id="btnLimpiar" icon="ui-icon-circle-arrow-w"
+									binding="#{vtProyectosView.btnMLimpiar}"
+									action="#{vtProyectosView.limpiarAction}"
+									update="pnlModificarProyecto" />
+							</p:panel>
+						</p:dialog>
 					</p:column>
 
-					<p:column headerText="Modificar Proyecto">
 
-						<p:commandButton id="btnProyectoSeleccionado"
-							binding="#{vtProyectosView.btnSeleccionarProyecto}"
-							action="#{vtProyectosView.modificarListener}"
-							icon="ui-icon ui-icon-search" update="formDialog">
+
+					<p:column headerText="Entrar a Backlog">
+						<p:commandButton icon="ui-icon-search" id="btnSeleccionarBacklog"
+							binding="#{vtProyectosView.btnSeleccionarBacklog}"
+							action="#{vtProyectosView.backlogListener}" update="formDialog">
 
 							<f:setPropertyActionListener id="elProyecto" value="#{proyecto}"
 								target="#{vtProyectosView.proyectoSeleccionado}" />
@@ -85,11 +125,6 @@
 					<p:commandButton id="btnCrearProyectos" value="Crear Proyecto"
 						binding="#{vtProyectosView.btnCrearProyecto}"
 						onclick="PF('dlgCrearProyecto').show();" />
-
-					<p:commandButton id="btnModificarProyectos"
-						value="Modificar Proyecto"
-						binding="#{vtProyectosView.btnModificarProyecto}" disabled="true"
-						onclick="PF('dlg2').show();" />
 				</div>
 			</p:panel>
 
@@ -113,54 +148,19 @@
 
 						</h:panelGrid>
 					</p:panel>
-					<p:commandButton id="btnCrear" value="Crear"
+					<p:commandButton id="btnCrear" icon="ui-icon-disk"
 						binding="#{vtProyectosView.btnCrear}"
-						action="#{vtProyectosView.crearAction}" icon="ui-icon-disk"
+						action="#{vtProyectosView.crearAction}" 
 						update="formDialog" />
 
-					<p:commandButton id="btnCLimpiar" value="Limpiar"
-						icon="ui-icon-refresh" binding="#{vtProyectosView.btnCLimpiar}"
+					<p:commandButton id="btnCLimpiar" icon="ui-icon-circle-arrow-w"
+						binding="#{vtProyectosView.btnCLimpiar}"
 						action="#{vtProyectosView.limpiarCAction}"
 						update="pnlCrearProyecto" />
 				</div>
 			</p:dialog>
 
-			<p:dialog header="Modificar Proyecto" widgetVar="dlg2" modal="true">
-				<p:panel header="Modificar Proyecto" id="pnlModificarProyecto">
-					<h:panelGrid columns="1">
 
-						<p:inputText id="txtMNombre" placeholder="Nombre"
-							binding="#{vtProyectosView.txtMNombre}" maxlength="50">
-						</p:inputText>
-
-						<p:inputText id="txtMDescripcion" placeholder="Descripción"
-							binding="#{vtProyectosView.txtMDescripcion}"
-							maxlength="100000000" />
-
-						<p:selectOneMenu id="somProyectoActivo"
-							binding="#{vtProyectosView.somProyectoActivo}">
-							<f:selectItem itemValue="-1" itemLabel="Proyecto Activo" />
-							<f:selectItem itemValue="S" itemLabel="Si" />
-							<f:selectItem itemValue="N" itemLabel="No" />
-						</p:selectOneMenu>
-
-						<p:selectOneMenu id="somProyectoPublico"
-							binding="#{vtProyectosView.somProyectoPublico}">
-							<f:selectItem itemValue="-1" itemLabel="Proyecto Publico" />
-							<f:selectItem itemValue="S" itemLabel="Si" />
-							<f:selectItem itemValue="N" itemLabel="No" />
-						</p:selectOneMenu>
-					</h:panelGrid>
-					<p:commandButton id="btnModificar" value="Modificar"
-						binding="#{vtProyectosView.btnModificar}"
-						action="#{vtProyectosView.modificarAction}" icon="ui-icon-disk"
-						update="formDialog" />
-					<p:commandButton id="btnLimpiar" value="Limpiar"
-						icon="ui-icon-refresh" binding="#{vtProyectosView.btnMLimpiar}"
-						action="#{vtProyectosView.limpiarAction}"
-						update="pnlModificarProyecto" />
-				</p:panel>
-			</p:dialog>
 
 
 		</h:form>

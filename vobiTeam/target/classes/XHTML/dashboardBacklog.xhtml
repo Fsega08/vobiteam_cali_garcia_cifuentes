@@ -33,12 +33,14 @@
 						var="sprint" paginator="true" rows="5"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15" rendered="true">
+						
+						
 						<p:column headerText="Nombre Sprint" filterBy="#{sprint.nombre}"
 						sortBy="#{sprint.nombre}">
 							<h:outputText value="#{sprint.nombre}" />
 						</p:column>
 						
-						<p:column headerText="Objetivo Sprint" filterBy="#{sprint.objetivo}"
+						<p:column headerText="Sprint Objetivo" filterBy="#{sprint.objetivo}"
 						sortBy="#{sprint.objetivo}">
 							<h:outputText value="#{sprint.objetivo}" />
 						</p:column>
@@ -92,13 +94,13 @@
 									value="#{vtSprintView.fechaFin}"/>
 							</h:panelGrid>
 						</p:panel>
-					<p:commandButton id="btnCrear" value="Crear"
-							icon="ui-icon-disk" update="formDialog" 
+					<p:commandButton id="btnCrear" icon="ui-icon-disk"
+							supdate="formDialog" 
 							binding="#{vtSprintView.btnCrearNuevo}"
 							action="#{vtSprintView.crearAction}" />
 
-					<p:commandButton id="btnCLimpiar" value="Limpiar"
-							icon="ui-icon-refresh"  update="pnlCrearSprint" 
+					<p:commandButton id="btnCLimpiar" icon="ui-icon-circle-arrow-w"
+							update="pnlCrearSprint" 
 							binding="#{vtSprintView.btnLimpiar}"
 							action="#{vtSprintView.limpiarAction}"/>
 				</div>			

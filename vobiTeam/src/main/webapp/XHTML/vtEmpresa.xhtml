@@ -53,14 +53,14 @@
 			<p:panel id="panelBotones">
 				<div align="center">
 					<p:commandButton id="btnCrear" binding="#{vtEmpresaView.btnCrear}"
-						disabled="true" value="Save" action="#{vtEmpresaView.crearAction}"
+						disabled="true" icon="ui-icon-disk" action="#{vtEmpresaView.crearAction}"
 						update="panelVtEmpresa,men,panelBotones" />
 					
 					<p:commandButton id="btnModificar" binding="#{vtEmpresaView.btnModificar}"
-						disabled="true" value="Modify" action="#{vtEmpresaView.modificarAction}"
+						disabled="true" icon="ui-icon-refresh" action="#{vtEmpresaView.modificarAction}"
 						update="panelVtEmpresa,men,panelBotones" />
 					
-					<p:commandButton id="btnClear" value="Limpiar"
+					<p:commandButton id="btnClear" icon="icon-left-circled"
 						action="#{vtEmpresaView.limpiarAction}"
 						update="panelVtEmpresa,men,panelBotones" />
 				</div>

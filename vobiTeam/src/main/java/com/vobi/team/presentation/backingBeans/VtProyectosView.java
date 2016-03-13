@@ -310,9 +310,7 @@ public class VtProyectosView {
 	public void modificarListener() {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("proyectoSeleccionado", proyectoSeleccionado);
 		
-		if (proyectoSeleccionado != null) {
-			btnModificarProyecto.setDisabled(false);
-		}
+		log.info("Proyecto seleccionado " +  proyectoSeleccionado.getNombre());
 		
 		VtProyecto vtProyecto = proyectoSeleccionado;
 		
@@ -320,7 +318,6 @@ public class VtProyectosView {
 		txtMDescripcion.setValue(vtProyecto.getDescripcion());
 		somProyectoActivo.setValue(vtProyecto.getActivo());
 		somProyectoPublico.setValue(vtProyecto.getPublico());
-		
 		
 	}
 	
@@ -349,6 +346,5 @@ public class VtProyectosView {
 		txtMDescripcion.resetValue();
 		somProyectoActivo.setValue("-1");
 		somProyectoPublico.setValue("-1");
-
 	}
 }

@@ -42,7 +42,7 @@
 					</p:column>
 
 					<p:column headerText="Modificar Backlog">
-						<p:commandButton icon="ui-icon-search" id="btnModificarBacklog"
+						<p:commandButton icon="ui-icon-refresh" id="btnModificarBacklog"
 							action="#{vtBacklogView.modificarListener}"
 							oncomplete="PF('dlg2').show();" update="modBacklog">
 
@@ -72,12 +72,12 @@
 
 								</h:panelGrid>
 								
-								<p:commandButton id="btnModificar" value="Modificar"
+								<p:commandButton id="btnModificar" icon="ui-icon-refresh"
 									binding="#{vtBacklogView.btnModificarProyecto}"
-									action="#{vtBacklogView.modificarAction}" icon="ui-icon-disk"
+									action="#{vtBacklogView.modificarAction}" 
 									update="formDialog" />
-								<p:commandButton id="btnLimpiar" value="Limpiar"
-									icon="ui-icon-refresh" binding="#{vtBacklogView.btnMLimpiar}"
+								<p:commandButton id="btnLimpiar" icon="ui-icon-circle-arrow-w"
+									 binding="#{vtBacklogView.btnMLimpiar}"
 									action="#{vtBacklogView.limpiarMAction}"
 									update="pnlModificarBacklog" />
 									
@@ -98,7 +98,6 @@
 
 				</p:dataTable>
 			</p:panel>
-
 
 			<!-- Botones para modificar backlog -->
 
@@ -125,13 +124,13 @@
 
 						</h:panelGrid>
 
-						<p:commandButton id="btnCrear" value="Crear"
+						<p:commandButton id="btnCrear" icon="ui-icon-disk"
 							binding="#{vtBacklogView.btnCrearBacklog}"
-							action="#{vtBacklogView.crearAction}" icon="ui-icon-disk"
+							action="#{vtBacklogView.crearAction}" 
 							update="formDialog" />
 
-						<p:commandButton id="btnCLimpiar" value="Limpiar"
-							icon="ui-icon-refresh" binding="#{vtBacklogView.btnCLimpiar}"
+						<p:commandButton id="btnCLimpiar" icon="ui-icon-circle-arrow-w"
+							binding="#{vtBacklogView.btnCLimpiar}"
 							action="#{vtBacklogView.limpiarCAction}" update="pnlCrearBacklog" />
 					</p:panel>
 				</div>
