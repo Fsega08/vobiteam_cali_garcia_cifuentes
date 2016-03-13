@@ -130,6 +130,13 @@ public class VtSprintLogic implements IVtSprintLogic {
 			//            if (getVtSprint(entity.getSpriCodigo()) != null) {
 			//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
 			//            }
+			
+			
+			Date fechaActual = new Date();
+			
+			if (entity.getFechaInicio().before(fechaActual) || entity.getFechaFin().before(fechaActual)){
+				throw new Exception("Fechas Incorrectas");
+			}
 
 			vtSprintDAO.save(entity);
 

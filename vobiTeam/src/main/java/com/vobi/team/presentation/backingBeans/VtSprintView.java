@@ -1,6 +1,5 @@
 package com.vobi.team.presentation.backingBeans;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import java.util.List;
@@ -177,8 +176,6 @@ public class VtSprintView {
 		try {
 			String nombre = txtNombre.getValue().toString();
 			String descripcion = txtDescripcion.getValue().toString();
-			String fechaIni = fechaInicio.toString();
-			String fechaFinal = fechaFin.toString();
 			
 			if(nombre.equals("")|| nombre == null){
 				throw new Exception("El nombre es requerido");
@@ -224,8 +221,8 @@ public class VtSprintView {
 	public void limpiarAction(){
 		txtNombre.resetValue();
 		txtDescripcion.resetValue();
-		clndFechaFin.resetValue();
-		clndFechaIncio.resetValue();
+		fechaFin = null;
+		fechaInicio = null;
 	}
 	//Este listener es para mandar el backlog seleccionado y setear los datos en el dialogo
 
