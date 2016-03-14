@@ -110,7 +110,9 @@ public interface IBusinessDelegatorView {
     public List<VtArchivoDTO> getDataVtArchivo() throws Exception;
 
     public List<VtArtefacto> getVtArtefacto() throws Exception;
-
+    
+    public List<VtArtefacto> findArtefactosBySpring(VtSprint vtSprint) throws Exception;
+    
     public void saveVtArtefacto(VtArtefacto entity) throws Exception;
 
     public void deleteVtArtefacto(VtArtefacto entity) throws Exception;

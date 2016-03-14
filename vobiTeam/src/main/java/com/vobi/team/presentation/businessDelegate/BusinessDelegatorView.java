@@ -1040,4 +1040,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtSprint> findSprintByBacklog(VtPilaProducto vtBacklog) throws Exception {
 		return vtSprintLogic.findSprintByBacklog(vtBacklog);
 	}
+
+	@Override
+	public List<VtArtefacto> findArtefactosBySpring(VtSprint vtSprint) throws Exception {
+		return vtArtefactoLogic.findArtefactosBySpring(vtSprint);
+	}
 }

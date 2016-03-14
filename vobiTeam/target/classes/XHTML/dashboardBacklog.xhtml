@@ -57,6 +57,7 @@
 						
 						<p:column headerText="Listar Artefactos">
 							<p:commandButton id="btnSprintSeleccionado"
+								action="#{vtSprintView.activarListaArtefacto}"
 								icon="ui-icon ui-icon-search" update="formDialog">
 
 								<f:setPropertyActionListener id="elSprint" value="#{sprint}"

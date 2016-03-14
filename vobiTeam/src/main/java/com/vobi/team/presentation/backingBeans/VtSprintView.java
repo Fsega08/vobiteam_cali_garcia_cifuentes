@@ -228,5 +228,11 @@ public class VtSprintView {
 		clndFechaIncio.resetValue();
 	}
 	//Este listener es para mandar el backlog seleccionado y setear los datos en el dialogo
-
+	
+	
+	
+	public void activarListaArtefacto(){
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sprintSeleccionado", sprintSeleccionado);
+		log.info("sprint seleccionado= " + sprintSeleccionado.getNombre());
+	}
 }
