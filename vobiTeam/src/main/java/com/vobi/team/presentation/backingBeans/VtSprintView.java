@@ -34,6 +34,9 @@ public class VtSprintView {
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;	
 	
+	private VtArtefactoView vtArtefactoView;
+	
+	
 	private List<VtSprint> losSprint;
 	private VtSprint sprintSeleccionado;
 	
@@ -234,5 +237,6 @@ public class VtSprintView {
 	public void activarListaArtefacto(){
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sprintSeleccionado", sprintSeleccionado);
 		log.info("sprint seleccionado= " + sprintSeleccionado.getNombre());
+		vtArtefactoView.getLosArtefactos();
 	}
 }
