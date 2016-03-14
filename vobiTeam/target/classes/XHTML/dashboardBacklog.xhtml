@@ -60,9 +60,10 @@
 								<p:commandButton id="btnSprintSeleccionado"
 									action="#{vtSprintView.activarListaArtefacto}"
 									icon="ui-icon ui-icon-search" update="formDialog">
-
+	
 									<f:setPropertyActionListener id="elSprint" value="#{sprint}"
 										target="#{vtSprintView.sprintSeleccionado}" />
+									<p:ajax listener="#{vtArtefactoView.actualizarLista}" update="formDialog"/>
 								</p:commandButton>
 							</p:column>
 						</p:dataTable>

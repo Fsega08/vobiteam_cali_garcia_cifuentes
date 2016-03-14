@@ -36,10 +36,10 @@ public class VtArtefactoView {
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
-	
+
 	private VtArtefacto artefactoSeleccionado;
 	private List<VtArtefacto> losArtefactos;
-	
+
 	private VtSprint sprintSeleccionado;
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
@@ -61,8 +61,7 @@ public class VtArtefactoView {
 	public List<VtArtefacto> getLosArtefactos() {
 		try {
 			sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
-			log.info("sprint seleccionado= " + sprintSeleccionado.getSpriCodigo());
-			if (losArtefactos==null) {
+			if (sprintSeleccionado!=null) {
 				losArtefactos = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
 			}
 		} catch (Exception e) {
@@ -82,8 +81,14 @@ public class VtArtefactoView {
 	public void setSprintSeleccionado(VtSprint sprintSeleccionado) {
 		this.sprintSeleccionado = sprintSeleccionado;
 	}
-	
-	
 
-	
+	public void actualizarLista() throws Exception {
+		log.info("bu!");
+
+		sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
+		if (sprintSeleccionado!=null) {
+			losArtefactos = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
+		}
+
+	}
 }

@@ -1,5 +1,6 @@
 package com.vobi.team.presentation.backingBeans;
 
+import java.awt.event.ItemEvent;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -114,22 +115,30 @@ public class AsignarUsuariosView {
 	}
 
 	
-	public void asignarProyectoAction() throws Exception {
+	public void asignarProyectoAction(TransferEvent event) throws Exception {
 		
-		log.info(""+proyectoSeleccionado.getProyCodigo());
+		/*log.info(""+proyectoSeleccionado.getProyCodigo());
 		usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 		usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);
 		
 		if (usuariosSource!=null) {
 			losUsuariosSeleccionados.setTarget(usuariosTarget);
 			losUsuariosSeleccionados.setSource(usuariosSource);
-		}
+		}*/
+	
 		
 	}
 	
 	 public void onTransfer(TransferEvent event) {
-	        FacesUtils.addInfoMessage("Se transfirio algo");
-	        event.getItems();
+	        
+	    	for(Object item : event.getItems()) {
+	            VtUsuario vtUsuario=(VtUsuario) item;
+	            log.info(vtUsuario.getNombre());
+	            FacesUtils.addInfoMessage("Se paso un usuario"+vtUsuario.getNombre());
+	            
+	            //true si paso de izquierda a derecha
+	            event.isAdd();
+	        }
 
 	    }
 	

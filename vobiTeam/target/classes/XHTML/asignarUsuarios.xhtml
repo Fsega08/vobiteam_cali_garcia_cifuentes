@@ -56,7 +56,7 @@
 							<p:growl id="msj" />
 							<p:pickList id="pickList" 
 								value="#{asignarUsuariosView.losUsuariosSeleccionados}"
-								var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}">
+								var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}" converter="usuarioPickListConverter">
 								
 								<p:ajax event="transfer" listener="#{asignarUsuariosView.onTransfer}" update="msj" />
 								
