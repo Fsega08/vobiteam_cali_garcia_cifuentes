@@ -117,14 +117,14 @@ public class AsignarUsuariosView {
 	
 	public void asignarProyectoAction(TransferEvent event) throws Exception {
 		
-		/*log.info(""+proyectoSeleccionado.getProyCodigo());
+		log.info(""+proyectoSeleccionado.getProyCodigo());
 		usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 		usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);
 		
 		if (usuariosSource!=null) {
 			losUsuariosSeleccionados.setTarget(usuariosTarget);
 			losUsuariosSeleccionados.setSource(usuariosSource);
-		}*/
+		}
 	
 		
 	}
@@ -142,16 +142,16 @@ public class AsignarUsuariosView {
 
 	    }
 	
-	public void asignarUsuarioAction()throws Exception{
-		
-		usuariosTarget = losUsuariosSeleccionados.getTarget();
-		
-		for (VtUsuario vtUsuarios : usuariosTarget) {
-			log.info("Nombre: "+vtUsuarios.getNombre());
-			log.info("Codigo: "+vtUsuarios.getUsuaCodigo()+"\n");
-		}
-	}
-	
+//	public void asignarUsuarioAction()throws Exception{
+//		
+//		usuariosTarget = losUsuariosSeleccionados.getTarget();
+//		
+//		for (VtUsuario vtUsuarios : usuariosTarget) {
+//			log.info("Nombre: "+vtUsuarios.getNombre());
+//			log.info("Codigo: "+vtUsuarios.getUsuaCodigo()+"\n");
+//		}
+//	}
+//	
 	
 	
 
