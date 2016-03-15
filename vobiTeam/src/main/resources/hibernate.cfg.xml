@@ -22,5 +22,6 @@
         <mapping resource="com/vobi/team/modelo/VtSprint.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtProyectoUsuario.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtProyecto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/consultas.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

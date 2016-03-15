@@ -492,4 +492,6 @@ public interface IBusinessDelegatorView {
     public List<VtUsuario> getVtUsuarioNoAsignados(VtProyecto proyecto) throws Exception;
     
     public List<VtPilaProducto> findBacklogByProyecto(VtProyecto vtProyecto) throws Exception;
+    
+    public VtProyectoUsuario findProyectoUsuarioByProyectoAndUsuario(Long proyectoId, Long usuarioId);
 }

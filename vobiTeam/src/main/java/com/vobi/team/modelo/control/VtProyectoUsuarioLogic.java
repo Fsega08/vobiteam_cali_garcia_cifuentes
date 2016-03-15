@@ -121,6 +121,18 @@ public class VtProyectoUsuarioLogic implements IVtProyectoUsuarioLogic {
 //            if (getVtProyectoUsuario(entity.getPrusCodigo()) != null) {
 //                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
 //            }
+            
+            List<VtProyectoUsuario> losProyectosUsuarios = findProyectoUsuarioPorProyecto(entity.getVtProyecto());
+            
+            if(losProyectosUsuarios != null){
+            	for (VtProyectoUsuario vtProyectoUsuario : losProyectosUsuarios) {
+                	if(entity.getVtUsuario().getUsuaCodigo().equals(vtProyectoUsuario.getVtUsuario().getUsuaCodigo())){
+                		throw new Exception("El usuario ya fue asignado al proyecto ");
+        			}
+    			} 
+            }
+            
+             
 
             vtProyectoUsuarioDAO.save(entity);
 
@@ -506,4 +518,15 @@ public class VtProyectoUsuarioLogic implements IVtProyectoUsuarioLogic {
 		return (proyectosUsuario != null && !proyectosUsuario.isEmpty()
     			? proyectosUsuario : null);
 	}
+
+	@Override
+	 @Transactional(readOnly = true)
+	public VtProyectoUsuario findProyectoUsuarioByProyectoAndUsuario(Long proyectoId, Long usuarioId) {
+		return vtProyectoUsuarioDAO.findProyectoUsuarioByProyectoAndUsuario(proyectoId, usuarioId);
+	}
+
+
+    
+    
+    
 }

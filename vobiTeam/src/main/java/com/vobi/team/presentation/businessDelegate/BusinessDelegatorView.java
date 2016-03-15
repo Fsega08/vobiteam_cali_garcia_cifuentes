@@ -1045,4 +1045,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtArtefacto> findArtefactosBySpring(VtSprint vtSprint) throws Exception {
 		return vtArtefactoLogic.findArtefactosBySpring(vtSprint);
 	}
+
+	@Override
+	public VtProyectoUsuario findProyectoUsuarioByProyectoAndUsuario(Long proyectoId, Long usuarioId) {
+		return vtProyectoUsuarioLogic.findProyectoUsuarioByProyectoAndUsuario(proyectoId, usuarioId);
+	}
 }

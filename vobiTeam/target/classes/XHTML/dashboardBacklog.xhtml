@@ -48,12 +48,20 @@
 
 							<p:column headerText="Inicio" filterBy="#{sprint.fechaInicio}"
 								sortBy="#{sprint.fechaInicio}">
-								<h:outputText value="#{sprint.fechaInicio}" />
+								<h:outputText value="#{sprint.fechaInicio}" >
+									 <f:convertDateTime dateStyle="full"
+								        locale="es"
+								        timeStyle="long" type="both" />
+								</h:outputText>
 							</p:column>
 
 							<p:column headerText="Fin" filterBy="#{sprint.fechaFin}"
 								sortBy="#{sprint.fechaFin}">
-								<h:outputText value="#{sprint.fechaFin}" />
+								<h:outputText value="#{sprint.fechaFin}" >
+									<f:convertDateTime dateStyle="full"
+								        locale="es"
+								        timeStyle="long" type="both" />
+								</h:outputText>
 							</p:column>
 
 							<p:column headerText="Listar Artefactos">
@@ -68,10 +76,16 @@
 							</p:column>
 						</p:dataTable>
 					</p:row>
-
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnCrearSprint" value="Crear Sprint"
+								binding="#{vtSprintView.btnCrearSprint}"
+								onclick="PF('dlgCrearSprint').show();" />
+						</div>
+					</p:panel>
 					<p:row>
 
-						<p:dataTable id="dtArtefactos" value="#{vtArtefactoView.losArtefactos}"
+						<p:dataTable id="dtArtefactos"  value="#{vtArtefactoView.losArtefactos}"
 							var="artefacto" paginator="true" rows="5"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,10,15" rendered="true">
@@ -114,13 +128,7 @@
 				
 			</p:panel>
 
-			<p:panel id="panelBotones">
-				<div align="center">
-					<p:commandButton id="btnCrearSprint" value="Crear Sprint"
-						binding="#{vtSprintView.btnCrearSprint}"
-						onclick="PF('dlgCrearSprint').show();" />
-				</div>
-			</p:panel>
+
 
 			<p:dialog header="Crear Sprint" widgetVar="dlgCrearSprint"
 				modal="true">

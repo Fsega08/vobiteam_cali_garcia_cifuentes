@@ -63,4 +63,6 @@ public interface IVtProyectoUsuarioLogic {
         throws Exception;
     
     public List<VtProyectoUsuario> findProyectoUsuarioPorProyecto(VtProyecto proyecto) throws Exception;
+    
+    public VtProyectoUsuario findProyectoUsuarioByProyectoAndUsuario(Long proyectoId, Long usuarioId);
 }

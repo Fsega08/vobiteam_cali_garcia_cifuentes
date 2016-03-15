@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <query name="consultarProyectosUsuariosPorProyectoYUsuario">
+	   	<![CDATA[
+	   		Select proyUsuarios from VtProyectoUsuario proyUsuarios where proyUsuarios.vtProyecto.proyCodigo=:proyCodigo and proyUsuarios.vtUsuario.usuaCodigo=:usuaCodigo
+	   	]]>
+   </query>
+</hibernate-mapping>

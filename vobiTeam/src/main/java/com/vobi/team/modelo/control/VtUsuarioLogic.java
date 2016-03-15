@@ -9,7 +9,6 @@ import com.vobi.team.exceptions.ZMessManager.NotValidFormatException;
 import com.vobi.team.exceptions.ZMessManager.NullEntityExcepcion;
 import com.vobi.team.modelo.*;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
-import com.vobi.team.utilities.FacesUtils;
 import com.vobi.team.utilities.Utilities;
 
 import org.slf4j.Logger;
@@ -24,13 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -630,28 +625,10 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		List<VtProyectoUsuario> proyectosUsuarios = proyectoUsuarioLogic.findProyectoUsuarioPorProyecto(proyecto);
 
 		if (proyectosUsuarios != null) {
-//			
-//			Iterator<VtUsuario> it = usuariosSource.iterator();
-//			Iterator<VtProyectoUsuario> it2 = proyectosUsuarios.iterator();
-//			VtUsuario usuarioProyecto = null;
-//			VtUsuario usuarioActual = null;
-//			
-//			while (it.hasNext()) {
-//				if(it2.hasNext()){
-//					usuarioProyecto = it2.next().getVtUsuario();
-//				}
-//				
-//				usuarioActual = it.next();
-//				
-//				if(usuarioActual == usuarioProyecto){
-//					it.remove();
-//					it2.remove();
-//				}
-//				
-//			}
 			
 			for (VtProyectoUsuario vtProyectoUsuario : proyectosUsuarios) {
-				usuariosSource.remove(vtProyectoUsuario.getVtUsuario());
+				if(vtProyectoUsuario.getActivo().equals("S"))
+					usuariosSource.remove(vtProyectoUsuario.getVtUsuario());
 			}
 		}
 		
@@ -671,7 +648,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		if (proyectosUsuarios != null) {
 			for (VtUsuario vtUsuario : usuariosSource) {
 				for (VtProyectoUsuario vtProyectoUsuario : proyectosUsuarios) {
-					if (vtUsuario.getLogin().equals(vtProyectoUsuario.getVtUsuario().getLogin()) == true) {
+					if (vtUsuario.getLogin().equals(vtProyectoUsuario.getVtUsuario().getLogin()) == true && vtProyectoUsuario.getActivo().equals("S")) {
 						usuariosTarget.add(vtUsuario);
 					}
 				}
