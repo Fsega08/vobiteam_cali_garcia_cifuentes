@@ -8,19 +8,19 @@
             <column name="arte_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtEstado" class="com.vobi.team.modelo.VtEstado" fetch="select">
+        <many-to-one name="vtEstado" lazy="false" class="com.vobi.team.modelo.VtEstado" fetch="select">
             <column name="esta_codigo" not-null="true" />
         </many-to-one>
         <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select">
             <column name="pila_codigo" not-null="true" />
         </many-to-one>
-        <many-to-one name="vtPrioridad" class="com.vobi.team.modelo.VtPrioridad" fetch="select">
+        <many-to-one name="vtPrioridad" lazy="false" class="com.vobi.team.modelo.VtPrioridad" fetch="select">
             <column name="prio_codigo" not-null="true" />
         </many-to-one>
         <many-to-one name="vtSprint" class="com.vobi.team.modelo.VtSprint" fetch="select">
             <column name="spri_codigo" />
         </many-to-one>
-        <many-to-one name="vtTipoArtefacto" class="com.vobi.team.modelo.VtTipoArtefacto" fetch="select">
+        <many-to-one name="vtTipoArtefacto" lazy="false" class="com.vobi.team.modelo.VtTipoArtefacto" fetch="select">
             <column name="tpar_codigo" not-null="true" />
         </many-to-one>
         <property name="titulo" type="java.lang.String">

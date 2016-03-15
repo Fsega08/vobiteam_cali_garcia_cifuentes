@@ -70,7 +70,10 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	 */
 	@Autowired
 	IVtEstadoLogic logicVtEstado1;
-
+	
+	@Autowired
+	private IVtHistoriaArtefactoLogic vtHistoriaArtefactoLogic;
+	
 	/**
 	 * Logic injected by Spring that manages VtPilaProducto entities
 	 *
@@ -215,9 +218,28 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			//            if (getVtArtefacto(entity.getArteCodigo()) != null) {
 			//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
 			//            }
-
+			
+			
 			vtArtefactoDAO.save(entity);
-
+			
+			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
+			
+			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
+			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
+			vtHistoriaArtefacto.setEsfuerzoEstimado(""+entity.getEsfuerzoEstimado());
+			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
+			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
+			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
+			vtHistoriaArtefacto.setOrigen(entity.getOrigen());
+			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
+			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
+			vtHistoriaArtefacto.setVtArtefacto(entity);
+			vtHistoriaArtefacto.setFechaCreacion(new Date());
+			vtHistoriaArtefacto.setFechaModificacion(new Date());
+			
+			vtHistoriaArtefactoLogic.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
+		
+			
 			log.debug("save VtArtefacto successful");
 		} catch (Exception e) {
 			log.error("save VtArtefacto failed", e);
@@ -376,6 +398,23 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			}
 
 			vtArtefactoDAO.update(entity);
+			
+			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
+			
+			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
+			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
+			vtHistoriaArtefacto.setEsfuerzoEstimado(""+entity.getEsfuerzoEstimado());
+			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
+			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
+			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
+			vtHistoriaArtefacto.setOrigen(entity.getOrigen());
+			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
+			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
+			vtHistoriaArtefacto.setVtArtefacto(entity);
+			vtHistoriaArtefacto.setFechaCreacion(new Date());
+			vtHistoriaArtefacto.setFechaModificacion(new Date());
+			
+			vtHistoriaArtefactoLogic.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
 
 			log.debug("update VtArtefacto successful");
 		} catch (Exception e) {

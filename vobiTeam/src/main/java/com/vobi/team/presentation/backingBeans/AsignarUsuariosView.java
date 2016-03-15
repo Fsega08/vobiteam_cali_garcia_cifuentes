@@ -163,6 +163,7 @@ public class AsignarUsuariosView {
 	    	
 
 	    }
+
 		
 	 public void asignarUsuarioAction(VtUsuario usuario, VtProyecto proyecto) throws Exception{
 		 
@@ -208,6 +209,7 @@ public class AsignarUsuariosView {
 	 
 	 
 	 }
+
 	
 	
 }
