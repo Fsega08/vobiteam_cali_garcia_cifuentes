@@ -738,27 +738,27 @@ public class VtArtefactoView {
 		}
 	}
 	
-	public void tipoModArtefactoListener() {
-		int valorTipoArtefacto = Integer.parseInt(somTipoArtefacto.getValue().toString().trim());
-
-		if (valorTipoArtefacto == 1 || valorTipoArtefacto==4) {
-
-			txtEsfuerzoEstimado.setDisabled(false);
-
-		}else if (valorTipoArtefacto == 2 || valorTipoArtefacto==3) {
-			txtEsfuerzoEstimado.setDisabled(true);
-			txtEsfuerzoReal.setDisabled(true);
-			txtEsfuerzoRestante.setDisabled(true);
-			txtPuntos.setDisabled(true);
-			
-			txtEsfuerzoEstimado.setValue(0);
-			txtEsfuerzoReal.setValue(0);
-			txtEsfuerzoRestante.setValue(0);
-			txtPuntos.setValue(0);
-
-			
-		}
-	}
+//	public void tipoModArtefactoListener() {
+//		int valorTipoArtefacto = Integer.parseInt(somTipoArtefacto.getValue().toString().trim());
+//
+//		if (valorTipoArtefacto == 1 || valorTipoArtefacto==4) {
+//
+//			txtEsfuerzoEstimado.setDisabled(false);
+//
+//		}else if (valorTipoArtefacto == 2 || valorTipoArtefacto==3) {
+//			txtEsfuerzoEstimado.setDisabled(true);
+//			txtEsfuerzoReal.setDisabled(true);
+//			txtEsfuerzoRestante.setDisabled(true);
+//			txtPuntos.setDisabled(true);
+//			
+//			txtEsfuerzoEstimado.setValue(0);
+//			txtEsfuerzoReal.setValue(0);
+//			txtEsfuerzoRestante.setValue(0);
+//			txtPuntos.setValue(0);
+//
+//			
+//		}
+//	}
 	
 
 	public void esfuerzoListener() {
@@ -774,16 +774,16 @@ public class VtArtefactoView {
 	}
 	
 	
-	public void esfuerzoModListener() {
-		int valor = Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim());
-
-		txtEsfuerzoReal.setDisabled(false);
-		txtEsfuerzoRestante.setDisabled(false);
-		txtPuntos.setDisabled(false);
-		txtEsfuerzoReal.setValue(valor);
-		txtEsfuerzoRestante.setValue(valor);
-		txtPuntos.setValue(valor);
-	}
+//	public void esfuerzoModListener() {
+//		int valor = Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim());
+//
+//		txtEsfuerzoReal.setDisabled(false);
+//		txtEsfuerzoRestante.setDisabled(false);
+//		txtPuntos.setDisabled(false);
+//		txtEsfuerzoReal.setValue(valor);
+//		txtEsfuerzoRestante.setValue(valor);
+//		txtPuntos.setValue(valor);
+//	}
 	
 
 	public void hidratarArtefactoMod() {
