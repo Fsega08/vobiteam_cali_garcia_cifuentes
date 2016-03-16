@@ -70,11 +70,7 @@
 								</p:column>
 							</p:dataTable>
 						</p:row>
-						<div align="center">
-							<p:commandButton id="btnCrearSprint" value="Crear Sprint"
-								binding="#{vtSprintView.btnCrearSprint}"
-								onclick="PF('dlgCrearSprint').show();" />
-						</div>
+
 
 
 						<p:row>
@@ -122,6 +118,9 @@
 							<p:commandButton id="btnCrearArt" value="Crear Artefacto"
 								binding="#{vtArtefactoView.btnCArtefacto}"
 								onclick="PF('dlgCrearArtefacto').show();" disabled="true" />
+							<p:commandButton id="btnCrearSprint" value="Crear Sprint"
+								binding="#{vtSprintView.btnCrearSprint}"
+								onclick="PF('dlgCrearSprint').show();" />
 						</div>
 					</p:column>
 
@@ -134,7 +133,8 @@
 									binding="#{vtArtefactoView.somTipoArtefacto}">
 									<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
 									<f:selectItems value="#{vtArtefactoView.losTiposArtefactos}" />
-									
+									<p:ajax listener="#{vtArtefactoView.tipoModArtefactoListener}"
+										update="txtMEsfuerzoEstimado, txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
 								</p:selectOneMenu>
 
 								<p:selectOneMenu id="somMEstados"
@@ -147,7 +147,9 @@
 									placeholder="Esfuerzo Estimado"
 									binding="#{vtArtefactoView.txtEsfuerzoEstimado}"
 									disabled="true">
-							
+									<p:ajax listener="#{vtArtefactoView.esfuerzoModListener}"
+										event="keyup"
+										update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
 								</p:inputText>
 
 								<p:inputText id="txtMEsfuerzoRestante"
@@ -161,23 +163,10 @@
 								<p:inputText id="txtMPuntos" placeholder="Puntos"
 									binding="#{vtArtefactoView.txtPuntos}" disabled="true" />
 
-								<p:column headerText="Inicio" filterBy="#{sprint.fechaInicio}"
-									sortBy="#{sprint.fechaInicio}">
-									<h:outputText value="#{sprint.fechaInicio}">
-										<f:convertDateTime dateStyle="full" locale="es"
-											timeStyle="long" type="both" />
-									</h:outputText>
-								</p:column>
+								
 								<p:inputText id="txtMOrigen" placeholder="Origen"
 									binding="#{vtArtefactoView.txtOrigen}" />
-
-								<p:column headerText="Fin" filterBy="#{sprint.fechaFin}"
-									sortBy="#{sprint.fechaFin}">
-									<h:outputText value="#{sprint.fechaFin}">
-										<f:convertDateTime dateStyle="full" locale="es"
-											timeStyle="long" type="both" />
-									</h:outputText>
-								</p:column>
+								
 								<p:selectOneMenu id="somArtefactoActivo"
 									binding="#{vtArtefactoView.somArtefactoActivo}">
 									<f:selectItem itemValue="-1" itemLabel="Artefacto activo?" />
@@ -185,30 +174,30 @@
 									<f:selectItem itemValue="N" itemLabel="No" />
 								</p:selectOneMenu>
 
+								<p:inputText id="txtMNombre" placeholder="Título"
+									binding="#{vtArtefactoView.txtNombre}" />
+									
+									
 								<p:selectOneMenu id="somMPrioridades"
 									binding="#{vtArtefactoView.somPrioridadesArtefacto}">
 									<f:selectItem itemValue="-1" itemLabel="Prioridad" />
 									<f:selectItems
 										value="#{vtArtefactoView.lasPrioridadesArtefactos}" />
 								</p:selectOneMenu>
-
-								<p:inputText id="txtMNombre" placeholder="Título"
-									binding="#{vtArtefactoView.txtNombre}" />
-									<br/>
-									
-								<p:inputTextarea id="txtAreaMDescripcion" rows="10" cols="33" placeholder="Descripción" 
-									binding="#{vtArtefactoView.txtDescripcion}"  />
+								
+								<p:inputTextarea id="txtAreaMDescripcion" rows="10" cols="33"
+									placeholder="Descripción"
+									binding="#{vtArtefactoView.txtDescripcion}" />
 							</h:panelGrid>
-								<p:commandButton id="btnModificarArtefacto"
-									binding="#{vtArtefactoView.btnModificar}"
-									icon="ui-icon-refresh"
-									action="#{vtArtefactoView.modificarAction}" update="formDialog" />
+							<p:commandButton id="btnModificarArtefacto"
+								binding="#{vtArtefactoView.btnModificar}" icon="ui-icon-refresh"
+								action="#{vtArtefactoView.modificarAction}" update="formDialog" />
 
-								<p:commandButton id="btnModArtefacto"
-									icon="ui-icon-circle-arrow-w"
-									action="#{vtArtefactoView.hidratarArtefactoMod}"
-									binding="#{vtArtefactoView.btnLimpiar}" update="formDialog" />
-									
+							<p:commandButton id="btnModArtefacto"
+								icon="ui-icon-circle-arrow-w"
+								action="#{vtArtefactoView.hidratarArtefactoMod}"
+								binding="#{vtArtefactoView.btnLimpiar}" update="formDialog" />
+
 						</p:panel>
 					</p:column>
 
@@ -238,7 +227,7 @@
 						</h:panelGrid>
 					</p:panel>
 					<p:commandButton id="btnCrear" icon="ui-icon-disk"
-						supdate="formDialog" binding="#{vtSprintView.btnCrearNuevo}"
+						update="formDialog" binding="#{vtSprintView.btnCrearNuevo}"
 						action="#{vtSprintView.crearAction}" />
 
 					<p:commandButton id="btnCLimpiar" icon="ui-icon-circle-arrow-w"

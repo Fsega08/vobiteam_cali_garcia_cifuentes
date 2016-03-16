@@ -738,27 +738,38 @@ public class VtArtefactoView {
 		}
 	}
 	
-//	public void tipoModArtefactoListener() {
-//		int valorTipoArtefacto = Integer.parseInt(somTipoArtefacto.getValue().toString().trim());
-//
-//		if (valorTipoArtefacto == 1 || valorTipoArtefacto==4) {
-//
-//			txtEsfuerzoEstimado.setDisabled(false);
-//
-//		}else if (valorTipoArtefacto == 2 || valorTipoArtefacto==3) {
-//			txtEsfuerzoEstimado.setDisabled(true);
-//			txtEsfuerzoReal.setDisabled(true);
-//			txtEsfuerzoRestante.setDisabled(true);
-//			txtPuntos.setDisabled(true);
-//			
-//			txtEsfuerzoEstimado.setValue(0);
-//			txtEsfuerzoReal.setValue(0);
-//			txtEsfuerzoRestante.setValue(0);
-//			txtPuntos.setValue(0);
-//
-//			
-//		}
-//	}
+	public void tipoModArtefactoListener() {
+		int valorModTipoArtefacto = Integer.parseInt(somTipoArtefacto.getValue().toString().trim());
+		
+		log.info("entro al metodo modificar");
+		
+		if (valorModTipoArtefacto == 1 || valorModTipoArtefacto==4) {
+
+			txtEsfuerzoEstimado.setDisabled(false);
+			txtEsfuerzoReal.setDisabled(false);
+			txtEsfuerzoRestante.setDisabled(false);
+			txtPuntos.setDisabled(false);
+			
+			txtEsfuerzoEstimado.setValue(0);
+			txtEsfuerzoReal.setValue(0);
+			txtEsfuerzoRestante.setValue(0);
+			txtPuntos.setValue(0);
+			
+		}else if (valorModTipoArtefacto == 2 || valorModTipoArtefacto ==3) {
+			
+			txtEsfuerzoEstimado.setDisabled(true);
+			txtEsfuerzoReal.setDisabled(true);
+			txtEsfuerzoRestante.setDisabled(true);
+			txtPuntos.setDisabled(true);
+			
+			txtEsfuerzoEstimado.setValue(0);
+			txtEsfuerzoReal.setValue(0);
+			txtEsfuerzoRestante.setValue(0);
+			txtPuntos.setValue(0);
+
+			
+		}
+	}
 	
 
 	public void esfuerzoListener() {
@@ -767,6 +778,7 @@ public class VtArtefactoView {
 		txtCrearEsfuerzoReal.setDisabled(false);
 		txtCrearEsfuerzoRestante.setDisabled(false);
 		txtCrearPuntos.setDisabled(false);
+		
 		txtCrearEsfuerzoReal.setValue(valor);
 		txtCrearEsfuerzoRestante.setValue(valor);
 		txtCrearPuntos.setValue(valor);
@@ -774,16 +786,16 @@ public class VtArtefactoView {
 	}
 	
 	
-//	public void esfuerzoModListener() {
-//		int valor = Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim());
-//
-//		txtEsfuerzoReal.setDisabled(false);
-//		txtEsfuerzoRestante.setDisabled(false);
-//		txtPuntos.setDisabled(false);
-//		txtEsfuerzoReal.setValue(valor);
-//		txtEsfuerzoRestante.setValue(valor);
-//		txtPuntos.setValue(valor);
-//	}
+	public void esfuerzoModListener() {
+		int valor = Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim());
+
+		txtEsfuerzoReal.setDisabled(false);
+		txtEsfuerzoRestante.setDisabled(false);
+		txtPuntos.setDisabled(false);
+		txtEsfuerzoReal.setValue(valor);
+		txtEsfuerzoRestante.setValue(valor);
+		txtPuntos.setValue(valor);
+	}
 	
 
 	public void hidratarArtefactoMod() {
@@ -810,45 +822,48 @@ public class VtArtefactoView {
 	public void modificarAction() {
 
 		try {
-			if (txtCrearNombre.getValue().toString().trim().equals("") == true || txtCrearNombre.getValue() == null) {
+			if (txtNombre.getValue().toString().trim().equals("") == true || txtNombre.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			if (txtCrearDescripcion.getValue().toString().trim().equals("") == true || txtCrearDescripcion.getValue() == null) {
+			if (txtDescripcion.getValue().toString().trim().equals("") == true || txtDescripcion.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			if (txtCrearOrigen.getValue().toString().trim().equals("") == true || txtCrearOrigen.getValue() == null) {
+			if (txtOrigen.getValue().toString().trim().equals("") == true || txtOrigen.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			if (txtCrearPuntos.getValue().toString().trim().equals("") == true || txtCrearPuntos.getValue() == null) {
+			if (txtPuntos.getValue().toString().trim().equals("") == true || txtPuntos.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			if (txtCrearEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoEstimado.getValue() == null) {
+			if (txtEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtEsfuerzoEstimado.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			if (txtCrearEsfuerzoReal.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoReal.getValue() == null) {
+			if (txtEsfuerzoReal.getValue().toString().trim().equals("") == true || txtEsfuerzoReal.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			if (txtCrearEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoRestante.getValue() == null) {
+			if (txtEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtEsfuerzoRestante.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
 
-			if (somCrearEstadoArtefacto.getValue().toString().trim().equals("-1") == true) {
+			if (somEstadoArtefacto.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione un estado para el artefacto");
 			}
-			if (somCrearPrioridadesArtefacto.getValue().toString().trim().equals("-1") == true) {
+			if (somPrioridadesArtefacto.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione una prioridad para el artefacto");
 			}
-			if (somCrearTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
+			if (somTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un tipo de artefacto");
+			}
+			if (somArtefactoActivo.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione un tipo de artefacto");
 			}
 
-			artefactoSeleccionado.setTitulo(txtCrearNombre.getValue().toString());
-			artefactoSeleccionado.setDescripcion(txtCrearDescripcion.getValue().toString());
-			artefactoSeleccionado.setEsfuerzoEstimado(Integer.parseInt(txtCrearEsfuerzoEstimado.getValue().toString().trim() ));
-			artefactoSeleccionado.setEsfuerzoRestante(Integer.parseInt(txtCrearEsfuerzoRestante.getValue().toString().trim() ));
-			artefactoSeleccionado.setEsfuerzoReal(Integer.parseInt(txtCrearEsfuerzoReal.getValue().toString().trim() ));
-			artefactoSeleccionado.setOrigen(txtCrearOrigen.getValue().toString());
-			artefactoSeleccionado.setPuntos(Integer.parseInt(txtCrearPuntos.getValue().toString().trim()));
+			artefactoSeleccionado.setTitulo(txtNombre.getValue().toString());
+			artefactoSeleccionado.setDescripcion(txtDescripcion.getValue().toString());
+			artefactoSeleccionado.setEsfuerzoEstimado(Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim() ));
+			artefactoSeleccionado.setEsfuerzoRestante(Integer.parseInt(txtEsfuerzoRestante.getValue().toString().trim() ));
+			artefactoSeleccionado.setEsfuerzoReal(Integer.parseInt(txtEsfuerzoReal.getValue().toString().trim() ));
+			artefactoSeleccionado.setOrigen(txtOrigen.getValue().toString());
+			artefactoSeleccionado.setPuntos(Integer.parseInt(txtPuntos.getValue().toString().trim()));
 			artefactoSeleccionado.setActivo(somArtefactoActivo.getValue().toString().trim());
 
 			Date fecha = new Date();
@@ -858,15 +873,15 @@ public class VtArtefactoView {
 
 			artefactoSeleccionado.setUsuModificador(1L);
 
-			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somCrearEstadoArtefacto.getValue().toString().trim()));
+			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somEstadoArtefacto.getValue().toString().trim()));
 
 			artefactoSeleccionado.setVtEstado(vtEstado);
 
-			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somCrearTipoArtefacto.getValue().toString().trim()));
+			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somTipoArtefacto.getValue().toString().trim()));
 
 			artefactoSeleccionado.setVtTipoArtefacto(vtTipoArtefacto);
 
-			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somCrearPrioridadesArtefacto.getValue().toString().trim()));
+			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somPrioridadesArtefacto.getValue().toString().trim()));
 
 			artefactoSeleccionado.setVtPrioridad(vtPrioridad);
 

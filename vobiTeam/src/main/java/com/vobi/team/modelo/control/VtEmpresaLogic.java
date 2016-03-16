@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Scope;
-
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -77,6 +77,8 @@ public class VtEmpresaLogic implements IVtEmpresaLogic {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveVtEmpresa(VtEmpresa entity) throws Exception {
         log.debug("saving VtEmpresa instance");
+        
+        String name=SecurityContextHolder.getContext().getAuthentication().getName();
 
         try {
             if (entity.getActivo() == null) {
