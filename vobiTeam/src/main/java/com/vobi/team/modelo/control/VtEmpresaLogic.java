@@ -78,8 +78,6 @@ public class VtEmpresaLogic implements IVtEmpresaLogic {
     public void saveVtEmpresa(VtEmpresa entity) throws Exception {
         log.debug("saving VtEmpresa instance");
         
-        String name=SecurityContextHolder.getContext().getAuthentication().getName();
-
         try {
             if (entity.getActivo() == null) {
                 throw new ZMessManager().new EmptyFieldException("activo");

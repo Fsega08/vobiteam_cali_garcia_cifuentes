@@ -41,8 +41,9 @@
 						<h:outputText value="#{backlog.activo}" />
 					</p:column>
 
-					<p:column headerText="Modificar Backlog">
-						<p:commandButton icon="ui-icon-refresh" id="btnModificarBacklog"
+					<p:column headerText="Modificar Backlog" style="width:80px">
+						<p:commandButton icon="fa fa-pencil white"
+							id="btnModificarBacklog"
 							action="#{vtBacklogView.modificarListener}"
 							oncomplete="PF('dlg2').show();" update="modBacklog">
 
@@ -50,19 +51,20 @@
 								target="#{vtBacklogView.backogSeleccionado}" />
 						</p:commandButton>
 
-						<p:dialog header="Modificar Backlog" widgetVar="dlg2"
-							modal="true" id="modBacklog">
+						<p:dialog header="Modificar Backlog" widgetVar="dlg2" modal="true"
+							id="modBacklog" width="500">
 							<p:panel header="Modificar Proyecto" id="pnlModificarBacklog">
-								<h:panelGrid columns="1">
-
+								<h:panelGrid columns="2">
+									<h:outputText value="Nombre del Backlog" />
 									<p:inputText id="txtMNombre" placeholder="Nombre"
 										binding="#{vtBacklogView.txtMNombre}" maxlength="50">
 									</p:inputText>
 
+									<h:outputText value="Descripcion del Backlog" />
 									<p:inputText id="txtMDescripcion" placeholder="Descripción"
 										binding="#{vtBacklogView.txtMDescripcion}"
 										maxlength="100000000" />
-
+									<h:outputText value="Estado del Backlog" />
 									<p:selectOneMenu id="somBacklogActivo"
 										binding="#{vtBacklogView.somBacklogActivo}">
 										<f:selectItem itemValue="-1" itemLabel="Proyecto Backlog" />
@@ -71,24 +73,25 @@
 									</p:selectOneMenu>
 
 								</h:panelGrid>
-								
-								<p:commandButton id="btnModificar" icon="ui-icon-refresh"
+
+							</p:panel>
+							<div align="center">
+								<p:commandButton id="btnModificar" icon="fa fa-pencil white"
 									binding="#{vtBacklogView.btnModificarProyecto}"
-									action="#{vtBacklogView.modificarAction}" 
+									action="#{vtBacklogView.modificarAction}" title="Modificar"
 									update="formDialog" />
-								<p:commandButton id="btnLimpiar" icon="ui-icon-circle-arrow-w"
-									 binding="#{vtBacklogView.btnMLimpiar}"
+								<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
+									binding="#{vtBacklogView.btnMLimpiar}" title="Limpiar"
 									action="#{vtBacklogView.limpiarMAction}"
 									update="pnlModificarBacklog" />
-									
-							</p:panel>
-						
+							</div>
 						</p:dialog>
 
 					</p:column>
 
-					<p:column headerText="Seleccionar Backlog">
-						<p:commandButton icon="ui-icon-search" id="btnSeleccionarBacklog"
+					<p:column headerText="Seleccionar Backlog" style="width:80px">
+						<p:commandButton icon="fa fa-list white" iconPos="Rigth"
+							id="btnSeleccionarBacklog"
 							action="#{vtBacklogView.sprintListener}" update="formDialog">
 
 							<f:setPropertyActionListener id="elBacklog" value="#{backlog}"
@@ -105,13 +108,13 @@
 				<div align="center">
 					<p:commandButton id="btnCrearBacklog" value="Crear Backlog"
 						binding="#{vtProyectosView.btnCrearProyecto}"
-						onclick="PF('dlgCrearBacklog').show();" />
+						onclick="PF('dlgCrearBacklog').show();" icon="fa fa-plus white" />
 				</div>
 			</p:panel>
 
 
 			<p:dialog header="Crear Backlog" widgetVar="dlgCrearBacklog"
-				modal="true">
+				modal="true" width="500">
 				<div align="center">
 					<p:panel header="Crear Backlog" id="pnlCrearBacklog">
 						<h:panelGrid columns="1">
@@ -124,15 +127,15 @@
 
 						</h:panelGrid>
 
-						<p:commandButton id="btnCrear" icon="ui-icon-disk"
-							binding="#{vtBacklogView.btnCrearBacklog}"
-							action="#{vtBacklogView.crearAction}" 
-							update="formDialog" />
-
-						<p:commandButton id="btnCLimpiar" icon="ui-icon-circle-arrow-w"
-							binding="#{vtBacklogView.btnCLimpiar}"
-							action="#{vtBacklogView.limpiarCAction}" update="pnlCrearBacklog" />
 					</p:panel>
+					<p:commandButton id="btnCrear" icon="fa fa-plus white"
+						binding="#{vtBacklogView.btnCrearBacklog}"
+						action="#{vtBacklogView.crearAction}" title="Crear"
+						update="formDialog" />
+
+					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
+						binding="#{vtBacklogView.btnCLimpiar}" title="Limpiar"
+						action="#{vtBacklogView.limpiarCAction}" update="pnlCrearBacklog" />
 				</div>
 			</p:dialog>
 

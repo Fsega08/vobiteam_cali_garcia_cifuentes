@@ -46,37 +46,38 @@
 						<h:outputText value="#{proyecto.activo}" />
 					</p:column>
 
-					<p:column headerText="Modificar Proyecto">
+					<p:column headerText="Modificar Proyecto" style="width:80px">
 						<p:commandButton id="btnModificarProyecto"
 							value="#{vtProyectosView.btnModificarProyecto}"
 							action="#{vtProyectosView.modificarListener}"
-							icon="ui-icon-refresh" oncomplete="PF('dlg2').show();"
-							update="modProyecto">
+							icon="fa fa-pencil white" oncomplete="PF('dlg2').show();"
+							update="modProyecto" title="Modificar">
 
 							<f:setPropertyActionListener id="elProyecto" value="#{proyecto}"
 								target="#{vtProyectosView.proyectoSeleccionado}" />
 						</p:commandButton>
-
+						
+						<!-- Modificar Dialogo -->
 						<p:dialog header="Modificar Proyecto" widgetVar="dlg2"
-							modal="true" id="modProyecto">
+							modal="true" id="modProyecto" width="500">
 							<p:panel header="Modificar Proyecto" id="pnlModificarProyecto">
-								<h:panelGrid columns="1">
-
+								<h:panelGrid columns="2">
+									<h:outputText value="Nombre del Proyecto" />
 									<p:inputText id="txtMNombre" placeholder="Nombre"
 										binding="#{vtProyectosView.txtMNombre}" maxlength="50">
 									</p:inputText>
-
+									<h:outputText value="Descripción del Proyecto" />
 									<p:inputText id="txtMDescripcion" placeholder="Descripción"
 										binding="#{vtProyectosView.txtMDescripcion}"
 										maxlength="100000000" />
-
+									<h:outputText value="Estado del Proyecto" />
 									<p:selectOneMenu id="somProyectoActivo"
 										binding="#{vtProyectosView.somProyectoActivo}">
 										<f:selectItem itemValue="-1" itemLabel="Proyecto Activo" />
 										<f:selectItem itemValue="S" itemLabel="Si" />
 										<f:selectItem itemValue="N" itemLabel="No" />
 									</p:selectOneMenu>
-
+									<h:outputText value="Público" />
 									<p:selectOneMenu id="somProyectoPublico"
 										binding="#{vtProyectosView.somProyectoPublico}">
 										<f:selectItem itemValue="-1" itemLabel="Proyecto Publico" />
@@ -84,25 +85,31 @@
 										<f:selectItem itemValue="N" itemLabel="No" />
 									</p:selectOneMenu>
 								</h:panelGrid>
+								
+								<div align="center">
+									<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+										binding="#{vtProyectosView.btnModificar}"
+										action="#{vtProyectosView.modificarAction}"
+										title="Modificar"
+										update="formDialog" />
 
-								<p:commandButton id="btnModificar" icon="ui-icon-refresh"
-									binding="#{vtProyectosView.btnModificar}"
-									action="#{vtProyectosView.modificarAction}" 
-									update="formDialog" />
+									<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
+										binding="#{vtProyectosView.btnMLimpiar}"
+										action="#{vtProyectosView.limpiarAction}"
+										title="Limpiar"
+										update="pnlModificarProyecto" />
+								</div>
 
-								<p:commandButton id="btnLimpiar" icon="ui-icon-circle-arrow-w"
-									binding="#{vtProyectosView.btnMLimpiar}"
-									action="#{vtProyectosView.limpiarAction}"
-									update="pnlModificarProyecto" />
 							</p:panel>
+
 						</p:dialog>
 					</p:column>
 
 
 
-					<p:column headerText="Entrar a Backlog">
-						<p:commandButton icon="ui-icon-search" id="btnSeleccionarBacklog"
-							binding="#{vtProyectosView.btnSeleccionarBacklog}"
+					<p:column headerText="Entrar a Backlog" style="width:80px"  >
+						<p:commandButton icon="fa fa-list white" iconPos="Rigth" id="btnSeleccionarBacklog"
+							binding="#{vtProyectosView.btnSeleccionarBacklog}" title="Entrar"
 							action="#{vtProyectosView.backlogListener}" update="formDialog">
 
 							<f:setPropertyActionListener id="elProyecto" value="#{proyecto}"
@@ -124,6 +131,7 @@
 				<div align="center">
 					<p:commandButton id="btnCrearProyectos" value="Crear Proyecto"
 						binding="#{vtProyectosView.btnCrearProyecto}"
+						icon="fa fa-plus white"
 						onclick="PF('dlgCrearProyecto').show();" />
 				</div>
 			</p:panel>
@@ -134,7 +142,7 @@
 				 pero es efectivo como el solo TENER en cuenta que widgetVar
 				 es el nombre del dialog que quiero abrir -->
 			<p:dialog header="Crear Proyecto" widgetVar="dlgCrearProyecto"
-				modal="true">
+				modal="true" width="500">
 				<div align="center">
 					<p:panel header="Crear Proyecto" id="pnlCrearProyecto">
 						<h:panelGrid columns="1">
@@ -148,14 +156,16 @@
 
 						</h:panelGrid>
 					</p:panel>
-					<p:commandButton id="btnCrear" icon="ui-icon-disk"
+					<p:commandButton id="btnCrear" icon="fa fa-plus white"
 						binding="#{vtProyectosView.btnCrear}"
 						action="#{vtProyectosView.crearAction}" 
+						title="Crear"
 						update="formDialog" />
 
-					<p:commandButton id="btnCLimpiar" icon="ui-icon-circle-arrow-w"
+					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
 						binding="#{vtProyectosView.btnCLimpiar}"
 						action="#{vtProyectosView.limpiarCAction}"
+						title="Limpiar"
 						update="pnlCrearProyecto" />
 				</div>
 			</p:dialog>

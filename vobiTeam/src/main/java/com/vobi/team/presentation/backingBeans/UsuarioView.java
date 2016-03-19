@@ -17,6 +17,7 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.exceptions.ZMessManager;
 import com.vobi.team.modelo.VtEmpresa;
@@ -45,6 +46,8 @@ public class UsuarioView {
     
     private final static Logger log=LoggerFactory.getLogger(UsuarioView.class);
     private List<SelectItem> lasEmpresas;
+    
+    private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
     
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;   
@@ -144,7 +147,7 @@ public class UsuarioView {
     		String login = txtLogin.getValue().toString().trim();
     		String clave = txtPassword.getValue().toString().trim();
     		String empresa = somEmpresas.getValue().toString().trim();
-    		String estado = somEstado.getValue().toString().trim();
+    		String estado = somEstado.getValue().toString().trim();    		
     		
     		if (nombre==null || nombre.trim().equals("")){
 				throw new Exception("Debe ingresar el nombre");
@@ -169,6 +172,8 @@ public class UsuarioView {
 				throw new Exception("Problemas con el Id de la Empresa");
 			}
 			
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			
 			VtUsuario vtUsuario = new VtUsuario();
 			
 			vtUsuario.setNombre(nombre);
@@ -176,8 +181,8 @@ public class UsuarioView {
 			vtUsuario.setClave(clave);
 			vtUsuario.setFechaCreacion(new Date());
 			vtUsuario.setFechaModificacion(new Date());
-			vtUsuario.setUsuCreador(1L);
-			vtUsuario.setUsuModificador(1L);
+			vtUsuario.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			vtUsuario.setActivo(estado);
 			
 			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(empresaID);
@@ -230,12 +235,14 @@ public class UsuarioView {
 			} catch (Exception e) {
 				throw new Exception("Problemas con el Id de la Empresa");
 			}
+			
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			    		
     		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(login);
     		vtUsuario.setFechaModificacion(new Date());
     		vtUsuario.setClave(clave);
     		vtUsuario.setNombre(nombre);    		
-    		vtUsuario.setUsuModificador(1L);
+    		vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
     		vtUsuario.setActivo(estado);
     		VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(empresaID);
 			vtUsuario.setVtEmpresa(vtEmpresa);
@@ -260,7 +267,10 @@ public class UsuarioView {
     	{
     		String login = txtLogin.getValue().toString().trim();
     		
+    		VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
     		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(login);
+    		
+    		vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
     		
     		businessDelegatorView.deleteVtUsuario(vtUsuario);    		
     		FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
@@ -296,7 +306,6 @@ public class UsuarioView {
 	
     public String limpiarAction()
     { 
-    	
 		txtLogin.resetValue();
 		txtLogin.setDisabled(false);
     	txtNombre.resetValue();
