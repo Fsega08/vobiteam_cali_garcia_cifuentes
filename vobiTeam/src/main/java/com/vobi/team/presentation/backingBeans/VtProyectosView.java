@@ -8,8 +8,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
@@ -64,10 +62,10 @@ public class VtProyectosView {
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 	
 	@PostConstruct
-	public void empresaSeleccionada(){
+	public void init(){
 		
 		try {
-			vtEmpresaSelected = (VtEmpresa) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("empresaSeleccionada");
+			vtEmpresaSelected = (VtEmpresa) FacesUtils.getfromSession("empresaSeleccionada");
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
@@ -313,10 +311,7 @@ public class VtProyectosView {
 	}
 	
 	
-	public void modificarListener() {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("proyectoSeleccionado", proyectoSeleccionado);
-		
-		log.info("Proyecto seleccionado " +  proyectoSeleccionado.getNombre());
+	public void modificarListener() {		
 		
 		VtProyecto vtProyecto = proyectoSeleccionado;
 		
@@ -331,7 +326,7 @@ public class VtProyectosView {
 		
 		//Guardo objeto en la sesion
 		if (proyectoSeleccionado.getActivo().equals("S")) {
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("proyectoSeleccionado", proyectoSeleccionado);
+			FacesUtils.putinSession("proyectoSeleccionado", proyectoSeleccionado);
 			return "/XHTML/listaBacklog.xhtml";
 		}
 		else{

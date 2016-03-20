@@ -125,8 +125,6 @@ public class AsignarUsuariosView {
 		log.info(""+proyectoSeleccionado.getProyCodigo());
 		usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 		usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);	
-		VtProyectoUsuario proyectoUsuario = null;
-		
 		if (usuariosSource!=null) {
 			
 //			for (VtUsuario vtUsuario : usuariosTarget) {

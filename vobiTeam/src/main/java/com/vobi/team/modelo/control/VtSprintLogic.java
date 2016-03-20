@@ -130,7 +130,11 @@ public class VtSprintLogic implements IVtSprintLogic {
 			//            if (getVtSprint(entity.getSpriCodigo()) != null) {
 			//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
 			//            }
-
+			
+			if(entity.getFechaFin().before(entity.getFechaInicio())){
+				throw new Exception("La fecha de Fin no puede ser menor a la fecha de Inicio");
+			}
+			
 			vtSprintDAO.save(entity);
 
 			log.debug("save VtSprint successful");
@@ -162,8 +166,9 @@ public class VtSprintLogic implements IVtSprintLogic {
 			if (Utilities.validationsList(vtArtefactos) == true) {
 				throw new ZMessManager().new DeletingException("vtArtefactos");
 			}
-
-			vtSprintDAO.delete(entity);
+			
+			entity.setActivo("N");
+			vtSprintDAO.update(entity);
 
 			log.debug("delete VtSprint successful");
 		} catch (Exception e) {
@@ -227,6 +232,10 @@ public class VtSprintLogic implements IVtSprintLogic {
 			if (entity.getVtPilaProducto().getPilaCodigo() == null) {
 				throw new ZMessManager().new EmptyFieldException(
 						"pilaCodigo_VtPilaProducto");
+			}
+			
+			if(entity.getFechaFin().before(entity.getFechaInicio())){
+				throw new Exception("La fecha de Fin no puede ser menor a la fecha de Inicio");
 			}
 
 			vtSprintDAO.update(entity);
