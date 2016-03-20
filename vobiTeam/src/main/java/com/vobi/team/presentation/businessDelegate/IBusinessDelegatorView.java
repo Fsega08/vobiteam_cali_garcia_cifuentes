@@ -498,4 +498,6 @@ public interface IBusinessDelegatorView {
     public VtProyectoUsuario findProyectoUsuarioByProyectoAndUsuario(Long proyectoId, Long usuarioId);
 
     public List<VtHistoriaArtefacto> findHistoriaByArtefacto(VtArtefacto vtArtefacto) throws Exception;
+    
+    public List<VtArchivo> findArchivosByArtefactos(VtArtefacto vtArtefacto) throws Exception;
 }

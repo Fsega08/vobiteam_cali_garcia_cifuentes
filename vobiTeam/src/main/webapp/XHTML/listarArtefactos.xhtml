@@ -28,15 +28,24 @@
 			<p:growl id="men" />
 
 			<p:panel header="Lista de Artefactos Sin Asignar" id="pnlDashboard">
-				<h:panelGrid columns="1" id="panelGridAll">
+				<h:panelGrid columns="1" id="panelArtAll">
 
 					<p:contextMenu for="dtArtefactos">
 						<p:menuitem value="Modificar" update="pnlModificarArtefacto"
 							icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 							action="#{vtArtefactoView.hidratarArtefactoMod}" />
 
-						<p:menuitem value="Historial" icon="fa fa-pencil "
-							oncomplete="PF('dlgHistorialArtefacto').show()" update="panelHistorial"/>
+						<p:menuitem value="Historial" icon="fa fa-history "
+							oncomplete="PF('dlgHistorialArtefacto').show()"
+							update="panelHistorial" />
+
+						<p:menuitem value="Subir archivos" icon="fa fa-cloud-upload"
+							oncomplete="PF('dlgArchivosArtefacto').show()"
+							update="panelHistorial" />
+						
+						<p:menuitem value="Ver Archivos" icon="fa fa-list"
+							oncomplete="PF('dlgArchivosDescArtefacto').show()"
+							update="dtDescArtefactos" />
 
 					</p:contextMenu>
 
@@ -226,6 +235,7 @@
 						<p:inputTextarea id="txtAreaCrearDescripcion" rows="10" cols="33"
 							placeholder="Descripcion"
 							binding="#{vtArtefactoView.txtCrearDescripcion}" />
+
 					</h:panelGrid>
 
 					<p:commandButton id="btnCrearArtefacto"
@@ -310,6 +320,51 @@
 
 					</p:dataTable>
 				</h:panelGrid>
+			</p:dialog>
+
+			<p:dialog header="Subir archivos a este Artefacto"
+				widgetVar="dlgArchivosArtefacto" modal="true"
+				id="dlArchivosArtefacto">
+				<h:panelGrid columns="1" id="panelArchivos">
+					<p:fileUpload
+						fileUploadListener="#{vtArtefactoView.handleFileUpload}"
+						mode="advanced" multiple="true" update="men"
+						dragDropSupport="true" />
+
+				</h:panelGrid>
+			</p:dialog>
+
+			<p:dialog header="Ver Archivos del Artefacto"
+				widgetVar="dlgArchivosDescArtefacto" modal="true"
+				id="dlArchivosDescArtefacto">
+
+				<p:contextMenu for="dtDescArtefactos">
+
+					<p:menuitem value="Descargar Archivo" icon="fa fa-cloud-download"
+						actionListener="#{vtArtefactoView.FileDownloadView}" ajax="false">
+					
+						<p:fileDownload value="#{vtArtefactoView.file}" />
+					
+					</p:menuitem>
+				</p:contextMenu>
+
+
+				<p:dataTable id="dtDescArtefactos"
+					value="#{vtArtefactoView.losArchivos}" var="archivo"
+					paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15" rendered="true"
+					rowKey="#{archivo.archCodigo}"
+					selection="#{vtArtefactoView.archivoSeleccionado}"
+					emptyMessage="No se encontraron archivos para este artefacto."
+					selectionMode="single">
+
+					<p:column headerText="Nombre Archivo"
+						filterBy="#{archivo.nombre}" sortBy="#{archivo.nombre}">
+						<h:outputText value="#{archivo.nombre}" />
+					</p:column>
+
+				</p:dataTable>
 			</p:dialog>
 
 

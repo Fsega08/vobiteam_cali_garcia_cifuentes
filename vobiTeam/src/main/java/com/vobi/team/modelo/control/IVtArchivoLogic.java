@@ -1,6 +1,7 @@
 package com.vobi.team.modelo.control;
 
 import com.vobi.team.modelo.VtArchivo;
+import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.dto.VtArchivoDTO;
 
 import java.math.BigDecimal;
@@ -53,4 +54,6 @@ public interface IVtArchivoLogic {
     public Long findTotalNumberVtArchivo() throws Exception;
 
     public List<VtArchivoDTO> getDataVtArchivo() throws Exception;
+    
+    public List<VtArchivo> findArchivosByArtefactos(VtArtefacto vtArtefacto) throws Exception;
 }

@@ -460,4 +460,22 @@ public class VtArchivoLogic implements IVtArchivoLogic {
 
         return list;
     }
+    
+	@Transactional(readOnly=true)
+	public List<VtArchivo> findArchivosByArtefactos(VtArtefacto vtArtefacto) throws Exception{
+
+		List<VtArchivo> losArchivos = new ArrayList<VtArchivo>();
+
+		try {
+			Object[] variables = {"vtArtefacto.arteCodigo", false, vtArtefacto.getArteCodigo(),"="};
+
+			losArchivos = findByCriteria(variables, null, null);
+		} catch (Exception e) {
+			log.info(e.getMessage(), e);
+			throw new Exception("No se encontraron archivos en este artefacto");
+		}
+
+		return (losArchivos != null && !losArchivos.isEmpty()
+				? losArchivos : null);
+	}
 }

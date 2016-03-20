@@ -1,12 +1,13 @@
 package com.vobi.team.presentation.backingBeans;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -14,21 +15,22 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.component.commandbutton.CommandButton;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.vobi.team.modelo.VtArchivo;
 import com.vobi.team.modelo.VtArtefacto;
-import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
-import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
@@ -98,6 +100,10 @@ public class VtArtefactoView {
 	private List<VtArtefacto> losArtefactos;
 	
 	private List<VtHistoriaArtefacto> elHistorialArtefacto;
+	
+	private StreamedContent file;
+	private VtArchivo archivoSeleccionado;
+	private List<VtArchivo> losArchivos;
 
 	private VtSprint sprintSeleccionado;
 	private VtPilaProducto backlogSeleccionado;
@@ -209,7 +215,33 @@ public class VtArtefactoView {
 		this.txtOrigen = txtOrigen;
 	}
 
+	
 
+	public VtArchivo getArchivoSeleccionado() {
+		return archivoSeleccionado;
+	}
+
+	public void setArchivoSeleccionado(VtArchivo archivoSeleccionado) {
+		this.archivoSeleccionado = archivoSeleccionado;
+	}
+
+	public List<VtArchivo> getLosArchivos() {
+		try {
+			if (artefactoSeleccionado!=null) {
+
+				losArchivos = businessDelegatorView.findArchivosByArtefactos(artefactoSeleccionado);
+
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+		
+		return losArchivos;
+	}
+
+	public void setLosArchivos(List<VtArchivo> losArchivos) {
+		this.losArchivos = losArchivos;
+	}
 
 	public List<SelectItem> getLosTiposArtefactos() {
 		try {
@@ -244,7 +276,13 @@ public class VtArtefactoView {
 		this.somTipoArtefacto = somTipoArtefacto;
 	}
 
+	public StreamedContent getFile() {
+		return file;
+	}
 
+	public void setFile(StreamedContent file) {
+		this.file = file;
+	}
 
 	public List<SelectItem> getLasPrioridadesArtefactos() {
 		try {
@@ -934,5 +972,53 @@ public class VtArtefactoView {
 		}
 
 	}
-
+	
+    public void handleFileUpload(FileUploadEvent event) {
+        
+        try {
+        	VtArchivo vtArchivo = new VtArchivo();
+        	VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+        	
+        	
+        	vtArchivo.setNombre(event.getFile().getFileName());
+        	vtArchivo.setFechaCreacion(new Date());
+        	vtArchivo.setFechaModificacion(new Date());
+        	vtArchivo.setUsuCreador(vtUsuario.getUsuaCodigo());
+        	vtArchivo.setUsuModificador(vtUsuario.getUsuaCodigo());
+        	vtArchivo.setActivo("S");
+        	vtArchivo.setArchivo(event.getFile().getContents());
+        	vtArchivo.setVtArtefacto(artefactoSeleccionado);
+        	
+        	businessDelegatorView.saveVtArchivo(vtArchivo);
+        	FacesUtils.addInfoMessage("Se subio el archivo " + event.getFile().getFileName());
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			FacesUtils.addInfoMessage(e.getMessage());
+		}
+        
+    }
+    
+    public void FileDownloadView() {        
+       // InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/demo/images/optimus.jpg");
+        
+    	try {
+    		VtArchivo vtArchivo = archivoSeleccionado;
+        	log.info("el archivo es= " + vtArchivo.getNombre());
+        	
+        	byte[] archivo = vtArchivo.getArchivo();
+        	
+        	InputStream stream = new ByteArrayInputStream(archivo);
+        	
+        	file = new DefaultStreamedContent(stream, null, vtArchivo.getNombre());
+        	
+        	FacesUtils.addInfoMessage("Disfrute su archivo");
+		} catch (Exception e) {
+			FacesUtils.addInfoMessage("Lo siento no se pudo descargar");
+		}
+    	
+    	
+    	
+    }
+    
+    
 }

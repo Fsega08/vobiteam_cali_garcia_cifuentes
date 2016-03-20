@@ -1060,4 +1060,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtHistoriaArtefacto> findHistoriaByArtefacto(VtArtefacto vtArtefacto) throws Exception {
 		return vtHistoriaArtefactoLogic.findHistoriaByArtefacto(vtArtefacto);
 	}
+
+	@Override
+	public List<VtArchivo> findArchivosByArtefactos(VtArtefacto vtArtefacto) throws Exception {
+		return vtArchivoLogic.findArchivosByArtefactos(vtArtefacto);
+	}
 }
