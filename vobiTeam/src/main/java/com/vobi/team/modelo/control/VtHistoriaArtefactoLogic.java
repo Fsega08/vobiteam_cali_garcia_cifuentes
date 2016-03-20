@@ -503,4 +503,24 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
 
         return list;
     }
+    
+    @Transactional(readOnly=true)
+    public List<VtHistoriaArtefacto> findHistoriaByArtefacto(VtArtefacto vtArtefacto) throws Exception{    	
+    	
+    	List<VtHistoriaArtefacto> elHistorialArtefacto = new ArrayList<VtHistoriaArtefacto>();
+    	
+    	try {
+    		Object[] variables = {"vtArtefacto.arteCodigo", false, vtArtefacto.getArteCodigo(), "="};
+    		
+    		elHistorialArtefacto = findByCriteria(variables, null, null);
+    		
+		} catch (Exception e) {
+			log.info(e.getMessage(), e);
+			throw new Exception("No se encontro la historial por ese artefacto por ese Id");
+		}
+    	
+    	return (elHistorialArtefacto != null && !elHistorialArtefacto.isEmpty()
+    			? elHistorialArtefacto : null);
+    }
+    
 }

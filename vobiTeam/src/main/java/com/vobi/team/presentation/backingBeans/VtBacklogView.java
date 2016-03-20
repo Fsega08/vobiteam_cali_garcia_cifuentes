@@ -18,10 +18,12 @@ import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -69,6 +71,9 @@ public class VtBacklogView {
 	private CommandButton btnMLimpiar;
 	
 	
+	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
+	
+	
 	@PostConstruct
 	public void init(){
 		
@@ -81,6 +86,16 @@ public class VtBacklogView {
 		
 	}
 	
+	
+	public String getUsuarioActual() {
+		return usuarioActual;
+	}
+
+
+	public void setUsuarioActual(String usuarioActual) {
+		this.usuarioActual = usuarioActual;
+	}
+
 
 	public VtPilaProducto getBackogSeleccionado() {
 		return backogSeleccionado;
@@ -229,7 +244,7 @@ public class VtBacklogView {
 	//Metodo para crear el backlog
 	public void crearAction() {
 		try {
-			
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			if (txtCNombre.getValue().toString().trim().equals("") == true || txtCNombre.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
@@ -243,8 +258,8 @@ public class VtBacklogView {
 			vtPilaProducto.setDescripcion(txtCDescripcion.getValue().toString());			
 			vtPilaProducto.setFechaCreacion(new Date());			
 			vtPilaProducto.setFechaCreacion(new Date());			
-			vtPilaProducto.setUsuCreador(1L);			
-			vtPilaProducto.setUsuModificador(1L);			
+			vtPilaProducto.setUsuCreador(vtUsuarioActual.getUsuaCodigo());			
+			vtPilaProducto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());			
 			vtPilaProducto.setActivo("S");
 			
 			vtPilaProducto.setVtProyecto(proyectoSeleccionado);
@@ -294,6 +309,7 @@ public class VtBacklogView {
 			}
 			
 			VtPilaProducto vtPilaProducto = backogSeleccionado;
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			
 			vtPilaProducto.setNombre(txtMNombre.getValue().toString());
 			
@@ -301,7 +317,7 @@ public class VtBacklogView {
 			
 			vtPilaProducto.setFechaModificacion(new Date());
 			
-			vtPilaProducto.setUsuModificador(1L);
+			vtPilaProducto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			
 			vtPilaProducto.setActivo(somBacklogActivo.getValue().toString().trim());
 			

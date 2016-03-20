@@ -1055,4 +1055,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId) {
 		return vtArtefactoLogic.findArtefactosVaciosPorBacklog(backlogId);
 	}
+
+	@Override
+	public List<VtHistoriaArtefacto> findHistoriaByArtefacto(VtArtefacto vtArtefacto) throws Exception {
+		return vtHistoriaArtefactoLogic.findHistoriaByArtefacto(vtArtefacto);
+	}
 }

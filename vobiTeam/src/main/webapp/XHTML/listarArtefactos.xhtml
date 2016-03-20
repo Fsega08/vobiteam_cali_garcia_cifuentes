@@ -35,6 +35,9 @@
 							icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 							action="#{vtArtefactoView.hidratarArtefactoMod}" />
 
+						<p:menuitem value="Historial" icon="fa fa-pencil "
+							oncomplete="PF('dlgHistorialArtefacto').show()" update="panelHistorial"/>
+
 					</p:contextMenu>
 
 
@@ -237,6 +240,78 @@
 
 				</p:panel>
 			</p:dialog>
+
+
+			<p:dialog header="Historial Artefacto"
+				widgetVar="dlgHistorialArtefacto" modal="true"
+				id="dlHistorialArtefacto">
+				<h:panelGrid columns="1" id="panelHistorial">
+					<p:dataTable id="dtHistorialArtefactos"
+						value="#{vtArtefactoView.elHistorialArtefacto}"
+						var="historialArtefacto" paginator="true" rows="10"
+						rowKey="#{historialArtefacto.historiaCodigo}"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10,15"
+						emptyMessage="No se encontraron historias de este artefacto.">
+
+						<p:column headerText="Nombre Artefacto"
+							filterBy="#{historialArtefacto.titulo}"
+							sortBy="#{historialArtefacto.titulo}">
+							<h:outputText value="#{historialArtefacto.titulo}" />
+						</p:column>
+
+						<p:column headerText="Esfuerzo Estimado"
+							filterBy="#{historialArtefacto.esfuerzoEstimado}"
+							sortBy="#{historialArtefacto.esfuerzoEstimado}">
+							<h:outputText value="#{historialArtefacto.esfuerzoEstimado}" />
+						</p:column>
+
+						<p:column headerText="Esfuerzo Real"
+							filterBy="#{historialArtefacto.esfuerzoReal}"
+							sortBy="#{historialArtefacto.esfuerzoReal}">
+							<h:outputText value="#{historialArtefacto.esfuerzoReal}" />
+						</p:column>
+
+						<p:column headerText="Puntos"
+							filterBy="#{historialArtefacto.puntos}"
+							sortBy="#{historialArtefacto.puntos}">
+							<h:outputText value="#{historialArtefacto.puntos}" />
+						</p:column>
+
+						<p:column headerText="Origen"
+							filterBy="#{historialArtefacto.origen}"
+							sortBy="#{historialArtefacto.origen}">
+							<h:outputText value="#{historialArtefacto.origen}" />
+						</p:column>
+
+						<p:column headerText="Fecha Creación"
+							filterBy="#{historialArtefacto.fechaCreacion}"
+							sortBy="#{historialArtefacto.fechaCreacion}">
+							<h:outputText value="#{historialArtefacto.fechaCreacion}" />
+						</p:column>
+
+						<p:column headerText="Fecha Modificación"
+							filterBy="#{historialArtefacto.fechaModificacion}"
+							sortBy="#{historialArtefacto.fechaModificacion}">
+							<h:outputText value="#{historialArtefacto.fechaModificacion}" />
+						</p:column>
+
+						<p:column headerText="Usuario Creador"
+							filterBy="#{historialArtefacto.usuCreador}"
+							sortBy="#{historialArtefacto.usuCreador}">
+							<h:outputText value="#{historialArtefacto.usuCreador}" />
+						</p:column>
+
+						<p:column headerText="Usuario Modificador"
+							filterBy="#{historialArtefacto.usuModificador}"
+							sortBy="#{historialArtefacto.usuModificador}">
+							<h:outputText value="#{historialArtefacto.usuModificador}" />
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGrid>
+			</p:dialog>
+
 
 
 		</h:form>

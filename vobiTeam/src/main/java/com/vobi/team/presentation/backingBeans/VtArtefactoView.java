@@ -20,15 +20,18 @@ import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtEstado;
+import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -40,7 +43,8 @@ public class VtArtefactoView {
 
 	public final static Logger log=LoggerFactory.getLogger(VtArtefactoView.class);
 
-
+	private String usuarioActual = SecurityContextHolder.getContext().getAuthentication().getName();
+	
 	//////// Atributos Crear Artefacto ////////
 
 	private InputText txtCrearNombre;
@@ -92,6 +96,8 @@ public class VtArtefactoView {
 
 	private VtArtefacto artefactoSeleccionado;
 	private List<VtArtefacto> losArtefactos;
+	
+	private List<VtHistoriaArtefacto> elHistorialArtefacto;
 
 	private VtSprint sprintSeleccionado;
 	private VtPilaProducto backlogSeleccionado;
@@ -102,46 +108,36 @@ public class VtArtefactoView {
 		try {
 			sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
 			backlogSeleccionado = (VtPilaProducto) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("backlogSeleccionado");
+			
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
 
 	}
 
+	public String getUsuarioActual() {
+		return usuarioActual;
+	}
 
-
-
-
+	public void setUsuarioActual(String usuarioActual) {
+		this.usuarioActual = usuarioActual;
+	}
 
 	public SelectOneMenu getSomArtefactoActivo() {
 		return somArtefactoActivo;
 	}
 
-
-
-
-
-
 	public void setSomArtefactoActivo(SelectOneMenu somArtefactoActivo) {
 		this.somArtefactoActivo = somArtefactoActivo;
 	}
-
-
-
-
-
 
 	public InputText getTxtNombre() {
 		return txtNombre;
 	}
 
-
-
 	public void setTxtNombre(InputText txtNombre) {
 		this.txtNombre = txtNombre;
 	}
-
-
 
 	public InputTextarea getTxtDescripcion() {
 		return txtDescripcion;
@@ -236,7 +232,7 @@ public class VtArtefactoView {
 		this.losTiposArtefactos = losTiposArtefactos;
 	}
 
-
+	
 
 	public SelectOneMenu getSomTipoArtefacto() {
 		return somTipoArtefacto;
@@ -465,7 +461,24 @@ public class VtArtefactoView {
 		this.losCrearTiposArtefactos = losCrearTiposArtefactos;
 	}
 
+	
 
+	public List<VtHistoriaArtefacto> getElHistorialArtefacto() {
+		try {
+			if (artefactoSeleccionado!=null) {
+
+				elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
+
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+		return elHistorialArtefacto;
+	}
+
+	public void setElHistorialArtefacto(List<VtHistoriaArtefacto> elHistorialArtefacto) {
+		this.elHistorialArtefacto = elHistorialArtefacto;
+	}
 
 	public SelectOneMenu getSomCrearTipoArtefacto() {
 		return somCrearTipoArtefacto;
@@ -654,7 +667,7 @@ public class VtArtefactoView {
 			}
 
 			VtArtefacto vtArtefacto = new VtArtefacto();
-
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			vtArtefacto.setTitulo(txtCrearNombre.getValue().toString());
 			vtArtefacto.setDescripcion(txtCrearDescripcion.getValue().toString());
 			vtArtefacto.setEsfuerzoEstimado(Integer.parseInt(txtCrearEsfuerzoEstimado.getValue().toString().trim() ));
@@ -668,8 +681,8 @@ public class VtArtefactoView {
 
 			vtArtefacto.setFechaCreacion(fecha);
 			vtArtefacto.setFechaModificacion(fecha);
-			vtArtefacto.setUsuCreador(1L);
-			vtArtefacto.setUsuModificador(1L);
+			vtArtefacto.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			vtArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somCrearEstadoArtefacto.getValue().toString().trim()));
 
@@ -691,6 +704,7 @@ public class VtArtefactoView {
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
 			
 			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
+			elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
 			limpiarCrearAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -737,7 +751,7 @@ public class VtArtefactoView {
 
 	public void tipoArtefactoListener() {
 		int valorTipoArtefacto = Integer.parseInt(somCrearTipoArtefacto.getValue().toString().trim());
-
+		
 		if (valorTipoArtefacto == 1 || valorTipoArtefacto==4) {
 
 			txtCrearEsfuerzoEstimado.setDisabled(false);
@@ -874,7 +888,11 @@ public class VtArtefactoView {
 			if (somArtefactoActivo.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione un tipo de artefacto");
 			}
-
+			
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			
+			log.info("Usuario codigo= " + vtUsuarioActual.getUsuaCodigo());
+			
 			artefactoSeleccionado.setTitulo(txtNombre.getValue().toString());
 			artefactoSeleccionado.setDescripcion(txtDescripcion.getValue().toString());
 			artefactoSeleccionado.setEsfuerzoEstimado(Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim() ));
@@ -889,7 +907,7 @@ public class VtArtefactoView {
 
 			artefactoSeleccionado.setFechaModificacion(fecha);
 
-			artefactoSeleccionado.setUsuModificador(1L);
+			artefactoSeleccionado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somEstadoArtefacto.getValue().toString().trim()));
 
@@ -910,7 +928,7 @@ public class VtArtefactoView {
 			businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
 
 			FacesUtils.addInfoMessage("El artefacto se ha modificado con exito");	
-
+			elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
