@@ -35,17 +35,17 @@
 						icon="fa fa-pencil white" oncomplete="PF('dlg2').show()"
 						action="#{vtProyectosView.modificarListener}" />
 				
-					<p:menuitem value="Ir a backlog" update="formDialog"
+					<p:menuitem value="Ir a la pila de producto" update="formDialog"
 						icon="fa fa-list white" action="#{vtProyectosView.backlogListener}"  />
 					
 				</p:contextMenu>
 
 				<p:dataTable id="dtProyectos"
 					value="#{vtProyectosView.losProyectos}" var="proyecto"
-					paginator="true" rows="5"
+					paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15" rowKey="#{proyecto.proyCodigo}"
-					rendered="true" selection="#{vtProyectosView.proyectoSeleccionado}"
+					rowsPerPageTemplate="10,15" rowKey="#{proyecto.proyCodigo}"
+					emptyMessage="No se encontraron proyectos en esta empresa, puedes crear uno." rendered="true" selection="#{vtProyectosView.proyectoSeleccionado}"
 					selectionMode="single" >
 
 					<p:column headerText="Nombre Proyecto"

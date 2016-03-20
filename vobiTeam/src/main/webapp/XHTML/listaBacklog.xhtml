@@ -27,11 +27,27 @@
 		<h:form id="formDialog">
 			<p:growl id="msg" />
 
-			<p:panel header="Backlog" id="pnlDashboard">
+			<p:panel header="Backlog" id="pnlDashboard">			
+				
+				<p:contextMenu for="dtBacklog">
+					<p:menuitem value="Modificar" update="pnlModificarBacklog"
+						icon="fa fa-pencil white" oncomplete="PF('dlg2').show()"
+						action="#{vtBacklogView.modificarListener}" />
 
-				<p:dataTable id="dtProyectos" rendered="true"
+					<p:menuitem value="Ir a artefactos" update="formDialog"
+						icon="fa fa-list white"
+						action="#{vtBacklogView.sprintListener}" />
+
+				</p:contextMenu>
+					
+				<p:dataTable id="dtBacklog" 
 					value="#{vtBacklogView.losBacklogs}" var="backlog"
-					rowKey="#{backlog.pilaCodigo}">
+					paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10,15" rowKey="#{backlog.pilaCodigo}"
+					rendered="true" selection="#{vtBacklogView.backogSeleccionado}"
+					emptyMessage="No se encontraron pilas de producto en este proyecto, puedes crear uno."  selectionMode="single">
+					
 					<p:column headerText="Nombre" filterBy="#{backlog.nombre}"
 						sortBy="#{backlog.nombre}">
 						<h:outputText value="#{backlog.nombre}" />
@@ -41,65 +57,46 @@
 						<h:outputText value="#{backlog.activo}" />
 					</p:column>
 
-					<p:column headerText="Modificar Backlog" style="width:80px">
-						<p:commandButton icon="fa fa-pencil white"
-							id="btnModificarBacklog"
-							action="#{vtBacklogView.modificarListener}"
-							oncomplete="PF('dlg2').show();" update="modBacklog">
-
-							<f:setPropertyActionListener id="elBacklog" value="#{backlog}"
-								target="#{vtBacklogView.backogSeleccionado}" />
-						</p:commandButton>
-
-						<p:dialog header="Modificar Backlog" widgetVar="dlg2" modal="true"
-							id="modBacklog" width="500">
-							<p:panel header="Modificar Proyecto" id="pnlModificarBacklog">
-								<h:panelGrid columns="2">
-									<h:outputText value="Nombre del Backlog" />
-									<p:inputText id="txtMNombre" placeholder="Nombre"
-										binding="#{vtBacklogView.txtMNombre}" maxlength="50">
-									</p:inputText>
-
-									<h:outputText value="Descripcion del Backlog" />
-									<p:inputText id="txtMDescripcion" placeholder="Descripción"
-										binding="#{vtBacklogView.txtMDescripcion}"
-										maxlength="100000000" />
-									<h:outputText value="Estado del Backlog" />
-									<p:selectOneMenu id="somBacklogActivo"
-										binding="#{vtBacklogView.somBacklogActivo}">
-										<f:selectItem itemValue="-1" itemLabel="Proyecto Backlog" />
-										<f:selectItem itemValue="S" itemLabel="Si" />
-										<f:selectItem itemValue="N" itemLabel="No" />
-									</p:selectOneMenu>
-
-								</h:panelGrid>
-
-							</p:panel>
-							<div align="center">
-								<p:commandButton id="btnModificar" icon="fa fa-pencil white"
-									binding="#{vtBacklogView.btnModificarProyecto}"
-									action="#{vtBacklogView.modificarAction}" title="Modificar"
-									update="formDialog" />
-								<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
-									binding="#{vtBacklogView.btnMLimpiar}" title="Limpiar"
-									action="#{vtBacklogView.limpiarMAction}"
-									update="pnlModificarBacklog" />
-							</div>
-						</p:dialog>
-
-					</p:column>
-
-					<p:column headerText="Seleccionar Backlog" style="width:80px">
-						<p:commandButton icon="fa fa-list white" iconPos="Rigth"
-							id="btnSeleccionarBacklog"
-							action="#{vtBacklogView.sprintListener}" update="formDialog">
-
-							<f:setPropertyActionListener id="elBacklog" value="#{backlog}"
-								target="#{vtBacklogView.backogSeleccionado}" />
-						</p:commandButton>
-					</p:column>
-
 				</p:dataTable>
+
+
+
+				<p:dialog header="Modificar Backlog" widgetVar="dlg2" modal="true"
+					id="modBacklog" width="500">
+					<p:panel header="Modificar Proyecto" id="pnlModificarBacklog">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nombre del Backlog" />
+							<p:inputText id="txtMNombre" placeholder="Nombre"
+								binding="#{vtBacklogView.txtMNombre}" maxlength="50">
+							</p:inputText>
+
+							<h:outputText value="Descripcion del Backlog" />
+							<p:inputText id="txtMDescripcion" placeholder="Descripción"
+								binding="#{vtBacklogView.txtMDescripcion}" maxlength="100000000" />
+							<h:outputText value="Estado del Backlog" />
+							<p:selectOneMenu id="somBacklogActivo"
+								binding="#{vtBacklogView.somBacklogActivo}">
+								<f:selectItem itemValue="-1" itemLabel="Proyecto Backlog" />
+								<f:selectItem itemValue="S" itemLabel="Si" />
+								<f:selectItem itemValue="N" itemLabel="No" />
+							</p:selectOneMenu>
+
+						</h:panelGrid>
+
+					</p:panel>
+					<div align="center">
+						<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+							binding="#{vtBacklogView.btnModificarProyecto}"
+							action="#{vtBacklogView.modificarAction}" title="Modificar"
+							update="formDialog" />
+						<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
+							binding="#{vtBacklogView.btnMLimpiar}" title="Limpiar"
+							action="#{vtBacklogView.limpiarMAction}"
+							update="pnlModificarBacklog" />
+					</div>
+				</p:dialog>
+
+
 			</p:panel>
 
 			<!-- Botones para modificar backlog -->

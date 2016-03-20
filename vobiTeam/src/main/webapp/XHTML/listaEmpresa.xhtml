@@ -42,9 +42,9 @@
 					
 					
 					<p:dataTable id="dtListaEmpresa" value="#{vtEmpresaView.lasEmpresas}" var="empresa"
-						paginator="true" rows="5"
+						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5, 10, 15" rowKey="#{empresa.emprCodigo}"
+						rowsPerPageTemplate="10, 15" rowKey="#{empresa.emprCodigo}"
 						emptyMessage="No hay empresas seleccionadas para este usuario" selection="#{vtEmpresaView.laEmpresaSeleccionada}"
 						selectionMode="single">
 

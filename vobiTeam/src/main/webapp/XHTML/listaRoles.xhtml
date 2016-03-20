@@ -26,63 +26,50 @@
 
 		<h:form id="formDialog">
 			<p:growl id="men" />
-			<p:panel header="Dashboard de la Empresa" id="pnlDashboard">
+			<p:panel header="Dashboard de los Roles" id="pnlDashboard">
 				<h:panelGrid columns="1" layout="grid">
 					
 					
-				<p:contextMenu for="dtListaEmpresa">
+				<p:contextMenu for="dtRoles">
 					<p:menuitem value="Modificar" update="panelVtEmpresa"
-						icon="fa fa-pencil white" oncomplete="PF('dlgModProyecto').show()"
-						action="#{vtEmpresaView.modificarListener}" />
-				
-					<p:menuitem value="Ir a proyectos" update="formDialog"
-						icon="fa fa-list white" action="#{vtEmpresaView.listaEmpresaListener}"  />
-					
+						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
+						action="#{vtRolesView.modificarListener}" />
+                                       					
 				</p:contextMenu>
 					
 					
-					<p:dataTable id="dtListaEmpresa" value="#{vtEmpresaView.lasEmpresas}" var="empresa"
+					<p:dataTable id="dtRoles" value="#{vtRolesView.losRoles}" var="rol"
 						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="10, 15" rowKey="#{empresa.emprCodigo}"
-						emptyMessage="No hay empresas seleccionadas para este usuario" selection="#{vtEmpresaView.laEmpresaSeleccionada}"
+						rowsPerPageTemplate="10, 15" rowKey="#{rol.rolCodigo}"
+						emptyMessage="No hay empresas seleccionadas para este usuario" selection="#{vtRolesView.elRol}"
 						selectionMode="single">
 
-						<p:column headerText="Nombre de Empresa"
-							filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}">
-							<h:outputText value="#{empresa.nombre}" />
+						<p:column headerText="Nombre del Rol"
+							filterBy="#{rol.rolNombre}" sortBy="#{rol.rolNombre}">
+							<h:outputText value="#{rol.rolNombre}" />
 						</p:column>
 
-						<p:column headerText="Identificación"
-							filterBy="#{empresa.identificacion}"
-							sortBy="#{empresa.identificacion}">
-							<h:outputText value="#{empresa.identificacion}" />
-						</p:column>
-
-						<p:column headerText="Activa" filterBy="#{empresa.activo}"
-							sortBy="#{empresa.activo}">
-							<h:outputText value="#{empresa.activo}" />
+						<p:column headerText="Activa" filterBy="#{rol.activo}"
+							sortBy="#{rol.activo}">
+							<h:outputText value="#{rol.activo}" />
 						</p:column>
 
 					</p:dataTable>
 				</h:panelGrid>
 
-				<p:dialog header="Modificar Empresa" widgetVar="dlgModProyecto"
+				<p:dialog header="Modificar Rol" widgetVar="dlgModProyecto"
 					modal="true" width="500">
 					<div align="center">
-						<p:panel id="panelVtEmpresa" header="Modificar Empresa">
+						<p:panel id="panelVtEmpresa" header="Modificar Rol">
 							<h:panelGrid columns="1">
 
-								<p:inputText id="txtMIdentificacion"
-									placeholder="Identificación (NIT)"
-									binding="#{vtEmpresaView.txtMIdentificacion}" maxlength="50" />
-
 								<p:inputText id="txtMNombre" placeholder="Nombre"
-									binding="#{vtEmpresaView.txtMNombre}" maxlength="60" />
+									binding="#{vtRolesView.txtMNombre}" maxlength="60" />
 
 								<p:selectOneMenu id="somEmpresaActiva"
-									binding="#{vtEmpresaView.somEmpresaActiva}">
-									<f:selectItem itemValue="-1" itemLabel="Empresa Activa" />
+									binding="#{vtRolesView.somRolActiva}">
+									<f:selectItem itemValue="-1" itemLabel="Rol Activo?" />
 									<f:selectItem itemValue="S" itemLabel="Si" />
 									<f:selectItem itemValue="N" itemLabel="No" />
 								</p:selectOneMenu>
@@ -91,13 +78,13 @@
 							</h:panelGrid>
 							
 							<p:commandButton id="btnModificar"
-									binding="#{vtEmpresaView.btnModificar}"
+									binding="#{vtRolesView.btnModificar}"
 									icon="fa fa-pencil white"
-									action="#{vtEmpresaView.modificarAction}" title="Modificar"
+									action="#{vtRolesView.modificarAction}" title="Modificar"
 									update="formDialog" />
 
 								<p:commandButton id="btnMClear" icon="fa fa-eraser white"
-									action="#{vtEmpresaView.limpiarMAction}" title="Limpiar"
+									action="#{vtRolesView.limpiarMAction}" title="Limpiar"
 									update="panelVtEmpresa" />
 						</p:panel>
 					</div>
@@ -108,7 +95,7 @@
 
 			<p:panel id="panelBotones">
 				<div align="center">
-					<p:commandButton id="btnCrearEmpresa" value="Crear Empresa"
+					<p:commandButton id="btnCrearEmpresa" value="Crear un Rol"
 						icon="fa fa-plus white"
 						onclick="PF('dlgCrearEmpresa').show();" />
 				</div>
@@ -116,30 +103,25 @@
 
 
 
-			<p:dialog header="Crear Empresa" widgetVar="dlgCrearEmpresa"
+			<p:dialog header="Crear Rol" widgetVar="dlgCrearEmpresa"
 				modal="true" width="500">
 				<div align="center">
-					<p:panel id="panelCrearEmpresa" header="Crear Empresa">
+					<p:panel id="panelCrearEmpresa" header="Crear Rol">
 						<h:panelGrid columns="1">
 
-							<p:inputText id="txtIdentificacion"
-								placeholder="Identificación (NIT)"
-								binding="#{vtEmpresaView.txtIdentificacion}" maxlength="50" />
-							
-
 							<p:inputText id="txtNombre" placeholder="Nombre"
-								binding="#{vtEmpresaView.txtNombre}" maxlength="60" />
+								binding="#{vtRolesView.txtNombre}" maxlength="60" />
 
 							
 						</h:panelGrid>
 						
 						<p:commandButton id="btnCrear"
-								binding="#{vtEmpresaView.btnCrear}"
-								icon="fa fa-plus white" action="#{vtEmpresaView.crearAction}"
+								binding="#{vtRolesView.btnCrear}"
+								icon="fa fa-plus white" action="#{vtRolesView.crearAction}"
 								title="Crear" update="formDialog" />
 
 							<p:commandButton id="btnClear" icon="fa fa-eraser white"
-								action="#{vtEmpresaView.limpiarAction}" title="Limpiar"
+								action="#{vtRolesView.limpiarAction}" title="Limpiar"
 								update="panelCrearEmpresa" />
 					</p:panel>
 				</div>
