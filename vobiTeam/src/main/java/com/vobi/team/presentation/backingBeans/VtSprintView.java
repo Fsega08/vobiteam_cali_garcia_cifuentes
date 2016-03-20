@@ -16,9 +16,11 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtSprint;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -51,6 +53,8 @@ public class VtSprintView {
 	
 	private Date fechaInicio;
 	private Date fechaFin;
+	
+	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 	
 	@PostConstruct
 	public void init(){
@@ -175,10 +179,11 @@ public class VtSprintView {
 
 	public void crearAction() throws Exception{
 		try {
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			
 			String nombre = txtNombre.getValue().toString();
 			String descripcion = txtDescripcion.getValue().toString();
-			String fechaIni = fechaInicio.toString();
-			String fechaFinal = fechaFin.toString();
+
 			
 			if(nombre.equals("")|| nombre == null){
 				throw new Exception("El nombre es requerido");
@@ -195,11 +200,10 @@ public class VtSprintView {
 			if(fechaFin.equals("")|| fechaFin == null){
 				throw new Exception("Se necesita una fecha de fin");
 			}
-			
-			//SimpleDateFormat dateFormat = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy"); 
-			
+				
 			
 			VtSprint sprint = new VtSprint();
+			
 			sprint.setNombre(nombre);
 			sprint.setObjetivo(descripcion);
 			sprint.setFechaInicio(fechaInicio);
@@ -207,8 +211,8 @@ public class VtSprintView {
 			sprint.setFechaCreacion(new Date());
 			sprint.setFechaModificacion(new Date());
 			sprint.setActivo("S");
-			sprint.setUsuCreador(1L);
-			sprint.setUsuModificador(1L);
+			sprint.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			sprint.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			sprint.setVtPilaProducto(backlogSeleccionado);
 			
 			businessDelegatorView.saveVtSprint(sprint);

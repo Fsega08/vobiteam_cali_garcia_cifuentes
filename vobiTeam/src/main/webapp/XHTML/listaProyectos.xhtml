@@ -25,18 +25,17 @@
 
 
 		<h:form id="formDialog">
-			<p:messages id="msg" />
 			<p:growl id="men" />
 
 			<p:panel header="Dashboard del Proyecto" id="pnlDashboard">
 				
 				<p:contextMenu for="dtProyectos">
 					<p:menuitem value="Modificar" update="pnlModificarProyecto"
-						icon="fa fa-pencil white" oncomplete="PF('dlg2').show()"
+						icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 						action="#{vtProyectosView.modificarListener}" />
 				
 					<p:menuitem value="Ir a la pila de producto" update="formDialog"
-						icon="fa fa-list white" action="#{vtProyectosView.backlogListener}"  />
+						icon="fa fa-list " action="#{vtProyectosView.backlogListener}"  />
 					
 				</p:contextMenu>
 
@@ -46,13 +45,17 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="10,15" rowKey="#{proyecto.proyCodigo}"
 					emptyMessage="No se encontraron proyectos en esta empresa, puedes crear uno." rendered="true" selection="#{vtProyectosView.proyectoSeleccionado}"
-					selectionMode="single" >
+					selectionMode="single" emptyMessage="No existen proyectos de esta empresa, por que no creas uno ?">
 
-					<p:column headerText="Nombre Proyecto"
+					<p:column headerText="Nombre del Proyecto"
 						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}">
 						<h:outputText value="#{proyecto.nombre}" />
 					</p:column>
-					<p:column headerText="Activa" filterBy="#{proyecto.activo}"
+					<p:column headerText="Descripcion del Proyecto"
+						filterBy="#{proyecto.descripcion}" sortBy="#{proyecto.descripcion}">
+						<h:outputText value="#{proyecto.descripcion}" />
+					</p:column>
+					<p:column headerText="Estado del Proyecto" filterBy="#{proyecto.activo}"
 						sortBy="#{proyecto.activo}">
 						<h:outputText value="#{proyecto.activo}" />
 					</p:column>
@@ -60,25 +63,28 @@
 				</p:dataTable>
 
 				<p:dialog header="Modificar Proyecto" widgetVar="dlg2" modal="true"
-					id="modProyecto">
+					id="modProyecto" width="500">
 					<p:panel header="Modificar Proyecto" id="pnlModificarProyecto">
-						<h:panelGrid columns="1">
-
+						<h:panelGrid columns="2">
+							
+							<h:outputText value="Nombre del Proyecto" />
 							<p:inputText id="txtMNombre" placeholder="Nombre"
-								binding="#{vtProyectosView.txtMNombre}" maxlength="50">
-							</p:inputText>
-
+								binding="#{vtProyectosView.txtMNombre}" maxlength="50"/>	
+							
+							<h:outputText value="Descripcion del Proyecto" />
 							<p:inputText id="txtMDescripcion" placeholder="Descripción"
 								binding="#{vtProyectosView.txtMDescripcion}"
 								maxlength="100000000" />
-
+							
+							<h:outputText value="Estado del Proyecto" />
 							<p:selectOneMenu id="somProyectoActivo"
 								binding="#{vtProyectosView.somProyectoActivo}">
 								<f:selectItem itemValue="-1" itemLabel="Proyecto Activo" />
-								<f:selectItem itemValue="S" itemLabel="Si" />
-								<f:selectItem itemValue="N" itemLabel="No" />
+								<f:selectItem itemValue="S" itemLabel="Activo" />
+								<f:selectItem itemValue="N" itemLabel="Inactivo" />
 							</p:selectOneMenu>
-
+							
+							<h:outputText value="Proyecto Público" />
 							<p:selectOneMenu id="somProyectoPublico"
 								binding="#{vtProyectosView.somProyectoPublico}">
 								<f:selectItem itemValue="-1" itemLabel="Proyecto Publico" />
@@ -86,15 +92,17 @@
 								<f:selectItem itemValue="N" itemLabel="No" />
 							</p:selectOneMenu>
 						</h:panelGrid>
-
-						<p:commandButton id="btnModificar" icon="ui-icon-refresh"
-							binding="#{vtProyectosView.btnModificar}"
-							action="#{vtProyectosView.modificarAction}" update="formDialog" />
-
-						<p:commandButton id="btnLimpiar" icon="ui-icon-circle-arrow-w"
-							binding="#{vtProyectosView.btnMLimpiar}"
-							action="#{vtProyectosView.limpiarAction}"
-							update="pnlModificarProyecto" />
+						<br/>
+						<div align="center"> 
+							<p:commandButton id="btnModificar" icon="fa fa-pencil white" value="Modificar"
+								binding="#{vtProyectosView.btnModificar}"
+								action="#{vtProyectosView.modificarAction}" update="formDialog" />
+	
+							<p:commandButton id="btnLimpiar" icon="fa fa-eraser white" value="Limpiar"
+								binding="#{vtProyectosView.btnMLimpiar}"
+								action="#{vtProyectosView.limpiarAction}"
+								update="pnlModificarProyecto" />
+						</div>
 					</p:panel>
 				</p:dialog>
 
@@ -140,14 +148,14 @@
 					</p:panel>
 					<p:commandButton id="btnCrear" icon="fa fa-plus white"
 						action="#{vtProyectosView.crearAction}" 
-						title="Crear"
+						value="Crear"
 						update="formDialog" />
 						
 
 					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
 						binding="#{vtProyectosView.btnCLimpiar}"
 						action="#{vtProyectosView.limpiarCAction}"
-						title="Limpiar"
+						value="Limpiar"
 						update="pnlCrearProyecto" />
 				</div>
 			</p:dialog>

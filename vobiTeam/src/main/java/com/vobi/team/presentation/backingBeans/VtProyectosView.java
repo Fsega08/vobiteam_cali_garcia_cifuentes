@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -17,9 +16,11 @@ import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -59,6 +60,8 @@ public class VtProyectosView {
 	private List<VtProyecto> losProyectos;
 	
 	private VtEmpresa vtEmpresaSelected;
+	
+	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 	
 	@PostConstruct
 	public void empresaSeleccionada(){
@@ -244,6 +247,8 @@ public class VtProyectosView {
 			if (txtCDescripcion.getValue().toString().trim().equals("") == true || txtCDescripcion.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
+			
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			VtProyecto vtProyecto = new VtProyecto();
 
@@ -254,16 +259,16 @@ public class VtProyectosView {
 			vtProyecto.setVtEmpresa(vtEmpresaSelected);
 			vtProyecto.setFechaCreacion(new Date());
 			vtProyecto.setFechaModificacion(new Date());
-			vtProyecto.setUsuCreador(1L);
-			vtProyecto.setUsuModificador(1L);
+			vtProyecto.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			vtProyecto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			businessDelegatorView.saveVtProyecto(vtProyecto);
 
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se ha creado el Proyecto con éxito"));
+			FacesUtils.addInfoMessage("Se ha creado el Proyecto con éxito");
 			
 			losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresaSelected);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesUtils.addErrorMessage(e.getMessage());
 
 		}
 	}
@@ -273,6 +278,7 @@ public class VtProyectosView {
 		try {
 			
 			VtProyecto vtProyecto = proyectoSeleccionado;
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			
 			if (txtMNombre.getValue().toString().trim().equals("") == true || txtMNombre.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
@@ -293,15 +299,15 @@ public class VtProyectosView {
 			vtProyecto.setDescripcion(txtMDescripcion.getValue().toString());			
 			vtProyecto.setPublico(somProyectoPublico.getValue().toString().trim());			
 			vtProyecto.setActivo(somProyectoActivo.getValue().toString().trim());			
-			vtProyecto.setUsuModificador(1L);			
+			vtProyecto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());			
 			vtProyecto.setFechaModificacion(new Date());
 			
 			businessDelegatorView.updateVtProyecto(vtProyecto);
 			
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se ha modificado con éxito"));
+			FacesUtils.addInfoMessage("Se ha modificado el proyecto con éxito");
 
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
 	}

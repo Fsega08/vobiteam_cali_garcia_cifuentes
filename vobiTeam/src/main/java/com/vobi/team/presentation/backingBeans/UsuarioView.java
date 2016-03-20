@@ -267,6 +267,10 @@ public class UsuarioView {
     	{
     		String login = txtLogin.getValue().toString().trim();
     		
+    		if (login==null || login.trim().equals("")){
+				throw new Exception("Debe ingresar el login");
+			}
+    		
     		VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
     		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(login);
     		

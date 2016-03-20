@@ -13,6 +13,7 @@ import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
@@ -34,6 +35,9 @@ public class AsignarUsuariosView {
 	private List<VtUsuario> usuariosSource;
 	private List<VtUsuario> usuariosTarget;
 	private List<VtProyecto> losProyectos;
+	
+	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
+    
 	
 	@PostConstruct
 	public void usuariosNoAsignados(){
@@ -169,25 +173,27 @@ public class AsignarUsuariosView {
 		 
 		 try {
 			 VtProyectoUsuario proyectoUsuario = businessDelegatorView.findProyectoUsuarioByProyectoAndUsuario(proyectoSeleccionado.getProyCodigo(), usuario.getUsuaCodigo());
+			 VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			 
 			 if(proyectoUsuario == null){
 				 proyectoUsuario = new VtProyectoUsuario();
 				 
 				 proyectoUsuario.setVtUsuario(usuario);
 				 proyectoUsuario.setVtProyecto(proyecto);
-				 proyectoUsuario.setUsuCreador(1L);
-				 proyectoUsuario.setUsuModificador(1L);
+				 proyectoUsuario.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+				 proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 				 proyectoUsuario.setFechaCreacion(new Date());
 				 proyectoUsuario.setFechaModificacion(new Date());
 				 proyectoUsuario.setActivo("S");
 				 
 				 businessDelegatorView.saveVtProyectoUsuario(proyectoUsuario);
-				 FacesUtils.addInfoMessage("Se ha asignado exitosamente al usuario");
+				 
 			 }else{
 				 proyectoUsuario.setActivo("S");
 				 proyectoUsuario.setFechaModificacion(new Date());
+				 proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+				 
 				 businessDelegatorView.updateVtProyectoUsuario(proyectoUsuario);
-				 FacesUtils.addInfoMessage("Se ha re-asignado exitosamente al usuario");
 			 }
 			 
 			 
@@ -199,9 +205,11 @@ public class AsignarUsuariosView {
 	 public void removerUsuarioAction(VtUsuario usuario, VtProyecto proyecto) throws Exception{
 		try {
 			VtProyectoUsuario proyectoUsuario = businessDelegatorView.findProyectoUsuarioByProyectoAndUsuario(proyectoSeleccionado.getProyCodigo(), usuario.getUsuaCodigo());
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			
+			proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			
 			businessDelegatorView.deleteVtProyectoUsuario(proyectoUsuario);
-			FacesUtils.addInfoMessage("Se ha desasignado exitosamente al usuario");
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
