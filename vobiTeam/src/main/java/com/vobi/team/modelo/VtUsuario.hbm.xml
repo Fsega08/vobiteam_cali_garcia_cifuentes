@@ -8,7 +8,7 @@
             <column name="usua_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtEmpresa" class="com.vobi.team.modelo.VtEmpresa" fetch="select">
+        <many-to-one name="vtEmpresa" class="com.vobi.team.modelo.VtEmpresa" fetch="select" lazy="false">
             <column name="empr_codigo" />
         </many-to-one>
         <property name="login" type="java.lang.String">

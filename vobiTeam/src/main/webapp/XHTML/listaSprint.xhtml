@@ -63,13 +63,13 @@
 						<h:outputText value="#{sprint.fechaFin}" />
 					</p:column>
 
-					<p:column headerText="Estado del Proyecto" filterBy="#{sprint.activo}"
-						sortBy="#{sprint.activo}">
+					<p:column headerText="Estado del Proyecto"
+						filterBy="#{sprint.activo}" sortBy="#{sprint.activo}">
 						<h:outputText value="#{sprint.activo}" />
 					</p:column>
 
 				</p:dataTable>
-				
+
 				<p:dialog header="Modificar Sprint" widgetVar="dlgModificarSprint"
 					modal="true" width="500">
 					<div align="center">
@@ -117,9 +117,8 @@
 					binding="#{vtSprintView.btnCrearSprint}" icon="fa fa-plus white"
 					onclick="PF('dlgCrearSprint').show();" />
 				<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
-						action="#{vtSprintView.regresarAction}" 
-						value="Regresar a Lista de Backlog"
-						update="formDialog" />
+					action="#{vtSprintView.regresarAction}"
+					value="Regresar a Lista de Backlog" update="formDialog" />
 			</div>
 
 			<p:dialog header="Crear Sprint" widgetVar="dlgCrearSprint"
@@ -152,8 +151,6 @@
 				</div>
 
 			</p:dialog>
-
-
 
 		</h:form>
 
