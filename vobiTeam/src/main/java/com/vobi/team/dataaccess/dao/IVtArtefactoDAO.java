@@ -1,5 +1,7 @@
 package com.vobi.team.dataaccess.dao;
 
+import java.util.List;
+
 import com.vobi.team.dataaccess.api.Dao;
 import com.vobi.team.modelo.VtArtefacto;
 
@@ -9,4 +11,6 @@ import com.vobi.team.modelo.VtArtefacto;
 *
 */
 public interface IVtArtefactoDAO extends Dao<VtArtefacto, Long> {
+
+	List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId);
 }

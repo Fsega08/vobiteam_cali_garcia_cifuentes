@@ -586,9 +586,8 @@ public class VtArtefactoView {
 
 	public List<VtArtefacto> getLosArtefactos() {
 		try {
-			sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
-			if (sprintSeleccionado!=null) {
-				losArtefactos = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
+			if (backlogSeleccionado!=null) {
+				losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			}
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -608,15 +607,15 @@ public class VtArtefactoView {
 		this.sprintSeleccionado = sprintSeleccionado;
 	}
 
-	public void actualizarLista() throws Exception {
-
-		sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
-		btnCArtefacto.setDisabled(false);
-		if (sprintSeleccionado!=null) {
-			losArtefactos = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
-		}
-
-	}
+//	public void actualizarLista() throws Exception {
+//
+//		sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
+//		btnCArtefacto.setDisabled(false);
+//		if (sprintSeleccionado!=null) {
+//			losArtefactos = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
+//		}
+//
+//	}
 
 
 	public void crearAction() {
@@ -684,14 +683,14 @@ public class VtArtefactoView {
 
 			vtArtefacto.setVtPrioridad(vtPrioridad);
 
-			vtArtefacto.setVtSprint(sprintSeleccionado);
-
+			
 			vtArtefacto.setVtPilaProducto(backlogSeleccionado);
 
 			businessDelegatorView.saveVtArtefacto(vtArtefacto);
 
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
-
+			
+			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			limpiarCrearAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -714,9 +713,27 @@ public class VtArtefactoView {
 		somCrearPrioridadesArtefacto.setValue("-1");
 		somCrearTipoArtefacto.setValue("-1");
 
-		//	btnCrear.setDisabled(true);
-	}
 
+	}
+	
+	public void limpiarAction() {
+		txtDescripcion.resetValue();
+		txtNombre.resetValue();
+		txtEsfuerzoEstimado.resetValue();
+		txtEsfuerzoRestante.resetValue();
+		txtEsfuerzoReal.resetValue();
+		txtOrigen.resetValue();
+		txtPuntos.resetValue();
+		txtEsfuerzoReal.setDisabled(true);
+		txtEsfuerzoRestante.setDisabled(true);
+		txtPuntos.setDisabled(true);
+		somEstadoArtefacto.setValue("-1");
+		somPrioridadesArtefacto.setValue("-1");
+		somTipoArtefacto.setValue("-1");
+
+
+	}
+	
 
 	public void tipoArtefactoListener() {
 		int valorTipoArtefacto = Integer.parseInt(somCrearTipoArtefacto.getValue().toString().trim());
@@ -792,6 +809,7 @@ public class VtArtefactoView {
 		txtEsfuerzoReal.setDisabled(false);
 		txtEsfuerzoRestante.setDisabled(false);
 		txtPuntos.setDisabled(false);
+		
 		txtEsfuerzoReal.setValue(valor);
 		txtEsfuerzoRestante.setValue(valor);
 		txtPuntos.setValue(valor);
@@ -812,11 +830,11 @@ public class VtArtefactoView {
 			somEstadoArtefacto.setValue(artefactoSeleccionado.getVtEstado().getEstaCodigo());
 			somPrioridadesArtefacto.setValue(artefactoSeleccionado.getVtPrioridad().getPrioCodigo());
 			somTipoArtefacto.setValue(artefactoSeleccionado.getVtTipoArtefacto().getTparCodigo());
-
+			
+			tipoModArtefactoListener();
 		}else {
 			log.info("No se ha seleccionado ningún artefacto");
 		}
-
 	}
 
 	public void modificarAction() {
@@ -893,7 +911,6 @@ public class VtArtefactoView {
 
 			FacesUtils.addInfoMessage("El artefacto se ha modificado con exito");	
 
-			hidratarArtefactoMod();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}

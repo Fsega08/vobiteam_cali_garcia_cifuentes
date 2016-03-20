@@ -1,0 +1,246 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="men" />
+
+			<p:panel header="Lista de Artefactos Sin Asignar" id="pnlDashboard">
+				<h:panelGrid columns="1" id="panelGridAll">
+
+					<p:contextMenu for="dtArtefactos">
+						<p:menuitem value="Modificar" update="pnlModificarArtefacto"
+							icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
+							action="#{vtArtefactoView.hidratarArtefactoMod}" />
+
+					</p:contextMenu>
+
+
+
+					<p:dataTable id="dtArtefactos"
+						value="#{vtArtefactoView.losArtefactos}" var="artefacto"
+						paginator="true" rows="5"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15" rendered="true"
+						rowKey="#{artefacto.arteCodigo}"
+						selection="#{vtArtefactoView.artefactoSeleccionado}"
+						emptyMessage="No se encontraron pilas de producto en este proyecto, puedes crear uno."
+						selectionMode="single">
+
+						<p:column headerText="Nombre Artefacto"
+							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}">
+							<h:outputText value="#{artefacto.titulo}" />
+						</p:column>
+
+						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}"
+							sortBy="#{artefacto.usuCreador}">
+							<h:outputText value="#{artefacto.usuCreador}" />
+						</p:column>
+
+						<p:column headerText="Puntos" filterBy="#{artefacto.puntos}"
+							sortBy="#{artefacto.puntos}">
+							<h:outputText value="#{artefacto.puntos}" />
+						</p:column>
+
+						<p:column headerText="Activo" filterBy="#{artefacto.activo}"
+							sortBy="#{artefacto.activo}">
+							<h:outputText value="#{artefacto.activo}" />
+						</p:column>
+
+
+					</p:dataTable>
+
+
+					<p:dialog header="Modificar Artefacto" widgetVar="dlg2"
+						modal="true" id="modArt" width="500">
+						<p:panel header="Modificar Artefacto" id="pnlModificarArtefacto">
+
+							<h:panelGrid columns="2" id="panelMGrid">
+
+								<p:selectOneMenu id="somMTiposDeArtefactos"
+									binding="#{vtArtefactoView.somTipoArtefacto}">
+									<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+									<f:selectItems value="#{vtArtefactoView.losTiposArtefactos}" />
+									<p:ajax listener="#{vtArtefactoView.tipoModArtefactoListener}"
+										update="txtMEsfuerzoEstimado, txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu id="somMEstados"
+									binding="#{vtArtefactoView.somEstadoArtefacto}">
+									<f:selectItem itemValue="-1" itemLabel="Estado" />
+									<f:selectItems value="#{vtArtefactoView.losEstadosArtefactos}" />
+								</p:selectOneMenu>
+
+								<p:inputText id="txtMEsfuerzoEstimado"
+									placeholder="Esfuerzo Estimado"
+									binding="#{vtArtefactoView.txtEsfuerzoEstimado}"
+									disabled="true">
+									<p:ajax listener="#{vtArtefactoView.esfuerzoModListener}"
+										event="keyup"
+										update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
+								</p:inputText>
+
+								<p:inputText id="txtMEsfuerzoRestante"
+									placeholder="Esfuerzo Restante"
+									binding="#{vtArtefactoView.txtEsfuerzoRestante}"
+									disabled="true" />
+
+								<p:inputText id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
+									binding="#{vtArtefactoView.txtEsfuerzoReal}" disabled="true" />
+
+								<p:inputText id="txtMPuntos" placeholder="Puntos"
+									binding="#{vtArtefactoView.txtPuntos}" disabled="true" />
+
+
+								<p:inputText id="txtMOrigen" placeholder="Origen"
+									binding="#{vtArtefactoView.txtOrigen}" />
+
+								<p:selectOneMenu id="somArtefactoActivo"
+									binding="#{vtArtefactoView.somArtefactoActivo}">
+									<f:selectItem itemValue="-1" itemLabel="Artefacto activo?" />
+									<f:selectItem itemValue="S" itemLabel="Si" />
+									<f:selectItem itemValue="N" itemLabel="No" />
+								</p:selectOneMenu>
+
+								<p:inputText id="txtMNombre" placeholder="Título"
+									binding="#{vtArtefactoView.txtNombre}" />
+
+
+								<p:selectOneMenu id="somMPrioridades"
+									binding="#{vtArtefactoView.somPrioridadesArtefacto}">
+									<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+									<f:selectItems
+										value="#{vtArtefactoView.lasPrioridadesArtefactos}" />
+								</p:selectOneMenu>
+
+								<p:inputTextarea id="txtAreaMDescripcion" rows="10" cols="33"
+									placeholder="Descripción"
+									binding="#{vtArtefactoView.txtDescripcion}" />
+							</h:panelGrid>
+							<p:commandButton id="btnModificarArtefacto"
+								binding="#{vtArtefactoView.btnModificar}"
+								icon="fa fa-pencil white" value="Modificar"
+								action="#{vtArtefactoView.modificarAction}" update="formDialog" />
+
+							<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
+								value="Limpiar" action="#{vtArtefactoView.limpiarAction}"
+								binding="#{vtArtefactoView.btnLimpiar}"
+								update="pnlModificarArtefacto" />
+
+						</p:panel>
+					</p:dialog>
+
+				</h:panelGrid>
+			</p:panel>
+
+			<p:panel id="panelBotones">
+				<div align="center">
+					<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
+						value="Crear Artefacto" binding="#{vtArtefactoView.btnCArtefacto}"
+						onclick="PF('dlgCrearArtefacto').show();" />
+				</div>
+			</p:panel>
+
+			<p:dialog header="Crear Artefacto" widgetVar="dlgCrearArtefacto"
+				modal="true" id="dlCrear">
+				<p:panel header="Crear Artefacto" id="pnlCrearArtefacto">
+
+					<h:panelGrid columns="2" id="panelGrid">
+
+						<p:selectOneMenu id="somCrearTiposDeArtefactos"
+							binding="#{vtArtefactoView.somCrearTipoArtefacto}">
+							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+							<f:selectItems value="#{vtArtefactoView.losCrearTiposArtefactos}" />
+							<p:ajax listener="#{vtArtefactoView.tipoArtefactoListener}"
+								update="panelGrid" />
+						</p:selectOneMenu>
+
+						<p:selectOneMenu id="somCrearEstados"
+							binding="#{vtArtefactoView.somCrearEstadoArtefacto}">
+							<f:selectItem itemValue="-1" itemLabel="Estado" />
+							<f:selectItems
+								value="#{vtArtefactoView.losCrearEstadosArtefactos}" />
+						</p:selectOneMenu>
+
+						<p:inputText id="txtCrearEsfuerzoEstimado"
+							placeholder="Esfuerzo Estimado"
+							binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}"
+							disabled="true">
+							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
+								event="keyup"
+								update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />
+						</p:inputText>
+
+						<p:inputText id="txtCrearEsfuerzoRestante"
+							placeholder="Esfuerzo Restante"
+							binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}"
+							disabled="true" />
+
+						<p:inputText id="txtCrearEsfuerzoReal" placeholder="Esfuerzo Real"
+							binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" disabled="true" />
+
+						<p:inputText id="txtCrearPuntos" placeholder="Puntos"
+							binding="#{vtArtefactoView.txtCrearPuntos}" disabled="true" />
+
+						<p:inputText id="txtCrearOrigen" placeholder="Origen"
+							binding="#{vtArtefactoView.txtCrearOrigen}" />
+
+						<p:selectOneMenu id="somCrearPrioridades"
+							binding="#{vtArtefactoView.somCrearPrioridadesArtefacto}">
+							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+							<f:selectItems
+								value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
+						</p:selectOneMenu>
+
+						<p:inputText id="txtCrearNombre" placeholder="Título"
+							binding="#{vtArtefactoView.txtCrearNombre}" />
+
+
+						<br />
+
+						<p:inputTextarea id="txtAreaCrearDescripcion" rows="10" cols="33"
+							placeholder="Descripcion"
+							binding="#{vtArtefactoView.txtCrearDescripcion}" />
+					</h:panelGrid>
+
+					<p:commandButton id="btnCrearArtefacto"
+						binding="#{vtArtefactoView.btnCrear}" icon="fa fa-plus white"
+						value="Crear" action="#{vtArtefactoView.crearAction}"
+						update="formDialog" />
+
+					<p:commandButton id="btnClear" icon="fa fa-eraser white"
+						value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"
+						action="#{vtArtefactoView.limpiarCrearAction}"
+						update="pnlCrearArtefacto" />
+
+				</p:panel>
+			</p:dialog>
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

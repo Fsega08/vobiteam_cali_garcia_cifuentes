@@ -129,7 +129,9 @@ public interface IBusinessDelegatorView {
     public List<VtArtefacto> findPageVtArtefacto(String sortColumnName,
         boolean sortAscending, int startRow, int maxResults)
         throws Exception;
-
+    
+    public List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId);
+    
     public Long findTotalNumberVtArtefacto() throws Exception;
 
     public List<VtArtefactoDTO> getDataVtArtefacto() throws Exception;

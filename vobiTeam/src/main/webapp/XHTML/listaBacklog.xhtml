@@ -31,11 +31,11 @@
 				
 				<p:contextMenu for="dtBacklog">
 					<p:menuitem value="Modificar" update="pnlModificarBacklog"
-						icon="fa fa-pencil white" oncomplete="PF('dlg2').show()"
+						icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 						action="#{vtBacklogView.modificarListener}" />
 
 					<p:menuitem value="Ir a artefactos" update="formDialog"
-						icon="fa fa-list white"
+						icon="fa fa-list "
 						action="#{vtBacklogView.sprintListener}" />
 
 				</p:contextMenu>
@@ -87,10 +87,10 @@
 					<div align="center">
 						<p:commandButton id="btnModificar" icon="fa fa-pencil white"
 							binding="#{vtBacklogView.btnModificarProyecto}"
-							action="#{vtBacklogView.modificarAction}" title="Modificar"
+							action="#{vtBacklogView.modificarAction}" value="Modificar"
 							update="formDialog" />
 						<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
-							binding="#{vtBacklogView.btnMLimpiar}" title="Limpiar"
+							binding="#{vtBacklogView.btnMLimpiar}" value="Limpiar"
 							action="#{vtBacklogView.limpiarMAction}"
 							update="pnlModificarBacklog" />
 					</div>

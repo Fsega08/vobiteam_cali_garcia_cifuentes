@@ -137,9 +137,9 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				throw new ZMessManager().new ForeignException("vtPrioridad");
 			}
 
-			if (entity.getVtSprint() == null) {
-				throw new ZMessManager().new ForeignException("vtSprint");
-			}
+//			if (entity.getVtSprint() == null) {
+//				throw new ZMessManager().new ForeignException("vtSprint");
+//			}
 
 			if (entity.getVtTipoArtefacto() == null) {
 				throw new ZMessManager().new ForeignException("vtTipoArtefacto");
@@ -205,10 +205,10 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 						"prioCodigo_VtPrioridad");
 			}
 
-			if (entity.getVtSprint().getSpriCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException(
-						"spriCodigo_VtSprint");
-			}
+//			if (entity.getVtSprint().getSpriCodigo() == null) {
+//				throw new ZMessManager().new EmptyFieldException(
+//						"spriCodigo_VtSprint");
+//			}
 
 			if (entity.getVtTipoArtefacto().getTparCodigo() == null) {
 				throw new ZMessManager().new EmptyFieldException(
@@ -319,9 +319,9 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				throw new ZMessManager().new ForeignException("vtPrioridad");
 			}
 
-			if (entity.getVtSprint() == null) {
-				throw new ZMessManager().new ForeignException("vtSprint");
-			}
+//			if (entity.getVtSprint() == null) {
+//				throw new ZMessManager().new ForeignException("vtSprint");
+//			}
 
 			if (entity.getVtTipoArtefacto() == null) {
 				throw new ZMessManager().new ForeignException("vtTipoArtefacto");
@@ -387,10 +387,10 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 						"prioCodigo_VtPrioridad");
 			}
 
-			if (entity.getVtSprint().getSpriCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException(
-						"spriCodigo_VtSprint");
-			}
+//			if (entity.getVtSprint().getSpriCodigo() == null) {
+//				throw new ZMessManager().new EmptyFieldException(
+//						"spriCodigo_VtSprint");
+//			}
 
 			if (entity.getVtTipoArtefacto().getTparCodigo() == null) {
 				throw new ZMessManager().new EmptyFieldException(
@@ -713,5 +713,10 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 
 		return (losArtefactos != null && !losArtefactos.isEmpty()
 				? losArtefactos : null);
+	}
+
+	@Transactional(readOnly=true)
+	public List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId) {
+		return vtArtefactoDAO.findArtefactosVaciosPorBacklog(backlogId);
 	}
 }

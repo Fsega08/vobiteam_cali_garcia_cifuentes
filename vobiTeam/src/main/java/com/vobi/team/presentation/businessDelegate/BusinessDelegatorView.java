@@ -1050,4 +1050,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public VtProyectoUsuario findProyectoUsuarioByProyectoAndUsuario(Long proyectoId, Long usuarioId) {
 		return vtProyectoUsuarioLogic.findProyectoUsuarioByProyectoAndUsuario(proyectoId, usuarioId);
 	}
+
+	@Override
+	public List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId) {
+		return vtArtefactoLogic.findArtefactosVaciosPorBacklog(backlogId);
+	}
 }

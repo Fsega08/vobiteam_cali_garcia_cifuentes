@@ -328,7 +328,7 @@ public class VtBacklogView {
 		//Guardo objeto en la sesion
 		if (backogSeleccionado.getActivo().equals("S")) {
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("backlogSeleccionado", backogSeleccionado);
-			return "/XHTML/dashboardBacklog.xhtml";
+			return "/XHTML/listarArtefactos.xhtml";
 		}
 		else{
 			FacesUtils.addErrorMessage("La pila producto esta inactiva");
