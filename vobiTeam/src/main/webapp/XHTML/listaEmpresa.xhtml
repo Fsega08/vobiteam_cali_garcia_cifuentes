@@ -36,18 +36,19 @@
 						rowsPerPageTemplate="5, 10, 15" rowKey="empresa.emprCodigo"
 						emptyMessage="No hay empresas seleccionadas para este usuario">
 
-						<p:column headerText="Nombre de Empresa" filterBy="#{empresa.nombre}"
-						sortBy="#{empresa.nombre}">
+						<p:column headerText="Nombre de Empresa"
+							filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}">
 							<h:outputText value="#{empresa.nombre}" />
 						</p:column>
 
-						<p:column headerText="Identificación" filterBy="#{empresa.identificacion}"
-						sortBy="#{empresa.identificacion}">
+						<p:column headerText="Identificación"
+							filterBy="#{empresa.identificacion}"
+							sortBy="#{empresa.identificacion}">
 							<h:outputText value="#{empresa.identificacion}" />
 						</p:column>
 
 						<p:column headerText="Activa" filterBy="#{empresa.activo}"
-						sortBy="#{empresa.activo}">
+							sortBy="#{empresa.activo}">
 							<h:outputText value="#{empresa.activo}" />
 						</p:column>
 
@@ -55,9 +56,9 @@
 
 							<p:commandButton id="btnProyectoSeleccionado"
 								binding="#{vtEmpresaView.btnListaEmpresa}"
-								action="#{vtEmpresaView.listaEmpresaListener}" icon="ui-icon-search"
-								update="formDialog" >
-									
+								action="#{vtEmpresaView.listaEmpresaListener}"
+								icon="ui-icon-search" update="formDialog">
+
 								<f:setPropertyActionListener id="laEmpresa" value="#{empresa}"
 									target="#{vtEmpresaView.laEmpresaSeleccionada}" />
 							</p:commandButton>
@@ -67,7 +68,6 @@
 					</p:dataTable>
 				</h:panelGrid>
 			</p:panel>
-
 		</h:form>
 
 	</ui:define>
