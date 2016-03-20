@@ -1,0 +1,179 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<p:panel header="Lista de Usuarios" id="pnlUsuarios">
+				<p:contextMenu for="dtUsuarios">
+					<p:menuitem value="Modificar" update="pnlModificarUsuario"
+						icon="fa fa-pencil " oncomplete="PF('dlgModificarUsuario').show()"
+						action="#{vtUsuarioView.modificarListener}" />
+				</p:contextMenu>
+
+				<p:dataTable id="dtUsuarios" value="#{vtUsuarioView.losUsuarios}"
+					var="usuarios" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15" rowKey="#{usuarios.usuaCodigo}"
+					selectionMode="single"
+					selection="#{vtUsuarioView.usuarioSeleccionado}"
+					emptyMessage="Parece que no hay Usuarios, por que no creas uno?"
+					rendered="true">
+
+					<p:column headerText="Nombre del Usuario"
+						filterBy="#{usuarios.nombre}" sortBy="#{usuarios.nombre}">
+						<h:outputText value="#{usuarios.nombre}" />
+					</p:column>
+
+					<p:column headerText="Correo del Usuario"
+						filterBy="#{usuarios.login}" sortBy="#{usuarios.login}">
+						<h:outputText value="#{usuarios.login}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dialog header="Modificar Usuario" widgetVar="dlgModificarUsuario"
+					modal="true" width="500" resizable="false">
+					<div align="center">
+						<p:panel header="Modificar Usuario" id="pnlModificarUsuario">
+							<h:panelGrid columns="2">
+								<h:outputText value="Nombre" />
+								<p:inputText id="txtNombreM" maxlength="30"
+									binding="#{vtUsuarioView.txtNombreM}" size="30"
+									placeholder="Nombre" styleClass="form-control" />
+								<h:outputText value="Email" />
+								<p:inputText id="txtLoginM" maxlength="30"
+									binding="#{vtUsuarioView.txtLoginM}" size="30"
+									placeholder="Email" />
+
+
+								<p:commandButton id="btnGenerarPasswordM"
+									icon="fa fa-code white" binding="#{vtUsuarioView.btnGenerarM}"
+									action="#{vtUsuarioView.generarAction}"
+									value="Generar Contraseña" update="pnlModificarUsuario, men" />
+								<p:commandButton id="btnPasswordManualM"
+									icon="fa fa-pencil-square-o white"
+									binding="#{vtUsuarioView.btnManualM}"
+									action="#{vtUsuarioView.escogerPass}"
+									value="Escribir Contraseña" update="pnlModificarUsuario, men" />
+
+
+								<h:outputText value="Contraseña" />
+								<p:password id="txtPasswordM" maxlength="30"
+									binding="#{vtUsuarioView.txtPasswordM}" size="30"
+									redisplay="true" placeholder="Clave" disabled="true" />
+								<h:outputText value="Confirma la Contraseña" />
+								<p:password id="txtPasswordM2" maxlength="30"
+									binding="#{vtUsuarioView.txtPasswordM2}" size="30"
+									redisplay="true" placeholder="Confirmar Clave" disabled="true" />
+								<h:outputText value="Empresa del Usuario" />
+								<p:selectOneMenu id="somEmpresasM" title="Empresa del Usuario"
+									binding="#{vtUsuarioView.somEmpresasM}">
+									<f:selectItem itemValue="-1" itemLabel="Empresa del Usuario" />
+									<f:selectItems value="#{vtUsuarioView.lasEmpresasM}" />
+								</p:selectOneMenu>
+								<h:outputText value="Estado del Usuario" />
+								<p:selectOneMenu id="somEstado" title="Estado del Usuario"
+									binding="#{vtUsuarioView.somEstado}">
+									<f:selectItem itemValue="-1" itemLabel="Estado del Usuario" />
+									<f:selectItem itemValue="S" itemLabel="Activo" />
+									<f:selectItem itemValue="N" itemLabel="Inactivo" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:panel>
+						<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+							update="formDialog" binding="#{vtUsuarioView.btnModificar}"
+							action="#{vtUsuarioView.modificarAction}" value="Modificar" />
+
+						<p:commandButton id="btnLimpiarM" icon="fa fa-eraser white"
+							update="pnlModificarUsuario" binding="#{vtUsuarioView.btnLimpiarM}"
+							action="#{vtUsuarioView.limpiarActionM}" value="Limpiar" />
+					</div>
+
+				</p:dialog>
+
+			</p:panel>
+			<div align="center">
+				<p:commandButton id="btnCrearUsuario" value="Crear Usuario"
+					binding="#{vtUsuarioView.btnCrearUsuario}" icon="fa fa-plus white"
+					onclick="PF('dlgCrearUsuario').show();" />
+			</div>
+
+			<p:dialog header="Crear Usuario" widgetVar="dlgCrearUsuario"
+				modal="true" width="500" resizable="false">
+				<div align="center">
+					<p:panel header="Crear Usuario" id="pnlCrearUsuario">
+						<h:panelGrid columns="1">
+							<p:inputText id="txtNombre" maxlength="30"
+								binding="#{vtUsuarioView.txtNombreC}" size="30"
+								placeholder="Nombre" styleClass="form-control" />
+							<p:inputText id="txtLogin" maxlength="30"
+								binding="#{vtUsuarioView.txtLoginC}" size="30"
+								placeholder="Email" />
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+
+							<p:commandButton id="btnGenerarPassword" icon="fa fa-code white"
+								binding="#{vtUsuarioView.btnGenerar}"
+								action="#{vtUsuarioView.generarAction}"
+								value="Generar Contraseña" update="pnlCrearUsuario, men" />
+							<p:commandButton id="btnPasswordManual"
+								icon="fa fa-pencil-square-o white"
+								binding="#{vtUsuarioView.btnManual}"
+								action="#{vtUsuarioView.escogerPass}"
+								value="Escribir Contraseña" update="pnlCrearUsuario, men" />
+
+						</h:panelGrid>
+						<h:panelGrid columns="1">
+							<p:password id="txtPassword" maxlength="30"
+								binding="#{vtUsuarioView.txtPasswordC}" size="30"
+								redisplay="true" placeholder="Clave" disabled="true" />
+							<p:password id="txtPassword2" maxlength="30"
+								binding="#{vtUsuarioView.txtPasswordC2}" size="30"
+								redisplay="true" placeholder="Confirmar Clave" disabled="true" />
+							<p:selectOneMenu id="somEmpresas" title="Empresa del Usuario"
+								binding="#{vtUsuarioView.somEmpresasC}">
+								<f:selectItem itemValue="-1" itemLabel="Empresa del Usuario" />
+								<f:selectItems value="#{vtUsuarioView.lasEmpresas}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:panel>
+					<p:commandButton id="btnCrear" icon="fa fa-plus white"
+						update="formDialog" binding="#{vtUsuarioView.btnCrear}"
+						action="#{vtUsuarioView.crearAction}" value="Crear" />
+
+					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
+						update="pnlCrearUsuario" binding="#{vtUsuarioView.btnLimpiarC}"
+						action="#{vtUsuarioView.limpiarAction}" value="Limpiar" />
+				</div>
+
+			</p:dialog>
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
