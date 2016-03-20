@@ -16,8 +16,10 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtEmpresa;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -48,6 +50,8 @@ public class VtEmpresaView {
 	private VtEmpresa laEmpresaSeleccionada;
 	
 	private List<VtEmpresa> lasEmpresas;
+	
+	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
@@ -168,7 +172,9 @@ public class VtEmpresaView {
 	public void crearAction(){
 		try {
 			VtEmpresa vtEmpresa = new VtEmpresa();
-
+			
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			
 			if (txtIdentificacion.getValue().toString().trim().equals("") == true || txtIdentificacion.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
@@ -186,8 +192,8 @@ public class VtEmpresaView {
 			vtEmpresa.setNombre(nombre);
 			vtEmpresa.setActivo(somEmpresaActiva.getValue().toString().trim());
 
-			vtEmpresa.setUsuCreador(1L);
-			vtEmpresa.setUsuModificador(1L);
+			vtEmpresa.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			vtEmpresa.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			Date date = new Date();
 
@@ -196,16 +202,17 @@ public class VtEmpresaView {
 			
 			businessDelegatorView.saveVtEmpresa(vtEmpresa);
 			limpiarAction();
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se creó con éxito la empresa"));
+			FacesUtils.addInfoMessage("Se creó con éxito la empresa");
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 
 	public void modificarAction() {
 		try {
 			VtEmpresa vtEmpresa = businessDelegatorView.findByEnterpriseIdentificacion(txtIdentificacion.getValue().toString().trim());
-
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			
 			if (txtIdentificacion.getValue().toString().trim().equals("") == true || txtIdentificacion.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
@@ -224,7 +231,7 @@ public class VtEmpresaView {
 			vtEmpresa.setNombre(nombre);
 			vtEmpresa.setActivo(somEmpresaActiva.getValue().toString().trim());
 
-			vtEmpresa.setUsuModificador(1L);
+			vtEmpresa.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			Date date = new Date();
 
@@ -232,9 +239,9 @@ public class VtEmpresaView {
 
 			businessDelegatorView.updateVtEmpresa(vtEmpresa);
 			limpiarAction();
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se modificó con éxito la empresa"));
+			FacesUtils.addInfoMessage("Se modificó con éxito la empresa");
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 

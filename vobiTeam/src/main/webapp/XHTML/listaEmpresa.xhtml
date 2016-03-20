@@ -25,7 +25,6 @@
 
 
 		<h:form id="formDialog">
-			<p:messages id="msg" />
 			<p:growl id="men" />
 			<p:panel header="Dashboard de la Empresa" id="pnlDashboard">
 				<h:panelGrid columns="1" layout="grid">
@@ -55,10 +54,10 @@
 						<p:column headerText="Proyectos">
 
 							<p:commandButton id="btnProyectoSeleccionado"
-								binding="#{vtEmpresaView.btnListaEmpresa}"
-								action="#{vtEmpresaView.listaEmpresaListener}"
-								icon="ui-icon-search" update="formDialog">
-
+								binding="#{vtEmpresaView.btnListaEmpresa}" value="Ver Proyectos"
+								action="#{vtEmpresaView.listaEmpresaListener}" icon="fa fa-list white" iconPos="Rigth"
+								update="formDialog" >
+									
 								<f:setPropertyActionListener id="laEmpresa" value="#{empresa}"
 									target="#{vtEmpresaView.laEmpresaSeleccionada}" />
 							</p:commandButton>
@@ -68,6 +67,9 @@
 					</p:dataTable>
 				</h:panelGrid>
 			</p:panel>
+			
+			
+			
 		</h:form>
 
 	</ui:define>

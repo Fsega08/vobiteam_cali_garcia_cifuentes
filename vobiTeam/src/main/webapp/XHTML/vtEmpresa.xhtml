@@ -24,7 +24,8 @@
 		</p:dialog>
 
 
-
+		<h:form id="formDialog">
+			<p:growl id="men" />
 			<p:panel id="panelVtEmpresa" header="Crear Empresa">
 				<h:panelGrid columns="1">
 
@@ -48,20 +49,21 @@
 
 				</h:panelGrid>
 			</p:panel>
-			
 			<p:panel id="panelBotones">
 				<div align="center">
 					<p:commandButton id="btnCrear" binding="#{vtEmpresaView.btnCrear}"
-						disabled="true" icon="ui-icon-disk" action="#{vtEmpresaView.crearAction}"
-						update="panelVtEmpresa,men,panelBotones" />
+						disabled="true" icon="fa fa-plus white"  action="#{vtEmpresaView.crearAction}"
+						title="Crear"
+						update="formDialog" />
 					
 					<p:commandButton id="btnModificar" binding="#{vtEmpresaView.btnModificar}"
-						disabled="true" icon="ui-icon-refresh" action="#{vtEmpresaView.modificarAction}"
-						update="panelVtEmpresa,men,panelBotones" />
+						disabled="true" icon="fa fa-pencil white" action="#{vtEmpresaView.modificarAction}"
+						title="Modificar"
+						update="formDialog" />
 					
-					<p:commandButton id="btnClear" icon="icon-left-circled"
-						action="#{vtEmpresaView.limpiarAction}"
-						update="panelVtEmpresa,men,panelBotones" />
+					<p:commandButton id="btnClear" icon="fa fa-eraser white"
+						action="#{vtEmpresaView.limpiarAction}" title="Limpiar"
+						update="formDialog" />
 				</div>
 			</p:panel>
 		</h:form>

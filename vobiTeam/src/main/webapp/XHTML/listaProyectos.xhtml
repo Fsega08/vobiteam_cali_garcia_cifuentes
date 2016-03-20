@@ -121,6 +121,7 @@
 				<div align="center">
 					<p:commandButton id="btnCrearProyectos" value="Crear Proyecto"
 						binding="#{vtProyectosView.btnCrearProyecto}"
+						icon="fa fa-plus white"
 						onclick="PF('dlgCrearProyecto').show();" />
 				</div>
 			</p:panel>
@@ -131,7 +132,7 @@
 				 pero es efectivo como el solo TENER en cuenta que widgetVar
 				 es el nombre del dialog que quiero abrir -->
 			<p:dialog header="Crear Proyecto" widgetVar="dlgCrearProyecto"
-				modal="true">
+				modal="true" width="500">
 				<div align="center">
 					<p:panel header="Crear Proyecto" id="pnlCrearProyecto">
 						<h:panelGrid columns="1">
@@ -145,13 +146,17 @@
 
 						</h:panelGrid>
 					</p:panel>
-					<p:commandButton id="btnCrear" icon="ui-icon-disk"
+					<p:commandButton id="btnCrear" icon="fa fa-plus white"
 						binding="#{vtProyectosView.btnCrear}"
 						action="#{vtProyectosView.crearAction}" update="formDialog" />
+						action="#{vtProyectosView.crearAction}" 
+						title="Crear"
+						update="formDialog" />
 
-					<p:commandButton id="btnCLimpiar" icon="ui-icon-circle-arrow-w"
+					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
 						binding="#{vtProyectosView.btnCLimpiar}"
 						action="#{vtProyectosView.limpiarCAction}"
+						title="Limpiar"
 						update="pnlCrearProyecto" />
 				</div>
 			</p:dialog>
