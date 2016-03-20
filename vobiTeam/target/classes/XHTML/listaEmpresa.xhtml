@@ -28,12 +28,25 @@
 			<p:growl id="men" />
 			<p:panel header="Dashboard de la Empresa" id="pnlDashboard">
 				<h:panelGrid columns="1" layout="grid">
-
-					<p:dataTable value="#{vtEmpresaView.lasEmpresas}" var="empresa"
+					
+					
+				<p:contextMenu for="dtListaEmpresa">
+					<p:menuitem value="Modificar" update="panelVtEmpresa"
+						icon="fa fa-pencil white" oncomplete="PF('dlgModProyecto').show()"
+						action="#{vtEmpresaView.modificarListener}" />
+				
+					<p:menuitem value="Ir a proyectos" update="formDialog"
+						icon="fa fa-list white" action="#{vtEmpresaView.listaEmpresaListener}"  />
+					
+				</p:contextMenu>
+					
+					
+					<p:dataTable id="dtListaEmpresa" value="#{vtEmpresaView.lasEmpresas}" var="empresa"
 						paginator="true" rows="5"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5, 10, 15" rowKey="empresa.emprCodigo"
-						emptyMessage="No hay empresas seleccionadas para este usuario">
+						rowsPerPageTemplate="5, 10, 15" rowKey="#{empresa.emprCodigo}"
+						emptyMessage="No hay empresas seleccionadas para este usuario" selection="#{vtEmpresaView.laEmpresaSeleccionada}"
+						selectionMode="single">
 
 						<p:column headerText="Nombre de Empresa"
 							filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}">
@@ -51,25 +64,89 @@
 							<h:outputText value="#{empresa.activo}" />
 						</p:column>
 
-						<p:column headerText="Proyectos">
-
-							<p:commandButton id="btnProyectoSeleccionado"
-								binding="#{vtEmpresaView.btnListaEmpresa}" value="Ver Proyectos"
-								action="#{vtEmpresaView.listaEmpresaListener}" icon="fa fa-list white" iconPos="Rigth"
-								update="formDialog" >
-									
-								<f:setPropertyActionListener id="laEmpresa" value="#{empresa}"
-									target="#{vtEmpresaView.laEmpresaSeleccionada}" />
-							</p:commandButton>
-
-						</p:column>
-
 					</p:dataTable>
 				</h:panelGrid>
+
+				<p:dialog header="Modificar Empresa" widgetVar="dlgModProyecto"
+					modal="true" width="500">
+					<div align="center">
+						<p:panel id="panelVtEmpresa" header="Modificar Empresa">
+							<h:panelGrid columns="1">
+
+								<p:inputText id="txtMIdentificacion"
+									placeholder="Identificación (NIT)"
+									binding="#{vtEmpresaView.txtMIdentificacion}" maxlength="50" />
+
+								<p:inputText id="txtMNombre" placeholder="Nombre"
+									binding="#{vtEmpresaView.txtMNombre}" maxlength="60" />
+
+								<p:selectOneMenu id="somEmpresaActiva"
+									binding="#{vtEmpresaView.somEmpresaActiva}">
+									<f:selectItem itemValue="-1" itemLabel="Empresa Activa" />
+									<f:selectItem itemValue="S" itemLabel="Si" />
+									<f:selectItem itemValue="N" itemLabel="No" />
+								</p:selectOneMenu>
+
+								
+							</h:panelGrid>
+							
+							<p:commandButton id="btnModificar"
+									binding="#{vtEmpresaView.btnModificar}"
+									icon="fa fa-pencil white"
+									action="#{vtEmpresaView.modificarAction}" title="Modificar"
+									update="formDialog" />
+
+								<p:commandButton id="btnMClear" icon="fa fa-eraser white"
+									action="#{vtEmpresaView.limpiarMAction}" title="Limpiar"
+									update="panelVtEmpresa" />
+						</p:panel>
+					</div>
+				</p:dialog>
+
 			</p:panel>
-			
-			
-			
+
+
+			<p:panel id="panelBotones">
+				<div align="center">
+					<p:commandButton id="btnCrearEmpresa" value="Crear Empresa"
+						icon="fa fa-plus white"
+						onclick="PF('dlgCrearEmpresa').show();" />
+				</div>
+			</p:panel>
+
+
+
+			<p:dialog header="Crear Empresa" widgetVar="dlgCrearEmpresa"
+				modal="true" width="500">
+				<div align="center">
+					<p:panel id="panelCrearEmpresa" header="Crear Empresa">
+						<h:panelGrid columns="1">
+
+							<p:inputText id="txtIdentificacion"
+								placeholder="Identificación (NIT)"
+								binding="#{vtEmpresaView.txtIdentificacion}" maxlength="50" />
+							
+
+							<p:inputText id="txtNombre" placeholder="Nombre"
+								binding="#{vtEmpresaView.txtNombre}" maxlength="60" />
+
+							
+						</h:panelGrid>
+						
+						<p:commandButton id="btnCrear"
+								binding="#{vtEmpresaView.btnCrear}"
+								icon="fa fa-plus white" action="#{vtEmpresaView.crearAction}"
+								title="Crear" update="formDialog" />
+
+							<p:commandButton id="btnClear" icon="fa fa-eraser white"
+								action="#{vtEmpresaView.limpiarAction}" title="Limpiar"
+								update="panelCrearEmpresa" />
+					</p:panel>
+				</div>
+			</p:dialog>
+
+
+
 		</h:form>
 
 	</ui:define>

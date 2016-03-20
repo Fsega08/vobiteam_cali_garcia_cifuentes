@@ -98,6 +98,13 @@ public class VtEmpresaLogic implements IVtEmpresaLogic {
                 throw new ZMessManager().new EmptyFieldException(
                     "fechaCreacion");
             }
+            
+            VtEmpresa vtEmpresa = findByEnterpriseIdentificacion(entity.getIdentificacion());
+            
+            if (vtEmpresa != null) {
+				throw new ZMessManager().new FindingException(
+						"Ya hay una empresa registrada con ese nit");
+			}
 
             if (entity.getIdentificacion() == null) {
                 throw new ZMessManager().new EmptyFieldException(

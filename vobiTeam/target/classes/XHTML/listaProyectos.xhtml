@@ -29,12 +29,15 @@
 			<p:growl id="men" />
 
 			<p:panel header="Dashboard del Proyecto" id="pnlDashboard">
+				
 				<p:contextMenu for="dtProyectos">
 					<p:menuitem value="Modificar" update="pnlModificarProyecto"
-						icon="ui-icon-refresh" oncomplete="PF('dlg2').show()"
+						icon="fa fa-pencil white" oncomplete="PF('dlg2').show()"
 						action="#{vtProyectosView.modificarListener}" />
-
-
+				
+					<p:menuitem value="Ir a backlog" update="formDialog"
+						icon="fa fa-list white" action="#{vtProyectosView.backlogListener}"  />
+					
 				</p:contextMenu>
 
 				<p:dataTable id="dtProyectos"
@@ -43,7 +46,7 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="5,10,15" rowKey="#{proyecto.proyCodigo}"
 					rendered="true" selection="#{vtProyectosView.proyectoSeleccionado}"
-					selectionMode="single">
+					selectionMode="single" >
 
 					<p:column headerText="Nombre Proyecto"
 						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}">
@@ -53,17 +56,6 @@
 						sortBy="#{proyecto.activo}">
 						<h:outputText value="#{proyecto.activo}" />
 					</p:column>
-
-					<p:column headerText="Entrar a Backlog">
-						<p:commandButton icon="ui-icon-search" id="btnSeleccionarBacklog"
-							binding="#{vtProyectosView.btnSeleccionarBacklog}"
-							action="#{vtProyectosView.backlogListener}" update="formDialog">
-
-							<f:setPropertyActionListener id="elProyecto" value="#{proyecto}"
-								target="#{vtProyectosView.proyectoSeleccionado}" />
-						</p:commandButton>
-					</p:column>
-
 
 				</p:dataTable>
 
@@ -147,11 +139,10 @@
 						</h:panelGrid>
 					</p:panel>
 					<p:commandButton id="btnCrear" icon="fa fa-plus white"
-						binding="#{vtProyectosView.btnCrear}"
-						action="#{vtProyectosView.crearAction}" update="formDialog" />
 						action="#{vtProyectosView.crearAction}" 
 						title="Crear"
 						update="formDialog" />
+						
 
 					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
 						binding="#{vtProyectosView.btnCLimpiar}"
