@@ -126,6 +126,11 @@ public class VtSprintLogic implements IVtSprintLogic {
 				throw new ZMessManager().new EmptyFieldException(
 						"pilaCodigo_VtPilaProducto");
 			}
+			
+			if(entity.getFechaFin().before(entity.getFechaInicio())){
+				throw new Exception("La fecha de fin no puede ser menor a la fecha de inicio");
+			}
+			
 
 			//            if (getVtSprint(entity.getSpriCodigo()) != null) {
 			//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
@@ -228,7 +233,11 @@ public class VtSprintLogic implements IVtSprintLogic {
 				throw new ZMessManager().new EmptyFieldException(
 						"pilaCodigo_VtPilaProducto");
 			}
-
+			
+			if(entity.getFechaFin().before(entity.getFechaInicio())){
+				throw new Exception("La fecha de fin no puede ser menor a la fecha de inicio");
+			}
+			
 			vtSprintDAO.update(entity);
 
 			log.debug("update VtSprint successful");

@@ -26,9 +26,24 @@
 		<h:form id="frmAsignarUsuarios">
 			<p:growl id="mensaje" />
 			<p:panel header="Proyecto" id="pnlUsuProy">
+								
+							
+							
+						
+				<p:contextMenu for="checkboxDT">
+					<p:menuitem value="Seleccionar" icon="ui-icon-plus " oncomplete="PF('dlg').show()"
+							action="#{asignarUsuariosView.asignarProyectoAction}"
+							update="pickList"/>
+				
+				</p:contextMenu>
+			
+			
+							
+			
 				<p:dataTable id="checkboxDT"
 					value="#{asignarUsuariosView.losProyectos}" var="proyecto"
-					rowKey="#{proyecto.proyCodigo}" style="margin-bottom:0">
+					rowKey="#{proyecto.proyCodigo}" style="margin-bottom:0"
+					selection="#{asignarUsuariosView.proyectoSeleccionado}" selectionMode="single">
 
 					<p:column headerText="Nombre" filterBy="#{proyecto.nombre}"
 						sortBy="#{proyecto.nombre}">
@@ -43,40 +58,33 @@
 						sortBy="#{proyecto.activo}">
 						<h:outputText value="#{proyecto.activo}" />
 					</p:column>
-					<p:column headerText="Asignar">
-						<p:commandButton id="btnAsignar" value="Seleccionar"
-							icon="ui-icon-plus " oncomplete="PF('dlg').show()"
-							action="#{asignarUsuariosView.asignarProyectoAction}" update="dlAsigar">
-							<f:setPropertyActionListener value="#{proyecto}"
-								target="#{asignarUsuariosView.proyectoSeleccionado}" />
-						</p:commandButton>
 
-						<p:dialog header="Asignar" widgetVar="dlg" resizable="false"
-							id="dlAsigar" draggable="true" responsive="true" modal="true">
+				</p:dataTable>
+
+					<p:dialog header="Asignar" widgetVar="dlg" resizable="true"
+							id="dlAsignar" draggable="true" responsive="true" modal="true" width="500">
 							<p:growl id="msj" />
-							<p:pickList id="pickList" 
+							<p:pickList id="pickList"
 								value="#{asignarUsuariosView.losUsuariosSeleccionados}"
-								var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}" converter="usuarioPickListConverter">
+								var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}"
+								converter="usuarioPickListConverter">
 								
-								<p:ajax event="transfer" listener="#{asignarUsuariosView.onTransfer}" update="msj" />
+								<f:facet name="sourceCaption">Usuarios Disponibles</f:facet>
+								<f:facet name="targetCaption">Usuarios Asignados</f:facet>
+
+								<p:ajax event="transfer"
+									listener="#{asignarUsuariosView.onTransfer}" update="msj" />
 								
 								<p:column>
 									<h:outputText value="#{usuarios.nombre}" />
 								</p:column>
-								<p:column>
-									<h:outputText value="#{usuarios.login}" />
-								</p:column>
+
 							</p:pickList>
 
 						</p:dialog>
 
-					</p:column>
-				</p:dataTable>
-
-
-
 			</p:panel>
-		</h:form> 
+		</h:form>
 	</ui:define>
 
 </ui:composition>

@@ -28,7 +28,7 @@
 			<p:panel header="Gestion de Usuarios" id="pnlUsuario">
 				<h:panelGrid columns="1">
 					<p:inputText id="txtLogin" maxlength="30"
-						binding="#{usuarioView.txtLogin}" size="30" placeholder="Login">
+						binding="#{usuarioView.txtLogin}" size="30" placeholder="Email">
 						<p:ajax listener="#{usuarioView.loginListener}"
 							update="pnlUsuario"></p:ajax>
 					</p:inputText>
@@ -53,21 +53,21 @@
 						action="#{usuarioView.generarAction}" onclick="PF('dlg1').show();"
 						value="Generar Contraseña" update="frmUsuario" />
 				</h:panelGrid>
-				<p:commandButton id="btnCrear" icon="ui-icon-disk"
+				<p:commandButton id="btnCrear" icon="fa fa-plus white"
 					binding="#{usuarioView.btnCrear}"
-					action="#{usuarioView.crearAction}" title="Crear un Usuario"
+					action="#{usuarioView.crearAction}" value="Crear"
 					disabled="true" update="frmUsuario" />
-				<p:commandButton id="btnModificar" icon="ui-icon-refresh"
+				<p:commandButton id="btnModificar" icon="fa fa-pencil white"
 					binding="#{usuarioView.btnModificar}"
 					action="#{usuarioView.modificarAction}"
-					title="Modificar un Usuario" update="frmUsuario" />
-				<p:commandButton id="btnBorrar" icon="ui-icon-trash"
+					value="Modificar" update="frmUsuario" />
+				<p:commandButton id="btnBorrar" icon="fa fa-trash white"
 					binding="#{usuarioView.btnBorrar}"
-					action="#{usuarioView.borrarAction}" title="Borrar un Usuario"
+					action="#{usuarioView.borrarAction}" value="Borrar"
 					update="frmUsuario" />
-				<p:commandButton id="btnLimpiar" icon="ui-icon-circle-arrow-w"
+				<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
 					binding="#{usuarioView.btnLimpiar}"
-					action="#{usuarioView.limpiarAction}" title="Limpiar un Usuario"
+					action="#{usuarioView.limpiarAction}" value="Limpiar"
 					update="frmUsuario" />
 
 			</p:panel>

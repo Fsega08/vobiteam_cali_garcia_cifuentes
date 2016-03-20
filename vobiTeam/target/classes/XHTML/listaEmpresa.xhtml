@@ -32,17 +32,17 @@
 					
 				<p:contextMenu for="dtListaEmpresa">
 					<p:menuitem value="Modificar" update="panelVtEmpresa"
-						icon="fa fa-pencil white" oncomplete="PF('dlgModProyecto').show()"
+						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
 						action="#{vtEmpresaView.modificarListener}" />
 				
 					<p:menuitem value="Ir a proyectos" update="formDialog"
-						icon="fa fa-list white" action="#{vtEmpresaView.listaEmpresaListener}"  />
+						icon="fa fa-list " action="#{vtEmpresaView.listaEmpresaListener}"  />
 					
 				</p:contextMenu>
 					
 					
 					<p:dataTable id="dtListaEmpresa" value="#{vtEmpresaView.lasEmpresas}" var="empresa"
-						paginator="true" rows="5"
+						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5, 10, 15" rowKey="#{empresa.emprCodigo}"
 						emptyMessage="No hay empresas seleccionadas para este usuario" selection="#{vtEmpresaView.laEmpresaSeleccionada}"
@@ -59,7 +59,7 @@
 							<h:outputText value="#{empresa.identificacion}" />
 						</p:column>
 
-						<p:column headerText="Activa" filterBy="#{empresa.activo}"
+						<p:column headerText="Estado de la Empresa" filterBy="#{empresa.activo}"
 							sortBy="#{empresa.activo}">
 							<h:outputText value="#{empresa.activo}" />
 						</p:column>
@@ -71,33 +71,35 @@
 					modal="true" width="500">
 					<div align="center">
 						<p:panel id="panelVtEmpresa" header="Modificar Empresa">
-							<h:panelGrid columns="1">
-
+							<h:panelGrid columns="2">
+								<h:outputText value="Identificacion (NIT)"/>
 								<p:inputText id="txtMIdentificacion"
 									placeholder="Identificación (NIT)"
 									binding="#{vtEmpresaView.txtMIdentificacion}" maxlength="50" />
-
+								
+								<h:outputText value="Nombre de la Empresa"/>
 								<p:inputText id="txtMNombre" placeholder="Nombre"
 									binding="#{vtEmpresaView.txtMNombre}" maxlength="60" />
-
+								
+								<h:outputText value="Estado de la Empresa"/>
 								<p:selectOneMenu id="somEmpresaActiva"
 									binding="#{vtEmpresaView.somEmpresaActiva}">
 									<f:selectItem itemValue="-1" itemLabel="Empresa Activa" />
-									<f:selectItem itemValue="S" itemLabel="Si" />
-									<f:selectItem itemValue="N" itemLabel="No" />
+									<f:selectItem itemValue="S" itemLabel="Activa" />
+									<f:selectItem itemValue="N" itemLabel="Inactiva" />
 								</p:selectOneMenu>
 
 								
 							</h:panelGrid>
-							
+							<br/>
 							<p:commandButton id="btnModificar"
 									binding="#{vtEmpresaView.btnModificar}"
 									icon="fa fa-pencil white"
-									action="#{vtEmpresaView.modificarAction}" title="Modificar"
+									action="#{vtEmpresaView.modificarAction}" value="Modificar"
 									update="formDialog" />
 
 								<p:commandButton id="btnMClear" icon="fa fa-eraser white"
-									action="#{vtEmpresaView.limpiarMAction}" title="Limpiar"
+									action="#{vtEmpresaView.limpiarMAction}" value="Limpiar"
 									update="panelVtEmpresa" />
 						</p:panel>
 					</div>
