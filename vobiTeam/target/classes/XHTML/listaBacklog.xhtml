@@ -27,14 +27,18 @@
 		<h:form id="formDialog">
 			<p:growl id="msg" />
 
-			<p:panel header="Backlog" id="pnlDashboard">			
+			<p:panel header="Lista de Backlog" id="pnlDashboard">			
 				
 				<p:contextMenu for="dtBacklog">
 					<p:menuitem value="Modificar" update="pnlModificarBacklog"
 						icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 						action="#{vtBacklogView.modificarListener}" />
 
-					<p:menuitem value="Ir a artefactos" update="formDialog"
+					<p:menuitem value="Ver lista Artefactos" update="formDialog"
+						icon="fa fa-list "
+						action="#{vtBacklogView.artefactoListener}" />
+						
+					<p:menuitem value="Ver lista Sprint" update="formDialog"
 						icon="fa fa-list "
 						action="#{vtBacklogView.sprintListener}" />
 
@@ -77,8 +81,8 @@
 							<p:selectOneMenu id="somBacklogActivo"
 								binding="#{vtBacklogView.somBacklogActivo}">
 								<f:selectItem itemValue="-1" itemLabel="Proyecto Backlog" />
-								<f:selectItem itemValue="S" itemLabel="Si" />
-								<f:selectItem itemValue="N" itemLabel="No" />
+								<f:selectItem itemValue="S" itemLabel="Activo" />
+								<f:selectItem itemValue="N" itemLabel="Inactivo" />
 							</p:selectOneMenu>
 
 						</h:panelGrid>
@@ -127,11 +131,11 @@
 					</p:panel>
 					<p:commandButton id="btnCrear" icon="fa fa-plus white"
 						binding="#{vtBacklogView.btnCrearBacklog}"
-						action="#{vtBacklogView.crearAction}" title="Crear"
+						action="#{vtBacklogView.crearAction}" value="Crear"
 						update="formDialog" />
 
 					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
-						binding="#{vtBacklogView.btnCLimpiar}" title="Limpiar"
+						binding="#{vtBacklogView.btnCLimpiar}" value="Limpiar"
 						action="#{vtBacklogView.limpiarCAction}" update="pnlCrearBacklog" />
 				</div>
 			</p:dialog>

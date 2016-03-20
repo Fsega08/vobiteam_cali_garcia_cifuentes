@@ -1,16 +1,12 @@
 package com.vobi.team.presentation.backingBeans;
 
-import java.nio.file.attribute.AclEntry.Builder;
 import java.util.Date;
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
@@ -20,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtUsuario;
@@ -70,15 +65,13 @@ public class VtBacklogView {
 	private CommandButton btnCLimpiar;
 	private CommandButton btnMLimpiar;
 	
-	
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-	
 	
 	@PostConstruct
 	public void init(){
 		
 		try {
-			proyectoSeleccionado = (VtProyecto) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("proyectoSeleccionado");
+			proyectoSeleccionado = (VtProyecto) FacesUtils.getfromSession("proyectoSeleccionado");
 			
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -284,9 +277,6 @@ public class VtBacklogView {
 	
 	//Este listener es para mandar el backlog seleccionado y setear los datos en el dialogo
 	public void modificarListener() {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("backlogSeleccionado", backogSeleccionado);
-		
-		log.info("backlog seleccionado: " + backogSeleccionado.getNombre());
 		
 		VtPilaProducto vtPilaProducto = backogSeleccionado;
 		
@@ -298,23 +288,23 @@ public class VtBacklogView {
 	
 	public void modificarAction() {
 		try {
+
 			if (txtMNombre.getValue().toString().trim().equals("") == true || txtMNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("El nombre no es valido");
 			}
 			if (txtMDescripcion.getValue().toString().trim().equals("") == true || txtMDescripcion.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("La descripción no es valida");
 			}
 			if (somBacklogActivo.getValue().equals("-1") ==true ) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Asigne un estado al backlog");
 			}
 			
 			VtPilaProducto vtPilaProducto = backogSeleccionado;
+			
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			
-			vtPilaProducto.setNombre(txtMNombre.getValue().toString());
-			
-			vtPilaProducto.setDescripcion(txtMDescripcion.getValue().toString());
-			
+			vtPilaProducto.setNombre(txtMNombre.getValue().toString());			
+			vtPilaProducto.setDescripcion(txtMDescripcion.getValue().toString());			
 			vtPilaProducto.setFechaModificacion(new Date());
 			
 			vtPilaProducto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
@@ -324,9 +314,9 @@ public class VtBacklogView {
 			
 			businessDelegatorView.updateVtPilaProducto(vtPilaProducto);
 			
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se ha modificado con éxito"));
+			FacesUtils.addInfoMessage("Se ha modificado con éxito");
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesUtils.addErrorMessage(e.getMessage());
 
 		}
 	}
@@ -339,12 +329,26 @@ public class VtBacklogView {
 
 	}
 	
+	public String artefactoListener(){
+		
+		//Guardo objeto en la sesion
+		if (backogSeleccionado.getActivo().equals("S")) {
+			FacesUtils.putinSession("backlogSeleccionado", backogSeleccionado);
+			return "/XHTML/listarArtefactos.xhtml";
+		}
+		else{
+			FacesUtils.addErrorMessage("La pila producto esta inactiva");
+			return "";
+		}
+		
+	}
+	
 	public String sprintListener(){
 		
 		//Guardo objeto en la sesion
 		if (backogSeleccionado.getActivo().equals("S")) {
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("backlogSeleccionado", backogSeleccionado);
-			return "/XHTML/listarArtefactos.xhtml";
+			FacesUtils.putinSession("backlogSeleccionado", backogSeleccionado);
+			return "/XHTML/listaSprint.xhtml";
 		}
 		else{
 			FacesUtils.addErrorMessage("La pila producto esta inactiva");

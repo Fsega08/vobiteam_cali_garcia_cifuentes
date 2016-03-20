@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -14,7 +13,6 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.password.Password;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
-import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,29 +29,29 @@ import com.vobi.team.utilities.Utilities;
 @ViewScoped
 @ManagedBean(name = "usuarioView")
 public class UsuarioView {
-	
-	
+
+
 	private InputText txtNombre;
 	private InputText txtLogin;
 	private Password txtPassword;
 	private SelectOneMenu somEstado;
 	private SelectOneMenu somEmpresas;
 	private CommandButton btnGenerar;
-    private CommandButton btnCrear;
-    private CommandButton btnModificar;
-    private CommandButton btnBorrar;
-    private CommandButton btnLimpiar;
-    
-    private final static Logger log=LoggerFactory.getLogger(UsuarioView.class);
-    private List<SelectItem> lasEmpresas;
-    
-    private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-    
-    @ManagedProperty(value = "#{BusinessDelegatorView}")
-    private IBusinessDelegatorView businessDelegatorView;   
-    
-       
-    public IBusinessDelegatorView getBusinessDelegatorView() {
+	private CommandButton btnCrear;
+	private CommandButton btnModificar;
+	private CommandButton btnBorrar;
+	private CommandButton btnLimpiar;
+
+	private final static Logger log=LoggerFactory.getLogger(UsuarioView.class);
+	private List<SelectItem> lasEmpresas;
+
+	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
+
+	@ManagedProperty(value = "#{BusinessDelegatorView}")
+	private IBusinessDelegatorView businessDelegatorView;   
+
+
+	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
@@ -113,7 +111,7 @@ public class UsuarioView {
 	public void setBtnLimpiar(CommandButton btnLimpiar) {
 		this.btnLimpiar = btnLimpiar;
 	}    
-	
+
 	public SelectOneMenu getSomEmpresas() {
 		return somEmpresas;
 	}
@@ -129,7 +127,7 @@ public class UsuarioView {
 				for (VtEmpresa vtEmpresa : listEmpresas) {
 					lasEmpresas.add(new SelectItem(vtEmpresa.getEmprCodigo(),vtEmpresa.getNombre()));
 				}
-			
+
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -140,16 +138,16 @@ public class UsuarioView {
 		this.lasEmpresas = lasEmpresas;
 	}
 	public String crearAction()throws Exception
-    { 
-    	try 
-    	{    		
-    		String nombre = txtNombre.getValue().toString().trim();
-    		String login = txtLogin.getValue().toString().trim();
-    		String clave = txtPassword.getValue().toString().trim();
-    		String empresa = somEmpresas.getValue().toString().trim();
-    		String estado = somEstado.getValue().toString().trim();    		
-    		
-    		if (nombre==null || nombre.trim().equals("")){
+	{ 
+		try 
+		{    		
+			String nombre = txtNombre.getValue().toString().trim();
+			String login = txtLogin.getValue().toString().trim();
+			String clave = txtPassword.getValue().toString().trim();
+			String empresa = somEmpresas.getValue().toString().trim();
+			String estado = somEstado.getValue().toString().trim();    		
+
+			if (nombre==null || nombre.trim().equals("")){
 				throw new Exception("Debe ingresar el nombre");
 			}			
 			if (empresa.equals("-1")){
@@ -164,18 +162,18 @@ public class UsuarioView {
 			if (clave==null || clave.trim().equals("")){
 				throw new Exception("Debe ingresar la clave");
 			}	
-    		
+
 			long empresaID;			
 			try {
 				empresaID = Long.parseLong(empresa);
 			} catch (Exception e) {
 				throw new Exception("Problemas con el Id de la Empresa");
 			}
-			
+
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			
+
 			VtUsuario vtUsuario = new VtUsuario();
-			
+
 			vtUsuario.setNombre(nombre);
 			vtUsuario.setLogin(login);
 			vtUsuario.setClave(clave);
@@ -184,36 +182,36 @@ public class UsuarioView {
 			vtUsuario.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
 			vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			vtUsuario.setActivo(estado);
-			
+
 			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(empresaID);
 			vtUsuario.setVtEmpresa(vtEmpresa);
-			
+
 			businessDelegatorView.saveVtUsuario(vtUsuario);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-    		
-    		
+
+
 		} 
-    	catch (Exception e) 
-    	{
+		catch (Exception e) 
+		{
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-    	
-    	
-    	
-    	return "";
-    }
-    
-    public String modificarAction()throws Exception
-    {  	    	
-    	try 
-    	{
-    		String nombre = txtNombre.getValue().toString().trim();
-    		String login = txtLogin.getValue().toString().trim();
-    		String clave = txtPassword.getValue().toString().trim();
-    		String empresa = somEmpresas.getValue().toString().trim();
-    		String estado = somEstado.getValue().toString().trim();
-    		
-    		if (nombre==null || nombre.trim().equals("")){
+
+
+
+		return "";
+	}
+
+	public String modificarAction()throws Exception
+	{  	    	
+		try 
+		{
+			String nombre = txtNombre.getValue().toString().trim();
+			String login = txtLogin.getValue().toString().trim();
+			String clave = txtPassword.getValue().toString().trim();
+			String empresa = somEmpresas.getValue().toString().trim();
+			String estado = somEstado.getValue().toString().trim();
+
+			if (nombre==null || nombre.trim().equals("")){
 				throw new Exception("Debe ingresar el nombre");
 			}			
 			if (empresa.equals("-1")){
@@ -228,120 +226,120 @@ public class UsuarioView {
 			if (clave==null || clave.trim().equals("")){
 				throw new Exception("Debe ingresar la clave");
 			}	
-    		
+
 			long empresaID;			
 			try {
 				empresaID = Long.parseLong(empresa);
 			} catch (Exception e) {
 				throw new Exception("Problemas con el Id de la Empresa");
 			}
-			
+
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			    		
-    		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(login);
-    		vtUsuario.setFechaModificacion(new Date());
-    		vtUsuario.setClave(clave);
-    		vtUsuario.setNombre(nombre);    		
-    		vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
-    		vtUsuario.setActivo(estado);
-    		VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(empresaID);
+
+			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(login);
+			vtUsuario.setFechaModificacion(new Date());
+			vtUsuario.setClave(clave);
+			vtUsuario.setNombre(nombre);    		
+			vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			vtUsuario.setActivo(estado);
+			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(empresaID);
 			vtUsuario.setVtEmpresa(vtEmpresa);
-    		
-    		
-    		businessDelegatorView.updateVtUsuario(vtUsuario);    		
-    		FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);    		
+
+
+			businessDelegatorView.updateVtUsuario(vtUsuario);    		
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);    		
 		} 
-    	catch (Exception e) 
-    	{			
+		catch (Exception e) 
+		{			
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-    	
-    	
-    	return "";
-    }
-	
-    public String borrarAction()throws Exception
-    { 
 
-    	try 
-    	{
-    		String login = txtLogin.getValue().toString().trim();
-    		
-    		if (login==null || login.trim().equals("")){
+
+		return "";
+	}
+
+	public String borrarAction()throws Exception
+	{ 
+
+		try 
+		{
+			String login = txtLogin.getValue().toString().trim();
+
+			if (login==null || login.trim().equals("")){
 				throw new Exception("Debe ingresar el login");
 			}
-    		
-    		VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-    		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(login);
-    		
-    		vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
-    		
-    		businessDelegatorView.deleteVtUsuario(vtUsuario);    		
-    		FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
-    		limpiarAction();
+
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(login);
+
+			vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+
+			businessDelegatorView.deleteVtUsuario(vtUsuario);    		
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
+			limpiarAction();
 		} 
-    	catch (Exception e) 
-    	{			
+		catch (Exception e) 
+		{			
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-    	
-    	
-    	
-    	return "";
-    }
-    
-    public String generarAction()throws Exception
-    {
-    	try 
-    	{
-    		String pass = Utilities.getPassword();
-    		txtPassword.setValue(pass);
-    		FacesUtils.addInfoMessage("La contraseña generada es: "+pass);
+
+
+
+		return "";
+	}
+
+	public String generarAction()throws Exception
+	{
+		try 
+		{
+			String pass = Utilities.getPassword();
+			txtPassword.setValue(pass);
+			FacesUtils.addInfoMessage("La contraseña generada es: "+pass);
 		} 
-    	catch (Exception e) 
-    	{			
+		catch (Exception e) 
+		{			
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-    	
-    	
-    	
-    	return "";
-    }
-	
-    public String limpiarAction()
-    { 
+
+
+
+		return "";
+	}
+
+	public String limpiarAction()
+	{ 
 		txtLogin.resetValue();
 		txtLogin.setDisabled(false);
-    	txtNombre.resetValue();
-    	txtPassword.resetValue();
-    	somEstado.setValue("-1");
-    	somEmpresas.setValue("-1");
-    	
-    	
-    	btnCrear.setDisabled(false);
-    	btnModificar.setDisabled(false);
+		txtNombre.resetValue();
+		txtPassword.resetValue();
+		somEstado.setValue("-1");
+		somEmpresas.setValue("-1");
+
+
+		btnCrear.setDisabled(false);
+		btnModificar.setDisabled(false);
 		btnBorrar.setDisabled(false);
-    	
-    	return "";
-    }
-	
+
+		return "";
+	}
+
 	public void loginListener()throws Exception
 	{
 		VtUsuario vtUsuario = null;
-		
+
 		try 
 		{
 			vtUsuario = businessDelegatorView.findUsuarioByLogin(txtLogin.getValue().toString().trim());			
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-		
+
 		if(vtUsuario==null)
 		{
 			somEmpresas.setDisabled(false);
-			
-	    	btnCrear.setDisabled(false);
-	    	btnModificar.setDisabled(true);
+
+			btnCrear.setDisabled(false);
+			btnModificar.setDisabled(true);
 			btnBorrar.setDisabled(true);
 
 		}else
@@ -352,14 +350,14 @@ public class UsuarioView {
 			txtPassword.setValue(vtUsuario.getClave());
 			somEstado.setValue(vtUsuario.getActivo());
 			somEmpresas.setValue(vtUsuario.getVtEmpresa().getEmprCodigo());
-			
-			
+
+
 			btnCrear.setDisabled(true);
-	    	btnModificar.setDisabled(false);
+			btnModificar.setDisabled(false);
 			btnBorrar.setDisabled(false);
 		}
-		
-		
+
+
 	}
 
 

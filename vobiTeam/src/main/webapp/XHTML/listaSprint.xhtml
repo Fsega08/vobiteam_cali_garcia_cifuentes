@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="msg" />
+			<p:panel header="Lista de Sprints" id="pnlDashboard">
+				<p:contextMenu for="dtSprint">
+					<p:menuitem value="Modificar" update="pnlModificarSprint"
+						icon="fa fa-pencil " oncomplete="PF('dlgModificarSprint').show()"
+						action="#{vtSprintView.modificarListener}" />
+				</p:contextMenu>
+
+				<p:dataTable id="dtSprint" value="#{vtSprintView.losSprint}"
+					var="sprint" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15" rowKey="#{sprint.spriCodigo}"
+					selectionMode="single"
+					selection="#{vtSprintView.sprintSeleccionado}"
+					emptyMessage="Parece que no hay Sprints, por que no creas uno"
+					rendered="true">
+
+
+					<p:column headerText="Nombre Sprint" filterBy="#{sprint.nombre}"
+						sortBy="#{sprint.nombre}">
+						<h:outputText value="#{sprint.nombre}" />
+					</p:column>
+
+					<p:column headerText="Sprint Objetivo"
+						filterBy="#{sprint.objetivo}" sortBy="#{sprint.objetivo}">
+						<h:outputText value="#{sprint.objetivo}" />
+					</p:column>
+
+					<p:column headerText="Inicio" filterBy="#{sprint.fechaInicio}"
+						sortBy="#{sprint.fechaInicio} ">
+						<h:outputText value="#{sprint.fechaInicio}" />
+					</p:column>
+
+					<p:column headerText="Fin" filterBy="#{sprint.fechaFin}"
+						sortBy="#{sprint.fechaFin}">
+						<h:outputText value="#{sprint.fechaFin}" />
+					</p:column>
+
+					<p:column headerText="Estado del Proyecto" filterBy="#{sprint.activo}"
+						sortBy="#{sprint.activo}">
+						<h:outputText value="#{sprint.activo}" />
+					</p:column>
+
+				</p:dataTable>
+				
+				<p:dialog header="Modificar Sprint" widgetVar="dlgModificarSprint"
+					modal="true" width="500">
+					<div align="center">
+						<p:panel header="Modificar Sprint" id="pnlModificarSprint">
+							<h:panelGrid columns="2">
+								<h:outputText value="Nombre del Sprint" />
+								<p:inputText id="txtMNombre" placeholder="Nombre"
+									binding="#{vtSprintView.txtMNombre}" />
+
+								<h:outputText value="Descipcion del Sprint" />
+								<p:inputText id="txtMDescripcion" placeholder="Descripción"
+									binding="#{vtSprintView.txtMDescripcion}" />
+
+								<h:outputText value="Inicio del Sprint" />
+								<p:calendar id="clndFechaIncioM" placeholder="Fecha de Inicio"
+									binding="#{vtSprintView.clndMFechaIncio}"
+									value="#{vtSprintView.fechaInicioM}" />
+								<h:outputText value="Final del Sprint" />
+								<p:calendar id="clndFechaFinM" placeholder="Fecha de Fin"
+									binding="#{vtSprintView.clndMFechaFin}"
+									value="#{vtSprintView.fechaFinM}" />
+
+								<h:outputText value="Estado del Sprint" />
+								<p:selectOneMenu id="somBacklogActivo"
+									binding="#{vtSprintView.somSprintActivo}">
+									<f:selectItem itemValue="-1" itemLabel="Estado" />
+									<f:selectItem itemValue="S" itemLabel="Activo" />
+									<f:selectItem itemValue="N" itemLabel="Inactivo" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:panel>
+						<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+							update="formDialog" binding="#{vtSprintView.btnModificar}"
+							action="#{vtSprintView.modificarAction}" value="Modificar" />
+
+						<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
+							update="pnlModificarSprint" binding="#{vtSprintView.btnLimpiarM}"
+							action="#{vtSprintView.limpiarActionM}" value="Limpiar" />
+					</div>
+
+				</p:dialog>
+			</p:panel>
+			<div align="center">
+				<p:commandButton id="btnCrearSprint" value="Crear Sprint"
+					binding="#{vtSprintView.btnCrearSprint}" icon="fa fa-plus white"
+					onclick="PF('dlgCrearSprint').show();" />
+			</div>
+
+			<p:dialog header="Crear Sprint" widgetVar="dlgCrearSprint"
+				modal="true" width="500">
+				<div align="center">
+					<p:panel header="Crear Sprint" id="pnlCrearSprint">
+						<h:panelGrid columns="1">
+
+							<p:inputText id="txtCNombre" placeholder="Nombre"
+								binding="#{vtSprintView.txtNombre}" />
+
+							<p:inputText id="txtCDescripcion" placeholder="Descripción"
+								binding="#{vtSprintView.txtDescripcion}" />
+
+							<p:calendar id="clndFechaIncio" placeholder="Fecha de Inicio"
+								binding="#{vtSprintView.clndFechaIncio}"
+								value="#{vtSprintView.fechaInicio}" />
+							<p:calendar id="clndFechaFin" placeholder="Fecha de Fin"
+								binding="#{vtSprintView.clndFechaFin}"
+								value="#{vtSprintView.fechaFin}" />
+						</h:panelGrid>
+					</p:panel>
+					<p:commandButton id="btnCrear" icon="fa fa-plus white"
+						update="formDialog" binding="#{vtSprintView.btnCrearNuevo}"
+						action="#{vtSprintView.crearAction}" value="Crear" />
+
+					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
+						update="pnlCrearSprint" binding="#{vtSprintView.btnLimpiar}"
+						action="#{vtSprintView.limpiarAction}" value="Limpiar" />
+				</div>
+
+			</p:dialog>
+
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,19 +1,15 @@
 package com.vobi.team.presentation.backingBeans;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -281,11 +277,7 @@ public class VtEmpresaView {
 		}
 	}
 
-	public void modificarListener() throws Exception{
-
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("empresaSeleccionada", laEmpresaSeleccionada);
-		log.info("Empresa seleccionada " +  laEmpresaSeleccionada.getNombre());
-		
+	public void modificarListener() throws Exception{	
 
 		txtMIdentificacion.setValue(laEmpresaSeleccionada.getIdentificacion());
 		txtMNombre.setValue(laEmpresaSeleccionada.getNombre());
@@ -294,7 +286,7 @@ public class VtEmpresaView {
 
 	public String listaEmpresaListener(){
 		//Guardo objeto en la sesion
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("empresaSeleccionada", laEmpresaSeleccionada);
+		FacesUtils.putinSession("empresaSeleccionada", laEmpresaSeleccionada);
 		if (laEmpresaSeleccionada.getActivo().equals("S")) {
 			return "/XHTML/listaProyectos.xhtml";
 		}
