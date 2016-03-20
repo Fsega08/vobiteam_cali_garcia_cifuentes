@@ -123,6 +123,11 @@
 						binding="#{vtProyectosView.btnCrearProyecto}"
 						icon="fa fa-plus white"
 						onclick="PF('dlgCrearProyecto').show();" />
+						
+					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+						action="#{vtProyectosView.regresarAction}" 
+						value="Regresar a Lista de Empresas"
+						update="formDialog" />
 				</div>
 			</p:panel>
 

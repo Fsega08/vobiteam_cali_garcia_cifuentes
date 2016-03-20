@@ -161,7 +161,7 @@ public class VtRolesView {
 		this.losRoles = losRoles;
 	}
 
-	public void crearAction(){
+	public void crearAction() throws Exception{
 		try {
 			VtRol vtRol = new VtRol();
 
@@ -189,10 +189,11 @@ public class VtRolesView {
 			losRoles = businessDelegatorView.getVtRol();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
+			losRoles = businessDelegatorView.getVtRol();
 		}
 	}
 
-	public void modificarAction() {
+	public void modificarAction() throws Exception {
 		try {
 			
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
@@ -216,8 +217,10 @@ public class VtRolesView {
 
 			businessDelegatorView.updateVtRol(vtRol);
 			FacesUtils.addInfoMessage("Se modificó el rol con éxito");
+			losRoles = businessDelegatorView.getVtRol();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
+			losRoles = businessDelegatorView.getVtRol();
 		}
 	}
 

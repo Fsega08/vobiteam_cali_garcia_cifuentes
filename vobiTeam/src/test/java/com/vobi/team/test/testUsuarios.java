@@ -2,6 +2,8 @@ package com.vobi.team.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,9 +16,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
+import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.control.IVtProyectoLogic;
 import com.vobi.team.modelo.control.IVtProyectoUsuarioLogic;
+import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 
 
@@ -36,6 +40,8 @@ public class testUsuarios {
 	 @Autowired
 	 private IVtProyectoLogic vtProyectoLogic;
 	 
+	 @Autowired
+	 private IVtSprintLogic vtSprintLogic;
 	
 	//@Test
 	public void testA() throws Exception {
@@ -78,17 +84,42 @@ public class testUsuarios {
 //		}		
 	}
 	
-	@Test
+//	@Test
 	public void testD() throws Exception {
-		VtProyecto vtProyecto = vtProyectoLogic.getVtProyecto(3L);
-		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
+//		VtProyecto vtProyecto = vtProyectoLogic.getVtProyecto(3L);
+//		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
+//		
+//		VtProyectoUsuario proyectoUsuario = vtProyectoUsuarioLogic.findProyectoUsuarioByProyectoAndUsuario(vtProyecto.getProyCodigo(), vtUsuario.getUsuaCodigo());
+//				
+//		log.info(""+proyectoUsuario.getPrusCodigo());
 		
-		VtProyectoUsuario proyectoUsuario = vtProyectoUsuarioLogic.findProyectoUsuarioByProyectoAndUsuario(vtProyecto.getProyCodigo(), vtUsuario.getUsuaCodigo());
 		
+	}
+	@Test
+	public void testF() throws Exception {
 		
-		log.info(""+proyectoUsuario.getPrusCodigo());
+		VtSprint sprint = vtSprintLogic.getVtSprint(16L);
 		
+		log.info("Fecha Inicio antes del Cambio: "+sprint.getFechaInicio().toString());
+		log.info("Fecha Fin antes del Cambio :"+sprint.getFechaFin().toString());
 		
-	}	
+		Calendar cal = Calendar.getInstance();
+		cal.set(2016, Calendar.MARCH, 19);
+		
+		Date nuevaFechaInicio = cal.getTime();
+		
+		cal.set(2016, Calendar.FEBRUARY, 8);
+		Date nuevaFechaFin = cal.getTime();
+		
+		log.info("Nueva fecha de inicio: "+ nuevaFechaInicio.toString());
+		log.info("Nueva fecha de fin: "+ nuevaFechaFin.toString());
+		
+		sprint.setFechaInicio(nuevaFechaInicio);
+		sprint.setFechaFin(nuevaFechaFin);
+		
+		vtSprintLogic.updateVtSprint(sprint);
+		
+	}
+	
 
 }

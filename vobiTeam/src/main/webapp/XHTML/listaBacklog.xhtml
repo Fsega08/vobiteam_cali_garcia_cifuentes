@@ -79,7 +79,7 @@
 							<p:selectOneMenu id="somBacklogActivo"
 								binding="#{vtBacklogView.somBacklogActivo}">
 								<f:selectItem itemValue="-1" itemLabel="Proyecto Backlog" />
-								<f:selectItem itemValue="S" itemLabel="Actiov" />
+								<f:selectItem itemValue="S" itemLabel="Activo" />
 								<f:selectItem itemValue="N" itemLabel="Inactivo" />
 							</p:selectOneMenu>
 
@@ -106,8 +106,12 @@
 			<p:panel id="panelBotones">
 				<div align="center">
 					<p:commandButton id="btnCrearBacklog" value="Crear Backlog"
-						binding="#{vtProyectosView.btnCrearProyecto}"
+						binding="#{vtBacklogView.btnCrear}"
 						onclick="PF('dlgCrearBacklog').show();" icon="fa fa-plus white" />
+					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+						action="#{vtBacklogView.regresarAction}" 
+						value="Regresar a Lista de Proyectos"
+						update="formDialog" />
 				</div>
 			</p:panel>
 

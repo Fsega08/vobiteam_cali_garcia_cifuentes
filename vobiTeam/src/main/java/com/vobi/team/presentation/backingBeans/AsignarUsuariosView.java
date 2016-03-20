@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.event.TransferEvent;
@@ -26,33 +28,33 @@ import com.vobi.team.utilities.FacesUtils;
 @ViewScoped
 @ManagedBean(name = "asignarUsuariosView")
 public class AsignarUsuariosView {
-	
+
 	private final static Logger log=LoggerFactory.getLogger(AsignarUsuariosView.class);
-	
+
 	private VtProyecto proyectoSeleccionado;
 	private CommandButton btnGenerar;
 	private DualListModel<VtUsuario> losUsuariosSeleccionados;
 	private List<VtUsuario> usuariosSource;
 	private List<VtUsuario> usuariosTarget;
 	private List<VtProyecto> losProyectos;
-	
+
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-    
-	
+
+
 	@PostConstruct
 	public void usuariosNoAsignados(){
-		
+
 		try {
 			proyectoSeleccionado = businessDelegatorView.getVtProyecto(1L);
 			usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 			usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);
-			
+
 			losUsuariosSeleccionados = new DualListModel<VtUsuario>(usuariosSource, usuariosTarget);
 		} catch (Exception e1) {
 			log.info("" + e1.getMessage());
 		}
 	}
-	
+
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
@@ -63,7 +65,7 @@ public class AsignarUsuariosView {
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
 	}	
-	
+
 	public List<VtUsuario> getUsuariosSource() {
 		return usuariosSource;
 	}
@@ -103,7 +105,7 @@ public class AsignarUsuariosView {
 	public void setLosUsuariosSeleccionados(DualListModel<VtUsuario> losUsuariosSeleccionados) {
 		this.losUsuariosSeleccionados = losUsuariosSeleccionados;
 	}
-	
+
 	public List<VtProyecto> getLosProyectos() {
 		try {
 			if (losProyectos == null) {
@@ -119,103 +121,92 @@ public class AsignarUsuariosView {
 		this.losProyectos = losProyectos;
 	}
 
-	
+
 	public void asignarProyectoAction() throws Exception {
-		
+
 		log.info(""+proyectoSeleccionado.getProyCodigo());
 		usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 		usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);	
-		if (usuariosSource!=null) {
-			
-//			for (VtUsuario vtUsuario : usuariosTarget) {
-//				proyectoUsuario = businessDelegatorView.findProyectoUsuarioByProyectoAndUsuario(proyectoSeleccionado.getProyCodigo(), vtUsuario.getUsuaCodigo());
-//				if(proyectoUsuario.getActivo().equals("N")){
-//					usuariosTarget.remove(vtUsuario);
-//					usuariosSource.add(vtUsuario);
-//					
-//				}
-//			}
-			
-			
-			
+		if (usuariosSource!=null) {		
+
 			losUsuariosSeleccionados.setTarget(usuariosTarget);
 			losUsuariosSeleccionados.setSource(usuariosSource);
 		}
-	
-		
+
+
 	}
-	
-	 public void onTransfer(TransferEvent event) throws Exception {
-	        
-	    	for(Object item : event.getItems()) {
-	            VtUsuario vtUsuario=(VtUsuario) item;
-//	            log.info(vtUsuario.getNombre());
-//	            FacesUtils.addInfoMessage("Se paso un usuario"+vtUsuario.getNombre());
-	            
-	            //true si paso de izquierda a derecha
-	            if(event.isAdd()){
-	            	asignarUsuarioAction(vtUsuario, proyectoSeleccionado);
-	            }
-	            if(event.isRemove()){
-	            	removerUsuarioAction(vtUsuario, proyectoSeleccionado);
-	            }
-	        }
-	    	
 
-	    	
+	public void onTransfer(TransferEvent event) throws Exception {
+		StringBuilder builder = new StringBuilder();
 
-	    }
+		for(Object item : event.getItems()) {
+			VtUsuario vtUsuario=(VtUsuario) item;
 
-		
-	 public void asignarUsuarioAction(VtUsuario usuario, VtProyecto proyecto) throws Exception{
-		 
-		 try {
-			 VtProyectoUsuario proyectoUsuario = businessDelegatorView.findProyectoUsuarioByProyectoAndUsuario(proyectoSeleccionado.getProyCodigo(), usuario.getUsuaCodigo());
-			 VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			 
-			 if(proyectoUsuario == null){
-				 proyectoUsuario = new VtProyectoUsuario();
-				 
-				 proyectoUsuario.setVtUsuario(usuario);
-				 proyectoUsuario.setVtProyecto(proyecto);
-				 proyectoUsuario.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
-				 proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
-				 proyectoUsuario.setFechaCreacion(new Date());
-				 proyectoUsuario.setFechaModificacion(new Date());
-				 proyectoUsuario.setActivo("S");
-				 
-				 businessDelegatorView.saveVtProyectoUsuario(proyectoUsuario);
-				 
-			 }else{
-				 proyectoUsuario.setActivo("S");
-				 proyectoUsuario.setFechaModificacion(new Date());
-				 proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
-				 
-				 businessDelegatorView.updateVtProyectoUsuario(proyectoUsuario);
-			 }
-			 
-			 
-		} catch (Exception e) {
-			FacesUtils.addErrorMessage(e.getMessage());
+			builder.append(((VtUsuario) item).getNombre()).append("<br />");
+
+			//true si paso de izquierda a derecha
+			if(event.isAdd()){
+				asignarUsuarioAction(vtUsuario, proyectoSeleccionado);
+			}
+			if(event.isRemove()){
+				removerUsuarioAction(vtUsuario, proyectoSeleccionado);
+			}
 		}
-	 }
-	
-	 public void removerUsuarioAction(VtUsuario usuario, VtProyecto proyecto) throws Exception{
+
+		FacesUtils.addInfoMessage("Usuario(s) Transferidos");
+
+	}
+
+
+	public void asignarUsuarioAction(VtUsuario usuario, VtProyecto proyecto) throws Exception{
+
 		try {
 			VtProyectoUsuario proyectoUsuario = businessDelegatorView.findProyectoUsuarioByProyectoAndUsuario(proyectoSeleccionado.getProyCodigo(), usuario.getUsuaCodigo());
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			
+
+			if(proyectoUsuario == null){
+				proyectoUsuario = new VtProyectoUsuario();
+
+				proyectoUsuario.setVtUsuario(usuario);
+				proyectoUsuario.setVtProyecto(proyecto);
+				proyectoUsuario.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+				proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+				proyectoUsuario.setFechaCreacion(new Date());
+				proyectoUsuario.setFechaModificacion(new Date());
+				proyectoUsuario.setActivo("S");
+
+				businessDelegatorView.saveVtProyectoUsuario(proyectoUsuario);
+
+			}else{
+				proyectoUsuario.setActivo("S");
+				proyectoUsuario.setFechaModificacion(new Date());
+				proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+
+				businessDelegatorView.updateVtProyectoUsuario(proyectoUsuario);
+			}
+
+
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+
+	public void removerUsuarioAction(VtUsuario usuario, VtProyecto proyecto) throws Exception{
+		try {
+			VtProyectoUsuario proyectoUsuario = businessDelegatorView.findProyectoUsuarioByProyectoAndUsuario(proyectoSeleccionado.getProyCodigo(), usuario.getUsuaCodigo());
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+
 			proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
-			
+
 			businessDelegatorView.deleteVtProyectoUsuario(proyectoUsuario);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-	 
-	 
-	 
-	 }
 
-	
-	
+
+
+	}
+
+
+
 }

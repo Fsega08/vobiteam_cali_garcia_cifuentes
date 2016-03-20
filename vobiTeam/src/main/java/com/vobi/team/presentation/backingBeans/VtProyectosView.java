@@ -33,16 +33,16 @@ public class VtProyectosView {
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
-	
+
 	private InputText txtCNombre;
 	private InputText txtCDescripcion;
-	
+
 	private InputText txtMNombre;
 	private InputText txtMDescripcion;
-	
+
 	private SelectOneMenu somProyectoActivo;
 	private SelectOneMenu somProyectoPublico;
-	
+
 	private CommandButton btnCrear;
 	private	CommandButton btnModificar;
 	private CommandButton btnCrearProyecto;
@@ -51,28 +51,29 @@ public class VtProyectosView {
 	private	CommandButton btnSeleccionarBacklog;
 	private CommandButton btnCLimpiar;
 	private CommandButton btnMLimpiar;
-	
+	private CommandButton btnRegresar;
+
 	private DataTable dtProyectos;
 
 	private VtProyecto proyectoSeleccionado;
 	private List<VtProyecto> losProyectos;
-	
+
 	private VtEmpresa vtEmpresaSelected;
-	
+
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-	
+
 	@PostConstruct
 	public void init(){
-		
+
 		try {
 			vtEmpresaSelected = (VtEmpresa) FacesUtils.getfromSession("empresaSeleccionada");
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
-		
+
 	}
-	
-	
+
+
 	public CommandButton getBtnSeleccionarProyecto() {
 		return btnSeleccionarProyecto;
 	}
@@ -81,7 +82,7 @@ public class VtProyectosView {
 	public void setBtnSeleccionarProyecto(CommandButton btnSeleccionarProyecto) {
 		this.btnSeleccionarProyecto = btnSeleccionarProyecto;
 	}
-	
+
 
 	public SelectOneMenu getSomProyectoActivo() {
 		return somProyectoActivo;
@@ -152,14 +153,14 @@ public class VtProyectosView {
 	public void setProyectoSeleccionado(VtProyecto proyectoSeleccionado) {
 		this.proyectoSeleccionado = proyectoSeleccionado;
 	}
-	
+
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
 	}
-	
+
 	public CommandButton getBtnSeleccionarBacklog() {
 		return btnSeleccionarBacklog;
 	}
@@ -236,8 +237,8 @@ public class VtProyectosView {
 	}
 
 
-	public void crearAction() {
-		 
+	public void crearAction() throws Exception {
+
 		try {
 			if (txtCNombre.getValue().toString().trim().equals("") == true || txtCNombre.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
@@ -245,7 +246,7 @@ public class VtProyectosView {
 			if (txtCDescripcion.getValue().toString().trim().equals("") == true || txtCDescripcion.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			
+
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			VtProyecto vtProyecto = new VtProyecto();
@@ -263,21 +264,22 @@ public class VtProyectosView {
 			businessDelegatorView.saveVtProyecto(vtProyecto);
 
 			FacesUtils.addInfoMessage("Se ha creado el Proyecto con éxito");
-			
+
 			losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresaSelected);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
+			losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresaSelected);
 
 		}
 	}
-	
-	public void modificarAction() {
+
+	public void modificarAction() throws Exception {
 		log.info("Entro al modificar");
 		try {
-			
+
 			VtProyecto vtProyecto = proyectoSeleccionado;
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			
+
 			if (txtMNombre.getValue().toString().trim().equals("") == true || txtMNombre.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
@@ -292,38 +294,39 @@ public class VtProyectosView {
 				throw new Exception("Por favor llene todos los campos");
 			}
 
-			
+
 			vtProyecto.setNombre(txtMNombre.getValue().toString());			
 			vtProyecto.setDescripcion(txtMDescripcion.getValue().toString());			
 			vtProyecto.setPublico(somProyectoPublico.getValue().toString().trim());			
 			vtProyecto.setActivo(somProyectoActivo.getValue().toString().trim());			
 			vtProyecto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());			
 			vtProyecto.setFechaModificacion(new Date());
-			
-			businessDelegatorView.updateVtProyecto(vtProyecto);
-			
-			FacesUtils.addInfoMessage("Se ha modificado el proyecto con éxito");
 
+			businessDelegatorView.updateVtProyecto(vtProyecto);
+
+			FacesUtils.addInfoMessage("Se ha modificado el proyecto con éxito");
+			losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresaSelected);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
+			losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresaSelected);
 		}
 
 	}
-	
-	
+
+
 	public void modificarListener() {		
-		
+
 		VtProyecto vtProyecto = proyectoSeleccionado;
-		
+
 		txtMNombre.setValue(vtProyecto.getNombre());
 		txtMDescripcion.setValue(vtProyecto.getDescripcion());
 		somProyectoActivo.setValue(vtProyecto.getActivo());
 		somProyectoPublico.setValue(vtProyecto.getPublico());
-		
+
 	}
-	
+
 	public String backlogListener(){
-		
+
 		//Guardo objeto en la sesion
 		if (proyectoSeleccionado.getActivo().equals("S")) {
 			FacesUtils.putinSession("proyectoSeleccionado", proyectoSeleccionado);
@@ -333,9 +336,15 @@ public class VtProyectosView {
 			FacesUtils.addErrorMessage("El proyecto esta inactivo");
 			return "";
 		}
-		
+
 	}
-	
+
+	public String regresarAction(){
+
+		return "/XHTML/listaEmpresa.xhtml";
+
+	}
+
 	public void limpiarCAction() {
 		txtCNombre.resetValue();
 		txtCDescripcion.resetValue();

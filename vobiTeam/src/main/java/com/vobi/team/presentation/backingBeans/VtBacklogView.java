@@ -318,6 +318,12 @@ public class VtBacklogView {
 
 	}
 	
+	public String regresarAction(){
+
+		return "/XHTML/listaProyectos.xhtml";
+
+	}
+	
 	public String sprintListener(){
 		
 		//Guardo objeto en la sesion

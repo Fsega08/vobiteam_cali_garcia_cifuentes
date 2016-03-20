@@ -25,15 +25,15 @@
 
 		<h:form id="frmAsignarUsuarios">
 			<p:growl id="mensaje" />
-			<p:panel header="Proyecto" id="pnlUsuProy">
+			<p:panel header="Lista de Proyectos" id="pnlUsuProy">
 								
 							
 							
 						
-				<p:contextMenu for="checkboxDT">
-					<p:menuitem value="Seleccionar" icon="ui-icon-plus " oncomplete="PF('dlg').show()"
+				<p:contextMenu for="checkboxDT" >
+					<p:menuitem value="Seleccionar Proyecto " icon="ui-icon-plus " oncomplete="PF('dlg').show()"
 							action="#{asignarUsuariosView.asignarProyectoAction}"
-							update="pickList"/>
+							update="pickList" />
 				
 				</p:contextMenu>
 			
@@ -61,7 +61,7 @@
 
 				</p:dataTable>
 
-					<p:dialog header="Asignar" widgetVar="dlg" resizable="true"
+					<p:dialog header="Asignar o Desasignar Usuarios" widgetVar="dlg" resizable="true"
 							id="dlAsignar" draggable="true" responsive="true" modal="true" width="500">
 							<p:growl id="msj" />
 							<p:pickList id="pickList"

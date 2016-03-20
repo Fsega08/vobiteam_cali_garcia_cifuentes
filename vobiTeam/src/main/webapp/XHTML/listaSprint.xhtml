@@ -116,6 +116,10 @@
 				<p:commandButton id="btnCrearSprint" value="Crear Sprint"
 					binding="#{vtSprintView.btnCrearSprint}" icon="fa fa-plus white"
 					onclick="PF('dlgCrearSprint').show();" />
+				<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+						action="#{vtSprintView.regresarAction}" 
+						value="Regresar a Lista de Backlog"
+						update="formDialog" />
 			</div>
 
 			<p:dialog header="Crear Sprint" widgetVar="dlgCrearSprint"

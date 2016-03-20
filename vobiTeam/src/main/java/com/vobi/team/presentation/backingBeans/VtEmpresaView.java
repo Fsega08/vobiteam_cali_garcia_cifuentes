@@ -207,7 +207,7 @@ public class VtEmpresaView {
 		this.txtNombre = txtNombre;
 	}
 
-	public void crearAction(){
+	public void crearAction() throws Exception{
 		try {
 			VtEmpresa vtEmpresa = new VtEmpresa();
 
@@ -241,10 +241,11 @@ public class VtEmpresaView {
 			lasEmpresas = businessDelegatorView.getVtEmpresa();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
+			lasEmpresas = businessDelegatorView.getVtEmpresa();
 		}
 	}
 
-	public void modificarAction() {
+	public void modificarAction() throws Exception {
 		try {
 			
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
@@ -272,8 +273,10 @@ public class VtEmpresaView {
 
 			businessDelegatorView.updateVtEmpresa(vtEmpresa);
 			FacesUtils.addInfoMessage("Se modificó con éxito la empresa");
+			lasEmpresas = businessDelegatorView.getVtEmpresa();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
+			lasEmpresas = businessDelegatorView.getVtEmpresa();
 		}
 	}
 

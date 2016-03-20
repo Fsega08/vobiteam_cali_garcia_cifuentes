@@ -1,15 +1,12 @@
 package com.vobi.team.presentation.backingBeans;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
@@ -365,13 +362,14 @@ public class VtSprintView {
 
 			businessDelegatorView.updateVtSprint(sprint);
 			FacesUtils.addInfoMessage("Se ha actualizado el Sprint con exito");
-
 			losSprint = businessDelegatorView.findSprintByBacklog(backlogSeleccionado);
 
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
+			losSprint = businessDelegatorView.findSprintByBacklog(backlogSeleccionado);
 		}
-
+		
+		
 
 	}
 
@@ -386,7 +384,12 @@ public class VtSprintView {
 		fechaFinM = sprint.getFechaFin();
 
 	}
+	
+	public String regresarAction(){
 
+		return "/XHTML/listaBacklog.xhtml";
+
+	}
 
 	public void activarListaArtefacto(){
 		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
