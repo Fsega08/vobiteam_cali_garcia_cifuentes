@@ -9,4 +9,6 @@ import com.vobi.team.modelo.VtUsuarioRol;
 *
 */
 public interface IVtUsuarioRolDAO extends Dao<VtUsuarioRol, Long> {
+	
+	public VtUsuarioRol findUsuarioRolByUsuarioAndRol(Long usuarioCodigo, Long rolCodigo);
 }

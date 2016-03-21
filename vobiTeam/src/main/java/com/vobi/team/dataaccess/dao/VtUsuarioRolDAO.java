@@ -51,4 +51,14 @@ public class VtUsuarioRolDAO extends HibernateDaoImpl<VtUsuarioRol, Long>
         ApplicationContext ctx) {
         return (IVtUsuarioRolDAO) ctx.getBean("VtUsuarioRolDAO");
     }
+
+	@Override
+	public VtUsuarioRol findUsuarioRolByUsuarioAndRol(Long usuarioCodigo, Long rolCodigo) {
+		Query query = getSession().getNamedQuery("consultarUsuarioRolPorUsuarioYRol");
+		query.setParameter("usuaCodigo", usuarioCodigo);
+		query.setParameter("rolCodigo", rolCodigo);
+		
+		VtUsuarioRol usuarioRol = (VtUsuarioRol) query.uniqueResult();
+		return usuarioRol;
+	}
 }

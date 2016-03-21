@@ -49,6 +49,10 @@ public class VtRolLogic implements IVtRolLogic {
     */
     @Autowired
     private IVtUsuarioRolDAO vtUsuarioRolDAO;
+    
+    @Autowired
+    private IVtUsuarioRolLogic vtUsuarioRolLogic;
+    
 
     @Transactional(readOnly = true)
     public List<VtRol> getVtRol() throws Exception {
@@ -448,4 +452,42 @@ public class VtRolLogic implements IVtRolLogic {
 
         return list;
     }
+
+    @Transactional(readOnly = true)
+	public List<VtRol> getRolesAsignados(VtUsuario usuario) throws Exception {
+		
+		List<VtRol> rolesSource = getVtRol();
+		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyUsuario(usuario);
+		List<VtRol> rolesTarget = new ArrayList<VtRol>();
+		
+		if(usuarioRol != null){
+			for (VtRol vtRol : rolesSource) {
+				for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
+					if(vtRol.getRolCodigo().equals(vtUsuarioRol.getVtRol().getRolCodigo()) == true && vtUsuarioRol.getActivo().equals("S")){
+						rolesTarget.add(vtRol);
+					}
+				}
+			}
+		}
+		
+		return rolesTarget;
+	}
+
+	@Transactional(readOnly = true)
+	public List<VtRol> getRolesNoAsignados(VtUsuario usuario) throws Exception {
+		
+		List<VtRol> rolesSource = getVtRol();
+		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyUsuario(usuario);
+		
+		if(usuarioRol != null){
+			for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
+				if(vtUsuarioRol.getActivo().equals("S")){
+					rolesSource.remove(vtUsuarioRol.getVtRol());
+				}
+					
+			}
+		}
+		
+		return rolesSource;
+	}
 }

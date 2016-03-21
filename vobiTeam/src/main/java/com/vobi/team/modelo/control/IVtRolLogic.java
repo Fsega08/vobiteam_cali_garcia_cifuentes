@@ -1,6 +1,8 @@
 package com.vobi.team.modelo.control;
 
+import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtRol;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.dto.VtRolDTO;
 
 import java.math.BigDecimal;
@@ -53,4 +55,8 @@ public interface IVtRolLogic {
     public Long findTotalNumberVtRol() throws Exception;
 
     public List<VtRolDTO> getDataVtRol() throws Exception;
+    
+    public List<VtRol> getRolesAsignados(VtUsuario usuario) throws Exception;
+    
+    public List<VtRol> getRolesNoAsignados(VtUsuario usuario) throws Exception;
 }

@@ -51,7 +51,6 @@ public class VtProyectosView {
 	private	CommandButton btnSeleccionarBacklog;
 	private CommandButton btnCLimpiar;
 	private CommandButton btnMLimpiar;
-	private CommandButton btnRegresar;
 
 	private DataTable dtProyectos;
 

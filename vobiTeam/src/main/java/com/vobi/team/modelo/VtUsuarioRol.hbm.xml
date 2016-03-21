@@ -8,10 +8,10 @@
             <column name="usro_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtRol" class="com.vobi.team.modelo.VtRol" fetch="select">
+        <many-to-one name="vtRol" class="com.vobi.team.modelo.VtRol" fetch="select" lazy="false" >
             <column name="rol_codigo" not-null="true" />
         </many-to-one>
-        <many-to-one name="vtUsuario" class="com.vobi.team.modelo.VtUsuario" fetch="select">
+        <many-to-one name="vtUsuario" class="com.vobi.team.modelo.VtUsuario" fetch="select" lazy="false">
             <column name="usua_codigo" not-null="true" />
         </many-to-one>
         <property name="fechaCreacion" type="java.util.Date">
