@@ -14,4 +14,10 @@
 	   		Select vtArt from VtArtefacto vtArt where vtArt.vtPilaProducto.pilaCodigo=:pilaCodigo and vtArt.vtSprint.spriCodigo IS null
 	   	]]>
    </query>
+   <query name="consultarUsuarioRolPorUsuarioYRol">
+	   	<![CDATA[
+	   		Select usuaRol from VtUsuarioRol usuaRol where usuaRol.vtUsuario.usuaCodigo=:usuaCodigo and usuaRol.vtRol.rolCodigo=:rolCodigo
+	   	]]>
+   </query>
+   
 </hibernate-mapping>

@@ -10,20 +10,21 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
-import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.password.Password;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.exceptions.ZMessManager;
 import com.vobi.team.modelo.VtEmpresa;
-import com.vobi.team.modelo.VtPilaProducto;
-import com.vobi.team.modelo.VtSprint;
+import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 import com.vobi.team.utilities.Utilities;
@@ -48,36 +49,54 @@ public class VtUsuarioView {
 	private InputText txtLoginC;
 	private Password txtPasswordC;
 	private Password txtPasswordC2;
-	
+
 	private CommandButton btnGenerar;
 	private CommandButton btnManual;
-	
+
 	private CommandButton btnCrear;
 	private CommandButton btnCrearUsuario;
 	private CommandButton btnLimpiarC;
-	
+
 	private SelectOneMenu somEmpresasC;
 	private List<SelectItem> lasEmpresas;
-	
+
 	////////////Modificar Usuario
 	private InputText txtNombreM;
 	private InputText txtLoginM;
 	private Password txtPasswordM;
 	private Password txtPasswordM2;
-	
+
 	private CommandButton btnGenerarM;
 	private CommandButton btnManualM;
-	
+
 	private CommandButton btnModificar;
 	private CommandButton btnLimpiarM;
-	
+
 	private SelectOneMenu somEmpresasM;
 	private SelectOneMenu somEstado;	
 	private List<SelectItem> lasEmpresasM;
-	
+
+	////// PickList
+	private DualListModel<VtRol> pickListRol;
+	private List<VtRol> rolSource;
+	private List<VtRol> rolTarget;
+
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
-	
+
+	@PostConstruct
+	public void init(){
+		try {
+			usuarioSeleccionado = businessDelegatorView.getVtUsuario(1L);
+			rolSource = businessDelegatorView.getRolesNoAsignados(usuarioSeleccionado);
+			rolTarget = businessDelegatorView.getRolesAsignados(usuarioSeleccionado);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		pickListRol = new DualListModel<VtRol>(rolSource, rolTarget);
+	}
+
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
@@ -127,7 +146,7 @@ public class VtUsuarioView {
 	public void setBtnLimpiarC(CommandButton btnLimpiarC) {
 		this.btnLimpiarC = btnLimpiarC;
 	}
-	
+
 	public CommandButton getBtnGenerar() {
 		return btnGenerar;
 	}
@@ -141,16 +160,16 @@ public class VtUsuarioView {
 		this.btnManual = btnManual;
 	}
 	public List<VtUsuario> getLosUsuarios() {
-		
+
 		try {
 			if(losUsuarios == null){
 				losUsuarios = businessDelegatorView.getVtUsuario();
 			}
-			
+
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-		
+
 		return losUsuarios;
 	}
 	public void setLosUsuarios(List<VtUsuario> losUsuarios) {
@@ -187,7 +206,7 @@ public class VtUsuarioView {
 	public void setSomEmpresasC(SelectOneMenu somEmpresasC) {
 		this.somEmpresasC = somEmpresasC;
 	}
-	
+
 	public InputText getTxtNombreM() {
 		return txtNombreM;
 	}
@@ -249,7 +268,7 @@ public class VtUsuarioView {
 		this.somEstado = somEstado;
 	}
 	public List<SelectItem> getLasEmpresasM() throws Exception {
-		
+
 		try {
 			if(lasEmpresasM==null){
 				List<VtEmpresa> listEmpresas=businessDelegatorView.getVtEmpresa();
@@ -263,14 +282,37 @@ public class VtUsuarioView {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-		
+
 		return lasEmpresasM;
 	}
 	public void setLasEmpresasM(List<SelectItem> lasEmpresasM) {
 		this.lasEmpresasM = lasEmpresasM;
 	}
-	
-	
+
+	public DualListModel<VtRol> getPickListRol() {
+		return pickListRol;
+	}
+
+	public void setPickListRol(DualListModel<VtRol> pickListRol) {
+		this.pickListRol = pickListRol;
+	}
+
+	public List<VtRol> getRolSource() {
+		return rolSource;
+	}
+
+	public void setRolSource(List<VtRol> rolSource) {
+		this.rolSource = rolSource;
+	}
+
+	public List<VtRol> getRolTarget() {
+		return rolTarget;
+	}
+
+	public void setRolTarget(List<VtRol> rolTarget) {
+		this.rolTarget = rolTarget;
+	}
+
 	public void crearAction() throws Exception{
 		try {
 			String nombre = txtNombreC.getValue().toString().trim();
@@ -294,15 +336,15 @@ public class VtUsuarioView {
 			if(!clave.equals(clave2)){
 				throw new Exception("las Claves no coinciden");
 			}
-			
+
 			long empresaID;			
 			try {
 				empresaID = Long.parseLong(empresa);
 			} catch (Exception e) {
 				throw new Exception("Problemas con el Id de la Empresa");
 			}
-			
-			
+
+
 
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
@@ -338,27 +380,27 @@ public class VtUsuarioView {
 		txtPasswordC.resetValue();
 		txtPasswordC2.resetValue();
 		somEmpresasC.setValue("-1");
-		
-		
+
+
 		txtPasswordC.setDisabled(true);
 		txtPasswordC2.setDisabled(true);
-		
+
 		btnCrear.setDisabled(false);
 
 	}
 
 	public void limpiarActionM(){
-		
+
 		txtLoginM.resetValue();
 		txtNombreM.resetValue();
 		txtPasswordM.resetValue();
 		txtPasswordM2.resetValue();
 		somEmpresasM.setValue("-1");
 		somEstado.setValue("-1");
-		
+
 		txtPasswordM.setDisabled(true);
 		txtPasswordM2.setDisabled(true);
-		
+
 		btnModificar.setDisabled(false);
 
 	}
@@ -370,7 +412,7 @@ public class VtUsuarioView {
 			if (nombre==null || nombre.trim().equals("")){
 				throw new Exception("Debe ingresar el nombre");
 			}
-			
+
 			String login = txtLoginM.getValue().toString().trim();
 			if (login==null || login.trim().equals("")){
 				throw new Exception("Debe ingresar el login");
@@ -391,11 +433,11 @@ public class VtUsuarioView {
 			if (estado.equals("-1")){
 				throw new Exception("Debe ingresar la empresa");
 			}
-			
+
 			if(!clave.equals(clave2)){
 				throw new Exception("las Claves no coinciden");
 			}
-			
+
 			long empresaID;			
 			try {
 				empresaID = Long.parseLong(empresa);
@@ -423,24 +465,43 @@ public class VtUsuarioView {
 			FacesUtils.addErrorMessage(e.getMessage());
 			losUsuarios = businessDelegatorView.getVtUsuario();
 		}
-		
-		
+
+
 
 	}
 
 	public void modificarListener() {
 		VtUsuario usuario = usuarioSeleccionado;
-		
+
 		txtLoginM.setValue(usuario.getLogin());
 		txtNombreM.setValue(usuario.getNombre());
 		txtPasswordM.setValue(usuario.getClave());
 		txtPasswordM2.setValue(usuario.getClave());
 		somEstado.setValue(usuario.getActivo());
 		somEmpresasM.setValue(usuario.getVtEmpresa().getEmprCodigo());
-		
+
 
 	}
-	
+
+	public void pickListListener() throws Exception{
+		VtUsuario usuario = usuarioSeleccionado;
+		try {
+			rolSource = businessDelegatorView.getRolesNoAsignados(usuario);
+			rolTarget = businessDelegatorView.getRolesAsignados(usuario);
+
+			if (rolSource!=null) {		
+
+				pickListRol.setTarget(rolTarget);
+				pickListRol.setSource(rolSource);
+			}
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+
+	}
+
 	public String generarAction()throws Exception	{
 		try 		{
 			String pass = Utilities.getPassword();
@@ -458,16 +519,87 @@ public class VtUsuarioView {
 
 		return "";
 	}
-	
+
 	public void escogerPass()throws Exception{
 		txtPasswordC.setDisabled(false);
 		txtPasswordC2.setDisabled(false);
 		txtPasswordM.setDisabled(false);
 		txtPasswordM2.setDisabled(false);
-		
+
 	}
-	
+
+	public void onTransfer(TransferEvent event) throws Exception {
+		StringBuilder builder = new StringBuilder();
+
+		for(Object item : event.getItems()) {
+			VtRol vtRol =(VtRol) item;
+
+			builder.append(((VtRol) item).getRolNombre()).append("<br />");
+
+			//true si paso de izquierda a derecha
+			if(event.isAdd()){
+				asignarRol(vtRol, usuarioSeleccionado);
+			}
+			if(event.isRemove()){
+				removerRol(vtRol, usuarioSeleccionado);
+			}
+		}
+
+		FacesUtils.addInfoMessage("Roles Transferidos");
+
+	}
 
 
-	
+	public void asignarRol(VtRol vtRol, VtUsuario vtUsuario )throws Exception{
+
+		try {
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			VtUsuarioRol usuarioRol = businessDelegatorView.findUsuarioRolByUsuarioAndRol(vtUsuario.getUsuaCodigo(), vtRol.getRolCodigo());
+
+			if(usuarioRol == null){
+				usuarioRol = new VtUsuarioRol();
+
+				usuarioRol.setVtUsuario(vtUsuario);
+				usuarioRol.setVtRol(vtRol);
+				usuarioRol.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+				usuarioRol.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+				usuarioRol.setFechaCreacion(new Date());
+				usuarioRol.setFechaModificacion(new Date());
+				usuarioRol.setActivo("S");
+
+				businessDelegatorView.saveVtUsuarioRol(usuarioRol);		
+
+			}else{
+				usuarioRol.setFechaModificacion(new Date());
+				usuarioRol.setActivo("S");
+				usuarioRol.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+				businessDelegatorView.updateVtUsuarioRol(usuarioRol);
+			}
+
+
+
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+
+
+	}
+
+	public void removerRol(VtRol vtRol, VtUsuario vtUsuario )throws Exception{
+		try {
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			VtUsuarioRol usuarioRol = businessDelegatorView.findUsuarioRolByUsuarioAndRol(vtUsuario.getUsuaCodigo(), vtRol.getRolCodigo());
+			
+			usuarioRol.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			usuarioRol.setFechaModificacion(new Date());
+			
+			businessDelegatorView.deleteVtUsuarioRol(usuarioRol);
+			
+		
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+
 }

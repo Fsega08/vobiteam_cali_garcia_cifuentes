@@ -31,6 +31,9 @@
 					<p:menuitem value="Modificar" update="pnlModificarUsuario"
 						icon="fa fa-pencil " oncomplete="PF('dlgModificarUsuario').show()"
 						action="#{vtUsuarioView.modificarListener}" />
+					<p:menuitem value="Asignar Roles" update="pickList"
+						icon="fa fa-user-plus " oncomplete="PF('dlgPickList').show()"
+						action="#{vtUsuarioView.pickListListener}" />
 				</p:contextMenu>
 
 				<p:dataTable id="dtUsuarios" value="#{vtUsuarioView.losUsuarios}"
@@ -108,7 +111,8 @@
 							action="#{vtUsuarioView.modificarAction}" value="Modificar" />
 
 						<p:commandButton id="btnLimpiarM" icon="fa fa-eraser white"
-							update="pnlModificarUsuario" binding="#{vtUsuarioView.btnLimpiarM}"
+							update="pnlModificarUsuario"
+							binding="#{vtUsuarioView.btnLimpiarM}"
 							action="#{vtUsuarioView.limpiarActionM}" value="Limpiar" />
 					</div>
 
@@ -171,6 +175,26 @@
 
 			</p:dialog>
 
+			<p:dialog header="Asignar o Desasignar Roles"
+				widgetVar="dlgPickList" resizable="true" id="dlAsignarRoles"
+				draggable="true" responsive="true" modal="true" width="500">
+				<p:growl id="msj" />
+				<p:pickList id="pickList" value="#{vtUsuarioView.pickListRol}"
+					converter="usuarioPickListConverter" var="roles"
+					itemLabel="#{roles}" itemValue="#{roles}">
+					<f:facet name="sourceCaption">Roles Disponibles</f:facet>
+					<f:facet name="targetCaption">Roles Asignados</f:facet>
+
+					<p:ajax event="transfer" listener="#{vtUsuarioView.onTransfer}"
+						update="msj" />
+
+					<p:column>
+						<h:outputText value="#{roles.rolNombre}" />
+					</p:column>
+
+				</p:pickList>
+
+			</p:dialog>
 
 		</h:form>
 

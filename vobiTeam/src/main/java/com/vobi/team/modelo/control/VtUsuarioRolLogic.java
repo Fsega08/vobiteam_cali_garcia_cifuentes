@@ -148,7 +148,9 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
         }
 
         try {
-            vtUsuarioRolDAO.delete(entity);
+        	entity.setActivo("N");
+        	
+            vtUsuarioRolDAO.update(entity);
 
             log.debug("delete VtUsuarioRol successful");
         } catch (Exception e) {
@@ -468,4 +470,27 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
 
         return list;
     }
+
+    @Transactional(readOnly = true)
+	public List<VtUsuarioRol> findUsuarioRolbyUsuario(VtUsuario usuario) throws Exception {
+		
+    	List<VtUsuarioRol> rolesUsuario = new ArrayList<VtUsuarioRol>();
+    	
+    	try {
+    		Object[] variables = {"vtUsuario.usuaCodigo", false, usuario.getUsuaCodigo(), "="};
+    		rolesUsuario = findByCriteria(variables, null, null);
+    		
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new Exception("No se encontro roles de ese Usuario");
+		}	
+    	
+		return (rolesUsuario != null && !rolesUsuario.isEmpty()
+    			? rolesUsuario : null);
+	}
+
+    @Transactional(readOnly = true)
+	public VtUsuarioRol findUsuarioRolByUsuarioAndRol(Long usuarioCodigo, Long rolCodigo) {
+		return vtUsuarioRolDAO.findUsuarioRolByUsuarioAndRol(usuarioCodigo, rolCodigo);
+	}
 }
