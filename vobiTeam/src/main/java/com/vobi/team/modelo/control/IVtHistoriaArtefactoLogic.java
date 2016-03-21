@@ -1,5 +1,6 @@
 package com.vobi.team.modelo.control;
 
+import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
 
@@ -59,4 +60,6 @@ public interface IVtHistoriaArtefactoLogic {
 
     public List<VtHistoriaArtefactoDTO> getDataVtHistoriaArtefacto()
         throws Exception;
+    
+    public List<VtHistoriaArtefacto> findHistoriaByArtefacto(VtArtefacto vtArtefacto) throws Exception;
 }

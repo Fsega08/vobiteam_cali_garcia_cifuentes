@@ -79,6 +79,16 @@ public class VtBacklogView {
 		
 	}
 	
+	
+	public String getUsuarioActual() {
+		return usuarioActual;
+	}
+
+
+	public void setUsuarioActual(String usuarioActual) {
+		this.usuarioActual = usuarioActual;
+	}
+
 
 	public VtPilaProducto getBackogSeleccionado() {
 		return backogSeleccionado;
@@ -322,6 +332,20 @@ public class VtBacklogView {
 
 		return "/XHTML/listaProyectos.xhtml";
 
+	}
+	
+		public String artefactoListener(){
+		
+		//Guardo objeto en la sesion
+		if (backogSeleccionado.getActivo().equals("S")) {
+			FacesUtils.putinSession("backlogSeleccionado", backogSeleccionado);
+			return "/XHTML/listarArtefactos.xhtml";
+		}
+		else{
+			FacesUtils.addErrorMessage("La pila producto esta inactiva");
+			return "";
+		}
+		
 	}
 	
 	public String sprintListener(){

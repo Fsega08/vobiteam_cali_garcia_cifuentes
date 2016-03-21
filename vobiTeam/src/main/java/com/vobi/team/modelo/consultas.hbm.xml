@@ -8,4 +8,10 @@
 	   		Select proyUsuarios from VtProyectoUsuario proyUsuarios where proyUsuarios.vtProyecto.proyCodigo=:proyCodigo and proyUsuarios.vtUsuario.usuaCodigo=:usuaCodigo
 	   	]]>
    </query>
+   
+   <query name="consultarArtefactosPorPilaProductoSinSprintAsignado">
+	   	<![CDATA[
+	   		Select vtArt from VtArtefacto vtArt where vtArt.vtPilaProducto.pilaCodigo=:pilaCodigo and vtArt.vtSprint.spriCodigo IS null
+	   	]]>
+   </query>
 </hibernate-mapping>

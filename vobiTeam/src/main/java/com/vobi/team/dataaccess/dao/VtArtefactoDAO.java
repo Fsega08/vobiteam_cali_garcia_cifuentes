@@ -2,6 +2,7 @@ package com.vobi.team.dataaccess.dao;
 
 import com.vobi.team.dataaccess.api.HibernateDaoImpl;
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtProyectoUsuario;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -51,4 +52,15 @@ public class VtArtefactoDAO extends HibernateDaoImpl<VtArtefacto, Long>
         ApplicationContext ctx) {
         return (IVtArtefactoDAO) ctx.getBean("VtArtefactoDAO");
     }
+    
+    
+	@Override
+	public List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId) {
+		Query query = getSession().getNamedQuery("consultarArtefactosPorPilaProductoSinSprintAsignado");
+		query.setParameter("pilaCodigo", backlogId);
+
+		List<VtArtefacto> artefactos = (List<VtArtefacto>) query.list();
+		return artefactos;
+	}
+    
 }
