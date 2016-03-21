@@ -2,6 +2,7 @@ package com.vobi.team.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -17,11 +18,13 @@ import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
+import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
 import com.vobi.team.modelo.control.IVtPilaProductoLogic;
 import com.vobi.team.modelo.control.IVtProyectoLogic;
 import com.vobi.team.modelo.control.IVtProyectoUsuarioLogic;
+import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 
 
@@ -37,6 +40,9 @@ public class testArtefacto {
 	 
 	 @Autowired
 	 private IVtArtefactoLogic vtArtefactoLogic;
+	 
+	 @Autowired
+	 private IVtSprintLogic sprintLogic;
 
 	@Test
 	public void testA() throws Exception {
@@ -47,12 +53,32 @@ public class testArtefacto {
 		List<VtArtefacto> losArtefactos = vtArtefactoLogic.findArtefactosVaciosPorBacklog(vtPilaProducto.getPilaCodigo());
 		
 		for (VtArtefacto vtArtefacto : losArtefactos) {
+			log.info("nombre= " + vtArtefacto.getTitulo());		
+		}
+		
+		
+	}	
+	
+	@Test
+	public void testB() throws Exception {
+		
+		VtSprint vtSprint = sprintLogic.getVtSprint(1L);
+		
+		List<VtArtefacto> losArtefactos = new ArrayList<>();
+		try {
+			losArtefactos = vtArtefactoLogic.findArtefactosBySpring(vtSprint);
+
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+				
+		for (VtArtefacto vtArtefacto : losArtefactos) {
 			log.info("nombre= " + vtArtefacto.getTitulo());
-			log.info("pila producto " + vtArtefacto.getVtPilaProducto().getPilaCodigo());
 			
 		}
 		
 		
 	}	
+	
 
 }

@@ -1,5 +1,6 @@
 package com.vobi.team.presentation.backingBeans;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +13,16 @@ import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
+import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
@@ -68,6 +74,32 @@ public class VtSprintView {
 	private Date fechaInicioM;
 	private Date fechaFinM;
 
+	///////////////////////////////
+	
+	private DualListModel<VtArtefacto> losArtefactos;
+	private List<VtArtefacto> artefactosSource;
+	private List<VtArtefacto> artefactosTarget;
+	
+	
+	////////////////////////////
+	
+	private List<VtArtefacto> losArtefactosAsginados;
+	
+	public List<VtArtefacto> getLosArtefactosAsginados() {
+		try {
+			
+			losArtefactosAsginados = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
+			
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+		return losArtefactosAsginados;
+	}
+
+	public void setLosArtefactosAsginados(List<VtArtefacto> losArtefactosAsginados) {
+		this.losArtefactosAsginados = losArtefactosAsginados;
+	}
+
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -76,6 +108,11 @@ public class VtSprintView {
 
 		try {
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
+			
+			artefactosSource = businessDelegatorView.getVtArtefacto();
+			artefactosTarget = businessDelegatorView.getVtArtefacto();
+
+			losArtefactos = new DualListModel<>(artefactosSource, artefactosTarget);
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
@@ -100,6 +137,38 @@ public class VtSprintView {
 
 	public Calendar getClndFechaIncio() {
 		return clndFechaIncio;
+	}
+	
+	public DualListModel<VtArtefacto> getLosArtefactos() {
+		return losArtefactos;
+	}
+
+	public void setLosArtefactos(DualListModel<VtArtefacto> losArtefactos) {
+		this.losArtefactos = losArtefactos;
+	}
+
+	public List<VtArtefacto> getArtefactosSource() {
+		return artefactosSource;
+	}
+
+	public void setArtefactosSource(List<VtArtefacto> artefactosSource) {
+		this.artefactosSource = artefactosSource;
+	}
+
+	public List<VtArtefacto> getArtefactosTarget() {
+		return artefactosTarget;
+	}
+
+	public void setArtefactosTarget(List<VtArtefacto> artefactosTarget) {
+		this.artefactosTarget = artefactosTarget;
+	}
+
+	public String getUsuarioActual() {
+		return usuarioActual;
+	}
+
+	public void setUsuarioActual(String usuarioActual) {
+		this.usuarioActual = usuarioActual;
 	}
 
 	public void setClndFechaIncio(Calendar clndFechaIncio) {
@@ -395,4 +464,77 @@ public class VtSprintView {
 		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
 
 	}
+	
+	public void asignarArtefactoAction() throws Exception {
+
+		try {
+			
+			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
+			artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
+			
+			losArtefactos.setSource(artefactosSource);
+			
+			if (artefactosTarget != null) {
+				
+				losArtefactos.setTarget(artefactosTarget);
+			}else {
+				List<VtArtefacto> artTarget = new ArrayList<VtArtefacto>();
+				losArtefactos.setTarget(artTarget);
+			}
+			
+			
+			
+			
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+
+	}
+	
+	
+	public void onTransfer(TransferEvent event) throws Exception {
+		StringBuilder builder = new StringBuilder();
+
+		for(Object item : event.getItems()) {
+			VtArtefacto vtArtefacto=(VtArtefacto) item;
+
+			builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
+
+			//true si paso de izquierda a derecha
+			if(event.isAdd()){
+				asignarArtefactoASprint(vtArtefacto, sprintSeleccionado);
+			}
+			if(event.isRemove()){
+				removerArtefacto(vtArtefacto);
+			}
+		}
+
+		FacesUtils.addInfoMessage("Artefacto(s) Transferidos");
+
+	}
+	
+	public void asignarArtefactoASprint(VtArtefacto vtArtefacto, VtSprint vtSprint) {
+		try {
+			log.info("asigno");
+			vtArtefacto.setVtSprint(vtSprint);
+			
+			businessDelegatorView.updateVtArtefacto(vtArtefacto);
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	
+	public void removerArtefacto(VtArtefacto vtArtefacto) {
+		try {
+			log.info("removio");
+			vtArtefacto.setVtSprint(null);
+			
+			businessDelegatorView.updateVtArtefacto(vtArtefacto);
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	
 }

@@ -707,7 +707,6 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 
 			losArtefactos = findByCriteria(variables, null, null);
 		} catch (Exception e) {
-			log.info(e.getMessage(), e);
 			throw new Exception("No se encontro artefactos por el Id del sprint");
 		}
 

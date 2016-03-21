@@ -203,13 +203,6 @@ public class VtEmpresaLogic implements IVtEmpresaLogic {
                 throw new ZMessManager().new EmptyFieldException("activo");
             }
             
-            VtEmpresa vtEmpresa = findByEnterpriseIdentificacion(entity.getIdentificacion());
-            
-            if (vtEmpresa != null) {
-				throw new ZMessManager().new FindingException(
-						"Ya hay una empresa registrada con ese nit");
-			}
-            
             if ((entity.getActivo() != null) &&
                     (Utilities.checkWordAndCheckWithlength(entity.getActivo(), 1) == false)) {
                 throw new ZMessManager().new NotValidFormatException("activo");

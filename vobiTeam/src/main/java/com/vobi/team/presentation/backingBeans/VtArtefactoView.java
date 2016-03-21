@@ -99,6 +99,9 @@ public class VtArtefactoView {
 	private VtArtefacto artefactoSeleccionado;
 	private List<VtArtefacto> losArtefactos;
 	
+	
+	private List<VtArtefacto> losArtefactosAsginados;
+	
 	private List<VtHistoriaArtefacto> elHistorialArtefacto;
 	
 	private StreamedContent file;
@@ -649,7 +652,8 @@ public class VtArtefactoView {
 	public void setLosArtefactos(List<VtArtefacto> losArtefactos) {
 		this.losArtefactos = losArtefactos;
 	}
-
+	
+	
 	public VtSprint getSprintSeleccionado() {
 		return sprintSeleccionado;
 	}

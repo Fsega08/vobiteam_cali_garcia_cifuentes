@@ -250,9 +250,6 @@ public class VtEmpresaView {
 			
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
-			if (txtMIdentificacion.getValue().toString().trim().equals("") == true || txtIdentificacion.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
-			}
 			if (txtMNombre.getValue().toString().trim().equals("")== true || txtNombre.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
@@ -263,7 +260,7 @@ public class VtEmpresaView {
 			
 			VtEmpresa vtEmpresa = laEmpresaSeleccionada;
 			
-			vtEmpresa.setIdentificacion(txtMIdentificacion.getValue().toString().trim());
+
 			vtEmpresa.setNombre(txtMNombre.getValue().toString());
 			vtEmpresa.setActivo(somEmpresaActiva.getValue().toString().trim());
 

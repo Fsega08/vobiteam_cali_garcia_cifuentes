@@ -31,6 +31,15 @@
 					<p:menuitem value="Modificar" update="pnlModificarSprint"
 						icon="fa fa-pencil " oncomplete="PF('dlgModificarSprint').show()"
 						action="#{vtSprintView.modificarListener}" />
+
+					<p:menuitem value="Asignar artefactos a este sprint"
+						icon="ui-icon-plus black" oncomplete="PF('dlg').show()"
+						action="#{vtSprintView.asignarArtefactoAction}"
+						update="dlAsignar" />
+						
+					<p:menuitem value="Ver artefactos asignados al sprint" update="dtArtefactos"
+						icon="fa fa-list " oncomplete="PF('dlgArtefacto').show()" />
+					
 				</p:contextMenu>
 
 				<p:dataTable id="dtSprint" value="#{vtSprintView.losSprint}"
@@ -153,6 +162,57 @@
 				</div>
 
 			</p:dialog>
+
+
+			<p:dialog header="Asignar o Des-asignar Historias" widgetVar="dlg"
+				resizable="true" id="dlAsignar" draggable="true" responsive="true"
+				modal="true" width="500">
+				<p:growl id="msj" />
+				<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
+					var="artefactos" itemLabel="#{artefactos}"
+					itemValue="#{artefactos}" converter="usuarioPickListConverter">
+
+					<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
+					<f:facet name="targetCaption">Artefactos Asignados</f:facet>
+
+					<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
+						update="msj" />
+
+					<p:column>
+						<h:outputText value="#{artefactos.titulo}" />
+					</p:column>
+				</p:pickList>
+
+			</p:dialog>
+
+
+			<p:dialog header="Lista de artefactos del sprint"
+				widgetVar="dlgArtefacto" resizable="true" id="dlArtefactosAsig"
+				draggable="true" responsive="true" modal="true" width="800">
+				<p:dataTable id="dtArtefactos"
+					value="#{vtSprintView.losArtefactosAsginados}" var="artefacto"
+					paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10,15" rendered="true" emptyMessage="Este sprint no tiene artefactos">
+
+					<p:column headerText="Nombre Artefacto"
+						filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}">
+						<h:outputText value="#{artefacto.titulo}" />
+					</p:column>
+
+					<p:column headerText="Puntos" filterBy="#{artefacto.puntos}"
+						sortBy="#{artefacto.puntos}">
+						<h:outputText value="#{artefacto.puntos}" />
+					</p:column>
+
+					<p:column headerText="Activo" filterBy="#{artefacto.activo}"
+						sortBy="#{artefacto.activo}">
+						<h:outputText value="#{artefacto.activo}" />
+					</p:column>
+
+				</p:dataTable>
+			</p:dialog>
+
 
 		</h:form>
 
