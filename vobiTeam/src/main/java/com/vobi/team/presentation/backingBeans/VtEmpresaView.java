@@ -279,7 +279,6 @@ public class VtEmpresaView {
 
 	public void modificarListener() throws Exception{	
 
-		txtMIdentificacion.setValue(laEmpresaSeleccionada.getIdentificacion());
 		txtMNombre.setValue(laEmpresaSeleccionada.getNombre());
 		somEmpresaActiva.setValue(laEmpresaSeleccionada.getActivo());
 	}
@@ -307,7 +306,6 @@ public class VtEmpresaView {
 	public void limpiarMAction() {
 		log.info("Limpiar Mod");
 
-		txtMNombre.resetValue();
 		txtMIdentificacion.resetValue();
 		somEmpresaActiva.setValue("-1");
 		

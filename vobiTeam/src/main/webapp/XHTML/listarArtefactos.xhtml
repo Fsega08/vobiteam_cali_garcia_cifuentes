@@ -58,7 +58,7 @@
 						rowsPerPageTemplate="5,10,15" rendered="true"
 						rowKey="#{artefacto.arteCodigo}"
 						selection="#{vtArtefactoView.artefactoSeleccionado}"
-						emptyMessage="No se encontraron pilas de producto en este proyecto, puedes crear uno."
+						emptyMessage="No se encontraron artefactos en esta pila de producto, puedes crear uno."
 						selectionMode="single">
 
 						<p:column headerText="Nombre Artefacto"
@@ -151,6 +151,7 @@
 									placeholder="Descripción"
 									binding="#{vtArtefactoView.txtDescripcion}" />
 							</h:panelGrid>
+							<div align="center">
 							<p:commandButton id="btnModificarArtefacto"
 								binding="#{vtArtefactoView.btnModificar}"
 								icon="fa fa-pencil white" value="Modificar"
@@ -160,7 +161,7 @@
 								value="Limpiar" action="#{vtArtefactoView.limpiarAction}"
 								binding="#{vtArtefactoView.btnLimpiar}"
 								update="pnlModificarArtefacto" />
-
+							</div>
 						</p:panel>
 					</p:dialog>
 
@@ -241,7 +242,7 @@
 							binding="#{vtArtefactoView.txtCrearDescripcion}" />
 
 					</h:panelGrid>
-
+					<div align="center">
 					<p:commandButton id="btnCrearArtefacto"
 						binding="#{vtArtefactoView.btnCrear}" icon="fa fa-plus white"
 						value="Crear" action="#{vtArtefactoView.crearAction}"
@@ -251,6 +252,8 @@
 						value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"
 						action="#{vtArtefactoView.limpiarCrearAction}"
 						update="pnlCrearArtefacto" />
+					
+					</div>
 
 				</p:panel>
 			</p:dialog>
@@ -333,7 +336,7 @@
 					<p:fileUpload
 						fileUploadListener="#{vtArtefactoView.handleFileUpload}"
 						mode="advanced" multiple="true" update="men"
-						dragDropSupport="true" />
+						dragDropSupport="true" uploadLabel="Cargar" cancelLabel="Cancelar" label="Seleccionar"/>
 
 				</h:panelGrid>
 			</p:dialog>
