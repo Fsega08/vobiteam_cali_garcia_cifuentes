@@ -746,7 +746,7 @@ public class VtArtefactoView {
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
 			
 			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
-			elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
+		//	elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
 			limpiarCrearAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
