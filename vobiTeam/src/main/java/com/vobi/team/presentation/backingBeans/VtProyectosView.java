@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +36,10 @@ public class VtProyectosView {
 	private IBusinessDelegatorView businessDelegatorView;
 
 	private InputText txtCNombre;
-	private InputText txtCDescripcion;
+	private InputTextarea txtCDescripcion;
 
 	private InputText txtMNombre;
-	private InputText txtMDescripcion;
+	private InputTextarea txtMDescripcion;
 
 	private SelectOneMenu somProyectoActivo;
 	private SelectOneMenu somProyectoPublico;
@@ -179,17 +180,6 @@ public class VtProyectosView {
 		this.txtCNombre = txtCNombre;
 	}
 
-
-	public InputText getTxtCDescripcion() {
-		return txtCDescripcion;
-	}
-
-
-	public void setTxtCDescripcion(InputText txtCDescripcion) {
-		this.txtCDescripcion = txtCDescripcion;
-	}
-
-
 	public InputText getTxtMNombre() {
 		return txtMNombre;
 	}
@@ -199,14 +189,33 @@ public class VtProyectosView {
 		this.txtMNombre = txtMNombre;
 	}
 
+	public InputTextarea getTxtCDescripcion() {
+		return txtCDescripcion;
+	}
 
-	public InputText getTxtMDescripcion() {
+
+	public void setTxtCDescripcion(InputTextarea txtCDescripcion) {
+		this.txtCDescripcion = txtCDescripcion;
+	}
+
+
+	public InputTextarea getTxtMDescripcion() {
 		return txtMDescripcion;
 	}
 
 
-	public void setTxtMDescripcion(InputText txtMDescripcion) {
+	public void setTxtMDescripcion(InputTextarea txtMDescripcion) {
 		this.txtMDescripcion = txtMDescripcion;
+	}
+
+
+	public String getUsuarioActual() {
+		return usuarioActual;
+	}
+
+
+	public void setUsuarioActual(String usuarioActual) {
+		this.usuarioActual = usuarioActual;
 	}
 
 

@@ -43,7 +43,7 @@
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="10, 15" rowKey="#{rol.rolCodigo}"
 						emptyMessage="No hay empresas seleccionadas para este usuario" selection="#{vtRolesView.elRol}"
-						selectionMode="single">
+						selectionMode="single"  paginatorPosition="bottom">
 
 						<p:column headerText="Nombre del Rol"
 							filterBy="#{rol.rolNombre}" sortBy="#{rol.rolNombre}">

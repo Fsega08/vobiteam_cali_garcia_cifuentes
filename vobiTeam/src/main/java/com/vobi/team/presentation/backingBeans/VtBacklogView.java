@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,7 @@ public class VtBacklogView {
 	
 	//Para el crear backog
 	private InputText txtCNombre;
-	private InputText txtCDescripcion;
+	private InputTextarea txtCDescripcion;
 	
 	//Abrir el dialog de crear
 	private CommandButton btnCrear;
@@ -55,7 +56,7 @@ public class VtBacklogView {
 	
 	//Para modificar el dialog
 	private InputText txtMNombre;
-	private InputText txtMDescripcion;
+	private InputTextarea txtMDescripcion;
 	private SelectOneMenu somBacklogActivo;
 	
 	//El boton que manda a modificar
@@ -109,17 +110,6 @@ public class VtBacklogView {
 		this.txtCNombre = txtCNombre;
 	}
 
-
-	public InputText getTxtCDescripcion() {
-		return txtCDescripcion;
-	}
-
-
-	public void setTxtCDescripcion(InputText txtCDescripcion) {
-		this.txtCDescripcion = txtCDescripcion;
-	}
-
-
 	public CommandButton getBtnCrear() {
 		return btnCrear;
 	}
@@ -149,19 +139,27 @@ public class VtBacklogView {
 		this.txtMNombre = txtMNombre;
 	}
 
+	public SelectOneMenu getSomBacklogActivo() {
+		return somBacklogActivo;
+	}
 
-	public InputText getTxtMDescripcion() {
+	public InputTextarea getTxtCDescripcion() {
+		return txtCDescripcion;
+	}
+
+
+	public void setTxtCDescripcion(InputTextarea txtCDescripcion) {
+		this.txtCDescripcion = txtCDescripcion;
+	}
+
+
+	public InputTextarea getTxtMDescripcion() {
 		return txtMDescripcion;
 	}
 
 
-	public void setTxtMDescripcion(InputText txtMDescripcion) {
+	public void setTxtMDescripcion(InputTextarea txtMDescripcion) {
 		this.txtMDescripcion = txtMDescripcion;
-	}
-
-
-	public SelectOneMenu getSomBacklogActivo() {
-		return somBacklogActivo;
 	}
 
 

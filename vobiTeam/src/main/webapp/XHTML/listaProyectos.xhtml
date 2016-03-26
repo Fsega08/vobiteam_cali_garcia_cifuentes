@@ -45,7 +45,7 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="10,15" rowKey="#{proyecto.proyCodigo}"
 					rendered="true" selection="#{vtProyectosView.proyectoSeleccionado}"
-					selectionMode="single" emptyMessage="No existen proyectos de esta empresa, por que no creas uno ?" >
+					selectionMode="single" paginatorPosition="bottom" emptyMessage="No existen proyectos de esta empresa, por que no creas uno ?" >
 
 					<p:column headerText="Nombre del Proyecto"
 						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}">
@@ -69,12 +69,13 @@
 							
 							<h:outputText value="Nombre del Proyecto" />
 							<p:inputText id="txtMNombre" placeholder="Nombre"
-								binding="#{vtProyectosView.txtMNombre}" maxlength="50"/>	
+								binding="#{vtProyectosView.txtMNombre}" maxlength="100"/>	
 							
 							<h:outputText value="Descripcion del Proyecto" />
-							<p:inputText id="txtMDescripcion" placeholder="Descripción"
-								binding="#{vtProyectosView.txtMDescripcion}"
-								maxlength="100000000" />
+							<p:inputTextarea id="txtAreaMDescripcion" rows="7" cols="30"
+								placeholder="Descripcion" binding="#{vtProyectosView.txtMDescripcion}" 
+								maxlength="100000000"/>
+							
 							
 							<h:outputText value="Estado del Proyecto" />
 							<p:selectOneMenu id="somProyectoActivo"
@@ -140,14 +141,17 @@
 				modal="true" width="500">
 				<div align="center">
 					<p:panel header="Crear Proyecto" id="pnlCrearProyecto">
-						<h:panelGrid columns="1">
-
+						<h:panelGrid columns="2">
+						
+							<h:outputText value="Nombre del proyecto"/>
 							<p:inputText id="txtCNombre" placeholder="Nombre"
-								binding="#{vtProyectosView.txtCNombre}" maxlength="255" />
-
-							<p:inputText id="txtCDescripcion" placeholder="Descripción"
-								binding="#{vtProyectosView.txtCDescripcion}"
-								maxlength="100000000" />
+								binding="#{vtProyectosView.txtCNombre}" maxlength="100" />
+							
+							<h:outputText value="Descripción del proyecto"/>
+							<p:inputTextarea id="txtAreaDescripcion" rows="7" cols="30"
+								placeholder="Descripcion" binding="#{vtProyectosView.txtCDescripcion}" 
+								maxlength="100000000"/>
+							
 
 						</h:panelGrid>
 					</p:panel>

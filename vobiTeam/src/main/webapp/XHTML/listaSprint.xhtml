@@ -49,7 +49,7 @@
 					selectionMode="single"
 					selection="#{vtSprintView.sprintSeleccionado}"
 					emptyMessage="Parece que no hay Sprints, por que no creas uno"
-					rendered="true">
+					rendered="true"  paginatorPosition="bottom">
 
 
 					<p:column headerText="Nombre Sprint" filterBy="#{sprint.nombre}"
@@ -191,7 +191,7 @@
 				draggable="true" responsive="true" modal="true" width="800">
 				<p:dataTable id="dtArtefactos"
 					value="#{vtSprintView.losArtefactosAsginados}" var="artefacto"
-					paginator="true" rows="10"
+					paginator="true" rows="10" paginatorPosition="bottom"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="10,15" rendered="true" emptyMessage="Este sprint no tiene artefactos">
 
