@@ -343,7 +343,7 @@
 				widgetVar="dlgArchivosArtefacto" modal="true"
 				id="dlArchivosArtefacto">
 				<h:panelGrid columns="1" id="panelArchivos">
-					<p:fileUpload
+					<p:fileUpload sequential="true"
 						fileUploadListener="#{vtArtefactoView.handleFileUpload}"
 						mode="advanced" multiple="true" update="men"
 						dragDropSupport="true" uploadLabel="Cargar" cancelLabel="Cancelar" label="Seleccionar"/>
