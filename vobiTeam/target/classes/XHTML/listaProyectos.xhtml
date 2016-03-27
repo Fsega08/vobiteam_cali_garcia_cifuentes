@@ -48,16 +48,16 @@
 					selectionMode="single" paginatorPosition="bottom" emptyMessage="No existen proyectos de esta empresa, por que no creas uno ?" >
 
 					<p:column headerText="Nombre del Proyecto"
-						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}">
-						<h:outputText value="#{proyecto.nombre}" />
+						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}" >
+						<h:outputText value="#{proyecto.nombre}" title="Presiona click derecho para ver las opciones" />
 					</p:column>
 					<p:column headerText="Descripcion del Proyecto"
 						filterBy="#{proyecto.descripcion}" sortBy="#{proyecto.descripcion}">
-						<h:outputText value="#{proyecto.descripcion}" />
+						<h:outputText value="#{proyecto.descripcion}" title="Presiona click derecho para ver las opciones" />
 					</p:column>
 					<p:column headerText="Estado del Proyecto" filterBy="#{proyecto.activo}"
 						sortBy="#{proyecto.activo}">
-						<h:outputText value="#{proyecto.activo}" />
+						<h:outputText value="#{proyecto.activo}" title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 				</p:dataTable>

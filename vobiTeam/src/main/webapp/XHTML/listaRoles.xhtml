@@ -47,12 +47,12 @@
 
 						<p:column headerText="Nombre del Rol"
 							filterBy="#{rol.rolNombre}" sortBy="#{rol.rolNombre}">
-							<h:outputText value="#{rol.rolNombre}" />
+							<h:outputText value="#{rol.rolNombre}" title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Activa" filterBy="#{rol.activo}"
 							sortBy="#{rol.activo}">
-							<h:outputText value="#{rol.activo}" />
+							<h:outputText value="#{rol.activo}" title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 					</p:dataTable>

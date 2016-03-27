@@ -63,22 +63,22 @@
 
 						<p:column headerText="Nombre Artefacto"
 							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}">
-							<h:outputText value="#{artefacto.titulo}" />
+							<h:outputText value="#{artefacto.titulo}" title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}"
 							sortBy="#{artefacto.usuCreador}">
-							<h:outputText value="#{artefacto.usuCreador}" />
+							<h:outputText value="#{artefacto.usuCreador}" title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Puntos" filterBy="#{artefacto.puntos}"
 							sortBy="#{artefacto.puntos}">
-							<h:outputText value="#{artefacto.puntos}" />
+							<h:outputText value="#{artefacto.puntos}" title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Activo" filterBy="#{artefacto.activo}"
 							sortBy="#{artefacto.activo}">
-							<h:outputText value="#{artefacto.activo}" />
+							<h:outputText value="#{artefacto.activo}" title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 
@@ -373,12 +373,12 @@
 					rowsPerPageTemplate="5,10,15" rendered="true"
 					rowKey="#{archivo.archCodigo}"
 					selection="#{vtArtefactoView.archivoSeleccionado}"
-					emptyMessage="No se encontraron archivos para este artefacto."
+					emptyMessage="Lo siento, este artefacto no tiene archivos."
 					selectionMode="single"  paginatorPosition="bottom">
 
 					<p:column headerText="Nombre Archivo"
 						filterBy="#{archivo.nombre}" sortBy="#{archivo.nombre}">
-						<h:outputText value="#{archivo.nombre}" />
+						<h:outputText value="#{archivo.nombre}" title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 				</p:dataTable>

@@ -54,11 +54,11 @@
 					
 					<p:column headerText="Nombre" filterBy="#{backlog.nombre}"
 						sortBy="#{backlog.nombre}">
-						<h:outputText value="#{backlog.nombre}" />
+						<h:outputText value="#{backlog.nombre}" title="Presiona click derecho para ver las opciones"/>
 					</p:column>
 					<p:column headerText="Estado" filterBy="#{backlog.activo}"
 						sortBy="#{backlog.activo}">
-						<h:outputText value="#{backlog.activo}" />
+						<h:outputText value="#{backlog.activo}" title="Presiona click derecho para ver las opciones"/>
 					</p:column>
 
 				</p:dataTable>
