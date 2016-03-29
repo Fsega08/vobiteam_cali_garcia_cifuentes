@@ -27,6 +27,15 @@
 		<h:form id="formDialog">
 			<p:growl id="men" />
 			<p:panel header="Lista de Usuarios" id="pnlUsuarios">
+
+				<p:panel>
+					<div align="center">
+						<p:commandButton id="btnCrearUsuario" value="Crear Usuario"
+							binding="#{vtUsuarioView.btnCrearUsuario}"
+							icon="fa fa-plus white" onclick="PF('dlgCrearUsuario').show();" />
+					</div>
+				</p:panel>
+
 				<p:contextMenu for="dtUsuarios">
 					<p:menuitem value="Modificar" update="pnlModificarUsuario"
 						icon="fa fa-pencil " oncomplete="PF('dlgModificarUsuario').show()"
@@ -43,16 +52,18 @@
 					selectionMode="single"
 					selection="#{vtUsuarioView.usuarioSeleccionado}"
 					emptyMessage="Parece que no hay Usuarios, por que no creas uno?"
-					rendered="true" paginatorPosition="bottom" >
+					rendered="true" paginatorPosition="bottom">
 
 					<p:column headerText="Nombre del Usuario"
 						filterBy="#{usuarios.nombre}" sortBy="#{usuarios.nombre}">
-						<h:outputText value="#{usuarios.nombre}" title="Presiona click derecho para ver las opciones" />
+						<h:outputText value="#{usuarios.nombre}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 					<p:column headerText="Correo del Usuario"
 						filterBy="#{usuarios.login}" sortBy="#{usuarios.login}">
-						<h:outputText value="#{usuarios.login}" title="Presiona click derecho para ver las opciones" />
+						<h:outputText value="#{usuarios.login}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 				</p:dataTable>
@@ -119,11 +130,7 @@
 				</p:dialog>
 
 			</p:panel>
-			<div align="center">
-				<p:commandButton id="btnCrearUsuario" value="Crear Usuario"
-					binding="#{vtUsuarioView.btnCrearUsuario}" icon="fa fa-plus white"
-					onclick="PF('dlgCrearUsuario').show();" />
-			</div>
+
 
 			<p:dialog header="Crear Usuario" widgetVar="dlgCrearUsuario"
 				modal="true" width="500" resizable="false">
@@ -175,9 +182,9 @@
 
 			</p:dialog>
 
-			<p:dialog header="Asignar o Desasignar Roles"
-				widgetVar="dlgPickList" resizable="true" id="dlAsignarRoles"
-				draggable="true" responsive="true" modal="true" width="500">
+			<p:dialog header="Asignar o Desasignar Roles" widgetVar="dlgPickList"
+				resizable="true" id="dlAsignarRoles" draggable="true"
+				responsive="true" modal="true" width="500">
 				<p:growl id="msj" />
 				<p:pickList id="pickList" value="#{vtUsuarioView.pickListRol}"
 					converter="usuarioPickListConverter" var="roles"

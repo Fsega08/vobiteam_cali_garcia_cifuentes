@@ -26,44 +26,57 @@
 
 		<h:form id="formDialog">
 			<p:growl id="men" />
-			<p:panel header="Dashboard de la Empresa" id="pnlDashboard">
-				<h:panelGrid columns="1" layout="grid">
-					
-					
-				<p:contextMenu for="dtListaEmpresa" >
-					<p:menuitem value="Modificar" update="panelVtEmpresa"
-						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
-						action="#{vtEmpresaView.modificarListener}" />
+			<p:panel header="Empresas" id="pnlDashboard">
 				
-					<p:menuitem value="Ir a proyectos" update="formDialog"
-						icon="fa fa-list " action="#{vtEmpresaView.listaEmpresaListener}"  />
-					
-				</p:contextMenu>
-					
-					
-					<p:dataTable id="dtListaEmpresa" value="#{vtEmpresaView.lasEmpresas}" var="empresa"
+				<p:panel id="panelBotones">
+					<div align="center">
+						<p:commandButton id="btnCrearEmpresa" value="Crear Empresa"
+							icon="fa fa-plus white" onclick="PF('dlgCrearEmpresa').show();" />
+					</div>
+				</p:panel>
+
+				<h:panelGrid columns="1" layout="grid">
+
+
+					<p:contextMenu for="dtListaEmpresa">
+						<p:menuitem value="Modificar" update="panelVtEmpresa"
+							icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
+							action="#{vtEmpresaView.modificarListener}" />
+
+						<p:menuitem value="Ir a proyectos" update="formDialog"
+							icon="fa fa-list " action="#{vtEmpresaView.listaEmpresaListener}" />
+
+					</p:contextMenu>
+
+
+					<p:dataTable id="dtListaEmpresa"
+						value="#{vtEmpresaView.lasEmpresas}" var="empresa"
 						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="10, 15" rowKey="#{empresa.emprCodigo}"
-						emptyMessage="No hay empresas seleccionadas para este usuario" selection="#{vtEmpresaView.laEmpresaSeleccionada}"
-						selectionMode="single"  paginatorPosition="bottom">
-						
-						
+						emptyMessage="No hay empresas seleccionadas para este usuario"
+						selection="#{vtEmpresaView.laEmpresaSeleccionada}"
+						selectionMode="single" paginatorPosition="bottom">
+
+
 						<p:column headerText="Nombre de Empresa"
-							filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}" >
-							<h:outputText value="#{empresa.nombre}" title="Presiona click derecho para ver las opciones" />
+							filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}">
+							<h:outputText value="#{empresa.nombre}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
-						
-						
+
+
 						<p:column headerText="Identificación"
 							filterBy="#{empresa.identificacion}"
 							sortBy="#{empresa.identificacion}">
-							<h:outputText value="#{empresa.identificacion}" title="Presiona click derecho para ver las opciones" />
+							<h:outputText value="#{empresa.identificacion}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
-						<p:column headerText="Estado de la Empresa" filterBy="#{empresa.activo}"
-							sortBy="#{empresa.activo}">
-							<h:outputText value="#{empresa.activo}" title="Presiona click derecho para ver las opciones" />
+						<p:column headerText="Estado de la Empresa"
+							filterBy="#{empresa.activo}" sortBy="#{empresa.activo}">
+							<h:outputText value="#{empresa.activo}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 					</p:dataTable>
@@ -74,12 +87,12 @@
 					<div align="center">
 						<p:panel id="panelVtEmpresa" header="Modificar Empresa">
 							<h:panelGrid columns="2">
-								
-								<h:outputText value="Nombre de la Empresa"/>
+
+								<h:outputText value="Nombre de la Empresa" />
 								<p:inputText id="txtMNombre" placeholder="Nombre"
 									binding="#{vtEmpresaView.txtMNombre}" maxlength="60" />
-								
-								<h:outputText value="Estado de la Empresa"/>
+
+								<h:outputText value="Estado de la Empresa" />
 								<p:selectOneMenu id="somEmpresaActiva"
 									binding="#{vtEmpresaView.somEmpresaActiva}">
 									<f:selectItem itemValue="-1" itemLabel="Empresa Activa" />
@@ -87,61 +100,49 @@
 									<f:selectItem itemValue="N" itemLabel="Inactiva" />
 								</p:selectOneMenu>
 
-								
-							</h:panelGrid>
-							<br/>
-							<p:commandButton id="btnModificar"
-									binding="#{vtEmpresaView.btnModificar}"
-									icon="fa fa-pencil white"
-									action="#{vtEmpresaView.modificarAction}" value="Modificar"
-									update="formDialog" />
 
-								<p:commandButton id="btnMClear" icon="fa fa-eraser white"
-									action="#{vtEmpresaView.limpiarMAction}" value="Limpiar"
-									update="panelVtEmpresa" />
+							</h:panelGrid>
+							<br />
+							<p:commandButton id="btnModificar"
+								binding="#{vtEmpresaView.btnModificar}"
+								icon="fa fa-pencil white"
+								action="#{vtEmpresaView.modificarAction}" value="Modificar"
+								update="formDialog" />
+
+							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
+								action="#{vtEmpresaView.limpiarMAction}" value="Limpiar"
+								update="panelVtEmpresa" />
 						</p:panel>
 					</div>
 				</p:dialog>
 
 			</p:panel>
 
-
-			<p:panel id="panelBotones">
-				<div align="center">
-					<p:commandButton id="btnCrearEmpresa" value="Crear Empresa"
-						icon="fa fa-plus white"
-						onclick="PF('dlgCrearEmpresa').show();" />
-				</div>
-			</p:panel>
-
-
-
 			<p:dialog header="Crear Empresa" widgetVar="dlgCrearEmpresa"
 				modal="true" width="500">
 				<div align="center">
 					<p:panel id="panelCrearEmpresa" header="Crear Empresa">
 						<h:panelGrid columns="2">
-							
-							<h:outputText value="Identificacion de la empresa"/>
+
+							<h:outputText value="Identificacion de la empresa" />
 							<p:inputText id="txtIdentificacion"
 								placeholder="Identificación (NIT)"
 								binding="#{vtEmpresaView.txtIdentificacion}" maxlength="50" />
-							
-							<h:outputText value="Nombre de la Empresa"/>
+
+							<h:outputText value="Nombre de la Empresa" />
 							<p:inputText id="txtNombre" placeholder="Nombre"
 								binding="#{vtEmpresaView.txtNombre}" maxlength="60" />
 
-							
-						</h:panelGrid>
-						
-						<p:commandButton id="btnCrear"
-								binding="#{vtEmpresaView.btnCrear}"
-								icon="fa fa-plus white" action="#{vtEmpresaView.crearAction}"
-								value="Crear" update="formDialog" />
 
-							<p:commandButton id="btnClear" icon="fa fa-eraser white"
-								action="#{vtEmpresaView.limpiarAction}" value="Limpiar"
-								update="panelCrearEmpresa" />
+						</h:panelGrid>
+
+						<p:commandButton id="btnCrear" binding="#{vtEmpresaView.btnCrear}"
+							icon="fa fa-plus white" action="#{vtEmpresaView.crearAction}"
+							value="Crear" update="formDialog" />
+
+						<p:commandButton id="btnClear" icon="fa fa-eraser white"
+							action="#{vtEmpresaView.limpiarAction}" value="Limpiar"
+							update="panelCrearEmpresa" />
 					</p:panel>
 				</div>
 			</p:dialog>

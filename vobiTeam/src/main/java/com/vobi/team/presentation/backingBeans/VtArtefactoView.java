@@ -99,9 +99,6 @@ public class VtArtefactoView {
 	private VtArtefacto artefactoSeleccionado;
 	private List<VtArtefacto> losArtefactos;
 	
-	
-	private List<VtArtefacto> losArtefactosAsginados;
-	
 	private List<VtHistoriaArtefacto> elHistorialArtefacto;
 	
 	private StreamedContent file;
@@ -823,10 +820,6 @@ public class VtArtefactoView {
 			txtEsfuerzoRestante.setDisabled(false);
 			txtPuntos.setDisabled(false);
 			
-			txtEsfuerzoEstimado.setValue(0);
-			txtEsfuerzoReal.setValue(0);
-			txtEsfuerzoRestante.setValue(0);
-			txtPuntos.setValue(0);
 			
 		}else if (valorModTipoArtefacto == 2 || valorModTipoArtefacto ==3) {
 			
@@ -1025,6 +1018,12 @@ public class VtArtefactoView {
     public String regresarAction(){
 
 		return "/XHTML/listaBacklog.xhtml";
+
+	}
+    
+    public String sprintAction(){
+
+		return "/XHTML/listaSprint.xhtml";
 
 	}
     

@@ -28,31 +28,40 @@
 			<p:growl id="men" />
 			<p:panel header="Dashboard de los Roles" id="pnlDashboard">
 				<h:panelGrid columns="1" layout="grid">
-					
-					
-				<p:contextMenu for="dtRoles">
-					<p:menuitem value="Modificar" update="panelVtEmpresa"
-						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
-						action="#{vtRolesView.modificarListener}" />
-                                       					
-				</p:contextMenu>
-					
-					
+
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnCrearEmpresa" value="Crear un Rol"
+								icon="fa fa-plus white" onclick="PF('dlgCrearEmpresa').show();" />
+						</div>
+					</p:panel>
+
+					<p:contextMenu for="dtRoles">
+						<p:menuitem value="Modificar" update="panelVtEmpresa"
+							icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
+							action="#{vtRolesView.modificarListener}" />
+
+					</p:contextMenu>
+
+
 					<p:dataTable id="dtRoles" value="#{vtRolesView.losRoles}" var="rol"
 						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="10, 15" rowKey="#{rol.rolCodigo}"
-						emptyMessage="No hay empresas seleccionadas para este usuario" selection="#{vtRolesView.elRol}"
-						selectionMode="single"  paginatorPosition="bottom">
+						emptyMessage="No hay empresas seleccionadas para este usuario"
+						selection="#{vtRolesView.elRol}" selectionMode="single"
+						paginatorPosition="bottom">
 
-						<p:column headerText="Nombre del Rol"
-							filterBy="#{rol.rolNombre}" sortBy="#{rol.rolNombre}">
-							<h:outputText value="#{rol.rolNombre}" title="Presiona click derecho para ver las opciones" />
+						<p:column headerText="Nombre del Rol" filterBy="#{rol.rolNombre}"
+							sortBy="#{rol.rolNombre}">
+							<h:outputText value="#{rol.rolNombre}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Activa" filterBy="#{rol.activo}"
 							sortBy="#{rol.activo}">
-							<h:outputText value="#{rol.activo}" title="Presiona click derecho para ver las opciones" />
+							<h:outputText value="#{rol.activo}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 					</p:dataTable>
@@ -74,37 +83,25 @@
 									<f:selectItem itemValue="N" itemLabel="No" />
 								</p:selectOneMenu>
 
-								
-							</h:panelGrid>
-							
-							<p:commandButton id="btnModificar"
-									binding="#{vtRolesView.btnModificar}"
-									icon="fa fa-pencil white"
-									action="#{vtRolesView.modificarAction}" value="Modificar"
-									update="formDialog" />
 
-								<p:commandButton id="btnMClear" icon="fa fa-eraser white"
-									action="#{vtRolesView.limpiarMAction}" value="Limpiar"
-									update="panelVtEmpresa" />
+							</h:panelGrid>
+
+							<p:commandButton id="btnModificar"
+								binding="#{vtRolesView.btnModificar}" icon="fa fa-pencil white"
+								action="#{vtRolesView.modificarAction}" value="Modificar"
+								update="formDialog" />
+
+							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
+								action="#{vtRolesView.limpiarMAction}" value="Limpiar"
+								update="panelVtEmpresa" />
 						</p:panel>
 					</div>
 				</p:dialog>
 
 			</p:panel>
 
-
-			<p:panel id="panelBotones">
-				<div align="center">
-					<p:commandButton id="btnCrearEmpresa" value="Crear un Rol"
-						icon="fa fa-plus white"
-						onclick="PF('dlgCrearEmpresa').show();" />
-				</div>
-			</p:panel>
-
-
-
-			<p:dialog header="Crear Rol" widgetVar="dlgCrearEmpresa"
-				modal="true" width="500">
+			<p:dialog header="Crear Rol" widgetVar="dlgCrearEmpresa" modal="true"
+				width="500">
 				<div align="center">
 					<p:panel id="panelCrearEmpresa" header="Crear Rol">
 						<h:panelGrid columns="1">
@@ -112,17 +109,16 @@
 							<p:inputText id="txtNombre" placeholder="Nombre"
 								binding="#{vtRolesView.txtNombre}" maxlength="60" />
 
-							
-						</h:panelGrid>
-						
-						<p:commandButton id="btnCrear"
-								binding="#{vtRolesView.btnCrear}"
-								icon="fa fa-plus white" action="#{vtRolesView.crearAction}"
-								value="Crear" update="formDialog" />
 
-							<p:commandButton id="btnClear" icon="fa fa-eraser white"
-								action="#{vtRolesView.limpiarAction}" value="Limpiar"
-								update="panelCrearEmpresa" />
+						</h:panelGrid>
+
+						<p:commandButton id="btnCrear" binding="#{vtRolesView.btnCrear}"
+							icon="fa fa-plus white" action="#{vtRolesView.crearAction}"
+							value="Crear" update="formDialog" />
+
+						<p:commandButton id="btnClear" icon="fa fa-eraser white"
+							action="#{vtRolesView.limpiarAction}" value="Limpiar"
+							update="panelCrearEmpresa" />
 					</p:panel>
 				</div>
 			</p:dialog>

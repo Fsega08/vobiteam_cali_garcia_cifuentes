@@ -27,16 +27,26 @@
 		<h:form id="formDialog">
 			<p:growl id="men" />
 
-			<p:panel header="Dashboard del Proyecto" id="pnlDashboard">
-				
+			<p:panel header="Proyectos" id="pnlDashboard">
+
+
+				<p:panel >
+					<div align="center">
+						<p:commandButton id="btnCrearProyectos" value="Crear Proyecto"
+							binding="#{vtProyectosView.btnCrearProyecto}"
+							icon="fa fa-plus white" onclick="PF('dlgCrearProyecto').show();" />
+					</div>
+				</p:panel>
+
+
 				<p:contextMenu for="dtProyectos">
 					<p:menuitem value="Modificar" update="pnlModificarProyecto"
 						icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 						action="#{vtProyectosView.modificarListener}" />
-				
+
 					<p:menuitem value="Ir a la pila de producto" update="formDialog"
-						icon="fa fa-list " action="#{vtProyectosView.backlogListener}"  />
-					
+						icon="fa fa-list " action="#{vtProyectosView.backlogListener}" />
+
 				</p:contextMenu>
 
 				<p:dataTable id="dtProyectos"
@@ -45,19 +55,24 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="10,15" rowKey="#{proyecto.proyCodigo}"
 					rendered="true" selection="#{vtProyectosView.proyectoSeleccionado}"
-					selectionMode="single" paginatorPosition="bottom" emptyMessage="No existen proyectos de esta empresa, por que no creas uno ?" >
+					selectionMode="single" paginatorPosition="bottom"
+					emptyMessage="No existen proyectos de esta empresa, por que no creas uno ?">
 
 					<p:column headerText="Nombre del Proyecto"
-						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}" >
-						<h:outputText value="#{proyecto.nombre}" title="Presiona click derecho para ver las opciones" />
+						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}">
+						<h:outputText value="#{proyecto.nombre}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 					<p:column headerText="Descripcion del Proyecto"
-						filterBy="#{proyecto.descripcion}" sortBy="#{proyecto.descripcion}">
-						<h:outputText value="#{proyecto.descripcion}" title="Presiona click derecho para ver las opciones" />
+						filterBy="#{proyecto.descripcion}"
+						sortBy="#{proyecto.descripcion}">
+						<h:outputText value="#{proyecto.descripcion}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
-					<p:column headerText="Estado del Proyecto" filterBy="#{proyecto.activo}"
-						sortBy="#{proyecto.activo}">
-						<h:outputText value="#{proyecto.activo}" title="Presiona click derecho para ver las opciones" />
+					<p:column headerText="Estado del Proyecto"
+						filterBy="#{proyecto.activo}" sortBy="#{proyecto.activo}">
+						<h:outputText value="#{proyecto.activo}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 				</p:dataTable>
@@ -66,17 +81,18 @@
 					id="modProyecto" width="500">
 					<p:panel header="Modificar Proyecto" id="pnlModificarProyecto">
 						<h:panelGrid columns="2">
-							
+
 							<h:outputText value="Nombre del Proyecto" />
 							<p:inputText id="txtMNombre" placeholder="Nombre"
-								binding="#{vtProyectosView.txtMNombre}" maxlength="100"/>	
-							
+								binding="#{vtProyectosView.txtMNombre}" maxlength="100" />
+
 							<h:outputText value="Descripcion del Proyecto" />
 							<p:inputTextarea id="txtAreaMDescripcion" rows="7" cols="30"
-								placeholder="Descripcion" binding="#{vtProyectosView.txtMDescripcion}" 
-								maxlength="100000000"/>
-							
-							
+								placeholder="Descripcion"
+								binding="#{vtProyectosView.txtMDescripcion}"
+								maxlength="100000000" />
+
+
 							<h:outputText value="Estado del Proyecto" />
 							<p:selectOneMenu id="somProyectoActivo"
 								binding="#{vtProyectosView.somProyectoActivo}">
@@ -84,7 +100,7 @@
 								<f:selectItem itemValue="S" itemLabel="Activo" />
 								<f:selectItem itemValue="N" itemLabel="Inactivo" />
 							</p:selectOneMenu>
-							
+
 							<h:outputText value="Proyecto Público" />
 							<p:selectOneMenu id="somProyectoPublico"
 								binding="#{vtProyectosView.somProyectoPublico}">
@@ -93,14 +109,14 @@
 								<f:selectItem itemValue="N" itemLabel="No" />
 							</p:selectOneMenu>
 						</h:panelGrid>
-						<br/>
-						<div align="center"> 
-							<p:commandButton id="btnModificar" icon="fa fa-pencil white" value="Modificar"
-								binding="#{vtProyectosView.btnModificar}"
+						<br />
+						<div align="center">
+							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+								value="Modificar" binding="#{vtProyectosView.btnModificar}"
 								action="#{vtProyectosView.modificarAction}" update="formDialog" />
-	
-							<p:commandButton id="btnLimpiar" icon="fa fa-eraser white" value="Limpiar"
-								binding="#{vtProyectosView.btnMLimpiar}"
+
+							<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
+								value="Limpiar" binding="#{vtProyectosView.btnMLimpiar}"
 								action="#{vtProyectosView.limpiarAction}"
 								update="pnlModificarProyecto" />
 						</div>
@@ -119,16 +135,10 @@
 				 en cuenta que widgetVar es el nombre del dialog 
 				 que quiero abrir -->
 			<p:panel id="panelBotones">
-				<div align="center">
-					<p:commandButton id="btnCrearProyectos" value="Crear Proyecto"
-						binding="#{vtProyectosView.btnCrearProyecto}"
-						icon="fa fa-plus white"
-						onclick="PF('dlgCrearProyecto').show();" />
-						
+				<div align="left">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
-						action="#{vtProyectosView.regresarAction}" 
-						value="Regresar a Lista de Empresas"
-						update="formDialog" />
+						action="#{vtProyectosView.regresarAction}"
+						value="Regresar a Lista de Empresas" update="formDialog" />
 				</div>
 			</p:panel>
 
@@ -142,29 +152,28 @@
 				<div align="center">
 					<p:panel header="Crear Proyecto" id="pnlCrearProyecto">
 						<h:panelGrid columns="2">
-						
-							<h:outputText value="Nombre del proyecto"/>
+
+							<h:outputText value="Nombre del proyecto" />
 							<p:inputText id="txtCNombre" placeholder="Nombre"
 								binding="#{vtProyectosView.txtCNombre}" maxlength="100" />
-							
-							<h:outputText value="Descripción del proyecto"/>
+
+							<h:outputText value="Descripción del proyecto" />
 							<p:inputTextarea id="txtAreaDescripcion" rows="7" cols="30"
-								placeholder="Descripcion" binding="#{vtProyectosView.txtCDescripcion}" 
-								maxlength="100000000"/>
-							
+								placeholder="Descripcion"
+								binding="#{vtProyectosView.txtCDescripcion}"
+								maxlength="100000000" />
+
 
 						</h:panelGrid>
 					</p:panel>
 					<p:commandButton id="btnCrear" icon="fa fa-plus white"
-						action="#{vtProyectosView.crearAction}" 
-						value="Crear"
+						action="#{vtProyectosView.crearAction}" value="Crear"
 						update="formDialog" />
-						
+
 
 					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
 						binding="#{vtProyectosView.btnCLimpiar}"
-						action="#{vtProyectosView.limpiarCAction}"
-						value="Limpiar"
+						action="#{vtProyectosView.limpiarCAction}" value="Limpiar"
 						update="pnlCrearProyecto" />
 				</div>
 			</p:dialog>

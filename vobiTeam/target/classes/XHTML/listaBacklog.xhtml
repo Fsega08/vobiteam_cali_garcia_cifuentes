@@ -27,38 +27,48 @@
 		<h:form id="formDialog">
 			<p:growl id="msg" />
 
-			<p:panel header="Lista de la Pila Producto" id="pnlDashboard">			
-				
+			<p:panel header="Pila de Producto" id="pnlDashboard">
+
+				<p:panel >
+					<div align="center">
+						<p:commandButton id="btnCrearBacklog"
+							value="Crear Pila de Producto"
+							binding="#{vtBacklogView.btnCrear}"
+							onclick="PF('dlgCrearBacklog').show();" icon="fa fa-plus white" />
+					</div>
+				</p:panel>
+
 				<p:contextMenu for="dtBacklog">
 					<p:menuitem value="Modificar" update="pnlModificarBacklog"
 						icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 						action="#{vtBacklogView.modificarListener}" />
 
-					<p:menuitem value="Ver lista de artefactos sin asignar" update="formDialog"
-						icon="fa fa-list "
+					<p:menuitem value="Ver lista de artefactos sin asignar"
+						update="formDialog" icon="fa fa-list "
 						action="#{vtBacklogView.artefactoListener}" />
-						
+
 					<p:menuitem value="Ver lista Sprint" update="formDialog"
-						icon="fa fa-list "
-						action="#{vtBacklogView.sprintListener}" />
+						icon="fa fa-list " action="#{vtBacklogView.sprintListener}" />
 
 				</p:contextMenu>
-					
-				<p:dataTable id="dtBacklog" 
-					value="#{vtBacklogView.losBacklogs}" var="backlog"
-					paginator="true" rows="10"
+
+				<p:dataTable id="dtBacklog" value="#{vtBacklogView.losBacklogs}"
+					var="backlog" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="10,15" rowKey="#{backlog.pilaCodigo}"
 					rendered="true" selection="#{vtBacklogView.backogSeleccionado}"
-					emptyMessage="No se encontraron pilas de producto en este proyecto, puedes crear uno."  paginatorPosition="bottom" selectionMode="single">
-					
+					emptyMessage="No se encontraron pilas de producto en este proyecto, puedes crear uno."
+					paginatorPosition="bottom" selectionMode="single">
+
 					<p:column headerText="Nombre" filterBy="#{backlog.nombre}"
 						sortBy="#{backlog.nombre}">
-						<h:outputText value="#{backlog.nombre}" title="Presiona click derecho para ver las opciones"/>
+						<h:outputText value="#{backlog.nombre}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 					<p:column headerText="Estado" filterBy="#{backlog.activo}"
 						sortBy="#{backlog.activo}">
-						<h:outputText value="#{backlog.activo}" title="Presiona click derecho para ver las opciones"/>
+						<h:outputText value="#{backlog.activo}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 				</p:dataTable>
@@ -76,10 +86,10 @@
 
 							<h:outputText value="Descripcion de la Pila Producto" />
 							<p:inputTextarea id="txtMDescripcion" rows="7" cols="30"
-								placeholder="Descripcion" binding="#{vtBacklogView.txtMDescripcion}" 
-								maxlength="100000000"/>
-							
-							
+								placeholder="Descripcion"
+								binding="#{vtBacklogView.txtMDescripcion}" maxlength="100000000" />
+
+
 							<h:outputText value="Estado de Pila Producto" />
 							<p:selectOneMenu id="somBacklogActivo"
 								binding="#{vtBacklogView.somBacklogActivo}">
@@ -109,14 +119,10 @@
 			<!-- Botones para modificar backlog -->
 
 			<p:panel id="panelBotones">
-				<div align="center">
-					<p:commandButton id="btnCrearBacklog" value="Crear Backlog"
-						binding="#{vtBacklogView.btnCrear}"
-						onclick="PF('dlgCrearBacklog').show();" icon="fa fa-plus white" />
-					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
-						action="#{vtBacklogView.regresarAction}" 
-						value="Regresar a Lista de Proyectos"
-						update="formDialog" />
+				<div align="left">
+				<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+						action="#{vtBacklogView.regresarAction}"
+						value="Regresar a Lista de Proyectos" update="formDialog" />
 				</div>
 			</p:panel>
 
@@ -126,15 +132,15 @@
 				<div align="center">
 					<p:panel header="Crear Backlog" id="pnlCrearBacklog">
 						<h:panelGrid columns="2">
-							
+
 							<h:outputText value="Nombre de la Pila Producto" />
 							<p:inputText id="txtCNombre" placeholder="Nombre"
 								binding="#{vtBacklogView.txtCNombre}" maxlength="255" />
-							
+
 							<h:outputText value="Descripcion de la Pila Producto" />
 							<p:inputTextarea id="txtCDescripcion" rows="7" cols="30"
-								placeholder="Descripcion" binding="#{vtBacklogView.txtCDescripcion}" 
-								maxlength="100000000"/>
+								placeholder="Descripcion"
+								binding="#{vtBacklogView.txtCDescripcion}" maxlength="100000000" />
 
 						</h:panelGrid>
 

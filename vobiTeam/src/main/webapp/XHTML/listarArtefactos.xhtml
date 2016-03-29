@@ -27,8 +27,17 @@
 		<h:form id="formDialog">
 			<p:growl id="men" />
 
-			<p:panel header="Lista de Artefactos Sin Asignar" id="pnlDashboard">
+			<p:panel header="Artefactos Sin Asignar a Sprints" id="pnlDashboard">
 				<h:panelGrid columns="1" id="panelArtAll">
+
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
+								value="Crear Artefacto"
+								binding="#{vtArtefactoView.btnCArtefacto}"
+								onclick="PF('dlgCrearArtefacto').show();" />
+						</div>
+					</p:panel>
 
 					<p:contextMenu for="dtArtefactos">
 						<p:menuitem value="Modificar" update="pnlModificarArtefacto"
@@ -42,7 +51,7 @@
 						<p:menuitem value="Subir archivos" icon="fa fa-cloud-upload"
 							oncomplete="PF('dlgArchivosArtefacto').show()"
 							update="panelHistorial" />
-						
+
 						<p:menuitem value="Ver Archivos" icon="fa fa-list"
 							oncomplete="PF('dlgArchivosDescArtefacto').show()"
 							update="dtDescArtefactos" />
@@ -63,22 +72,26 @@
 
 						<p:column headerText="Nombre Artefacto"
 							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}">
-							<h:outputText value="#{artefacto.titulo}" title="Presiona click derecho para ver las opciones" />
+							<h:outputText value="#{artefacto.titulo}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}"
 							sortBy="#{artefacto.usuCreador}">
-							<h:outputText value="#{artefacto.usuCreador}" title="Presiona click derecho para ver las opciones" />
+							<h:outputText value="#{artefacto.usuCreador}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Puntos" filterBy="#{artefacto.puntos}"
 							sortBy="#{artefacto.puntos}">
-							<h:outputText value="#{artefacto.puntos}" title="Presiona click derecho para ver las opciones" />
+							<h:outputText value="#{artefacto.puntos}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Activo" filterBy="#{artefacto.activo}"
 							sortBy="#{artefacto.activo}">
-							<h:outputText value="#{artefacto.activo}" title="Presiona click derecho para ver las opciones" />
+							<h:outputText value="#{artefacto.activo}"
+								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 
@@ -99,7 +112,7 @@
 									<p:ajax listener="#{vtArtefactoView.tipoModArtefactoListener}"
 										update="txtMEsfuerzoEstimado, txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
 								</p:selectOneMenu>
-								
+
 								<h:outputText value="Estado Artefacto" />
 								<p:selectOneMenu id="somMEstados"
 									binding="#{vtArtefactoView.somEstadoArtefacto}">
@@ -113,7 +126,8 @@
 									binding="#{vtArtefactoView.txtEsfuerzoEstimado}"
 									disabled="true">
 									<p:ajax listener="#{vtArtefactoView.esfuerzoModListener}"
-										event="keyup" update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
+										event="keyup"
+										update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
 								</p:inputText>
 
 								<h:outputText value="Esfuerzo Restante" />
@@ -158,19 +172,19 @@
 								<p:inputTextarea id="txtAreaMDescripcion" rows="7" cols="33"
 									placeholder="Descripción" maxlength="100000000"
 									binding="#{vtArtefactoView.txtDescripcion}" />
-									
-									<br />
+
+								<br />
 							</h:panelGrid>
 							<div align="center">
-							<p:commandButton id="btnModificarArtefacto"
-								binding="#{vtArtefactoView.btnModificar}"
-								icon="fa fa-pencil white" value="Modificar"
-								action="#{vtArtefactoView.modificarAction}" update="formDialog" />
+								<p:commandButton id="btnModificarArtefacto"
+									binding="#{vtArtefactoView.btnModificar}"
+									icon="fa fa-pencil white" value="Modificar"
+									action="#{vtArtefactoView.modificarAction}" update="formDialog" />
 
-							<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
-								value="Limpiar" action="#{vtArtefactoView.limpiarAction}"
-								binding="#{vtArtefactoView.btnLimpiar}"
-								update="pnlModificarArtefacto" />
+								<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
+									value="Limpiar" action="#{vtArtefactoView.limpiarAction}"
+									binding="#{vtArtefactoView.btnLimpiar}"
+									update="pnlModificarArtefacto" />
 							</div>
 						</p:panel>
 					</p:dialog>
@@ -178,24 +192,26 @@
 				</h:panelGrid>
 			</p:panel>
 
-			<p:panel id="panelBotones">
-				<div align="center">
-					<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
-						value="Crear Artefacto" binding="#{vtArtefactoView.btnCArtefacto}"
-						onclick="PF('dlgCrearArtefacto').show();" />
+			<p:panel >
+				<div align="left">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
-						action="#{vtArtefactoView.regresarAction}" 
-						value="Regresar a Lista de Backlog"
-						update="formDialog" />
+						action="#{vtArtefactoView.regresarAction}"
+						value="Regresar a Lista de Backlog" update="formDialog" />
+
+				</div>
+				<div align="right">
+					<p:commandButton id="btnSprint" icon="fa fa-arrow-right white"
+						action="#{vtArtefactoView.sprintAction}"
+						value="Ir a sprint" update="formDialog" />
 				</div>
 			</p:panel>
 
 			<p:dialog header="Crear Artefacto" widgetVar="dlgCrearArtefacto"
 				modal="true" id="dlCrear">
 				<p:panel header="Crear Artefacto" id="pnlCrearArtefacto">
+					<h:panelGrid columns="4" id="panelGrid">
 
-					<h:panelGrid columns="2" id="panelGrid">
-
+						<h:outputText value="Tipo Artefacto" />
 						<p:selectOneMenu id="somCrearTiposDeArtefactos"
 							binding="#{vtArtefactoView.somCrearTipoArtefacto}">
 							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
@@ -204,6 +220,7 @@
 								update="panelGrid" />
 						</p:selectOneMenu>
 
+						<h:outputText value="Estado Artefacto" />
 						<p:selectOneMenu id="somCrearEstados"
 							binding="#{vtArtefactoView.somCrearEstadoArtefacto}">
 							<f:selectItem itemValue="-1" itemLabel="Estado" />
@@ -211,6 +228,7 @@
 								value="#{vtArtefactoView.losCrearEstadosArtefactos}" />
 						</p:selectOneMenu>
 
+						<h:outputText value="Esfuerzo Estimado" />
 						<p:inputText id="txtCrearEsfuerzoEstimado"
 							placeholder="Esfuerzo Estimado"
 							binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}"
@@ -220,20 +238,29 @@
 								update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />
 						</p:inputText>
 
+						<h:outputText value="Esfuerzo Restante" />
 						<p:inputText id="txtCrearEsfuerzoRestante"
 							placeholder="Esfuerzo Restante"
 							binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}"
 							disabled="true" />
 
+						<h:outputText value="Esfuerzo Real" />
 						<p:inputText id="txtCrearEsfuerzoReal" placeholder="Esfuerzo Real"
 							binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" disabled="true" />
 
+						<h:outputText value="Puntos del artefacto" />
 						<p:inputText id="txtCrearPuntos" placeholder="Puntos"
 							binding="#{vtArtefactoView.txtCrearPuntos}" disabled="true" />
 
+						<h:outputText value="Origen del artefacto" />
 						<p:inputText id="txtCrearOrigen" placeholder="Origen"
 							binding="#{vtArtefactoView.txtCrearOrigen}" />
 
+						<h:outputText value="Titulo del artefacto" />
+						<p:inputText id="txtCrearNombre" placeholder="Título"
+							binding="#{vtArtefactoView.txtCrearNombre}" />
+
+						<h:outputText value="Nivel de prioridad" />
 						<p:selectOneMenu id="somCrearPrioridades"
 							binding="#{vtArtefactoView.somCrearPrioridadesArtefacto}">
 							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
@@ -241,28 +268,25 @@
 								value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
 						</p:selectOneMenu>
 
-						<p:inputText id="txtCrearNombre" placeholder="Título"
-							binding="#{vtArtefactoView.txtCrearNombre}" />
-
-
-						<br />
-
+						<h:outputText value="Descripción del artefacto" />
 						<p:inputTextarea id="txtAreaCrearDescripcion" rows="10" cols="33"
 							placeholder="Descripcion"
 							binding="#{vtArtefactoView.txtCrearDescripcion}" />
 
+						<br />
 					</h:panelGrid>
-					<div align="center">
-					<p:commandButton id="btnCrearArtefacto"
-						binding="#{vtArtefactoView.btnCrear}" icon="fa fa-plus white"
-						value="Crear" action="#{vtArtefactoView.crearAction}"
-						update="formDialog" />
 
-					<p:commandButton id="btnClear" icon="fa fa-eraser white"
-						value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"
-						action="#{vtArtefactoView.limpiarCrearAction}"
-						update="pnlCrearArtefacto" />
-					
+					<div align="center">
+						<p:commandButton id="btnCrearArtefacto"
+							binding="#{vtArtefactoView.btnCrear}" icon="fa fa-plus white"
+							value="Crear" action="#{vtArtefactoView.crearAction}"
+							update="formDialog" />
+
+						<p:commandButton id="btnClear" icon="fa fa-eraser white"
+							value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"
+							action="#{vtArtefactoView.limpiarCrearAction}"
+							update="pnlCrearArtefacto" />
+
 					</div>
 
 				</p:panel>
@@ -271,7 +295,7 @@
 
 			<p:dialog header="Historial Artefacto"
 				widgetVar="dlgHistorialArtefacto" modal="true"
-				id="dlHistorialArtefacto" width="1200" >
+				id="dlHistorialArtefacto" width="1200">
 				<h:panelGrid columns="1" id="panelHistorial">
 					<p:dataTable id="dtHistorialArtefactos"
 						value="#{vtArtefactoView.elHistorialArtefacto}"
@@ -346,22 +370,23 @@
 					<p:fileUpload sequential="true"
 						fileUploadListener="#{vtArtefactoView.handleFileUpload}"
 						mode="advanced" multiple="true" update="men"
-						dragDropSupport="true" uploadLabel="Cargar" cancelLabel="Cancelar" label="Seleccionar"/>
+						dragDropSupport="true" uploadLabel="Cargar" cancelLabel="Cancelar"
+						label="Seleccionar" />
 
 				</h:panelGrid>
 			</p:dialog>
 
 			<p:dialog header="Ver Archivos del Artefacto"
 				widgetVar="dlgArchivosDescArtefacto" modal="true"
-				id="dlArchivosDescArtefacto" width="500" >
+				id="dlArchivosDescArtefacto" width="500">
 
 				<p:contextMenu for="dtDescArtefactos">
 
 					<p:menuitem value="Descargar Archivo" icon="fa fa-cloud-download"
 						actionListener="#{vtArtefactoView.FileDownloadView}" ajax="false">
-					
+
 						<p:fileDownload value="#{vtArtefactoView.file}" />
-					
+
 					</p:menuitem>
 				</p:contextMenu>
 
@@ -374,11 +399,12 @@
 					rowKey="#{archivo.archCodigo}"
 					selection="#{vtArtefactoView.archivoSeleccionado}"
 					emptyMessage="Lo siento, este artefacto no tiene archivos."
-					selectionMode="single"  paginatorPosition="bottom">
+					selectionMode="single" paginatorPosition="bottom">
 
-					<p:column headerText="Nombre Archivo"
-						filterBy="#{archivo.nombre}" sortBy="#{archivo.nombre}">
-						<h:outputText value="#{archivo.nombre}" title="Presiona click derecho para ver las opciones" />
+					<p:column headerText="Nombre Archivo" filterBy="#{archivo.nombre}"
+						sortBy="#{archivo.nombre}">
+						<h:outputText value="#{archivo.nombre}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 				</p:dataTable>

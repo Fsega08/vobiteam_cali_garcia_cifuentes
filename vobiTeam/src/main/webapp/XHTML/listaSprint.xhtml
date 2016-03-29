@@ -26,7 +26,17 @@
 
 		<h:form id="formDialog">
 			<p:growl id="msg" />
-			<p:panel header="Lista de Sprints" id="pnlDashboard">
+			<p:panel header="Sprints" id="pnlDashboard">
+				
+				<p:panel>
+					<div align="center">
+						<p:commandButton id="btnCrearSprint" value="Crear Sprint"
+							binding="#{vtSprintView.btnCrearSprint}" icon="fa fa-plus white"
+							onclick="PF('dlgCrearSprint').show();" />
+					</div>
+				</p:panel>
+
+
 				<p:contextMenu for="dtSprint">
 					<p:menuitem value="Modificar" update="pnlModificarSprint"
 						icon="fa fa-pencil " oncomplete="PF('dlgModificarSprint').show()"
@@ -34,12 +44,12 @@
 
 					<p:menuitem value="Asignar artefactos a este sprint"
 						icon="fa fa-plus" oncomplete="PF('dlg').show()"
-						action="#{vtSprintView.asignarArtefactoAction}"
-						update="dlAsignar" />
-						
-					<p:menuitem value="Ver artefactos asignados al sprint" update="dtArtefactos"
-						icon="fa fa-list " oncomplete="PF('dlgArtefacto').show()" />
-					
+						action="#{vtSprintView.asignarArtefactoAction}" update="dlAsignar" />
+
+					<p:menuitem value="Ver artefactos asignados al sprint"
+						update="dtArtefactos" icon="fa fa-list "
+						oncomplete="PF('dlgArtefacto').show()" />
+
 				</p:contextMenu>
 
 				<p:dataTable id="dtSprint" value="#{vtSprintView.losSprint}"
@@ -49,32 +59,37 @@
 					selectionMode="single"
 					selection="#{vtSprintView.sprintSeleccionado}"
 					emptyMessage="Parece que no hay Sprints, por que no creas uno"
-					rendered="true"  paginatorPosition="bottom">
+					rendered="true" paginatorPosition="bottom">
 
 
 					<p:column headerText="Nombre Sprint" filterBy="#{sprint.nombre}"
 						sortBy="#{sprint.nombre}">
-						<h:outputText value="#{sprint.nombre}" title="Presiona click derecho para ver las opciones" />
+						<h:outputText value="#{sprint.nombre}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 					<p:column headerText="Sprint Objetivo"
 						filterBy="#{sprint.objetivo}" sortBy="#{sprint.objetivo}">
-						<h:outputText value="#{sprint.objetivo}" title="Presiona click derecho para ver las opciones" />
+						<h:outputText value="#{sprint.objetivo}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 					<p:column headerText="Inicio" filterBy="#{sprint.fechaInicio}"
 						sortBy="#{sprint.fechaInicio} ">
-						<h:outputText value="#{sprint.fechaInicio}" title="Presiona click derecho para ver las opciones" />
+						<h:outputText value="#{sprint.fechaInicio}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 					<p:column headerText="Fin" filterBy="#{sprint.fechaFin}"
 						sortBy="#{sprint.fechaFin}">
-						<h:outputText value="#{sprint.fechaFin}" title="Presiona click derecho para ver las opciones" />
+						<h:outputText value="#{sprint.fechaFin}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 					<p:column headerText="Estado del Proyecto"
 						filterBy="#{sprint.activo}" sortBy="#{sprint.activo}">
-						<h:outputText value="#{sprint.activo}" title="Presiona click derecho para ver las opciones"/>
+						<h:outputText value="#{sprint.activo}"
+							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 
@@ -123,14 +138,23 @@
 
 				</p:dialog>
 			</p:panel>
-			<div align="center">
-				<p:commandButton id="btnCrearSprint" value="Crear Sprint"
-					binding="#{vtSprintView.btnCrearSprint}" icon="fa fa-plus white"
-					onclick="PF('dlgCrearSprint').show();" />
-				<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
-					action="#{vtSprintView.regresarAction}"
-					value="Regresar a Lista de Backlog" update="formDialog" />
-			</div>
+
+			<p:panel>
+				<div align="left">
+					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+						action="#{vtSprintView.regresarAction}"
+						value="Regresar a Lista de Backlog" update="formDialog" />
+					
+					<div align="right">
+					<p:commandButton id="btnArtefactos" icon="fa fa-arrow-right white"
+						action="#{vtSprintView.artefactosAction}"
+						value="Ir a artefactos sin sprint" update="formDialog" />
+					</div>
+				</div>
+				
+				
+			</p:panel>
+
 
 			<p:dialog header="Crear Sprint" widgetVar="dlgCrearSprint"
 				modal="true" width="500">
@@ -193,7 +217,8 @@
 					value="#{vtSprintView.losArtefactosAsginados}" var="artefacto"
 					paginator="true" rows="10" paginatorPosition="bottom"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="10,15" rendered="true" emptyMessage="Este sprint no tiene artefactos">
+					rowsPerPageTemplate="10,15" rendered="true"
+					emptyMessage="Este sprint no tiene artefactos">
 
 					<p:column headerText="Nombre Artefacto"
 						filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}">

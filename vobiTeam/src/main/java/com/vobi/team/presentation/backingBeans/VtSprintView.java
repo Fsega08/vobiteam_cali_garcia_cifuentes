@@ -459,6 +459,12 @@ public class VtSprintView {
 		return "/XHTML/listaBacklog.xhtml";
 
 	}
+	
+	public String artefactosAction(){
+
+		return "/XHTML/listarArtefactos.xhtml";
+
+	}
 
 	public void activarListaArtefacto(){
 		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
