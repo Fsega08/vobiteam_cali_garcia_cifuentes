@@ -27,7 +27,7 @@
 		<h:form id="formDialog">
 			<p:growl id="msg" />
 			<p:panel header="Sprints" id="pnlDashboard">
-				
+
 				<p:panel>
 					<div align="center">
 						<p:commandButton id="btnCrearSprint" value="Crear Sprint"
@@ -86,7 +86,7 @@
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
-					<p:column headerText="Estado del Proyecto"
+					<p:column headerText="Estado del Sprint"
 						filterBy="#{sprint.activo}" sortBy="#{sprint.activo}">
 						<h:outputText value="#{sprint.activo}"
 							title="Presiona click derecho para ver las opciones" />
@@ -103,20 +103,24 @@
 							<h:panelGrid columns="2">
 								<h:outputText value="Nombre del Sprint" />
 								<p:inputText id="txtMNombre" placeholder="Nombre"
-									binding="#{vtSprintView.txtMNombre}" />
+									binding="#{vtSprintView.txtMNombre}" size="31" />
 
-								<h:outputText value="Descipcion del Sprint" />
-								<p:inputText id="txtMDescripcion" placeholder="Descripción"
-									binding="#{vtSprintView.txtMDescripcion}" />
+								<h:outputText value="Descripción del Sprint" />
+								<p:inputTextarea id="txtMDescripcion" rows="7" cols="30"
+									placeholder="Descripcion"
+									binding="#{vtSprintView.txtMDescripcion}" maxlength="100000000" />
 
 								<h:outputText value="Inicio del Sprint" />
 								<p:calendar id="clndFechaIncioM" placeholder="Fecha de Inicio"
 									binding="#{vtSprintView.clndMFechaIncio}"
-									value="#{vtSprintView.fechaInicioM}" />
+									value="#{vtSprintView.fechaInicioM}" size="31">
+									<p:ajax update="clndFechaFinM" event="dateSelect" />
+								</p:calendar>
 								<h:outputText value="Final del Sprint" />
 								<p:calendar id="clndFechaFinM" placeholder="Fecha de Fin"
 									binding="#{vtSprintView.clndMFechaFin}"
-									value="#{vtSprintView.fechaFinM}" />
+									mindate="#{vtSprintView.fechaInicioM}"
+									value="#{vtSprintView.fechaFinM}" size="31" />
 
 								<h:outputText value="Estado del Sprint" />
 								<p:selectOneMenu id="somBacklogActivo"
@@ -126,71 +130,81 @@
 									<f:selectItem itemValue="N" itemLabel="Inactivo" />
 								</p:selectOneMenu>
 							</h:panelGrid>
-						</p:panel>
-						<p:commandButton id="btnModificar" icon="fa fa-pencil white"
-							update="formDialog" binding="#{vtSprintView.btnModificar}"
-							action="#{vtSprintView.modificarAction}" value="Modificar" />
+							<br/>
+							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+								update="formDialog" binding="#{vtSprintView.btnModificar}"
+								action="#{vtSprintView.modificarAction}" value="Modificar" />
 
-						<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
-							update="pnlModificarSprint" binding="#{vtSprintView.btnLimpiarM}"
-							action="#{vtSprintView.limpiarActionM}" value="Limpiar" />
+							<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
+								update="pnlModificarSprint"
+								binding="#{vtSprintView.btnLimpiarM}"
+								action="#{vtSprintView.limpiarActionM}" value="Limpiar" />
+						</p:panel>
+
 					</div>
 
 				</p:dialog>
 			</p:panel>
 
 			<p:panel>
-				<div align="left">
+				<h:panelGrid columns="1">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
 						action="#{vtSprintView.regresarAction}"
 						value="Regresar a Lista de Backlog" update="formDialog" />
-					
-					<div align="right">
+
 					<p:commandButton id="btnArtefactos" icon="fa fa-arrow-right white"
 						action="#{vtSprintView.artefactosAction}"
 						value="Ir a artefactos sin sprint" update="formDialog" />
-					</div>
-				</div>
-				
-				
+
+				</h:panelGrid>
 			</p:panel>
 
 
 			<p:dialog header="Crear Sprint" widgetVar="dlgCrearSprint"
-				modal="true" width="500">
+				modal="true" width="500" resizable="false">
 				<div align="center">
 					<p:panel header="Crear Sprint" id="pnlCrearSprint">
-						<h:panelGrid columns="1">
-
+						<h:panelGrid columns="2">
+							<h:outputText value="Nombre del Sprint" />
 							<p:inputText id="txtCNombre" placeholder="Nombre"
-								binding="#{vtSprintView.txtNombre}" />
+								binding="#{vtSprintView.txtNombre}" size="31" />
 
-							<p:inputText id="txtCDescripcion" placeholder="Descripción"
-								binding="#{vtSprintView.txtDescripcion}" />
+							<h:outputText value="Descripción del Sprint" />
+							<p:inputTextarea id="txtCDescripcion" placeholder="Descripción"
+								binding="#{vtSprintView.txtDescripcion}" rows="7" cols="30"
+								maxlength="100000000" />
 
+							<h:outputText value="Inicio del Sprint" />
 							<p:calendar id="clndFechaIncio" placeholder="Fecha de Inicio"
 								binding="#{vtSprintView.clndFechaIncio}"
-								value="#{vtSprintView.fechaInicio}" />
+								value="#{vtSprintView.fechaInicio}" size="31">
+								<p:ajax update="clndFechaFin" event="dateSelect" />
+							</p:calendar>
+
+							<h:outputText value="Final del Sprint" />
 							<p:calendar id="clndFechaFin" placeholder="Fecha de Fin"
 								binding="#{vtSprintView.clndFechaFin}"
-								value="#{vtSprintView.fechaFin}" />
+								mindate="#{vtSprintView.fechaInicio}"
+								value="#{vtSprintView.fechaFin}" size="31" />
 						</h:panelGrid>
-					</p:panel>
-					<p:commandButton id="btnCrear" icon="fa fa-plus white"
-						update="formDialog" binding="#{vtSprintView.btnCrearNuevo}"
-						action="#{vtSprintView.crearAction}" value="Crear" />
+						<br/>
+						<p:commandButton id="btnCrear" icon="fa fa-plus white"
+							update="formDialog" binding="#{vtSprintView.btnCrearNuevo}"
+							action="#{vtSprintView.crearAction}" value="Crear" />
 
-					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
-						update="pnlCrearSprint" binding="#{vtSprintView.btnLimpiar}"
-						action="#{vtSprintView.limpiarAction}" value="Limpiar" />
+						<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
+							update="pnlCrearSprint" binding="#{vtSprintView.btnLimpiar}"
+							action="#{vtSprintView.limpiarAction}" value="Limpiar" />
+					</p:panel>
+
 				</div>
 
 			</p:dialog>
 
 
 			<p:dialog header="Asignar o Des-asignar Historias" widgetVar="dlg"
-				resizable="true" id="dlAsignar" draggable="true" responsive="true"
-				modal="true" width="500">
+				id="dlAsignar" draggable="true" responsive="true" modal="true"
+				width="500" resizable="false">
 				<p:growl id="msj" />
 				<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
 					var="artefactos" itemLabel="#{artefactos}"
@@ -211,7 +225,7 @@
 
 
 			<p:dialog header="Lista de artefactos del sprint"
-				widgetVar="dlgArtefacto" resizable="true" id="dlArtefactosAsig"
+				widgetVar="dlgArtefacto" resizable="false" id="dlArtefactosAsig"
 				draggable="true" responsive="true" modal="true" width="800">
 				<p:dataTable id="dtArtefactos"
 					value="#{vtSprintView.losArtefactosAsginados}" var="artefacto"

@@ -27,7 +27,7 @@
 		<h:form id="formDialog">
 			<p:growl id="men" />
 			<p:panel header="Empresas" id="pnlDashboard">
-				
+
 				<p:panel id="panelBotones">
 					<div align="center">
 						<p:commandButton id="btnCrearEmpresa" value="Crear Empresa"
@@ -83,7 +83,7 @@
 				</h:panelGrid>
 
 				<p:dialog header="Modificar Empresa" widgetVar="dlgModProyecto"
-					modal="true" width="500">
+					modal="true" width="500" resizable="false">
 					<div align="center">
 						<p:panel id="panelVtEmpresa" header="Modificar Empresa">
 							<h:panelGrid columns="2">
@@ -119,7 +119,7 @@
 			</p:panel>
 
 			<p:dialog header="Crear Empresa" widgetVar="dlgCrearEmpresa"
-				modal="true" width="500">
+				modal="true" width="500" resizable="false">
 				<div align="center">
 					<p:panel id="panelCrearEmpresa" header="Crear Empresa">
 						<h:panelGrid columns="2">
@@ -135,10 +135,10 @@
 
 
 						</h:panelGrid>
-
+						<br/>
 						<p:commandButton id="btnCrear" binding="#{vtEmpresaView.btnCrear}"
 							icon="fa fa-plus white" action="#{vtEmpresaView.crearAction}"
-							value="Crear" update="formDialog" />
+							value="Crear" update="panelCrearEmpresa,formDialog" />
 
 						<p:commandButton id="btnClear" icon="fa fa-eraser white"
 							action="#{vtEmpresaView.limpiarAction}" value="Limpiar"

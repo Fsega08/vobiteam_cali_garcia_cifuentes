@@ -305,8 +305,7 @@ public class VtEmpresaView {
 	
 	public void limpiarMAction() {
 		log.info("Limpiar Mod");
-
-		txtMIdentificacion.resetValue();
+		txtMNombre.resetValue();
 		somEmpresaActiva.setValue("-1");
 		
 	}	

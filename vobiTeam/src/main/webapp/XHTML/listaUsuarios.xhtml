@@ -116,15 +116,17 @@
 									<f:selectItem itemValue="N" itemLabel="Inactivo" />
 								</p:selectOneMenu>
 							</h:panelGrid>
-						</p:panel>
-						<p:commandButton id="btnModificar" icon="fa fa-pencil white"
-							update="formDialog" binding="#{vtUsuarioView.btnModificar}"
-							action="#{vtUsuarioView.modificarAction}" value="Modificar" />
+							<br />
+							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+								update="formDialog" binding="#{vtUsuarioView.btnModificar}"
+								action="#{vtUsuarioView.modificarAction}" value="Modificar" />
 
-						<p:commandButton id="btnLimpiarM" icon="fa fa-eraser white"
-							update="pnlModificarUsuario"
-							binding="#{vtUsuarioView.btnLimpiarM}"
-							action="#{vtUsuarioView.limpiarActionM}" value="Limpiar" />
+							<p:commandButton id="btnLimpiarM" icon="fa fa-eraser white"
+								update="pnlModificarUsuario"
+								binding="#{vtUsuarioView.btnLimpiarM}"
+								action="#{vtUsuarioView.limpiarActionM}" value="Limpiar" />
+						</p:panel>
+
 					</div>
 
 				</p:dialog>
@@ -136,15 +138,15 @@
 				modal="true" width="500" resizable="false">
 				<div align="center">
 					<p:panel header="Crear Usuario" id="pnlCrearUsuario">
-						<h:panelGrid columns="1">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nombre" />
 							<p:inputText id="txtNombre" maxlength="30"
 								binding="#{vtUsuarioView.txtNombreC}" size="30"
 								placeholder="Nombre" styleClass="form-control" />
+							<h:outputText value="Email" />
 							<p:inputText id="txtLogin" maxlength="30"
 								binding="#{vtUsuarioView.txtLoginC}" size="30"
 								placeholder="Email" />
-						</h:panelGrid>
-						<h:panelGrid columns="2">
 
 							<p:commandButton id="btnGenerarPassword" icon="fa fa-code white"
 								binding="#{vtUsuarioView.btnGenerar}"
@@ -156,28 +158,31 @@
 								action="#{vtUsuarioView.escogerPass}"
 								value="Escribir Contraseña" update="pnlCrearUsuario, men" />
 
-						</h:panelGrid>
-						<h:panelGrid columns="1">
+							<h:outputText value="Contraseña" />
 							<p:password id="txtPassword" maxlength="30"
 								binding="#{vtUsuarioView.txtPasswordC}" size="30"
 								redisplay="true" placeholder="Clave" disabled="true" />
+							<h:outputText value="Confirma la Contraseña" />
 							<p:password id="txtPassword2" maxlength="30"
 								binding="#{vtUsuarioView.txtPasswordC2}" size="30"
 								redisplay="true" placeholder="Confirmar Clave" disabled="true" />
+							<h:outputText value="Empresa del Usuario" />
 							<p:selectOneMenu id="somEmpresas" title="Empresa del Usuario"
 								binding="#{vtUsuarioView.somEmpresasC}">
 								<f:selectItem itemValue="-1" itemLabel="Empresa del Usuario" />
 								<f:selectItems value="#{vtUsuarioView.lasEmpresas}" />
 							</p:selectOneMenu>
 						</h:panelGrid>
-					</p:panel>
-					<p:commandButton id="btnCrear" icon="fa fa-plus white"
-						update="formDialog" binding="#{vtUsuarioView.btnCrear}"
-						action="#{vtUsuarioView.crearAction}" value="Crear" />
+						<br />
+						<p:commandButton id="btnCrear" icon="fa fa-plus white"
+							update="formDialog" binding="#{vtUsuarioView.btnCrear}"
+							action="#{vtUsuarioView.crearAction}" value="Crear" />
 
-					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
-						update="pnlCrearUsuario" binding="#{vtUsuarioView.btnLimpiarC}"
-						action="#{vtUsuarioView.limpiarAction}" value="Limpiar" />
+						<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
+							update="pnlCrearUsuario" binding="#{vtUsuarioView.btnLimpiarC}"
+							action="#{vtUsuarioView.limpiarAction}" value="Limpiar" />
+					</p:panel>
+
 				</div>
 
 			</p:dialog>

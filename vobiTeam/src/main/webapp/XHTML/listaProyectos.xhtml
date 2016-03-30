@@ -30,7 +30,7 @@
 			<p:panel header="Proyectos" id="pnlDashboard">
 
 
-				<p:panel >
+				<p:panel>
 					<div align="center">
 						<p:commandButton id="btnCrearProyectos" value="Crear Proyecto"
 							binding="#{vtProyectosView.btnCrearProyecto}"
@@ -78,12 +78,12 @@
 				</p:dataTable>
 
 				<p:dialog header="Modificar Proyecto" widgetVar="dlg2" modal="true"
-					id="modProyecto" width="500">
+					id="modProyecto" width="500" resizable="false">
 					<p:panel header="Modificar Proyecto" id="pnlModificarProyecto">
 						<h:panelGrid columns="2">
 
 							<h:outputText value="Nombre del Proyecto" />
-							<p:inputText id="txtMNombre" placeholder="Nombre"
+							<p:inputText id="txtMNombre" placeholder="Nombre" size="31"
 								binding="#{vtProyectosView.txtMNombre}" maxlength="100" />
 
 							<h:outputText value="Descripcion del Proyecto" />
@@ -148,13 +148,13 @@
 				 pero es efectivo como el solo TENER en cuenta que widgetVar
 				 es el nombre del dialog que quiero abrir -->
 			<p:dialog header="Crear Proyecto" widgetVar="dlgCrearProyecto"
-				modal="true" width="500">
+				modal="true" width="500" resizable="false">
 				<div align="center">
 					<p:panel header="Crear Proyecto" id="pnlCrearProyecto">
 						<h:panelGrid columns="2">
 
 							<h:outputText value="Nombre del proyecto" />
-							<p:inputText id="txtCNombre" placeholder="Nombre"
+							<p:inputText id="txtCNombre" placeholder="Nombre" size="31"
 								binding="#{vtProyectosView.txtCNombre}" maxlength="100" />
 
 							<h:outputText value="Descripción del proyecto" />
@@ -165,16 +165,18 @@
 
 
 						</h:panelGrid>
+						<br></br>
+						<p:commandButton id="btnCrear" icon="fa fa-plus white"
+							action="#{vtProyectosView.crearAction}" value="Crear"
+							update="formDialog" />
+
+
+						<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
+							binding="#{vtProyectosView.btnCLimpiar}"
+							action="#{vtProyectosView.limpiarCAction}" value="Limpiar"
+							update="pnlCrearProyecto" />
 					</p:panel>
-					<p:commandButton id="btnCrear" icon="fa fa-plus white"
-						action="#{vtProyectosView.crearAction}" value="Crear"
-						update="formDialog" />
 
-
-					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
-						binding="#{vtProyectosView.btnCLimpiar}"
-						action="#{vtProyectosView.limpiarCAction}" value="Limpiar"
-						update="pnlCrearProyecto" />
 				</div>
 			</p:dialog>
 

@@ -29,7 +29,7 @@
 
 			<p:panel header="Pila de Producto" id="pnlDashboard">
 
-				<p:panel >
+				<p:panel>
 					<div align="center">
 						<p:commandButton id="btnCrearBacklog"
 							value="Crear Pila de Producto"
@@ -65,7 +65,7 @@
 						<h:outputText value="#{backlog.nombre}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
-					<p:column headerText="Estado" filterBy="#{backlog.activo}"
+					<p:column headerText="Estado de la Pila de Producto" filterBy="#{backlog.activo}"
 						sortBy="#{backlog.activo}">
 						<h:outputText value="#{backlog.activo}"
 							title="Presiona click derecho para ver las opciones" />
@@ -76,11 +76,11 @@
 
 
 				<p:dialog header="Modificar Backlog" widgetVar="dlg2" modal="true"
-					id="modBacklog" width="500">
+					id="modBacklog" width="500" resizable="false">
 					<p:panel header="Modificar Proyecto" id="pnlModificarBacklog">
 						<h:panelGrid columns="2">
 							<h:outputText value="Nombre de la Pila Producto" />
-							<p:inputText id="txtMNombre" placeholder="Nombre"
+							<p:inputText id="txtMNombre" placeholder="Nombre" size="31"
 								binding="#{vtBacklogView.txtMNombre}" maxlength="50">
 							</p:inputText>
 
@@ -99,18 +99,19 @@
 							</p:selectOneMenu>
 
 						</h:panelGrid>
-
+						<div align="center">
+							<br/>
+							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+								binding="#{vtBacklogView.btnModificarProyecto}"
+								action="#{vtBacklogView.modificarAction}" value="Modificar"
+								update="formDialog" />
+							<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
+								binding="#{vtBacklogView.btnMLimpiar}" value="Limpiar"
+								action="#{vtBacklogView.limpiarMAction}"
+								update="pnlModificarBacklog" />
+						</div>
 					</p:panel>
-					<div align="center">
-						<p:commandButton id="btnModificar" icon="fa fa-pencil white"
-							binding="#{vtBacklogView.btnModificarProyecto}"
-							action="#{vtBacklogView.modificarAction}" value="Modificar"
-							update="formDialog" />
-						<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
-							binding="#{vtBacklogView.btnMLimpiar}" value="Limpiar"
-							action="#{vtBacklogView.limpiarMAction}"
-							update="pnlModificarBacklog" />
-					</div>
+
 				</p:dialog>
 
 
@@ -120,7 +121,7 @@
 
 			<p:panel id="panelBotones">
 				<div align="left">
-				<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
 						action="#{vtBacklogView.regresarAction}"
 						value="Regresar a Lista de Proyectos" update="formDialog" />
 				</div>
@@ -128,13 +129,13 @@
 
 
 			<p:dialog header="Crear Backlog" widgetVar="dlgCrearBacklog"
-				modal="true" width="500">
+				modal="true" width="500" resizable="false">
 				<div align="center">
 					<p:panel header="Crear Backlog" id="pnlCrearBacklog">
 						<h:panelGrid columns="2">
 
 							<h:outputText value="Nombre de la Pila Producto" />
-							<p:inputText id="txtCNombre" placeholder="Nombre"
+							<p:inputText id="txtCNombre" placeholder="Nombre" size="31"
 								binding="#{vtBacklogView.txtCNombre}" maxlength="255" />
 
 							<h:outputText value="Descripcion de la Pila Producto" />
@@ -143,16 +144,17 @@
 								binding="#{vtBacklogView.txtCDescripcion}" maxlength="100000000" />
 
 						</h:panelGrid>
+						<br/>
+						<p:commandButton id="btnCrear" icon="fa fa-plus white"
+							binding="#{vtBacklogView.btnCrearBacklog}"
+							action="#{vtBacklogView.crearAction}" value="Crear"
+							update="formDialog" />
 
+						<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
+							binding="#{vtBacklogView.btnCLimpiar}" value="Limpiar"
+							action="#{vtBacklogView.limpiarCAction}" update="pnlCrearBacklog" />
 					</p:panel>
-					<p:commandButton id="btnCrear" icon="fa fa-plus white"
-						binding="#{vtBacklogView.btnCrearBacklog}"
-						action="#{vtBacklogView.crearAction}" value="Crear"
-						update="formDialog" />
 
-					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
-						binding="#{vtBacklogView.btnCLimpiar}" value="Limpiar"
-						action="#{vtBacklogView.limpiarCAction}" update="pnlCrearBacklog" />
 				</div>
 			</p:dialog>
 

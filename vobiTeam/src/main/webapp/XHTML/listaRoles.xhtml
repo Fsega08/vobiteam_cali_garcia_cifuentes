@@ -68,24 +68,23 @@
 				</h:panelGrid>
 
 				<p:dialog header="Modificar Rol" widgetVar="dlgModProyecto"
-					modal="true" width="500">
+					modal="true" width="500" resizable="false">
 					<div align="center">
 						<p:panel id="panelVtEmpresa" header="Modificar Rol">
-							<h:panelGrid columns="1">
-
+							<h:panelGrid columns="2">
+								<h:outputText value="Nombre del Rol" />
 								<p:inputText id="txtMNombre" placeholder="Nombre"
 									binding="#{vtRolesView.txtMNombre}" maxlength="60" />
 
+								<h:outputText value="Estado del Rol" />
 								<p:selectOneMenu id="somEmpresaActiva"
 									binding="#{vtRolesView.somRolActiva}">
 									<f:selectItem itemValue="-1" itemLabel="Rol Activo?" />
 									<f:selectItem itemValue="S" itemLabel="Si" />
 									<f:selectItem itemValue="N" itemLabel="No" />
 								</p:selectOneMenu>
-
-
 							</h:panelGrid>
-
+							<br />
 							<p:commandButton id="btnModificar"
 								binding="#{vtRolesView.btnModificar}" icon="fa fa-pencil white"
 								action="#{vtRolesView.modificarAction}" value="Modificar"
@@ -104,13 +103,14 @@
 				width="500">
 				<div align="center">
 					<p:panel id="panelCrearEmpresa" header="Crear Rol">
-						<h:panelGrid columns="1">
-
+						<h:panelGrid columns="2">
+							<h:outputText value="Nombre del Rol" />
 							<p:inputText id="txtNombre" placeholder="Nombre"
 								binding="#{vtRolesView.txtNombre}" maxlength="60" />
 
 
 						</h:panelGrid>
+						<br />
 
 						<p:commandButton id="btnCrear" binding="#{vtRolesView.btnCrear}"
 							icon="fa fa-plus white" action="#{vtRolesView.crearAction}"

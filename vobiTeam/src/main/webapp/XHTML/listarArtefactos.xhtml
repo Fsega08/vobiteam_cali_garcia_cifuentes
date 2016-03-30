@@ -88,7 +88,7 @@
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
-						<p:column headerText="Activo" filterBy="#{artefacto.activo}"
+						<p:column headerText="Estado de los Artefactos" filterBy="#{artefacto.activo}"
 							sortBy="#{artefacto.activo}">
 							<h:outputText value="#{artefacto.activo}"
 								title="Presiona click derecho para ver las opciones" />
@@ -99,7 +99,7 @@
 
 
 					<p:dialog header="Modificar Artefacto" widgetVar="dlg2"
-						modal="true" id="modArt" width="800">
+						modal="true" id="modArt" width="800" resizable="false">
 						<p:panel header="Modificar Artefacto" id="pnlModificarArtefacto">
 
 							<h:panelGrid columns="4" id="panelMGrid">
@@ -176,6 +176,7 @@
 								<br />
 							</h:panelGrid>
 							<div align="center">
+								<br/>
 								<p:commandButton id="btnModificarArtefacto"
 									binding="#{vtArtefactoView.btnModificar}"
 									icon="fa fa-pencil white" value="Modificar"
@@ -193,21 +194,19 @@
 			</p:panel>
 
 			<p:panel >
-				<div align="left">
+				<h:panelGrid columns="1" id="panelGrid2">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
 						action="#{vtArtefactoView.regresarAction}"
 						value="Regresar a Lista de Backlog" update="formDialog" />
 
-				</div>
-				<div align="right">
 					<p:commandButton id="btnSprint" icon="fa fa-arrow-right white"
 						action="#{vtArtefactoView.sprintAction}"
-						value="Ir a sprint" update="formDialog" />
-				</div>
+						value="Ir a la lista de Sprints" update="formDialog" />
+				</h:panelGrid>
 			</p:panel>
 
 			<p:dialog header="Crear Artefacto" widgetVar="dlgCrearArtefacto"
-				modal="true" id="dlCrear">
+				modal="true" id="dlCrear" resizable="false">
 				<p:panel header="Crear Artefacto" id="pnlCrearArtefacto">
 					<h:panelGrid columns="4" id="panelGrid">
 

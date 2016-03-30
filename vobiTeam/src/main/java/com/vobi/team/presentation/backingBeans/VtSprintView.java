@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -21,8 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
-import com.vobi.team.modelo.VtProyecto;
-import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
@@ -47,7 +46,7 @@ public class VtSprintView {
 
 	/////////////////Crear Sprint
 	private InputText txtNombre;
-	private InputText txtDescripcion;
+	private InputTextarea txtDescripcion;
 	private Calendar clndFechaIncio;
 	private Calendar clndFechaFin;
 
@@ -62,7 +61,7 @@ public class VtSprintView {
 	///////////////Modificar Sprint
 
 	private InputText txtMNombre;
-	private InputText txtMDescripcion;
+	private InputTextarea txtMDescripcion;
 	private Calendar clndMFechaIncio;
 	private Calendar clndMFechaFin;
 	private SelectOneMenu somSprintActivo;
@@ -127,11 +126,11 @@ public class VtSprintView {
 		this.txtNombre = txtNombre;
 	}
 
-	public InputText getTxtDescripcion() {
+	public InputTextarea getTxtDescripcion() {
 		return txtDescripcion;
 	}
 
-	public void setTxtDescripcion(InputText txtDescripcion) {
+	public void setTxtDescripcion(InputTextarea txtDescripcion) {
 		this.txtDescripcion = txtDescripcion;
 	}
 
@@ -269,11 +268,11 @@ public class VtSprintView {
 		this.txtMNombre = txtMNombre;
 	}
 
-	public InputText getTxtMDescripcion() {
+	public InputTextarea getTxtMDescripcion() {
 		return txtMDescripcion;
 	}
 
-	public void setTxtMDescripcion(InputText txtMDescripcion) {
+	public void setTxtMDescripcion(InputTextarea txtMDescripcion) {
 		this.txtMDescripcion = txtMDescripcion;
 	}
 
