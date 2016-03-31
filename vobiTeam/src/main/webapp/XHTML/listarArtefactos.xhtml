@@ -126,7 +126,7 @@
 									binding="#{vtArtefactoView.txtEsfuerzoEstimado}"
 									disabled="true">
 									<p:ajax listener="#{vtArtefactoView.esfuerzoModListener}"
-										event="keyup"
+										event="blur"
 										update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
 								</p:inputText>
 
@@ -233,7 +233,7 @@
 							binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}"
 							disabled="true">
 							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
-								event="keyup"
+								event="blur"
 								update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />
 						</p:inputText>
 
