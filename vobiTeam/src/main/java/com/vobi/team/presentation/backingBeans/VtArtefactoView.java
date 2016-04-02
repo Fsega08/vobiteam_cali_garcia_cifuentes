@@ -99,7 +99,7 @@ public class VtArtefactoView {
 	private VtArtefacto artefactoSeleccionado;
 	private List<VtArtefacto> losArtefactos;
 	
-	private List<VtHistoriaArtefacto> elHistorialArtefacto;
+
 	
 	private StreamedContent file;
 	private VtArchivo archivoSeleccionado;
@@ -148,8 +148,6 @@ public class VtArtefactoView {
 	public InputTextarea getTxtDescripcion() {
 		return txtDescripcion;
 	}
-
-
 
 	public void setTxtDescripcion(InputTextarea txtDescripcion) {
 		this.txtDescripcion = txtDescripcion;
@@ -498,26 +496,7 @@ public class VtArtefactoView {
 	public void setLosCrearTiposArtefactos(List<SelectItem> losCrearTiposArtefactos) {
 		this.losCrearTiposArtefactos = losCrearTiposArtefactos;
 	}
-
 	
-
-	public List<VtHistoriaArtefacto> getElHistorialArtefacto() {
-		try {
-			if (artefactoSeleccionado!=null) {
-
-				elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
-
-			}
-		} catch (Exception e) {
-			log.info(e.getMessage());
-		}
-		return elHistorialArtefacto;
-	}
-
-	public void setElHistorialArtefacto(List<VtHistoriaArtefacto> elHistorialArtefacto) {
-		this.elHistorialArtefacto = elHistorialArtefacto;
-	}
-
 	public SelectOneMenu getSomCrearTipoArtefacto() {
 		return somCrearTipoArtefacto;
 	}
@@ -963,7 +942,7 @@ public class VtArtefactoView {
 			businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
 
 			FacesUtils.addInfoMessage("El artefacto se ha modificado con exito");	
-			elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
+
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -1027,4 +1006,39 @@ public class VtArtefactoView {
 
 	}
     
+	public void artefactoSesionAction() {
+		
+		FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
+		
+	}
+	
+	public void borrarArchivo(){
+		try {
+			
+			businessDelegatorView.deleteVtArchivo(archivoSeleccionado);
+			
+        	FacesUtils.addInfoMessage("Archivo eliminado");
+		} catch (Exception e) {
+			FacesUtils.addInfoMessage("Lo siento no se pudo eliminar");
+		}
+	}
+
+public void reHandleFileUpload(FileUploadEvent event) {
+        
+        try {
+        	VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+        	
+        	archivoSeleccionado.setNombre(event.getFile().getFileName());
+        	archivoSeleccionado.setFechaModificacion(new Date());
+        	archivoSeleccionado.setUsuModificador(vtUsuario.getUsuaCodigo());
+        	archivoSeleccionado.setArchivo(event.getFile().getContents());
+        	
+        	businessDelegatorView.updateVtArchivo(archivoSeleccionado);
+        	FacesUtils.addInfoMessage("Se cambio por el archivo " + event.getFile().getFileName());
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			FacesUtils.addInfoMessage(e.getMessage());
+		}
+        
+    }
 }

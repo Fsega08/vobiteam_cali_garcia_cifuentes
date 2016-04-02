@@ -44,9 +44,11 @@
 							icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 							action="#{vtArtefactoView.hidratarArtefactoMod}" />
 
-						<p:menuitem value="Historial" icon="fa fa-history "
+						<p:menuitem value="Historial" update="panelHistorial"
+							icon="fa fa-history "
 							oncomplete="PF('dlgHistorialArtefacto').show()"
-							update="panelHistorial" />
+							action="#{vtArtefactoView.artefactoSesionAction}" />
+
 
 						<p:menuitem value="Subir archivos" icon="fa fa-cloud-upload"
 							oncomplete="PF('dlgArchivosArtefacto').show()"
@@ -88,8 +90,8 @@
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
-						<p:column headerText="Estado de los Artefactos" filterBy="#{artefacto.activo}"
-							sortBy="#{artefacto.activo}">
+						<p:column headerText="Estado de los Artefactos"
+							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}">
 							<h:outputText value="#{artefacto.activo}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
@@ -176,7 +178,7 @@
 								<br />
 							</h:panelGrid>
 							<div align="center">
-								<br/>
+								<br />
 								<p:commandButton id="btnModificarArtefacto"
 									binding="#{vtArtefactoView.btnModificar}"
 									icon="fa fa-pencil white" value="Modificar"
@@ -193,7 +195,7 @@
 				</h:panelGrid>
 			</p:panel>
 
-			<p:panel >
+			<p:panel>
 				<h:panelGrid columns="1" id="panelGrid2">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
 						action="#{vtArtefactoView.regresarAction}"
@@ -211,6 +213,7 @@
 					<h:panelGrid columns="4" id="panelGrid">
 
 						<h:outputText value="Tipo Artefacto" />
+
 						<p:selectOneMenu id="somCrearTiposDeArtefactos"
 							binding="#{vtArtefactoView.somCrearTipoArtefacto}">
 							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
@@ -218,6 +221,22 @@
 							<p:ajax listener="#{vtArtefactoView.tipoArtefactoListener}"
 								update="panelGrid" />
 						</p:selectOneMenu>
+
+
+						<h:outputText value="Titulo del artefacto" />
+
+						<p:inputText id="txtCrearNombre" placeholder="Título"
+							binding="#{vtArtefactoView.txtCrearNombre}" />
+
+
+
+						<h:outputText value="Descripción del artefacto" />
+
+
+						<p:inputTextarea id="txtAreaCrearDescripcion"
+							placeholder="Descripcion" style="width:150px;"
+							binding="#{vtArtefactoView.txtCrearDescripcion}" />
+
 
 						<h:outputText value="Estado Artefacto" />
 						<p:selectOneMenu id="somCrearEstados"
@@ -255,9 +274,7 @@
 						<p:inputText id="txtCrearOrigen" placeholder="Origen"
 							binding="#{vtArtefactoView.txtCrearOrigen}" />
 
-						<h:outputText value="Titulo del artefacto" />
-						<p:inputText id="txtCrearNombre" placeholder="Título"
-							binding="#{vtArtefactoView.txtCrearNombre}" />
+
 
 						<h:outputText value="Nivel de prioridad" />
 						<p:selectOneMenu id="somCrearPrioridades"
@@ -267,10 +284,7 @@
 								value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
 						</p:selectOneMenu>
 
-						<h:outputText value="Descripción del artefacto" />
-						<p:inputTextarea id="txtAreaCrearDescripcion" rows="10" cols="33"
-							placeholder="Descripcion"
-							binding="#{vtArtefactoView.txtCrearDescripcion}" />
+
 
 						<br />
 					</h:panelGrid>
@@ -296,36 +310,35 @@
 				widgetVar="dlgHistorialArtefacto" modal="true"
 				id="dlHistorialArtefacto" width="1200">
 				<h:panelGrid columns="1" id="panelHistorial">
+					<p:contextMenu for="dtHistorialArtefactos">
+						<p:menuitem value="Ver Historia"
+							update="panelHistorial, pnlModificarHistoriaArtefacto"
+							icon="fa fa-eye" oncomplete="PF('dlHistDet').show()"
+							action="#{vtHistorialArtefactoView.hidratarArtefactoMod}" />
+
+					</p:contextMenu>
+
 					<p:dataTable id="dtHistorialArtefactos"
-						value="#{vtArtefactoView.elHistorialArtefacto}"
-						var="historialArtefacto" paginator="true" rows="10"
+						value="#{vtHistorialArtefactoView.elHistorialArtefacto}"
+						var="historialArtefacto" paginator="true" rows="5"
 						rowKey="#{historialArtefacto.historiaCodigo}"
+						selection="#{vtHistorialArtefactoView.historialArtefactoSeleccionado}"
+						selectionMode="single" rendered="true"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="10,15" paginatorPosition="bottom"
+						rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
 						emptyMessage="No se encontraron historias de este artefacto.">
+
+						<p:column headerText="Codigo Historial"
+							filterBy="#{historialArtefacto.historiaCodigo}"
+							sortBy="#{historialArtefacto.historiaCodigo}">
+							<h:outputText value="#{historialArtefacto.historiaCodigo}" />
+						</p:column>
+
 
 						<p:column headerText="Nombre Artefacto"
 							filterBy="#{historialArtefacto.titulo}"
 							sortBy="#{historialArtefacto.titulo}">
 							<h:outputText value="#{historialArtefacto.titulo}" />
-						</p:column>
-
-						<p:column headerText="Esfuerzo Estimado"
-							filterBy="#{historialArtefacto.esfuerzoEstimado}"
-							sortBy="#{historialArtefacto.esfuerzoEstimado}">
-							<h:outputText value="#{historialArtefacto.esfuerzoEstimado}" />
-						</p:column>
-
-						<p:column headerText="Esfuerzo Real"
-							filterBy="#{historialArtefacto.esfuerzoReal}"
-							sortBy="#{historialArtefacto.esfuerzoReal}">
-							<h:outputText value="#{historialArtefacto.esfuerzoReal}" />
-						</p:column>
-
-						<p:column headerText="Puntos"
-							filterBy="#{historialArtefacto.puntos}"
-							sortBy="#{historialArtefacto.puntos}">
-							<h:outputText value="#{historialArtefacto.puntos}" />
 						</p:column>
 
 						<p:column headerText="Origen"
@@ -338,12 +351,6 @@
 							filterBy="#{historialArtefacto.fechaCreacion}"
 							sortBy="#{historialArtefacto.fechaCreacion}">
 							<h:outputText value="#{historialArtefacto.fechaCreacion}" />
-						</p:column>
-
-						<p:column headerText="Fecha Modificación"
-							filterBy="#{historialArtefacto.fechaModificacion}"
-							sortBy="#{historialArtefacto.fechaModificacion}">
-							<h:outputText value="#{historialArtefacto.fechaModificacion}" />
 						</p:column>
 
 						<p:column headerText="Usuario Creador"
@@ -362,6 +369,66 @@
 				</h:panelGrid>
 			</p:dialog>
 
+			<p:dialog header="Historia Detallada del Artefacto"
+				widgetVar="dlHistDet" modal="true" id="modHistArt" width="800"
+				resizable="false">
+				<p:panel header="Historia Detallada del Artefacto"
+					id="pnlModificarHistoriaArtefacto">
+
+					<h:panelGrid columns="4" id="panelHMGrid">
+
+						<h:outputText value="Esfuerzo Estimado" />
+						<p:inputText id="txtHMEsfuerzoEstimado"
+							placeholder="Esfuerzo Estimado"
+							binding="#{vtHistorialArtefactoView.txtHistorialEsfuerzoEstimado}"
+							disabled="true">
+						</p:inputText>
+
+						<h:outputText value="Esfuerzo Restante" />
+						<p:inputText id="txtHMEsfuerzoRestante"
+							placeholder="Esfuerzo Restante"
+							binding="#{vtHistorialArtefactoView.txtHistorialEsfuerzoRestante}"
+							disabled="true" />
+
+						<h:outputText value="Esfuerzo Real" />
+						<p:inputText id="txtHMEsfuerzoReal" placeholder="Esfuerzo Real"
+							binding="#{vtHistorialArtefactoView.txtHistorialEsfuerzoReal}"
+							disabled="true" />
+
+						<h:outputText value="Puntos del artefacto" />
+						<p:inputText id="txtHMPuntos" placeholder="Puntos"
+							binding="#{vtHistorialArtefactoView.txtHistorialPuntos}"
+							disabled="true" />
+
+						<h:outputText value="Origen del artefacto" />
+						<p:inputText id="txtHMOrigen" placeholder="Origen"
+							binding="#{vtHistorialArtefactoView.txtHistorialOrigen}"
+							disabled="true" />
+
+						<h:outputText value="Titulo del artefacto" />
+						<p:inputText id="txtHMNombre" placeholder="Título"
+							binding="#{vtHistorialArtefactoView.txtHistorialNombre}"
+							disabled="true" />
+
+						<h:outputText value="Descripción del artefacto" />
+						<p:inputTextarea id="txtAreaHMDescripcion" rows="7" cols="33"
+							placeholder="Descripción" maxlength="100000000"
+							binding="#{vtHistorialArtefactoView.txtHtistorialDescripcion}"
+							disabled="true" />
+
+						<br />
+					</h:panelGrid>
+					<div align="center">
+						<br />
+						<p:commandButton id="btnVolverAEstado"
+							binding="#{vtHistorialArtefactoView.btnAsignar}"
+							icon="fa fa-pencil white" value="Restaurar artefacto"
+							action="#{vtHistorialArtefactoView.asignarArtefactoAction}"
+							update="panelHistorial" />
+					</div>
+				</p:panel>
+			</p:dialog>
+
 			<p:dialog header="Subir archivos a este Artefacto"
 				widgetVar="dlgArchivosArtefacto" modal="true"
 				id="dlArchivosArtefacto">
@@ -374,21 +441,51 @@
 
 				</h:panelGrid>
 			</p:dialog>
+			
+			<p:dialog header="Re subir archivos a este Artefacto"
+				widgetVar="dlgReArchivosArtefacto" modal="true"
+				id="dlReArchivosArtefacto">
+				<h:panelGrid columns="1" id="panelReArchivos">
+					<p:fileUpload fileUploadListener="#{vtArtefactoView.reHandleFileUpload}"
+						mode="advanced" update="men, dtDescArtefactos"
+						dragDropSupport="true" uploadLabel="Cargar" cancelLabel="Cancelar"
+						label="Seleccionar" />
 
+				</h:panelGrid>
+			</p:dialog>
+			
+			
 			<p:dialog header="Ver Archivos del Artefacto"
 				widgetVar="dlgArchivosDescArtefacto" modal="true"
 				id="dlArchivosDescArtefacto" width="500">
 
 				<p:contextMenu for="dtDescArtefactos">
-
+					
+					<p:menuitem value="Cambiar archivo" icon="fa fa-cloud-upload"
+							oncomplete="PF('dlgReArchivosArtefacto').show()"
+							update="dtDescArtefactos" />
+					
 					<p:menuitem value="Descargar Archivo" icon="fa fa-cloud-download"
 						actionListener="#{vtArtefactoView.FileDownloadView}" ajax="false">
 
 						<p:fileDownload value="#{vtArtefactoView.file}" />
 
 					</p:menuitem>
+					
+					<p:menuitem value="Eliminar Archivo" icon="fa fa-close" actionListener="#{vtArtefactoView.borrarArchivo}"
+					update="men, dtDescArtefactos">
+						<p:confirm header="Confirmation"
+							message="Esta seguro de eliminar  este archivo?"
+							icon="ui-icon-alert" />
+					</p:menuitem>
 				</p:contextMenu>
 
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sí" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
 
 				<p:dataTable id="dtDescArtefactos"
 					value="#{vtArtefactoView.losArchivos}" var="archivo"
