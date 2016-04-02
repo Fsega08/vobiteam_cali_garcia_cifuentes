@@ -38,7 +38,7 @@
 				<h:panelGrid columns="1" layout="grid">
 
 
-					<p:contextMenu for="dtListaEmpresa">
+					<p:contextMenu for="dtListaEmpresa" event="click contextmenu">
 						<p:menuitem value="Modificar" update="panelVtEmpresa"
 							icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
 							action="#{vtEmpresaView.modificarListener}" />

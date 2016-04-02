@@ -36,7 +36,7 @@
 					</div>
 				</p:panel>
 
-				<p:contextMenu for="dtUsuarios">
+				<p:contextMenu for="dtUsuarios" event="click contextmenu">
 					<p:menuitem value="Modificar" update="pnlModificarUsuario"
 						icon="fa fa-pencil " oncomplete="PF('dlgModificarUsuario').show()"
 						action="#{vtUsuarioView.modificarListener}" />

@@ -39,7 +39,7 @@
 				</p:panel>
 
 
-				<p:contextMenu for="dtProyectos">
+				<p:contextMenu for="dtProyectos" event="click contextmenu">
 					<p:menuitem value="Modificar" update="pnlModificarProyecto"
 						icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 						action="#{vtProyectosView.modificarListener}" />

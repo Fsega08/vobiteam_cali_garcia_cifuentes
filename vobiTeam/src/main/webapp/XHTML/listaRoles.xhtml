@@ -36,7 +36,7 @@
 						</div>
 					</p:panel>
 
-					<p:contextMenu for="dtRoles">
+					<p:contextMenu for="dtRoles" event="click contextmenu">
 						<p:menuitem value="Modificar" update="panelVtEmpresa"
 							icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
 							action="#{vtRolesView.modificarListener}" />

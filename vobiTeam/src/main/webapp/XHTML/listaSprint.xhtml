@@ -37,7 +37,7 @@
 				</p:panel>
 
 
-				<p:contextMenu for="dtSprint">
+				<p:contextMenu for="dtSprint" event="click contextmenu">
 					<p:menuitem value="Modificar" update="pnlModificarSprint"
 						icon="fa fa-pencil " oncomplete="PF('dlgModificarSprint').show()"
 						action="#{vtSprintView.modificarListener}" />

@@ -39,7 +39,7 @@
 						</div>
 					</p:panel>
 
-					<p:contextMenu for="dtArtefactos">
+					<p:contextMenu for="dtArtefactos" event="click contextmenu">
 						<p:menuitem value="Modificar" update="pnlModificarArtefacto"
 							icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 							action="#{vtArtefactoView.hidratarArtefactoMod}" />
@@ -312,7 +312,7 @@
 				widgetVar="dlgHistorialArtefacto" modal="true"
 				id="dlHistorialArtefacto" width="1200">
 				<h:panelGrid columns="1" id="panelHistorial">
-					<p:contextMenu for="dtHistorialArtefactos">
+					<p:contextMenu for="dtHistorialArtefactos" event="click contextmenu">
 						<p:menuitem value="Ver Historia"
 							update="panelHistorial, pnlModificarHistoriaArtefacto"
 							icon="fa fa-eye" oncomplete="PF('dlHistDet').show()"
@@ -426,7 +426,7 @@
 							binding="#{vtHistorialArtefactoView.btnAsignar}"
 							icon="fa fa-pencil white" value="Restaurar artefacto"
 							action="#{vtHistorialArtefactoView.asignarArtefactoAction}"
-							update="panelHistorial" />
+							update="panelHistorial, dtArtefactos" />
 					</div>
 				</p:panel>
 			</p:dialog>
@@ -461,7 +461,7 @@
 				widgetVar="dlgArchivosDescArtefacto" modal="true"
 				id="dlArchivosDescArtefacto" width="500">
 
-				<p:contextMenu for="dtDescArtefactos">
+				<p:contextMenu for="dtDescArtefactos" event="click contextmenu">
 					
 					<p:menuitem value="Cambiar archivo" icon="fa fa-cloud-upload"
 							oncomplete="PF('dlgReArchivosArtefacto').show()"

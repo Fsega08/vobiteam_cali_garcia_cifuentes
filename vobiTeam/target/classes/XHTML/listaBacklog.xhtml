@@ -38,7 +38,7 @@
 					</div>
 				</p:panel>
 
-				<p:contextMenu for="dtBacklog">
+				<p:contextMenu for="dtBacklog" event="click contextmenu">
 					<p:menuitem value="Modificar" update="pnlModificarBacklog"
 						icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 						action="#{vtBacklogView.modificarListener}" />
