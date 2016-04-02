@@ -53,7 +53,7 @@
 						paginatorPosition="bottom">
 
 						<p:column headerText="Nombre del Rol" filterBy="#{rol.rolNombre}"
-							sortBy="#{rol.rolNombre}">
+							sortBy="#{rol.rolNombre}" filterMatchMode="contains">
 							<h:outputText value="#{rol.rolNombre}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
@@ -88,7 +88,7 @@
 							<p:commandButton id="btnModificar"
 								binding="#{vtRolesView.btnModificar}" icon="fa fa-pencil white"
 								action="#{vtRolesView.modificarAction}" value="Modificar"
-								update="formDialog" />
+								update="panelVtEmpresa,dtRoles,men" />
 
 							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
 								action="#{vtRolesView.limpiarMAction}" value="Limpiar"
@@ -114,7 +114,7 @@
 
 						<p:commandButton id="btnCrear" binding="#{vtRolesView.btnCrear}"
 							icon="fa fa-plus white" action="#{vtRolesView.crearAction}"
-							value="Crear" update="formDialog" />
+							value="Crear" update="panelCrearEmpresa,dtRoles,men" />
 
 						<p:commandButton id="btnClear" icon="fa fa-eraser white"
 							action="#{vtRolesView.limpiarAction}" value="Limpiar"

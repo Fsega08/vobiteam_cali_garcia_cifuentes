@@ -59,13 +59,14 @@
 					emptyMessage="No existen proyectos de esta empresa, por que no creas uno ?">
 
 					<p:column headerText="Nombre del Proyecto"
-						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}">
+						filterBy="#{proyecto.nombre}" sortBy="#{proyecto.nombre}"
+						filterMatchMode="contains">
 						<h:outputText value="#{proyecto.nombre}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 					<p:column headerText="Descripcion del Proyecto"
 						filterBy="#{proyecto.descripcion}"
-						sortBy="#{proyecto.descripcion}">
+						sortBy="#{proyecto.descripcion}" filterMatchMode="contains">
 						<h:outputText value="#{proyecto.descripcion}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
@@ -113,7 +114,8 @@
 						<div align="center">
 							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
 								value="Modificar" binding="#{vtProyectosView.btnModificar}"
-								action="#{vtProyectosView.modificarAction}" update="formDialog" />
+								action="#{vtProyectosView.modificarAction}"
+								update="pnlModificarProyecto,dtProyectos,men" />
 
 							<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
 								value="Limpiar" binding="#{vtProyectosView.btnMLimpiar}"
@@ -168,7 +170,7 @@
 						<br></br>
 						<p:commandButton id="btnCrear" icon="fa fa-plus white"
 							action="#{vtProyectosView.crearAction}" value="Crear"
-							update="formDialog" />
+							update="pnlCrearProyecto,dtProyectos,men" />
 
 
 						<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"

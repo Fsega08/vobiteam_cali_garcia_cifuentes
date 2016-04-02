@@ -73,7 +73,8 @@
 						selectionMode="single" paginatorPosition="bottom">
 
 						<p:column headerText="Nombre Artefacto"
-							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}">
+							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+							filterMatchMode="contains">
 							<h:outputText value="#{artefacto.titulo}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
@@ -182,7 +183,8 @@
 								<p:commandButton id="btnModificarArtefacto"
 									binding="#{vtArtefactoView.btnModificar}"
 									icon="fa fa-pencil white" value="Modificar"
-									action="#{vtArtefactoView.modificarAction}" update="formDialog" />
+									action="#{vtArtefactoView.modificarAction}" 
+									update="pnlModificarArtefacto, dtArtefactos, men" />
 
 								<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
 									value="Limpiar" action="#{vtArtefactoView.limpiarAction}"
@@ -293,7 +295,7 @@
 						<p:commandButton id="btnCrearArtefacto"
 							binding="#{vtArtefactoView.btnCrear}" icon="fa fa-plus white"
 							value="Crear" action="#{vtArtefactoView.crearAction}"
-							update="formDialog" />
+							update="pnlCrearArtefacto, dtArtefactos, men" />
 
 						<p:commandButton id="btnClear" icon="fa fa-eraser white"
 							value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"

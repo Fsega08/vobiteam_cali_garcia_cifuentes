@@ -63,31 +63,38 @@
 
 
 					<p:column headerText="Nombre Sprint" filterBy="#{sprint.nombre}"
-						sortBy="#{sprint.nombre}">
+						sortBy="#{sprint.nombre}" filterMatchMode="contains">
 						<h:outputText value="#{sprint.nombre}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 					<p:column headerText="Sprint Objetivo"
-						filterBy="#{sprint.objetivo}" sortBy="#{sprint.objetivo}">
+						filterBy="#{sprint.objetivo}" sortBy="#{sprint.objetivo}"
+						filterMatchMode="contains">
 						<h:outputText value="#{sprint.objetivo}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 					<p:column headerText="Inicio" filterBy="#{sprint.fechaInicio}"
 						sortBy="#{sprint.fechaInicio} ">
+
 						<h:outputText value="#{sprint.fechaInicio}"
-							title="Presiona click derecho para ver las opciones" />
+							title="Presiona click derecho para ver las opciones">
+							<f:convertDateTime dateStyle="full" type="date" />
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Fin" filterBy="#{sprint.fechaFin}"
-						sortBy="#{sprint.fechaFin}">
+						sortBy="#{sprint.fechaFin}" filterMatchMode="contains">
 						<h:outputText value="#{sprint.fechaFin}"
-							title="Presiona click derecho para ver las opciones" />
+							title="Presiona click derecho para ver las opciones">
+							<f:convertDateTime dateStyle="full" type="date" />
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Estado del Sprint"
-						filterBy="#{sprint.activo}" sortBy="#{sprint.activo}">
+						filterBy="#{sprint.activo}" sortBy="#{sprint.activo}"
+						filterMatchMode="contains">
 						<h:outputText value="#{sprint.activo}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
@@ -130,10 +137,11 @@
 									<f:selectItem itemValue="N" itemLabel="Inactivo" />
 								</p:selectOneMenu>
 							</h:panelGrid>
-							<br/>
+							<br />
 							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
-								update="formDialog" binding="#{vtSprintView.btnModificar}"
-								action="#{vtSprintView.modificarAction}" value="Modificar" />
+								binding="#{vtSprintView.btnModificar}"
+								action="#{vtSprintView.modificarAction}" value="Modificar"
+								update="pnlModificarSprint, dtSprint, msg" />
 
 							<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
 								update="pnlModificarSprint"
@@ -187,9 +195,10 @@
 								mindate="#{vtSprintView.fechaInicio}"
 								value="#{vtSprintView.fechaFin}" size="31" />
 						</h:panelGrid>
-						<br/>
+						<br />
 						<p:commandButton id="btnCrear" icon="fa fa-plus white"
-							update="formDialog" binding="#{vtSprintView.btnCrearNuevo}"
+							update="pnlCrearSprint, dtSprint, msg"
+							binding="#{vtSprintView.btnCrearNuevo}"
 							action="#{vtSprintView.crearAction}" value="Crear" />
 
 						<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
