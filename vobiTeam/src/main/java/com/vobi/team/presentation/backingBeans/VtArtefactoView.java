@@ -21,6 +21,7 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,7 +47,7 @@ public class VtArtefactoView {
 	public final static Logger log=LoggerFactory.getLogger(VtArtefactoView.class);
 
 	private String usuarioActual = SecurityContextHolder.getContext().getAuthentication().getName();
-	
+
 	//////// Atributos Crear Artefacto ////////
 
 	private InputText txtCrearNombre;
@@ -98,8 +99,8 @@ public class VtArtefactoView {
 
 	private VtArtefacto artefactoSeleccionado;
 	private List<VtArtefacto> losArtefactos;
-	
 
+	private List<VtArchivo> subirArchivos = new ArrayList<VtArchivo>();
 	
 	private StreamedContent file;
 	private VtArchivo archivoSeleccionado;
@@ -114,7 +115,7 @@ public class VtArtefactoView {
 		try {
 			sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
 			backlogSeleccionado = (VtPilaProducto) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("backlogSeleccionado");
-			
+
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
@@ -213,7 +214,7 @@ public class VtArtefactoView {
 		this.txtOrigen = txtOrigen;
 	}
 
-	
+
 
 	public VtArchivo getArchivoSeleccionado() {
 		return archivoSeleccionado;
@@ -233,7 +234,7 @@ public class VtArtefactoView {
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
-		
+
 		return losArchivos;
 	}
 
@@ -262,7 +263,7 @@ public class VtArtefactoView {
 		this.losTiposArtefactos = losTiposArtefactos;
 	}
 
-	
+
 
 	public SelectOneMenu getSomTipoArtefacto() {
 		return somTipoArtefacto;
@@ -402,7 +403,13 @@ public class VtArtefactoView {
 		this.txtCrearEsfuerzoEstimado = txtCrearEsfuerzoEstimado;
 	}
 
+	public List<VtArchivo> getSubirArchivos() {
+		return subirArchivos;
+	}
 
+	public void setSubirArchivos(List<VtArchivo> subirArchivos) {
+		this.subirArchivos = subirArchivos;
+	}
 
 	public InputText getTxtCrearEsfuerzoReal() {
 		return txtCrearEsfuerzoReal;
@@ -496,7 +503,7 @@ public class VtArtefactoView {
 	public void setLosCrearTiposArtefactos(List<SelectItem> losCrearTiposArtefactos) {
 		this.losCrearTiposArtefactos = losCrearTiposArtefactos;
 	}
-	
+
 	public SelectOneMenu getSomCrearTipoArtefacto() {
 		return somCrearTipoArtefacto;
 	}
@@ -628,8 +635,8 @@ public class VtArtefactoView {
 	public void setLosArtefactos(List<VtArtefacto> losArtefactos) {
 		this.losArtefactos = losArtefactos;
 	}
-	
-	
+
+
 	public VtSprint getSprintSeleccionado() {
 		return sprintSeleccionado;
 	}
@@ -638,15 +645,15 @@ public class VtArtefactoView {
 		this.sprintSeleccionado = sprintSeleccionado;
 	}
 
-//	public void actualizarLista() throws Exception {
-//
-//		sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
-//		btnCArtefacto.setDisabled(false);
-//		if (sprintSeleccionado!=null) {
-//			losArtefactos = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
-//		}
-//
-//	}
+	//	public void actualizarLista() throws Exception {
+	//
+	//		sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
+	//		btnCArtefacto.setDisabled(false);
+	//		if (sprintSeleccionado!=null) {
+	//			losArtefactos = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
+	//		}
+	//
+	//	}
 
 
 	public void crearAction() {
@@ -714,15 +721,28 @@ public class VtArtefactoView {
 
 			vtArtefacto.setVtPrioridad(vtPrioridad);
 
-			
+
 			vtArtefacto.setVtPilaProducto(backlogSeleccionado);
 
 			businessDelegatorView.saveVtArtefacto(vtArtefacto);
-
+			
+			log.info("arte codigo= " + vtArtefacto.getArteCodigo());
+			if (subirArchivos != null || !(subirArchivos.isEmpty())) {
+				for (VtArchivo vtArchivo : subirArchivos) {
+					log.info("Nombre= " + vtArchivo.getNombre());
+					vtArchivo.setVtArtefacto(vtArtefacto);
+					log.info("arte codigo= " + vtArtefacto.getArteCodigo());
+					businessDelegatorView.saveVtArchivo(vtArchivo);
+				}
+				
+				subirArchivos = new ArrayList<VtArchivo>();
+				
+			}
+			
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
 			
 			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
-		//	elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
+			//	elHistorialArtefacto = businessDelegatorView.findHistoriaByArtefacto(artefactoSeleccionado);
 			limpiarCrearAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -747,7 +767,7 @@ public class VtArtefactoView {
 
 
 	}
-	
+
 	public void limpiarAction() {
 		txtDescripcion.resetValue();
 		txtNombre.resetValue();
@@ -765,11 +785,11 @@ public class VtArtefactoView {
 
 
 	}
-	
+
 
 	public void tipoArtefactoListener() {
 		int valorTipoArtefacto = Integer.parseInt(somCrearTipoArtefacto.getValue().toString().trim());
-		
+
 		if (valorTipoArtefacto == 1 || valorTipoArtefacto==4) {
 
 			txtCrearEsfuerzoEstimado.setDisabled(false);
@@ -779,43 +799,43 @@ public class VtArtefactoView {
 			txtCrearEsfuerzoReal.setDisabled(true);
 			txtCrearEsfuerzoRestante.setDisabled(true);
 			txtCrearPuntos.setDisabled(true);
-			
+
 			txtCrearEsfuerzoEstimado.setValue(0);
 			txtCrearEsfuerzoReal.setValue(0);
 			txtCrearEsfuerzoRestante.setValue(0);
 			txtCrearPuntos.setValue(0);
 		}
 	}
-	
+
 	public void tipoModArtefactoListener() {
 		int valorModTipoArtefacto = Integer.parseInt(somTipoArtefacto.getValue().toString().trim());
-		
+
 		log.info("entro al metodo modificar");
-		
+
 		if (valorModTipoArtefacto == 1 || valorModTipoArtefacto==4) {
 
 			txtEsfuerzoEstimado.setDisabled(false);
 			txtEsfuerzoReal.setDisabled(false);
 			txtEsfuerzoRestante.setDisabled(false);
 			txtPuntos.setDisabled(false);
-			
-			
+
+
 		}else if (valorModTipoArtefacto == 2 || valorModTipoArtefacto ==3) {
-			
+
 			txtEsfuerzoEstimado.setDisabled(true);
 			txtEsfuerzoReal.setDisabled(true);
 			txtEsfuerzoRestante.setDisabled(true);
 			txtPuntos.setDisabled(true);
-			
+
 			txtEsfuerzoEstimado.setValue(0);
 			txtEsfuerzoReal.setValue(0);
 			txtEsfuerzoRestante.setValue(0);
 			txtPuntos.setValue(0);
 
-			
+
 		}
 	}
-	
+
 
 	public void esfuerzoListener() {
 		int valor = Integer.parseInt(txtCrearEsfuerzoEstimado.getValue().toString().trim());
@@ -823,26 +843,26 @@ public class VtArtefactoView {
 		txtCrearEsfuerzoReal.setDisabled(false);
 		txtCrearEsfuerzoRestante.setDisabled(false);
 		txtCrearPuntos.setDisabled(false);
-		
+
 		txtCrearEsfuerzoReal.setValue(valor);
 		txtCrearEsfuerzoRestante.setValue(valor);
 		txtCrearPuntos.setValue(valor);
 
 	}
-	
-	
+
+
 	public void esfuerzoModListener() {
 		int valor = Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim());
 
 		txtEsfuerzoReal.setDisabled(false);
 		txtEsfuerzoRestante.setDisabled(false);
 		txtPuntos.setDisabled(false);
-		
+
 		txtEsfuerzoReal.setValue(valor);
 		txtEsfuerzoRestante.setValue(valor);
 		txtPuntos.setValue(valor);
 	}
-	
+
 
 	public void hidratarArtefactoMod() {
 		log.info("Artefacto= " + artefactoSeleccionado.getTitulo());
@@ -858,7 +878,7 @@ public class VtArtefactoView {
 			somEstadoArtefacto.setValue(artefactoSeleccionado.getVtEstado().getEstaCodigo());
 			somPrioridadesArtefacto.setValue(artefactoSeleccionado.getVtPrioridad().getPrioCodigo());
 			somTipoArtefacto.setValue(artefactoSeleccionado.getVtTipoArtefacto().getTparCodigo());
-			
+
 			tipoModArtefactoListener();
 		}else {
 			log.info("No se ha seleccionado ningún artefacto");
@@ -902,11 +922,11 @@ public class VtArtefactoView {
 			if (somArtefactoActivo.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione un tipo de artefacto");
 			}
-			
+
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			
+
 			log.info("Usuario codigo= " + vtUsuarioActual.getUsuaCodigo());
-			
+
 			artefactoSeleccionado.setTitulo(txtNombre.getValue().toString());
 			artefactoSeleccionado.setDescripcion(txtDescripcion.getValue().toString());
 			artefactoSeleccionado.setEsfuerzoEstimado(Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim() ));
@@ -948,97 +968,126 @@ public class VtArtefactoView {
 		}
 
 	}
-	
-    public void handleFileUpload(FileUploadEvent event) {
-        
-        try {
-        	VtArchivo vtArchivo = new VtArchivo();
-        	VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-        	
-        	
-        	vtArchivo.setNombre(event.getFile().getFileName());
-        	vtArchivo.setFechaCreacion(new Date());
-        	vtArchivo.setFechaModificacion(new Date());
-        	vtArchivo.setUsuCreador(vtUsuario.getUsuaCodigo());
-        	vtArchivo.setUsuModificador(vtUsuario.getUsuaCodigo());
-        	vtArchivo.setActivo("S");
-        	vtArchivo.setArchivo(event.getFile().getContents());
-        	vtArchivo.setVtArtefacto(artefactoSeleccionado);
-        	
-        	businessDelegatorView.saveVtArchivo(vtArchivo);
-        	FacesUtils.addInfoMessage("Se subio el archivo " + event.getFile().getFileName());
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public void handleFileUpload(FileUploadEvent event) {
+
+		try {
+			VtArchivo vtArchivo = new VtArchivo();
+			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+
+
+			vtArchivo.setNombre(event.getFile().getFileName());
+			vtArchivo.setFechaCreacion(new Date());
+			vtArchivo.setFechaModificacion(new Date());
+			vtArchivo.setUsuCreador(vtUsuario.getUsuaCodigo());
+			vtArchivo.setUsuModificador(vtUsuario.getUsuaCodigo());
+			vtArchivo.setActivo("S");
+			vtArchivo.setArchivo(event.getFile().getContents());
+			vtArchivo.setVtArtefacto(artefactoSeleccionado);
+
+			businessDelegatorView.saveVtArchivo(vtArchivo);
+			FacesUtils.addInfoMessage("Se subio el archivo " + event.getFile().getFileName());
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			FacesUtils.addInfoMessage(e.getMessage());
 		}
-        
-    }
-    
-    public void FileDownloadView() {        
-       // InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/demo/images/optimus.jpg");
-        
-    	try {
-    		VtArchivo vtArchivo = archivoSeleccionado;
-        	log.info("el archivo es= " + vtArchivo.getNombre());
-        	
-        	byte[] archivo = vtArchivo.getArchivo();
-        	
-        	InputStream stream = new ByteArrayInputStream(archivo);
-        	
-        	file = new DefaultStreamedContent(stream, null, vtArchivo.getNombre());
-        	
-        	FacesUtils.addInfoMessage("Disfrute su archivo");
+	}
+
+	public void createHandleFileUpload(FileUploadEvent event) {
+
+		try {
+			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+
+			VtArchivo vtArchivo = new VtArchivo();
+
+			vtArchivo.setNombre(event.getFile().getFileName());
+			vtArchivo.setFechaCreacion(new Date());
+			vtArchivo.setFechaModificacion(new Date());
+			vtArchivo.setUsuCreador(vtUsuario.getUsuaCodigo());
+			vtArchivo.setUsuModificador(vtUsuario.getUsuaCodigo());
+			vtArchivo.setActivo("S");
+			vtArchivo.setArchivo(event.getFile().getContents());
+
+			subirArchivos.add(vtArchivo);
+			
+			FacesUtils.addInfoMessage("El archivo esta listo para cargarlo, presione cargar cuando este listo.");	
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			FacesUtils.addInfoMessage(e.getMessage());
+		}
+	}
+
+
+	public void FileDownloadView() {        
+
+		try {
+			VtArchivo vtArchivo = archivoSeleccionado;
+			log.info("el archivo es= " + vtArchivo.getNombre());
+
+			byte[] archivo = vtArchivo.getArchivo();
+
+			InputStream stream = new ByteArrayInputStream(archivo);
+
+			file = new DefaultStreamedContent(stream, null, vtArchivo.getNombre());
+
+			FacesUtils.addInfoMessage("Disfrute su archivo");
 		} catch (Exception e) {
 			FacesUtils.addInfoMessage("Lo siento no se pudo descargar");
 		}
-    	
-    }
-    
-    public String regresarAction(){
+
+	}
+
+	public String regresarAction(){
 
 		return "/XHTML/listaBacklog.xhtml";
 
 	}
-    
-    public String sprintAction(){
 
+	public String sprintAction(){
 		return "/XHTML/listaSprint.xhtml";
+	}
+
+	public String crearArtefactoAction(){
+		return "/XHTML/CrearArtefactos.xhtml";
+	}
+
+	public String volverArtefactoAction(){
+		return "/XHTML/listarArtefactos.xhtml";
+	}
+
+	public void artefactoSesionAction() {
+
+		FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
 
 	}
-    
-	public void artefactoSesionAction() {
-		
-		FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
-		
-	}
-	
+
 	public void borrarArchivo(){
 		try {
-			
+
 			businessDelegatorView.deleteVtArchivo(archivoSeleccionado);
-			
-        	FacesUtils.addInfoMessage("Archivo eliminado");
+
+			FacesUtils.addInfoMessage("Archivo eliminado");
 		} catch (Exception e) {
 			FacesUtils.addInfoMessage("Lo siento no se pudo eliminar");
 		}
 	}
 
-public void reHandleFileUpload(FileUploadEvent event) {
-        
-        try {
-        	VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-        	
-        	archivoSeleccionado.setNombre(event.getFile().getFileName());
-        	archivoSeleccionado.setFechaModificacion(new Date());
-        	archivoSeleccionado.setUsuModificador(vtUsuario.getUsuaCodigo());
-        	archivoSeleccionado.setArchivo(event.getFile().getContents());
-        	
-        	businessDelegatorView.updateVtArchivo(archivoSeleccionado);
-        	FacesUtils.addInfoMessage("Se cambio por el archivo " + event.getFile().getFileName());
+	public void reHandleFileUpload(FileUploadEvent event) {
+
+		try {
+			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+
+			archivoSeleccionado.setNombre(event.getFile().getFileName());
+			archivoSeleccionado.setFechaModificacion(new Date());
+			archivoSeleccionado.setUsuModificador(vtUsuario.getUsuaCodigo());
+			archivoSeleccionado.setArchivo(event.getFile().getContents());
+
+			businessDelegatorView.updateVtArchivo(archivoSeleccionado);
+			FacesUtils.addInfoMessage("Se cambio por el archivo " + event.getFile().getFileName());
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			FacesUtils.addInfoMessage(e.getMessage());
 		}
-        
-    }
+
+	}
 }

@@ -34,8 +34,7 @@
 						<div align="center">
 							<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
 								value="Crear Artefacto"
-								binding="#{vtArtefactoView.btnCArtefacto}"
-								onclick="PF('dlgCrearArtefacto').show();" />
+								binding="#{vtArtefactoView.btnCArtefacto}" action="#{vtArtefactoView.crearArtefactoAction}"/>
 						</div>
 					</p:panel>
 
@@ -208,104 +207,6 @@
 						value="Ir a la lista de Sprints" update="formDialog" />
 				</h:panelGrid>
 			</p:panel>
-
-			<p:dialog header="Crear Artefacto" widgetVar="dlgCrearArtefacto"
-				modal="true" id="dlCrear" resizable="false">
-				<p:panel header="Crear Artefacto" id="pnlCrearArtefacto">
-					<h:panelGrid columns="4" id="panelGrid">
-
-						<h:outputText value="Tipo Artefacto" />
-
-						<p:selectOneMenu id="somCrearTiposDeArtefactos"
-							binding="#{vtArtefactoView.somCrearTipoArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
-							<f:selectItems value="#{vtArtefactoView.losCrearTiposArtefactos}" />
-							<p:ajax listener="#{vtArtefactoView.tipoArtefactoListener}"
-								update="panelGrid" />
-						</p:selectOneMenu>
-
-
-						<h:outputText value="Titulo del artefacto" />
-
-						<p:inputText id="txtCrearNombre" placeholder="Título"
-							binding="#{vtArtefactoView.txtCrearNombre}" />
-
-
-
-						<h:outputText value="Descripción del artefacto" />
-
-
-						<p:inputTextarea id="txtAreaCrearDescripcion"
-							placeholder="Descripcion" style="width:150px;"
-							binding="#{vtArtefactoView.txtCrearDescripcion}" />
-
-
-						<h:outputText value="Estado Artefacto" />
-						<p:selectOneMenu id="somCrearEstados"
-							binding="#{vtArtefactoView.somCrearEstadoArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Estado" />
-							<f:selectItems
-								value="#{vtArtefactoView.losCrearEstadosArtefactos}" />
-						</p:selectOneMenu>
-
-						<h:outputText value="Esfuerzo Estimado" />
-						<p:inputText id="txtCrearEsfuerzoEstimado"
-							placeholder="Esfuerzo Estimado"
-							binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}"
-							disabled="true">
-							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
-								event="blur"
-								update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />
-						</p:inputText>
-
-						<h:outputText value="Esfuerzo Restante" />
-						<p:inputText id="txtCrearEsfuerzoRestante"
-							placeholder="Esfuerzo Restante"
-							binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}"
-							disabled="true" />
-
-						<h:outputText value="Esfuerzo Real" />
-						<p:inputText id="txtCrearEsfuerzoReal" placeholder="Esfuerzo Real"
-							binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" disabled="true" />
-
-						<h:outputText value="Puntos del artefacto" />
-						<p:inputText id="txtCrearPuntos" placeholder="Puntos"
-							binding="#{vtArtefactoView.txtCrearPuntos}" disabled="true" />
-
-						<h:outputText value="Origen del artefacto" />
-						<p:inputText id="txtCrearOrigen" placeholder="Origen"
-							binding="#{vtArtefactoView.txtCrearOrigen}" />
-
-
-
-						<h:outputText value="Nivel de prioridad" />
-						<p:selectOneMenu id="somCrearPrioridades"
-							binding="#{vtArtefactoView.somCrearPrioridadesArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
-							<f:selectItems
-								value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
-						</p:selectOneMenu>
-
-
-
-						<br />
-					</h:panelGrid>
-
-					<div align="center">
-						<p:commandButton id="btnCrearArtefacto"
-							binding="#{vtArtefactoView.btnCrear}" icon="fa fa-plus white"
-							value="Crear" action="#{vtArtefactoView.crearAction}"
-							update="pnlCrearArtefacto, dtArtefactos, men" />
-
-						<p:commandButton id="btnClear" icon="fa fa-eraser white"
-							value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"
-							action="#{vtArtefactoView.limpiarCrearAction}"
-							update="pnlCrearArtefacto" />
-
-					</div>
-
-				</p:panel>
-			</p:dialog>
 
 
 			<p:dialog header="Historial Artefacto"
@@ -484,9 +385,9 @@
 
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Sí" type="button"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check white" />
 					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close white" />
 				</p:confirmDialog>
 
 				<p:dataTable id="dtDescArtefactos"
