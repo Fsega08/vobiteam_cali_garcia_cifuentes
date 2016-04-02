@@ -26,24 +26,26 @@
 		<h:form id="frmAsignarUsuarios">
 			<p:growl id="mensaje" />
 			<p:panel header="Lista de Proyectos" id="pnlUsuProy">
-								
-							
-							
-						
-				<p:contextMenu for="checkboxDT" >
-					<p:menuitem value="Asignar usuarios a este proyecto" icon="fa fa-plus" oncomplete="PF('dlg').show()"
-							action="#{asignarUsuariosView.asignarProyectoAction}"
-							update="pickList" />
-				
+
+
+
+
+				<p:contextMenu for="checkboxDT">
+					<p:menuitem value="Asignar usuarios a este proyecto"
+						icon="fa fa-plus" oncomplete="PF('dlg').show()"
+						action="#{asignarUsuariosView.asignarProyectoAction}"
+						update="pickList" />
+
 				</p:contextMenu>
-			
-			
-							
-			
+
+
+
+
 				<p:dataTable id="checkboxDT"
 					value="#{asignarUsuariosView.losProyectos}" var="proyecto"
 					rowKey="#{proyecto.proyCodigo}" style="margin-bottom:0"
-					selection="#{asignarUsuariosView.proyectoSeleccionado}" selectionMode="single">
+					selection="#{asignarUsuariosView.proyectoSeleccionado}"
+					selectionMode="single">
 
 					<p:column headerText="Nombre" filterBy="#{proyecto.nombre}"
 						sortBy="#{proyecto.nombre}">
@@ -61,27 +63,28 @@
 
 				</p:dataTable>
 
-					<p:dialog header="Asignar o Desasignar Usuarios" widgetVar="dlg" resizable="true"
-							id="dlAsignar" draggable="true" responsive="true" modal="true" width="500">
-							<p:growl id="msj" />
-							<p:pickList id="pickList"
-								value="#{asignarUsuariosView.losUsuariosSeleccionados}"
-								var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}"
-								converter="usuarioPickListConverter">
-								
-								<f:facet name="sourceCaption">Usuarios Disponibles</f:facet>
-								<f:facet name="targetCaption">Usuarios Asignados</f:facet>
+				<p:dialog header="Asignar o Desasignar Usuarios" widgetVar="dlg"
+					resizable="true" id="dlAsignar" draggable="true" responsive="true"
+					modal="true" width="500">
+					<p:growl id="msj" />
+					<p:pickList id="pickList"
+						value="#{asignarUsuariosView.losUsuariosSeleccionados}"
+						var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}"
+						converter="usuarioPickListConverter" >
 
-								<p:ajax event="transfer"
-									listener="#{asignarUsuariosView.onTransfer}" update="msj" />
-								
-								<p:column>
-									<h:outputText value="#{usuarios.nombre}" />
-								</p:column>
+						<f:facet name="sourceCaption">Usuarios Disponibles</f:facet>
+						<f:facet name="targetCaption">Usuarios Asignados</f:facet>
 
-							</p:pickList>
+						<p:ajax event="transfer"
+							listener="#{asignarUsuariosView.onTransfer}" update="msj" />
 
-						</p:dialog>
+						<p:column>
+							<h:outputText value="#{usuarios.nombre}" />
+						</p:column>
+
+					</p:pickList>
+
+				</p:dialog>
 
 			</p:panel>
 		</h:form>

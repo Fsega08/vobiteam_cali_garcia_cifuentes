@@ -71,7 +71,8 @@
 						selectionMode="single" paginatorPosition="bottom">
 
 						<p:column headerText="Nombre Artefacto"
-							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}">
+							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+							filterMatchMode="contains">
 							<h:outputText value="#{artefacto.titulo}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
@@ -88,8 +89,8 @@
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
-						<p:column headerText="Estado de los Artefactos" filterBy="#{artefacto.activo}"
-							sortBy="#{artefacto.activo}">
+						<p:column headerText="Estado de los Artefactos"
+							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}">
 							<h:outputText value="#{artefacto.activo}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
@@ -176,11 +177,12 @@
 								<br />
 							</h:panelGrid>
 							<div align="center">
-								<br/>
+								<br />
 								<p:commandButton id="btnModificarArtefacto"
 									binding="#{vtArtefactoView.btnModificar}"
 									icon="fa fa-pencil white" value="Modificar"
-									action="#{vtArtefactoView.modificarAction}" update="formDialog" />
+									action="#{vtArtefactoView.modificarAction}" 
+									update="pnlModificarArtefacto, dtArtefactos, men" />
 
 								<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
 									value="Limpiar" action="#{vtArtefactoView.limpiarAction}"
@@ -193,7 +195,7 @@
 				</h:panelGrid>
 			</p:panel>
 
-			<p:panel >
+			<p:panel>
 				<h:panelGrid columns="1" id="panelGrid2">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
 						action="#{vtArtefactoView.regresarAction}"
@@ -279,7 +281,7 @@
 						<p:commandButton id="btnCrearArtefacto"
 							binding="#{vtArtefactoView.btnCrear}" icon="fa fa-plus white"
 							value="Crear" action="#{vtArtefactoView.crearAction}"
-							update="formDialog" />
+							update="pnlCrearArtefacto, dtArtefactos, men" />
 
 						<p:commandButton id="btnClear" icon="fa fa-eraser white"
 							value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"

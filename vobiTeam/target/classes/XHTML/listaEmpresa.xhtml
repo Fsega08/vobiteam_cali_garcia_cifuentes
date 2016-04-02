@@ -60,7 +60,8 @@
 
 
 						<p:column headerText="Nombre de Empresa"
-							filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}">
+							filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}"
+							filterMatchMode="contains">
 							<h:outputText value="#{empresa.nombre}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
@@ -107,7 +108,7 @@
 								binding="#{vtEmpresaView.btnModificar}"
 								icon="fa fa-pencil white"
 								action="#{vtEmpresaView.modificarAction}" value="Modificar"
-								update="formDialog" />
+								update="panelVtEmpresa,dtListaEmpresa,men " />
 
 							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
 								action="#{vtEmpresaView.limpiarMAction}" value="Limpiar"
@@ -135,10 +136,10 @@
 
 
 						</h:panelGrid>
-						<br/>
+						<br />
 						<p:commandButton id="btnCrear" binding="#{vtEmpresaView.btnCrear}"
 							icon="fa fa-plus white" action="#{vtEmpresaView.crearAction}"
-							value="Crear" update="panelCrearEmpresa,formDialog" />
+							value="Crear" update="panelCrearEmpresa,dtListaEmpresa,men" />
 
 						<p:commandButton id="btnClear" icon="fa fa-eraser white"
 							action="#{vtEmpresaView.limpiarAction}" value="Limpiar"

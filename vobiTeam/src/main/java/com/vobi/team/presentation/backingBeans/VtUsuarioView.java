@@ -316,26 +316,30 @@ public class VtUsuarioView {
 	public void crearAction() throws Exception{
 		try {
 			String nombre = txtNombreC.getValue().toString().trim();
-			String login = txtLoginC.getValue().toString().trim();
-			String clave = txtPasswordC.getValue().toString().trim();
-			String clave2 = txtPasswordC2.getValue().toString().trim();
-			String empresa = somEmpresasC.getValue().toString().trim(); 		
-
 			if (nombre==null || nombre.trim().equals("")){
 				throw new Exception("Debe ingresar el nombre");
 			}
+			String login = txtLoginC.getValue().toString().trim();
 			if (login==null || login.trim().equals("")){
 				throw new Exception("Debe ingresar el login");
 			}
+			String clave = txtPasswordC.getValue().toString().trim();
 			if (clave==null || clave.trim().equals("")){
 				throw new Exception("Debe ingresar la clave");
-			}	
+			}
+			String clave2 = txtPasswordC2.getValue().toString().trim();
 			if (clave2==null || clave2.trim().equals("")){
 				throw new Exception("Debe confirmar la clave");
 			}
+			String empresa = somEmpresasC.getValue().toString().trim(); 		
+
 			if(!clave.equals(clave2)){
 				throw new Exception("las Claves no coinciden");
 			}
+			
+				
+			
+			
 
 			long empresaID;			
 			try {

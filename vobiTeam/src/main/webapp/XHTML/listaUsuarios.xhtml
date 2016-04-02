@@ -55,13 +55,15 @@
 					rendered="true" paginatorPosition="bottom">
 
 					<p:column headerText="Nombre del Usuario"
-						filterBy="#{usuarios.nombre}" sortBy="#{usuarios.nombre}">
+						filterBy="#{usuarios.nombre}" sortBy="#{usuarios.nombre}"
+						filterMatchMode="contains">
 						<h:outputText value="#{usuarios.nombre}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
 
 					<p:column headerText="Correo del Usuario"
-						filterBy="#{usuarios.login}" sortBy="#{usuarios.login}">
+						filterBy="#{usuarios.login}" sortBy="#{usuarios.login}"
+						filterMatchMode="contains">
 						<h:outputText value="#{usuarios.login}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
@@ -118,7 +120,8 @@
 							</h:panelGrid>
 							<br />
 							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
-								update="formDialog" binding="#{vtUsuarioView.btnModificar}"
+								update="pnlModificarUsuario, dtUsuarios, men"
+								binding="#{vtUsuarioView.btnModificar}"
 								action="#{vtUsuarioView.modificarAction}" value="Modificar" />
 
 							<p:commandButton id="btnLimpiarM" icon="fa fa-eraser white"
@@ -175,7 +178,8 @@
 						</h:panelGrid>
 						<br />
 						<p:commandButton id="btnCrear" icon="fa fa-plus white"
-							update="formDialog" binding="#{vtUsuarioView.btnCrear}"
+							update="pnlCrearUsuario, dtUsuarios, men"
+							binding="#{vtUsuarioView.btnCrear}"
 							action="#{vtUsuarioView.crearAction}" value="Crear" />
 
 						<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
