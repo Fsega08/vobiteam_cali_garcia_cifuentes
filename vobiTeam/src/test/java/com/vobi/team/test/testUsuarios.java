@@ -2,6 +2,7 @@ package com.vobi.team.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,16 +15,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
+import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
+import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.VtUsuarioRol;
+import com.vobi.team.modelo.control.IVtArtefactoLogic;
+import com.vobi.team.modelo.control.IVtInteresLogic;
 import com.vobi.team.modelo.control.IVtProyectoLogic;
 import com.vobi.team.modelo.control.IVtProyectoUsuarioLogic;
 import com.vobi.team.modelo.control.IVtRolLogic;
 import com.vobi.team.modelo.control.IVtSprintLogic;
+import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
 
@@ -53,6 +60,16 @@ public class testUsuarios {
 
 	@Autowired
 	private IVtRolLogic vtRolLogic;	 
+	
+	@Autowired
+	private IVtInteresLogic vtInteresLogic;
+	
+	@Autowired
+	private IVtUsuarioArtefactoLogic vtUsuarioArtefactoLogic;
+	
+	@Autowired
+	private IVtArtefactoLogic vtArtefactoLogic;
+	
 
 
 	//@Test
@@ -133,7 +150,7 @@ public class testUsuarios {
 
 	}
 
-	@Test
+	//	@Test
 	public void testG()throws Exception{
 		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
 
@@ -145,13 +162,43 @@ public class testUsuarios {
 		//			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
 		//		}
 
-		VtUsuarioRol usuarioRol = vtUsuarioRolLogic.findUsuarioRolByUsuarioAndRol(vtUsuario.getUsuaCodigo(), 1L);
-		assertNotNull(usuarioRol);
+		//		VtUsuarioRol usuarioRol = vtUsuarioRolLogic.findUsuarioRolByUsuarioAndRol(vtUsuario.getUsuaCodigo(), 1L);
+		//		assertNotNull(usuarioRol);
+		//
+		//		log.info("Codigo: "+ usuarioRol.getUsroCodigo());
+		//		log.info("Usuario: "+ usuarioRol.getVtUsuario().getNombre());
+		//		log.info("Rol: "+ usuarioRol.getVtRol().getRolNombre()+"\n");
 
-		log.info("Codigo: "+ usuarioRol.getUsroCodigo());
-		log.info("Usuario: "+ usuarioRol.getVtUsuario().getNombre());
-		log.info("Rol: "+ usuarioRol.getVtRol().getRolNombre()+"\n");
+	}
 
+	//	@Test
+	public void testH()throws Exception{
+		//		VtRol vtRol = vtRolLogic.getVtRol(2L);
+		//		List<VtUsuario> losUsuarios = new ArrayList<VtUsuario>();
+		//		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyRol(vtRol);
+		//		
+		//		
+		//		for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
+		//			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
+		//			log.info("Usuario: "+ vtUsuarioRol.getVtUsuario().getNombre());
+		//			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
+		//			losUsuarios.add(vtUsuarioRol.getVtUsuario());
+		//		}
+		//		
+		//		for (VtUsuario vtUsuario : losUsuarios) {
+		//			log.info("Nombre: "+vtUsuario.getNombre());
+		//			log.info("Codigo: "+vtUsuario.getUsuaCodigo()+"\n");
+		//		}
+	}
+	@Test
+	public void testI()throws Exception{
+		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(4L);
+		VtInteres vtInteres = vtInteresLogic.getVtInteres(2L);
+		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(19L);
+		
+		VtUsuarioArtefacto usuarioArtefacto = vtUsuarioArtefactoLogic.findUsuarioArtefactoByUsuarioArtefactoInteres(vtUsuario.getUsuaCodigo(), vtArtefacto.getArteCodigo(), vtInteres.getInteCodigo());
+			
+		log.info("Código: "+usuarioArtefacto.getUsuartCodigo());
 	}
 
 

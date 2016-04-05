@@ -30,11 +30,13 @@ import com.vobi.team.modelo.VtArchivo;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
+import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -63,6 +65,10 @@ public class VtArtefactoView {
 	private SelectOneMenu somCrearPrioridadesArtefacto;
 	private List<SelectItem> losCrearEstadosArtefactos;
 	private SelectOneMenu somCrearEstadoArtefacto;
+	private List<SelectItem> losCrearDesarrolladores;
+	private SelectOneMenu somCrearDesarrolladores;
+	private List<SelectItem> losCrearInteres;
+	private SelectOneMenu somCrearInteres;
 
 	private CommandButton btnCrear;
 	private CommandButton btnCArtefacto;
@@ -86,7 +92,11 @@ public class VtArtefactoView {
 	private SelectOneMenu somPrioridadesArtefacto;
 	private List<SelectItem> losEstadosArtefactos;
 	private SelectOneMenu somEstadoArtefacto;
-
+	private List<SelectItem> losDesarrolladores;
+	private SelectOneMenu somDesarrolladores;
+	private List<SelectItem> losInteres;
+	private SelectOneMenu somInteres;
+	
 	private CommandButton btnModificar;
 
 	private CommandButton btnLimpiar;
@@ -100,7 +110,7 @@ public class VtArtefactoView {
 	private VtArtefacto artefactoSeleccionado;
 	private List<VtArtefacto> losArtefactos;
 
-	private List<VtArchivo> subirArchivos = new ArrayList<VtArchivo>();
+	private List<VtArchivo> subirArchivos;
 	
 	private StreamedContent file;
 	private VtArchivo archivoSeleccionado;
@@ -115,7 +125,7 @@ public class VtArtefactoView {
 		try {
 			sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
 			backlogSeleccionado = (VtPilaProducto) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("backlogSeleccionado");
-
+			subirArchivos = new ArrayList<VtArchivo>();
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
@@ -644,6 +654,8 @@ public class VtArtefactoView {
 	public void setSprintSeleccionado(VtSprint sprintSeleccionado) {
 		this.sprintSeleccionado = sprintSeleccionado;
 	}
+	
+	
 
 	//	public void actualizarLista() throws Exception {
 	//
@@ -655,6 +667,124 @@ public class VtArtefactoView {
 	//
 	//	}
 
+
+	public List<SelectItem> getLosCrearDesarrolladores() {
+		
+		try {
+			if(losCrearDesarrolladores == null){
+				List<VtUsuario> listaDesarrolladores = businessDelegatorView.getVtUsuarioDesarrolladores();
+				losCrearDesarrolladores = new ArrayList<SelectItem>();
+				for (VtUsuario vtUsuario : listaDesarrolladores) {
+					losCrearDesarrolladores.add(new SelectItem(vtUsuario.getUsuaCodigo(), vtUsuario.getNombre()));
+				}				
+			}	
+			
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}		
+		
+		return losCrearDesarrolladores;
+	}
+
+	public void setLosCrearDesarrolladores(List<SelectItem> losCrearDesarrolladores) {
+		this.losCrearDesarrolladores = losCrearDesarrolladores;
+	}
+
+	public SelectOneMenu getSomCrearDesarrolladores() {
+		return somCrearDesarrolladores;
+	}
+
+	public void setSomCrearDesarrolladores(SelectOneMenu somCrearDesarrolladores) {
+		this.somCrearDesarrolladores = somCrearDesarrolladores;
+	}
+
+	public List<SelectItem> getLosDesarrolladores() {
+		try {
+			if(losDesarrolladores == null){
+				List<VtUsuario> listaDesarrolladores = businessDelegatorView.getVtUsuarioDesarrolladores();
+				losDesarrolladores = new ArrayList<SelectItem>();
+				for (VtUsuario vtUsuario : listaDesarrolladores) {
+					losDesarrolladores.add(new SelectItem(vtUsuario.getUsuaCodigo(), vtUsuario.getNombre()));
+				}				
+			}	
+			
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}	
+		
+		return losDesarrolladores;
+	}
+
+	public void setLosDesarrolladores(List<SelectItem> losDesarrolladores) {
+		this.losDesarrolladores = losDesarrolladores;
+	}
+
+	public SelectOneMenu getSomDesarrolladores() {
+		return somDesarrolladores;
+	}
+
+	public void setSomDesarrolladores(SelectOneMenu somDesarrolladores) {
+		this.somDesarrolladores = somDesarrolladores;
+	}
+	
+
+	public List<SelectItem> getLosCrearInteres() {
+		try {
+			if(losCrearInteres == null){
+				List<VtInteres> listaInteres = businessDelegatorView.getVtInteres();
+				losCrearInteres = new ArrayList<SelectItem>();
+				for (VtInteres vtInteres : listaInteres) {
+					losCrearInteres.add(new SelectItem(vtInteres.getInteCodigo(), vtInteres.getNombre()));
+				}			
+			}	
+			
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+		return losCrearInteres;
+	}
+
+	public void setLosCrearInteres(List<SelectItem> losCrearInteres) {
+		this.losCrearInteres = losCrearInteres;
+	}
+
+	public SelectOneMenu getSomCrearInteres() {
+		return somCrearInteres;
+	}
+
+	public void setSomCrearInteres(SelectOneMenu somCrearInteres) {
+		this.somCrearInteres = somCrearInteres;
+	}
+
+	public List<SelectItem> getLosInteres() {
+		try {
+			if(losInteres == null){
+				List<VtInteres> listaInteres = businessDelegatorView.getVtInteres();
+				losInteres = new ArrayList<SelectItem>();
+				for (VtInteres vtInteres : listaInteres) {
+					losInteres.add(new SelectItem(vtInteres.getInteCodigo(), vtInteres.getNombre()));
+				}			
+			}	
+			
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+		return losInteres;
+	}
+
+	public void setLosInteres(List<SelectItem> losInteres) {
+		this.losInteres = losInteres;
+	}
+
+	public SelectOneMenu getSomInteres() {
+		return somInteres;
+	}
+
+	public void setSomInteres(SelectOneMenu somInteres) {
+		this.somInteres = somInteres;
+	}
 
 	public void crearAction() {
 
@@ -723,22 +853,23 @@ public class VtArtefactoView {
 
 
 			vtArtefacto.setVtPilaProducto(backlogSeleccionado);
-
-			businessDelegatorView.saveVtArtefacto(vtArtefacto);
 			
-			log.info("arte codigo= " + vtArtefacto.getArteCodigo());
-			if (subirArchivos != null || !(subirArchivos.isEmpty())) {
-				for (VtArchivo vtArchivo : subirArchivos) {
-					log.info("Nombre= " + vtArchivo.getNombre());
-					vtArchivo.setVtArtefacto(vtArtefacto);
-					log.info("arte codigo= " + vtArtefacto.getArteCodigo());
-					businessDelegatorView.saveVtArchivo(vtArchivo);
+			if(somCrearDesarrolladores.isDisabled()){
+				businessDelegatorView.saveVtArtefacto(vtArtefacto);
+				
+			}else{
+				
+				if (somCrearDesarrolladores.getValue().toString().trim().equals("-1") == true) {
+					throw new Exception("Seleccione un Desarrollador para el artefacto");
+				}
+				if (somCrearInteres.getValue().toString().trim().equals("-1") == true) {
+					throw new Exception("Seleccione un interés ");
 				}
 				
-				subirArchivos = new ArrayList<VtArchivo>();
-				
+				businessDelegatorView.saveVtArtefacto(vtArtefacto);				
+				asignarDesarrollador(vtArtefacto);
 			}
-			
+			subirArchivos(vtArtefacto);
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
 			
 			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
@@ -748,6 +879,64 @@ public class VtArtefactoView {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
+	}
+	
+	private void subirArchivos(VtArtefacto vtArtefacto) throws Exception{
+		if (subirArchivos != null || !(subirArchivos.isEmpty())) {
+			for (VtArchivo vtArchivo : subirArchivos) {
+				vtArchivo.setVtArtefacto(vtArtefacto);
+				businessDelegatorView.saveVtArchivo(vtArchivo);
+			}
+			
+			subirArchivos = new ArrayList<VtArchivo>();
+			
+		}
+	}
+	
+	private void asignarDesarrollador(VtArtefacto vtArtefacto) throws Exception{
+		try {
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);			
+
+			VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somCrearInteres.getValue().toString().trim()));
+			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somCrearDesarrolladores.getValue().toString().trim()));
+			
+			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByUsuarioArtefactoInteres(vtUsuario.getUsuaCodigo(), vtArtefacto.getArteCodigo(), vtInteres.getInteCodigo());
+			
+			if(vtUsuarioArtefacto == null){
+				
+				vtUsuarioArtefacto = new VtUsuarioArtefacto();
+				
+				vtUsuarioArtefacto.setVtUsuario(vtUsuario);
+				vtUsuarioArtefacto.setVtInteres(vtInteres);
+				vtUsuarioArtefacto.setVtArtefacto(vtArtefacto);
+				
+				vtUsuarioArtefacto.setFechaCreacion(new Date());
+				vtUsuarioArtefacto.setFechaModificacion(new Date());
+				vtUsuarioArtefacto.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+				vtUsuarioArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+				vtUsuarioArtefacto.setActivo("S");
+				
+				businessDelegatorView.saveVtUsuarioArtefacto(vtUsuarioArtefacto);
+			}else{
+				
+				vtUsuarioArtefacto.setVtUsuario(vtUsuario);
+				vtUsuarioArtefacto.setVtInteres(vtInteres);
+				vtUsuarioArtefacto.setVtArtefacto(vtArtefacto);
+				
+				vtUsuarioArtefacto.setFechaModificacion(new Date());
+				vtUsuarioArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+				
+				businessDelegatorView.updateVtUsuarioArtefacto(vtUsuarioArtefacto);
+				
+			}
+			
+			
+			
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		
+		
 	}
 
 	public void limpiarCrearAction() {
@@ -764,6 +953,8 @@ public class VtArtefactoView {
 		somCrearEstadoArtefacto.setValue("-1");
 		somCrearPrioridadesArtefacto.setValue("-1");
 		somCrearTipoArtefacto.setValue("-1");
+		somCrearDesarrolladores.setValue("-1");
+		somCrearInteres.setValue("-1");
 
 
 	}
@@ -782,6 +973,8 @@ public class VtArtefactoView {
 		somEstadoArtefacto.setValue("-1");
 		somPrioridadesArtefacto.setValue("-1");
 		somTipoArtefacto.setValue("-1");
+		somDesarrolladores.setValue("-1");
+		somInteres.setValue("-1");
 
 
 	}
@@ -1059,6 +1252,11 @@ public class VtArtefactoView {
 
 		FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
 
+	}
+	
+	public void escogerDessarrollador()throws Exception{
+		somCrearDesarrolladores.setDisabled(false);
+		somCrearInteres.setDisabled(false);
 	}
 
 	public void borrarArchivo(){

@@ -8,13 +8,13 @@
             <column name="usuart_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select">
+        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select" lazy="false">
             <column name="arte_codigo" not-null="true" />
         </many-to-one>
-        <many-to-one name="vtInteres" class="com.vobi.team.modelo.VtInteres" fetch="select">
+        <many-to-one name="vtInteres" class="com.vobi.team.modelo.VtInteres" fetch="select" lazy="false">
             <column name="inte_codigo" not-null="true" />
         </many-to-one>
-        <many-to-one name="vtUsuario" class="com.vobi.team.modelo.VtUsuario" fetch="select">
+        <many-to-one name="vtUsuario" class="com.vobi.team.modelo.VtUsuario" fetch="select" lazy="false">
             <column name="usua_codigo" not-null="true" />
         </many-to-one>
         <property name="fechaCreacion" type="java.util.Date">

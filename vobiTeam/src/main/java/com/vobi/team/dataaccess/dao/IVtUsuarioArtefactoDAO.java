@@ -5,8 +5,11 @@ import com.vobi.team.modelo.VtUsuarioArtefacto;
 
 
 /**
-* Interface for   VtUsuarioArtefactoDAO.
-*
-*/
+ * Interface for   VtUsuarioArtefactoDAO.
+ *
+ */
 public interface IVtUsuarioArtefactoDAO extends Dao<VtUsuarioArtefacto, Long> {
+
+
+	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo, Long inteCodigo);
 }

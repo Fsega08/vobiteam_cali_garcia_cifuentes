@@ -1,29 +1,24 @@
 package com.vobi.team.modelo.control;
 
-import com.vobi.team.dataaccess.dao.*;
-import com.vobi.team.exceptions.*;
-import com.vobi.team.modelo.*;
-import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
-import com.vobi.team.utilities.Utilities;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.vobi.team.dataaccess.dao.IVtUsuarioRolDAO;
+import com.vobi.team.exceptions.ZMessManager;
+import com.vobi.team.modelo.VtRol;
+import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
+import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
+import com.vobi.team.utilities.Utilities;
 
 
 /**
@@ -492,5 +487,22 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
     @Transactional(readOnly = true)
 	public VtUsuarioRol findUsuarioRolByUsuarioAndRol(Long usuarioCodigo, Long rolCodigo) {
 		return vtUsuarioRolDAO.findUsuarioRolByUsuarioAndRol(usuarioCodigo, rolCodigo);
+	}
+
+    @Transactional(readOnly = true)
+	public List<VtUsuarioRol> findUsuarioRolbyRol(VtRol rol) throws Exception {
+    	List<VtUsuarioRol> usuariosRol = new ArrayList<VtUsuarioRol>();
+    	
+    	try {
+    		Object[] variables = {"vtRol.rolCodigo", false, rol.getRolCodigo(), "="};
+    		usuariosRol = findByCriteria(variables, null, null);
+    		
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new Exception("No se encontro Usuarios con ese Rol");
+		}
+    	
+    	return (usuariosRol != null && !usuariosRol.isEmpty()
+    			? usuariosRol : null);
 	}
 }

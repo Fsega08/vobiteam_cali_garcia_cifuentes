@@ -1,15 +1,10 @@
 package com.vobi.team.modelo.control;
 
+import java.util.List;
+
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
-
-import java.math.BigDecimal;
-
-import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -62,4 +57,6 @@ public interface IVtUsuarioLogic {
 	public List<VtUsuario> getVtUsuarioNoAsignados(VtProyecto proyecto) throws Exception;
 	
 	public List<VtUsuario> getVtUsuarioAsignados(VtProyecto proyecto) throws Exception;
+	
+	public List<VtUsuario> getVtUsuarioDesarrolladores() throws Exception;
 }

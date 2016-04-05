@@ -75,6 +75,12 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	
 	@Autowired
 	private IVtProyectoUsuarioLogic proyectoUsuarioLogic;
+	
+	@Autowired
+	private IVtRolLogic vtRolLogic;
+	
+	@Autowired
+	private IVtUsuarioRolLogic vtUsuarioRolLogic;
 
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuario() throws Exception {
@@ -657,5 +663,22 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		}
 		
 		return usuariosTarget;
+	}
+
+	@Transactional(readOnly = true)
+	public List<VtUsuario> getVtUsuarioDesarrolladores() throws Exception {
+		List<VtUsuario> losDesarrolladores = new ArrayList<VtUsuario>();
+		
+		VtRol vtRol = vtRolLogic.getVtRol(2L);		
+		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyRol(vtRol);		
+		
+		for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
+			if(vtUsuarioRol.getActivo().equals("S")){
+				losDesarrolladores.add(vtUsuarioRol.getVtUsuario());
+			}
+			
+		}
+		
+		return losDesarrolladores;
 	}
 }

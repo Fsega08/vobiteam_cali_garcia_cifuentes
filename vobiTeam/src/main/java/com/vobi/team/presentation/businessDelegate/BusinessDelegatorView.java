@@ -1085,4 +1085,24 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtRol> getRolesNoAsignados(VtUsuario usuario) throws Exception {
 		return vtRolLogic.getRolesNoAsignados(usuario);
 	}
+
+	@Override
+	public List<VtUsuarioRol> findUsuarioRolbyRol(VtRol rol) throws Exception {
+		return vtUsuarioRolLogic.findUsuarioRolbyRol(rol);
+	}
+
+	@Override
+	public List<VtUsuario> getVtUsuarioDesarrolladores() throws Exception {
+		return vtUsuarioLogic.getVtUsuarioDesarrolladores();
+	}
+
+	@Override
+	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo,
+			Long inteCodigo) throws Exception {
+		return vtUsuarioArtefactoLogic.findUsuarioArtefactoByUsuarioArtefactoInteres(usuarioCodigo, arteCodigo, inteCodigo);
+	}
+	
+	
+	
+	
 }

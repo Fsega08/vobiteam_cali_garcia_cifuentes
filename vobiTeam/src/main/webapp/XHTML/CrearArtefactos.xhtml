@@ -27,100 +27,111 @@
 		<h:form id="formDialog">
 			<p:growl id="men" />
 			<div class="ui-fluid">
-			<p:panel header="Crear Artefacto" id="pnlCrearArtefacto">
-				<h:panelGrid columns="5" layout="grid" id="pnlgTit">
+				<p:panel header="Crear Artefacto" id="pnlCrearArtefacto">
+					<h:panelGrid columns="5" layout="grid" id="pnlgTit">
 
-					<h:outputText value="Tipo Artefacto" />
-					<p:selectOneMenu id="somCrearTiposDeArtefactos"
-						binding="#{vtArtefactoView.somCrearTipoArtefacto}">
-						<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
-						<f:selectItems value="#{vtArtefactoView.losCrearTiposArtefactos}" />
-						<p:ajax listener="#{vtArtefactoView.tipoArtefactoListener}"
-							update="pnlgDemas" />
-					</p:selectOneMenu>
-					
-					<p:spacer width="170" height="10"/>
-					
-					<h:outputText value="Titulo del artefacto" />
-					<p:inputText id="txtCrearNombre" placeholder="Título"
-						binding="#{vtArtefactoView.txtCrearNombre}" size="75" />
-				</h:panelGrid>
-				
-				<h:panelGrid columns="1" layout="grid" id="pnlgDesc" >
-					<h:outputText value="Descripción del artefacto" />
-					<p:inputTextarea id="txtAreaCrearDescripcion"
-								placeholder="Descripcion" 
-								binding="#{vtArtefactoView.txtCrearDescripcion}" cols="148" />
-								
+						<h:outputText value="Tipo Artefacto" />
+						<p:selectOneMenu id="somCrearTiposDeArtefactos"
+							binding="#{vtArtefactoView.somCrearTipoArtefacto}">
+							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+							<f:selectItems value="#{vtArtefactoView.losCrearTiposArtefactos}" />
+							<p:ajax listener="#{vtArtefactoView.tipoArtefactoListener}"
+								update="pnlgDemas" />
+						</p:selectOneMenu>
+
+						<h:outputText value="Titulo del artefacto" />
+						<p:inputText id="txtCrearNombre" placeholder="Título"
+							binding="#{vtArtefactoView.txtCrearNombre}" size="85" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" layout="grid" id="pnlgDesc">
+						<h:outputText value="Descripción del artefacto" />
+						<p:inputTextarea id="txtAreaCrearDescripcion"
+							placeholder="Descripcion"
+							binding="#{vtArtefactoView.txtCrearDescripcion}" cols="148" />
+
+						<p:separator />
+					</h:panelGrid>
+
+					<h:panelGrid columns="4" layout="grid" id="pnlgDemas">
+
+						<h:outputText value="Estado Artefacto" />
+						<p:selectOneMenu id="somCrearEstados"
+							binding="#{vtArtefactoView.somCrearEstadoArtefacto}">
+							<f:selectItem itemValue="-1" itemLabel="Estado" />
+							<f:selectItems
+								value="#{vtArtefactoView.losCrearEstadosArtefactos}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Nivel de prioridad" />
+						<p:selectOneMenu id="somCrearPrioridades"
+							binding="#{vtArtefactoView.somCrearPrioridadesArtefacto}">
+							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+							<f:selectItems
+								value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Esfuerzo Estimado" />
+						<p:inputText id="txtCrearEsfuerzoEstimado"
+							placeholder="Esfuerzo Estimado" disabled="true"
+							binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}">
+							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
+								event="blur" update="pnlgDemas" />
+						</p:inputText>
+												
+						<h:outputText value="Esfuerzo Restante" />
+						<p:inputText id="txtCrearEsfuerzoRestante"
+							placeholder="Esfuerzo Restante"
+							binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}"
+							disabled="true" />						
+
+						<h:outputText value="Esfuerzo Real" />
+						<p:inputText id="txtCrearEsfuerzoReal" placeholder="Esfuerzo Real"
+							binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" disabled="true" />
+												
+						<h:outputText value="Puntos del artefacto" />
+						<p:inputText id="txtCrearPuntos" placeholder="Puntos"
+							binding="#{vtArtefactoView.txtCrearPuntos}" disabled="true" />
+
+						<h:outputText value="Origen del artefacto" />
+						<p:inputText id="txtCrearOrigen" placeholder="Origen"
+							binding="#{vtArtefactoView.txtCrearOrigen}" />
+
+						<h:outputText value="Subir Archivos" />
+						<p:fileUpload sequential="true"
+							fileUploadListener="#{vtArtefactoView.createHandleFileUpload}"
+							mode="advanced" multiple="true" auto="true"
+							dragDropSupport="true" update="men" label="Seleccionar" />
+							
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" layout="grid" id="botton">
+						<p:commandButton id="btnDesarrollador"
+							icon="fa fa-user-plus  white"
+							action="#{vtArtefactoView.escogerDessarrollador}"
+							value="Escoger Desarrollador" update="pnlgDess" />
+					</h:panelGrid>
 					<p:separator />
-				</h:panelGrid>		
 					
-				<h:panelGrid columns="5" layout="grid" id="pnlgDemas" >
+					<h:panelGrid columns="5" layout="grid" id="pnlgDess">
+						<h:outputText value="Desarrollador" />
+						<p:selectOneMenu id="somCrearDesarrollador" disabled="true"
+							binding="#{vtArtefactoView.somCrearDesarrolladores}">
+							<f:selectItem itemValue="-1" itemLabel="Desarrollador" />
+							<f:selectItems value="#{vtArtefactoView.losCrearDesarrolladores}" />
+						</p:selectOneMenu>
 
-					<h:outputText value="Estado Artefacto" />
-					<p:selectOneMenu id="somCrearEstados"
-						binding="#{vtArtefactoView.somCrearEstadoArtefacto}">
-						<f:selectItem itemValue="-1" itemLabel="Estado" />
-						<f:selectItems
-							value="#{vtArtefactoView.losCrearEstadosArtefactos}" />
-					</p:selectOneMenu>
-					
-					<p:spacer width="100" height="10"/>
-					
-					<h:outputText value="Esfuerzo Estimado" />
-					<p:inputText id="txtCrearEsfuerzoEstimado"
-						placeholder="Esfuerzo Estimado" disabled="true"
-						binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}">
-						<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
-							event="blur"
-							update="pnlgDemas" />
-					</p:inputText>
+						<p:spacer width="100" height="10" />
 
-					<h:outputText value="Esfuerzo Restante" />
-					<p:inputText id="txtCrearEsfuerzoRestante"
-						placeholder="Esfuerzo Restante"
-						binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}"
-						disabled="true" />
-					
-					<p:spacer width="100" height="10"/>
-					
-					<h:outputText value="Esfuerzo Real" />
-					<p:inputText id="txtCrearEsfuerzoReal" placeholder="Esfuerzo Real"
-						binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" disabled="true" />
+						<h:outputText value="Interés" />
+						<p:selectOneMenu id="somCrearInteres" disabled="true"
+							binding="#{vtArtefactoView.somCrearInteres}">
+							<f:selectItem itemValue="-1" itemLabel="Interés" />
+							<f:selectItems value="#{vtArtefactoView.losCrearInteres}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
 
-					<h:outputText value="Puntos del artefacto" />
-					<p:inputText id="txtCrearPuntos" placeholder="Puntos"
-						binding="#{vtArtefactoView.txtCrearPuntos}" disabled="true" />
-					
-					<p:spacer width="100" height="10"/>
-					
-					<h:outputText value="Origen del artefacto" />
-					<p:inputText id="txtCrearOrigen" placeholder="Origen"
-						binding="#{vtArtefactoView.txtCrearOrigen}" />
-
-					<h:outputText value="Nivel de prioridad" />
-					<p:selectOneMenu id="somCrearPrioridades"
-						binding="#{vtArtefactoView.somCrearPrioridadesArtefacto}">
-						<f:selectItem itemValue="-1" itemLabel="Prioridad" />
-						<f:selectItems
-							value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
-					</p:selectOneMenu>
-					
-					<p:spacer width="100" height="10"/>
-					
-					<h:outputText value="Subir Archivos" />
-					<p:fileUpload sequential="true"
-						fileUploadListener="#{vtArtefactoView.createHandleFileUpload}"
-						mode="advanced" multiple="true" auto="true"
-						dragDropSupport="true" update="men"
-						label="Seleccionar" />
-
-					<br />
-				</h:panelGrid>
-
-				
-
-			</p:panel>
+				</p:panel>
 			</div>
 
 			<p:panel>
@@ -136,7 +147,7 @@
 						update="pnlCrearArtefacto" />
 
 				</div>
-				
+
 				<h:panelGrid columns="1" id="panelGrid2">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
 						action="#{vtArtefactoView.volverArtefactoAction}"
@@ -144,7 +155,7 @@
 
 				</h:panelGrid>
 			</p:panel>
-			
+
 		</h:form>
 
 	</ui:define>

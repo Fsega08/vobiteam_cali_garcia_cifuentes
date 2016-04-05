@@ -51,4 +51,16 @@ public class VtUsuarioArtefactoDAO extends HibernateDaoImpl<VtUsuarioArtefacto, 
         ApplicationContext ctx) {
         return (IVtUsuarioArtefactoDAO) ctx.getBean("VtUsuarioArtefactoDAO");
     }
+
+	@Override
+	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo,
+			Long inteCodigo) {
+		Query query = getSession().getNamedQuery("consultarUsuarioArtefactoPorUsuarioInteresArtefacto");
+		query.setParameter("usuaCodigo", usuarioCodigo);
+		query.setParameter("inteCodigo", inteCodigo);
+		query.setParameter("arteCodigo", arteCodigo);
+		
+		VtUsuarioArtefacto vtUsuarioArtefacto = (VtUsuarioArtefacto) query.uniqueResult();
+		return vtUsuarioArtefacto;
+	}
 }

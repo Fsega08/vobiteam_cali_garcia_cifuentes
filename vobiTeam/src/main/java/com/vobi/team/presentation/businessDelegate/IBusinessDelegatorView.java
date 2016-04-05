@@ -508,4 +508,10 @@ public interface IBusinessDelegatorView {
 	public List<VtRol> getRolesAsignados(VtUsuario usuario) throws Exception;
 
 	public List<VtRol> getRolesNoAsignados(VtUsuario usuario) throws Exception;
+	
+	public List<VtUsuarioRol> findUsuarioRolbyRol(VtRol rol)throws Exception;
+	
+	public List<VtUsuario> getVtUsuarioDesarrolladores() throws Exception;
+	
+	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo, Long inteCodigo) throws Exception;
 }

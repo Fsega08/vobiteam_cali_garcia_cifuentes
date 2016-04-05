@@ -1,5 +1,6 @@
 package com.vobi.team.modelo.control;
 
+import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
@@ -60,6 +61,8 @@ public interface IVtUsuarioRolLogic {
         throws Exception;
     
     public List<VtUsuarioRol> findUsuarioRolbyUsuario(VtUsuario usuario)throws Exception;
+    
+    public List<VtUsuarioRol> findUsuarioRolbyRol(VtRol rol)throws Exception;
     
     public VtUsuarioRol findUsuarioRolByUsuarioAndRol(Long usuarioCodigo, Long rolCodigo);
 	
