@@ -259,6 +259,7 @@ public class VtBacklogView {
 			
 			FacesUtils.addInfoMessage("Se ha creado el backlog con éxito");
 			
+			limpiarCAction();
 			losBacklogs = businessDelegatorView.findBacklogByProyecto(proyectoSeleccionado);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

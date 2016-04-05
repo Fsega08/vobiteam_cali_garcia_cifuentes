@@ -368,6 +368,9 @@ public class VtUsuarioView {
 
 			businessDelegatorView.saveVtUsuario(vtUsuario);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+			
+			limpiarAction();
+			
 			losUsuarios = businessDelegatorView.getVtUsuario();
 
 		} 

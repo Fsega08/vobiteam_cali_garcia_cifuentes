@@ -272,7 +272,8 @@ public class VtProyectosView {
 			businessDelegatorView.saveVtProyecto(vtProyecto);
 
 			FacesUtils.addInfoMessage("Se ha creado el Proyecto con éxito");
-
+			
+			limpiarCAction();
 			losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresaSelected);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

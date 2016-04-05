@@ -977,6 +977,7 @@ public class VtArtefactoView {
 		somTipoArtefacto.setValue("-1");
 		somDesarrolladores.setValue("-1");
 		somInteres.setValue("-1");
+		somArtefactoActivo.setValue("-1");
 		somDesarrolladores.setDisabled(true);
 		somInteres.setDisabled(true);
 
