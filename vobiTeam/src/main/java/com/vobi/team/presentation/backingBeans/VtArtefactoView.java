@@ -14,10 +14,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.junit.runner.Request;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -100,7 +102,7 @@ public class VtArtefactoView {
 	private VtArtefacto artefactoSeleccionado;
 	private List<VtArtefacto> losArtefactos;
 
-	private List<VtArchivo> subirArchivos = new ArrayList<VtArchivo>();
+	private List<VtArchivo> subirArchivos;
 	
 	private StreamedContent file;
 	private VtArchivo archivoSeleccionado;
@@ -115,7 +117,7 @@ public class VtArtefactoView {
 		try {
 			sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
 			backlogSeleccionado = (VtPilaProducto) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("backlogSeleccionado");
-
+			subirArchivos = new ArrayList<VtArchivo>();
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
@@ -865,6 +867,8 @@ public class VtArtefactoView {
 
 
 	public void hidratarArtefactoMod() {
+		
+		
 		log.info("Artefacto= " + artefactoSeleccionado.getTitulo());
 		if (artefactoSeleccionado != null) {
 			txtNombre.setValue(artefactoSeleccionado.getTitulo());
@@ -883,6 +887,8 @@ public class VtArtefactoView {
 		}else {
 			log.info("No se ha seleccionado ningún artefacto");
 		}
+		
+
 	}
 
 	public void modificarAction() {
@@ -1050,7 +1056,13 @@ public class VtArtefactoView {
 	public String crearArtefactoAction(){
 		return "/XHTML/CrearArtefactos.xhtml";
 	}
-
+	
+	public String modificarArtefactoAction(){
+		
+		return "/XHTML/moidificarArtefactos.xhtml";
+		
+	}
+	
 	public String volverArtefactoAction(){
 		return "/XHTML/listarArtefactos.xhtml";
 	}
