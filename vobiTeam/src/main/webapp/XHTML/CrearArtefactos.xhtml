@@ -38,6 +38,8 @@
 							<p:ajax listener="#{vtArtefactoView.tipoArtefactoListener}"
 								update="pnlgDemas" />
 						</p:selectOneMenu>
+						
+						<p:spacer width="100" height="10" />
 
 						<h:outputText value="Titulo del artefacto" />
 						<p:inputText id="txtCrearNombre" placeholder="Título"
@@ -53,7 +55,7 @@
 						<p:separator />
 					</h:panelGrid>
 
-					<h:panelGrid columns="4" layout="grid" id="pnlgDemas">
+					<h:panelGrid columns="5" layout="grid" id="pnlgDemas">
 
 						<h:outputText value="Estado Artefacto" />
 						<p:selectOneMenu id="somCrearEstados"
@@ -62,6 +64,8 @@
 							<f:selectItems
 								value="#{vtArtefactoView.losCrearEstadosArtefactos}" />
 						</p:selectOneMenu>
+						
+						<p:spacer width="100" height="10" />
 						
 						<h:outputText value="Nivel de prioridad" />
 						<p:selectOneMenu id="somCrearPrioridades"
@@ -78,7 +82,9 @@
 							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
 								event="blur" update="pnlgDemas" />
 						</p:inputText>
-												
+						
+						<p:spacer width="100" height="10" />
+						
 						<h:outputText value="Esfuerzo Restante" />
 						<p:inputText id="txtCrearEsfuerzoRestante"
 							placeholder="Esfuerzo Restante"
@@ -88,14 +94,20 @@
 						<h:outputText value="Esfuerzo Real" />
 						<p:inputText id="txtCrearEsfuerzoReal" placeholder="Esfuerzo Real"
 							binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" disabled="true" />
-												
+						
+						<p:spacer width="100" height="10" />
+										
 						<h:outputText value="Puntos del artefacto" />
 						<p:inputText id="txtCrearPuntos" placeholder="Puntos"
 							binding="#{vtArtefactoView.txtCrearPuntos}" disabled="true" />
-
+						
+						
+						
 						<h:outputText value="Origen del artefacto" />
 						<p:inputText id="txtCrearOrigen" placeholder="Origen"
 							binding="#{vtArtefactoView.txtCrearOrigen}" />
+							
+							<p:spacer width="100" height="10" />
 
 						<h:outputText value="Subir Archivos" />
 						<p:fileUpload sequential="true"
@@ -105,12 +117,13 @@
 							
 					</h:panelGrid>
 
-					<h:panelGrid columns="1" layout="grid" id="botton">
+					<h:panelGrid columns="1" layout="grid" id="pnlButton">
 						<p:commandButton id="btnDesarrollador"
 							icon="fa fa-user-plus  white"
 							action="#{vtArtefactoView.escogerDessarrollador}"
 							value="Escoger Desarrollador" update="pnlgDess" />
 					</h:panelGrid>
+					
 					<p:separator />
 					
 					<h:panelGrid columns="5" layout="grid" id="pnlgDess">
