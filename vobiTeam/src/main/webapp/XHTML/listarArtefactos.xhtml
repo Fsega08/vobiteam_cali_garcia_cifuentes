@@ -382,6 +382,14 @@
 
 							<p:spacer width="100" height="10" />
 
+							<h:outputText value="Nivel de prioridad" />
+							<p:selectOneMenu id="somMPrioridades"
+								binding="#{vtArtefactoView.somPrioridadesArtefacto}">
+								<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+								<f:selectItems
+									value="#{vtArtefactoView.lasPrioridadesArtefactos}" />
+							</p:selectOneMenu>
+
 							<h:outputText value="Esfuerzo Estimado" />
 							<p:inputText id="txtMEsfuerzoEstimado"
 								placeholder="Esfuerzo Estimado"
@@ -391,35 +399,26 @@
 									update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
 							</p:inputText>
 
+							<p:spacer width="100" height="10" />
+
 							<h:outputText value="Esfuerzo Restante" />
 							<p:inputText id="txtMEsfuerzoRestante"
 								placeholder="Esfuerzo Restante"
 								binding="#{vtArtefactoView.txtEsfuerzoRestante}" disabled="true" />
 
-							<p:spacer width="100" height="10" />
-
 							<h:outputText value="Esfuerzo Real" />
 							<p:inputText id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
 								binding="#{vtArtefactoView.txtEsfuerzoReal}" disabled="true" />
+
+							<p:spacer width="100" height="10" />
 
 							<h:outputText value="Puntos del artefacto" />
 							<p:inputText id="txtMPuntos" placeholder="Puntos"
 								binding="#{vtArtefactoView.txtPuntos}" disabled="true" />
 
-							<p:spacer width="100" height="10" />
-
 							<h:outputText value="Origen del artefacto" />
 							<p:inputText id="txtMOrigen" placeholder="Origen"
 								binding="#{vtArtefactoView.txtOrigen}" />
-
-							<h:outputText value="Nivel de prioridad" />
-							<p:selectOneMenu id="somMPrioridades"
-								binding="#{vtArtefactoView.somPrioridadesArtefacto}">
-								<f:selectItem itemValue="-1" itemLabel="Prioridad" />
-								<f:selectItems
-									value="#{vtArtefactoView.lasPrioridadesArtefactos}" />
-							</p:selectOneMenu>
-
 
 							<p:spacer width="100" height="10" />
 
@@ -431,6 +430,30 @@
 								<f:selectItem itemValue="N" itemLabel="No" />
 							</p:selectOneMenu>
 							<br />
+						</h:panelGrid>
+						<h:panelGrid columns="1" layout="grid" id="pnlButton">
+							<p:commandButton id="btnDesarrollador"
+								icon="fa fa-user-plus  white"
+								action="#{vtArtefactoView.escogerDesarrollador}"
+								value="Escoger Desarrollador" update="pnlgDess" />
+						</h:panelGrid>
+						<p:separator />
+						<h:panelGrid columns="5" layout="grid" id="pnlgDess">
+							<h:outputText value="Desarrollador" />
+							<p:selectOneMenu id="somDesarrollador" disabled="true"
+								binding="#{vtArtefactoView.somDesarrolladores}">
+								<f:selectItem itemValue="-1" itemLabel="Desarrollador" />
+								<f:selectItems value="#{vtArtefactoView.losDesarrolladores}" />
+							</p:selectOneMenu>
+
+							<p:spacer width="100" height="10" />
+
+							<h:outputText value="Interés" />
+							<p:selectOneMenu id="somInteres" disabled="true"
+								binding="#{vtArtefactoView.somInteres}">
+								<f:selectItem itemValue="-1" itemLabel="Interés" />
+								<f:selectItems value="#{vtArtefactoView.losInteres}" />
+							</p:selectOneMenu>
 						</h:panelGrid>
 					</p:panel>
 				</div>

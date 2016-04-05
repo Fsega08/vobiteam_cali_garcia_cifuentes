@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vobi.team.dataaccess.dao.IVtUsuarioArtefactoDAO;
 import com.vobi.team.exceptions.ZMessManager;
+import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.dto.VtUsuarioArtefactoDTO;
 import com.vobi.team.utilities.Utilities;
@@ -501,5 +503,24 @@ public class VtUsuarioArtefactoLogic implements IVtUsuarioArtefactoLogic {
 	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo,
 			Long inteCodigo) throws Exception {		
 		return vtUsuarioArtefactoDAO.findUsuarioArtefactoByUsuarioArtefactoInteres(usuarioCodigo, arteCodigo, inteCodigo);
+	}
+
+    @Transactional(readOnly = true)
+	public VtUsuarioArtefacto findUsuarioArtefactoByArtefacto(VtArtefacto artefacto) throws Exception {
+		
+		List<VtUsuarioArtefacto> usuarioArtefacto = new ArrayList<VtUsuarioArtefacto>();
+
+		try {
+			Object[] variables = {"vtArtefacto.arteCodigo", false, artefacto.getArteCodigo(), "="};
+
+			usuarioArtefacto = findByCriteria(variables, null, null);
+
+		} catch (Exception e) {
+			log.info(e.getMessage(), e);
+			throw new Exception("No se encontro usuarioArtefacto por ese Id de artefacto");
+		}
+
+		return (usuarioArtefacto != null && !usuarioArtefacto.isEmpty()
+    			? usuarioArtefacto.get(0) : null);	
 	}
 }

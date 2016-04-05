@@ -1,5 +1,6 @@
 package com.vobi.team.modelo.control;
 
+import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.dto.VtUsuarioArtefactoDTO;
 
@@ -59,6 +60,8 @@ public interface IVtUsuarioArtefactoLogic {
 
 	public List<VtUsuarioArtefactoDTO> getDataVtUsuarioArtefacto()
 			throws Exception;
-
+	
 	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo, Long inteCodigo) throws Exception;
+	
+	public VtUsuarioArtefacto findUsuarioArtefactoByArtefacto(VtArtefacto artefacto) throws Exception;
 }

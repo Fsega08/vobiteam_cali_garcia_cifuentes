@@ -1101,6 +1101,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 			Long inteCodigo) throws Exception {
 		return vtUsuarioArtefactoLogic.findUsuarioArtefactoByUsuarioArtefactoInteres(usuarioCodigo, arteCodigo, inteCodigo);
 	}
+
+	@Override
+	public VtUsuarioArtefacto findUsuarioArtefactoByArtefacto(VtArtefacto artefacto) throws Exception {
+		return vtUsuarioArtefactoLogic.findUsuarioArtefactoByArtefacto(artefacto);
+	}
 	
 	
 	

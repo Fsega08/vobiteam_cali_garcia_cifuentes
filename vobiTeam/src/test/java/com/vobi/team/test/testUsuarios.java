@@ -192,11 +192,10 @@ public class testUsuarios {
 	}
 	@Test
 	public void testI()throws Exception{
-		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(4L);
-		VtInteres vtInteres = vtInteresLogic.getVtInteres(2L);
-		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(19L);
+
+		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(22L);
 		
-		VtUsuarioArtefacto usuarioArtefacto = vtUsuarioArtefactoLogic.findUsuarioArtefactoByUsuarioArtefactoInteres(vtUsuario.getUsuaCodigo(), vtArtefacto.getArteCodigo(), vtInteres.getInteCodigo());
+		VtUsuarioArtefacto usuarioArtefacto = vtUsuarioArtefactoLogic.findUsuarioArtefactoByArtefacto(vtArtefacto);
 			
 		log.info("Código: "+usuarioArtefacto.getUsuartCodigo());
 	}

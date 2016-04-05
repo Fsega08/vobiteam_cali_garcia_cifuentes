@@ -514,4 +514,6 @@ public interface IBusinessDelegatorView {
 	public List<VtUsuario> getVtUsuarioDesarrolladores() throws Exception;
 	
 	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo, Long inteCodigo) throws Exception;
+
+	public VtUsuarioArtefacto findUsuarioArtefactoByArtefacto(VtArtefacto artefacto) throws Exception;
 }

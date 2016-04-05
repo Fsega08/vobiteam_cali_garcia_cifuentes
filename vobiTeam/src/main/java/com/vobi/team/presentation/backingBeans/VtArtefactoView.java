@@ -868,8 +868,11 @@ public class VtArtefactoView {
 					throw new Exception("Seleccione un interés ");
 				}
 				
+				VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somCrearInteres.getValue().toString().trim()));
+				VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somCrearDesarrolladores.getValue().toString().trim()));
+				
 				businessDelegatorView.saveVtArtefacto(vtArtefacto);				
-				asignarDesarrollador(vtArtefacto);
+				asignarDesarrollador(vtArtefacto, vtInteres, vtUsuario);
 			}
 			subirArchivos(vtArtefacto);
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
@@ -895,14 +898,11 @@ public class VtArtefactoView {
 		}
 	}
 	
-	private void asignarDesarrollador(VtArtefacto vtArtefacto) throws Exception{
+	private void asignarDesarrollador(VtArtefacto vtArtefacto, VtInteres vtInteres, VtUsuario vtUsuario) throws Exception{
 		try {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);			
 
-			VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somCrearInteres.getValue().toString().trim()));
-			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somCrearDesarrolladores.getValue().toString().trim()));
-			
-			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByUsuarioArtefactoInteres(vtUsuario.getUsuaCodigo(), vtArtefacto.getArteCodigo(), vtInteres.getInteCodigo());
+			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(vtArtefacto);
 			
 			if(vtUsuarioArtefacto == null){
 				
@@ -923,7 +923,6 @@ public class VtArtefactoView {
 				
 				vtUsuarioArtefacto.setVtUsuario(vtUsuario);
 				vtUsuarioArtefacto.setVtInteres(vtInteres);
-				vtUsuarioArtefacto.setVtArtefacto(vtArtefacto);
 				
 				vtUsuarioArtefacto.setFechaModificacion(new Date());
 				vtUsuarioArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
@@ -957,7 +956,8 @@ public class VtArtefactoView {
 		somCrearTipoArtefacto.setValue("-1");
 		somCrearDesarrolladores.setValue("-1");
 		somCrearInteres.setValue("-1");
-
+		somCrearDesarrolladores.setDisabled(true);
+		somCrearInteres.setDisabled(true);
 
 	}
 
@@ -977,7 +977,8 @@ public class VtArtefactoView {
 		somTipoArtefacto.setValue("-1");
 		somDesarrolladores.setValue("-1");
 		somInteres.setValue("-1");
-
+		somDesarrolladores.setDisabled(true);
+		somInteres.setDisabled(true);
 
 	}
 
@@ -1059,7 +1060,7 @@ public class VtArtefactoView {
 	}
 
 
-	public void hidratarArtefactoMod() {
+	public void hidratarArtefactoMod() throws Exception {
 		
 		
 		log.info("Artefacto= " + artefactoSeleccionado.getTitulo());
@@ -1075,7 +1076,21 @@ public class VtArtefactoView {
 			somEstadoArtefacto.setValue(artefactoSeleccionado.getVtEstado().getEstaCodigo());
 			somPrioridadesArtefacto.setValue(artefactoSeleccionado.getVtPrioridad().getPrioCodigo());
 			somTipoArtefacto.setValue(artefactoSeleccionado.getVtTipoArtefacto().getTparCodigo());
-
+			
+			
+			VtUsuarioArtefacto usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
+			
+			if(usuarioArtefacto == null ){
+				somDesarrolladores.setValue("-1");
+				somInteres.setValue("-1");
+			}else{
+				somDesarrolladores.setValue(usuarioArtefacto.getVtUsuario().getUsuaCodigo());
+				somInteres.setValue(usuarioArtefacto.getVtInteres().getInteCodigo());
+			}
+			
+			
+			
+			
 			tipoModArtefactoListener();
 		}else {
 			log.info("No se ha seleccionado ningún artefacto");
@@ -1139,7 +1154,6 @@ public class VtArtefactoView {
 
 
 			artefactoSeleccionado.setFechaModificacion(fecha);
-
 			artefactoSeleccionado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somEstadoArtefacto.getValue().toString().trim()));
@@ -1153,12 +1167,30 @@ public class VtArtefactoView {
 			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somPrioridadesArtefacto.getValue().toString().trim()));
 
 			artefactoSeleccionado.setVtPrioridad(vtPrioridad);
-
 			artefactoSeleccionado.setVtSprint(sprintSeleccionado);
-
 			artefactoSeleccionado.setVtPilaProducto(backlogSeleccionado);
+			
+			if(somDesarrolladores.isDisabled()){
+				businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
+				
+			}else{
+				
+				if (somDesarrolladores.getValue().toString().trim().equals("-1") == true) {
+					throw new Exception("Seleccione un Desarrollador para el artefacto");
+				}
+				if (somInteres.getValue().toString().trim().equals("-1") == true) {
+					throw new Exception("Seleccione un interés ");
+				}
+				
+				VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somInteres.getValue().toString().trim()));
+				VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somDesarrolladores.getValue().toString().trim()));
+				
+				
+				businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);			
+				asignarDesarrollador(artefactoSeleccionado, vtInteres, vtUsuario);
+			}
 
-			businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
+			
 
 			FacesUtils.addInfoMessage("El artefacto se ha modificado con exito");	
 
@@ -1269,6 +1301,10 @@ public class VtArtefactoView {
 	public void escogerDessarrollador()throws Exception{
 		somCrearDesarrolladores.setDisabled(false);
 		somCrearInteres.setDisabled(false);
+	}
+	public void escogerDesarrollador()throws Exception{
+		somDesarrolladores.setDisabled(false);
+		somInteres.setDisabled(false);
 	}
 
 	public void borrarArchivo(){
