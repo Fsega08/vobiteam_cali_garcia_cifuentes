@@ -1,7 +1,12 @@
 package com.vobi.team.presentation.backingBeans;
 
+import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.*;
 
+import org.primefaces.component.inputtext.InputText;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,12 +22,30 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 @ManagedBean(name = "loginView")
 public class LoginView {
+	
+	public final static Logger log=LoggerFactory.getLogger(VtArtefactoView.class);
+	
     private String userId;
     private String password;
+    
+    private String email;
+    
     @ManagedProperty(value = "#{authenticationManager}")
     private AuthenticationManager authenticationManager = null;
+    
+    @ManagedProperty(value="#{BusinessDelegatorView}")
+	private IBusinessDelegatorView businessDelegatorView;
 
-    public AuthenticationManager getAuthenticationManager() {
+    
+    public IBusinessDelegatorView getBusinessDelegatorView() {
+		return businessDelegatorView;
+	}
+
+	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
+		this.businessDelegatorView = businessDelegatorView;
+	}
+
+	public AuthenticationManager getAuthenticationManager() {
         return authenticationManager;
     }
 
@@ -30,8 +53,16 @@ public class LoginView {
         AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+    
+    public String getEmail() {
+		return email;
+	}
 
-    public String getPassword() {
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
         return password;
     }
 
@@ -64,4 +95,24 @@ public class LoginView {
 
         return "/XHTML/listaEmpresa.xhtml";
     }
+    
+    
+    public void recuperarAction() throws Exception{
+
+    	try {
+    		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(email);
+    		
+    		if (vtUsuario==null) {
+				throw new Exception("El usuario no se encuentra registrado");
+			}
+    		
+    		FacesUtils.addInfoMessage("Se ha enviado el correo");
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			FacesUtils.addInfoMessage(e.getMessage());
+		}
+    
+    }
+    
+    
 }
