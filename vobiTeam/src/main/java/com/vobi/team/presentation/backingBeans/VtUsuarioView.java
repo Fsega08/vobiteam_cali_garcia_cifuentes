@@ -454,10 +454,11 @@ public class VtUsuarioView {
 
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
-			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(login);
+			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioSeleccionado.getLogin());
 			vtUsuario.setFechaModificacion(new Date());
 			vtUsuario.setClave(clave);
-			vtUsuario.setNombre(nombre);    		
+			vtUsuario.setNombre(nombre);
+			vtUsuario.setLogin(login);
 			vtUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			vtUsuario.setActivo(estado);
 			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(empresaID);

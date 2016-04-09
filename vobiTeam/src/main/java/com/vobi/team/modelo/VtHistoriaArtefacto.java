@@ -10,138 +10,138 @@ import java.util.Date;
 public class VtHistoriaArtefacto  implements java.io.Serializable {
 
 
-     private Long historiaCodigo;
-     private VtArtefacto vtArtefacto;
-     private String titulo;
-     private String descripcion;
-     private String esfuerzoEstimado;
-     private Integer esfuerzoRestante;
-     private Integer esfuerzoReal;
-     private Integer puntos;
-     private String origen;
-     private Date fechaCreacion;
-     private Date fechaModificacion;
-     private Long usuCreador;
-     private Long usuModificador;
+    private Long historiaCodigo;
+    private VtArtefacto vtArtefacto;
+    private String titulo;
+    private String descripcion;
+    private Integer esfuerzoEstimado;
+    private Integer esfuerzoRestante;
+    private Integer esfuerzoReal;
+    private Integer puntos;
+    private String origen;
+    private Date fechaCreacion;
+    private Date fechaModificacion;
+    private Long usuCreador;
+    private Long usuModificador;
 
-    public VtHistoriaArtefacto() {
-    }
+   public VtHistoriaArtefacto() {
+   }
 
 	
-    public VtHistoriaArtefacto(Long historiaCodigo, VtArtefacto vtArtefacto, String titulo, Date fechaCreacion, Long usuCreador) {
-        this.historiaCodigo = historiaCodigo;
-        this.vtArtefacto = vtArtefacto;
-        this.titulo = titulo;
-        this.fechaCreacion = fechaCreacion;
-        this.usuCreador = usuCreador;
-    }
-    public VtHistoriaArtefacto(Long historiaCodigo, VtArtefacto vtArtefacto, String titulo, String descripcion, String esfuerzoEstimado, Integer esfuerzoRestante, Integer esfuerzoReal, Integer puntos, String origen, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador) {
+   public VtHistoriaArtefacto(Long historiaCodigo, VtArtefacto vtArtefacto, String titulo, Date fechaCreacion, Long usuCreador) {
        this.historiaCodigo = historiaCodigo;
        this.vtArtefacto = vtArtefacto;
        this.titulo = titulo;
-       this.descripcion = descripcion;
-       this.esfuerzoEstimado = esfuerzoEstimado;
-       this.esfuerzoRestante = esfuerzoRestante;
-       this.esfuerzoReal = esfuerzoReal;
-       this.puntos = puntos;
-       this.origen = origen;
        this.fechaCreacion = fechaCreacion;
-       this.fechaModificacion = fechaModificacion;
        this.usuCreador = usuCreador;
-       this.usuModificador = usuModificador;
-    }
+   }
+   public VtHistoriaArtefacto(Long historiaCodigo, VtArtefacto vtArtefacto, String titulo, String descripcion, Integer esfuerzoEstimado, Integer esfuerzoRestante, Integer esfuerzoReal, Integer puntos, String origen, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador) {
+      this.historiaCodigo = historiaCodigo;
+      this.vtArtefacto = vtArtefacto;
+      this.titulo = titulo;
+      this.descripcion = descripcion;
+      this.esfuerzoEstimado = esfuerzoEstimado;
+      this.esfuerzoRestante = esfuerzoRestante;
+      this.esfuerzoReal = esfuerzoReal;
+      this.puntos = puntos;
+      this.origen = origen;
+      this.fechaCreacion = fechaCreacion;
+      this.fechaModificacion = fechaModificacion;
+      this.usuCreador = usuCreador;
+      this.usuModificador = usuModificador;
+   }
+  
+   public Long getHistoriaCodigo() {
+       return this.historiaCodigo;
+   }
    
-    public Long getHistoriaCodigo() {
-        return this.historiaCodigo;
-    }
-    
-    public void setHistoriaCodigo(Long historiaCodigo) {
-        this.historiaCodigo = historiaCodigo;
-    }
-    public VtArtefacto getVtArtefacto() {
-        return this.vtArtefacto;
-    }
-    
-    public void setVtArtefacto(VtArtefacto vtArtefacto) {
-        this.vtArtefacto = vtArtefacto;
-    }
-    public String getTitulo() {
-        return this.titulo;
-    }
-    
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-    public String getDescripcion() {
-        return this.descripcion;
-    }
-    
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-    public String getEsfuerzoEstimado() {
-        return this.esfuerzoEstimado;
-    }
-    
-    public void setEsfuerzoEstimado(String esfuerzoEstimado) {
-        this.esfuerzoEstimado = esfuerzoEstimado;
-    }
-    public Integer getEsfuerzoRestante() {
-        return this.esfuerzoRestante;
-    }
-    
-    public void setEsfuerzoRestante(Integer esfuerzoRestante) {
-        this.esfuerzoRestante = esfuerzoRestante;
-    }
-    public Integer getEsfuerzoReal() {
-        return this.esfuerzoReal;
-    }
-    
-    public void setEsfuerzoReal(Integer esfuerzoReal) {
-        this.esfuerzoReal = esfuerzoReal;
-    }
-    public Integer getPuntos() {
-        return this.puntos;
-    }
-    
-    public void setPuntos(Integer puntos) {
-        this.puntos = puntos;
-    }
-    public String getOrigen() {
-        return this.origen;
-    }
-    
-    public void setOrigen(String origen) {
-        this.origen = origen;
-    }
-    public Date getFechaCreacion() {
-        return this.fechaCreacion;
-    }
-    
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-    public Date getFechaModificacion() {
-        return this.fechaModificacion;
-    }
-    
-    public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
-    }
-    public Long getUsuCreador() {
-        return this.usuCreador;
-    }
-    
-    public void setUsuCreador(Long usuCreador) {
-        this.usuCreador = usuCreador;
-    }
-    public Long getUsuModificador() {
-        return this.usuModificador;
-    }
-    
-    public void setUsuModificador(Long usuModificador) {
-        this.usuModificador = usuModificador;
-    }
+   public void setHistoriaCodigo(Long historiaCodigo) {
+       this.historiaCodigo = historiaCodigo;
+   }
+   public VtArtefacto getVtArtefacto() {
+       return this.vtArtefacto;
+   }
+   
+   public void setVtArtefacto(VtArtefacto vtArtefacto) {
+       this.vtArtefacto = vtArtefacto;
+   }
+   public String getTitulo() {
+       return this.titulo;
+   }
+   
+   public void setTitulo(String titulo) {
+       this.titulo = titulo;
+   }
+   public String getDescripcion() {
+       return this.descripcion;
+   }
+   
+   public void setDescripcion(String descripcion) {
+       this.descripcion = descripcion;
+   }
+   public Integer getEsfuerzoEstimado() {
+       return this.esfuerzoEstimado;
+   }
+   
+   public void setEsfuerzoEstimado(Integer esfuerzoEstimado) {
+       this.esfuerzoEstimado = esfuerzoEstimado;
+   }
+   public Integer getEsfuerzoRestante() {
+       return this.esfuerzoRestante;
+   }
+   
+   public void setEsfuerzoRestante(Integer esfuerzoRestante) {
+       this.esfuerzoRestante = esfuerzoRestante;
+   }
+   public Integer getEsfuerzoReal() {
+       return this.esfuerzoReal;
+   }
+   
+   public void setEsfuerzoReal(Integer esfuerzoReal) {
+       this.esfuerzoReal = esfuerzoReal;
+   }
+   public Integer getPuntos() {
+       return this.puntos;
+   }
+   
+   public void setPuntos(Integer puntos) {
+       this.puntos = puntos;
+   }
+   public String getOrigen() {
+       return this.origen;
+   }
+   
+   public void setOrigen(String origen) {
+       this.origen = origen;
+   }
+   public Date getFechaCreacion() {
+       return this.fechaCreacion;
+   }
+   
+   public void setFechaCreacion(Date fechaCreacion) {
+       this.fechaCreacion = fechaCreacion;
+   }
+   public Date getFechaModificacion() {
+       return this.fechaModificacion;
+   }
+   
+   public void setFechaModificacion(Date fechaModificacion) {
+       this.fechaModificacion = fechaModificacion;
+   }
+   public Long getUsuCreador() {
+       return this.usuCreador;
+   }
+   
+   public void setUsuCreador(Long usuCreador) {
+       this.usuCreador = usuCreador;
+   }
+   public Long getUsuModificador() {
+       return this.usuModificador;
+   }
+   
+   public void setUsuModificador(Long usuModificador) {
+       this.usuModificador = usuModificador;
+   }
 
 
 

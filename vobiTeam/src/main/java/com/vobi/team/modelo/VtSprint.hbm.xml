@@ -8,7 +8,7 @@
             <column name="spri_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select">
+        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select" lazy="false">
             <column name="pila_codigo" not-null="true" />
         </many-to-one>
         <property name="nombre" type="java.lang.String">
@@ -22,6 +22,12 @@
         </property>
         <property name="objetivo" type="java.lang.String">
             <column name="objetivo" />
+        </property>
+        <property name="capacidadEstimada" type="java.lang.Integer">
+            <column name="capacidad_estimada" />
+        </property>
+        <property name="capacidadReal" type="java.lang.Integer">
+            <column name="capacidad_real" />
         </property>
         <property name="fechaCreacion" type="java.util.Date">
             <column name="fecha_creacion" length="29" not-null="true" />
@@ -46,3 +52,4 @@
         </set>
     </class>
 </hibernate-mapping>
+

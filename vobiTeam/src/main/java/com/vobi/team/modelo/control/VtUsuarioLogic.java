@@ -627,7 +627,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuarioNoAsignados(VtProyecto proyecto) throws Exception {
 		
-		List<VtUsuario> usuariosSource = getVtUsuario();		
+		List<VtUsuario> usuariosSource = getVtUsuarioDesarrolladores();		
 		List<VtProyectoUsuario> proyectosUsuarios = proyectoUsuarioLogic.findProyectoUsuarioPorProyecto(proyecto);
 
 		if (proyectosUsuarios != null) {
@@ -646,7 +646,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuarioAsignados(VtProyecto proyecto) throws Exception {
 		
-		List<VtUsuario> usuariosSource = getVtUsuario();
+		List<VtUsuario> usuariosSource = getVtUsuarioDesarrolladores();
 		
 		List<VtProyectoUsuario> proyectosUsuarios = proyectoUsuarioLogic.findProyectoUsuarioPorProyecto(proyecto);
 		List<VtUsuario> usuariosTarget= new ArrayList<>();

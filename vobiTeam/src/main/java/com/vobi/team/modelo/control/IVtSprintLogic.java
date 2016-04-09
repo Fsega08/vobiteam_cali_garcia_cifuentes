@@ -18,7 +18,7 @@ import java.util.Set;
 *
 */
 public interface IVtSprintLogic {
-    public List<VtSprint> getVtSprint() throws Exception;
+	public List<VtSprint> getVtSprint() throws Exception;
 
     /**
          * Save an new VtSprint entity

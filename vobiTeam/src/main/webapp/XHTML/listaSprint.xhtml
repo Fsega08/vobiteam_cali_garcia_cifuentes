@@ -135,7 +135,15 @@
 									<f:selectItem itemValue="-1" itemLabel="Estado" />
 									<f:selectItem itemValue="S" itemLabel="Activo" />
 									<f:selectItem itemValue="N" itemLabel="Inactivo" />
-								</p:selectOneMenu>
+								</p:selectOneMenu>			
+									
+								<h:outputText value="Capacidad Estimada del Sprint" />
+								<p:inputText id="txtMCapacidadEstimada" placeholder="Capacidad Estimada del Sprint"
+									binding="#{vtSprintView.txtMCapacidadEstimada}" size="31" />
+									
+								<h:outputText value="Capacidad Real del Sprint" />
+								<p:inputText id="txtMCapacidadReal" placeholder="Capacidad Real del Sprint"
+									binding="#{vtSprintView.txtMCapacidadReal}" size="31" />
 							</h:panelGrid>
 							<br />
 							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
@@ -194,6 +202,14 @@
 								binding="#{vtSprintView.clndFechaFin}"
 								mindate="#{vtSprintView.fechaInicio}"
 								value="#{vtSprintView.fechaFin}" size="31" />
+								
+							<h:outputText value="Capacidad Estimada del Sprint" />
+							<p:inputText id="txtCapacidadEstimada" placeholder="Capacidad Estimada del Sprint"
+									binding="#{vtSprintView.txtCapacidadEstimada}" size="31" />
+									
+							<h:outputText value="Capacidad Real del Sprint" />
+							<p:inputText id="txtCapacidadReal" placeholder="Capacidad Real del Sprint"
+									binding="#{vtSprintView.txtCapacidadReal}" size="31" />
 						</h:panelGrid>
 						<br />
 						<p:commandButton id="btnCrear" icon="fa fa-plus white"
@@ -213,10 +229,11 @@
 
 			<p:dialog header="Asignar o Des-asignar Historias" widgetVar="dlg"
 				id="dlAsignar" draggable="true" responsive="true" modal="true"
-				width="500" resizable="false">
+				width="600" >
 				<p:growl id="msj" />
 				<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
-					var="artefactos" itemLabel="#{artefactos}"
+					showSourceControls="true" showTargetControls="true"
+					showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
 					itemValue="#{artefactos}" converter="usuarioPickListConverter">
 
 					<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
@@ -225,7 +242,11 @@
 					<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
 						update="msj" />
 
-					<p:column>
+					<p:column style="width:10%">
+						<h:outputText styleClass="icon-doc-text-inv" />
+					</p:column>
+
+					<p:column style="width:90%;">
 						<h:outputText value="#{artefactos.titulo}" />
 					</p:column>
 				</p:pickList>

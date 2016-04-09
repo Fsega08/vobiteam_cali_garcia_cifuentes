@@ -49,7 +49,9 @@ public class VtSprintView {
 	private InputTextarea txtDescripcion;
 	private Calendar clndFechaIncio;
 	private Calendar clndFechaFin;
-
+	private InputText txtCapacidadEstimada;
+	private InputText txtCapacidadReal;
+	
 	private CommandButton btnCrearSprint;
 
 	private CommandButton btnCrearNuevo;
@@ -64,6 +66,10 @@ public class VtSprintView {
 	private InputTextarea txtMDescripcion;
 	private Calendar clndMFechaIncio;
 	private Calendar clndMFechaFin;
+	
+	private InputText txtMCapacidadEstimada;
+	private InputText txtMCapacidadReal;
+	
 	private SelectOneMenu somSprintActivo;
 
 
@@ -330,6 +336,38 @@ public class VtSprintView {
 
 	public void setFechaFinM(Date fechaFinM) {
 		this.fechaFinM = fechaFinM;
+	}	
+	
+	public InputText getTxtCapacidadEstimada() {
+		return txtCapacidadEstimada;
+	}
+
+	public void setTxtCapacidadEstimada(InputText txtCapacidadEstimada) {
+		this.txtCapacidadEstimada = txtCapacidadEstimada;
+	}
+
+	public InputText getTxtCapacidadReal() {
+		return txtCapacidadReal;
+	}
+
+	public void setTxtCapacidadReal(InputText txtCapacidadReal) {
+		this.txtCapacidadReal = txtCapacidadReal;
+	}
+
+	public InputText getTxtMCapacidadEstimada() {
+		return txtMCapacidadEstimada;
+	}
+
+	public void setTxtMCapacidadEstimada(InputText txtMCapacidadEstimada) {
+		this.txtMCapacidadEstimada = txtMCapacidadEstimada;
+	}
+
+	public InputText getTxtMCapacidadReal() {
+		return txtMCapacidadReal;
+	}
+
+	public void setTxtMCapacidadReal(InputText txtMCapacidadReal) {
+		this.txtMCapacidadReal = txtMCapacidadReal;
 	}
 
 	public void crearAction() throws Exception{
@@ -426,6 +464,7 @@ public class VtSprintView {
 			sprint.setFechaFin(fechaFinM);
 			sprint.setFechaModificacion(new Date());
 			sprint.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			
 			sprint.setActivo(somSprintActivo.getValue().toString().trim());
 
 			businessDelegatorView.updateVtSprint(sprint);
@@ -450,7 +489,8 @@ public class VtSprintView {
 		somSprintActivo.setValue(sprint.getActivo());
 		fechaInicioM = sprint.getFechaInicio();
 		fechaFinM = sprint.getFechaFin();
-
+		txtMCapacidadEstimada.setValue(sprint.getCapacidadEstimada());
+		txtMCapacidadReal.setValue(sprint.getCapacidadReal());
 	}
 	
 	public String regresarAction(){

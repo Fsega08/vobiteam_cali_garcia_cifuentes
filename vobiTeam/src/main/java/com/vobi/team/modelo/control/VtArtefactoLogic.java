@@ -226,7 +226,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			
 			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
 			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
-			vtHistoriaArtefacto.setEsfuerzoEstimado(""+entity.getEsfuerzoEstimado());
+			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
 			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
 			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
@@ -403,7 +403,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			
 			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
 			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
-			vtHistoriaArtefacto.setEsfuerzoEstimado(""+entity.getEsfuerzoEstimado());
+			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
 			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
 			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
