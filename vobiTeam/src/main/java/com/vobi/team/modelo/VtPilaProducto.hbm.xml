@@ -9,7 +9,7 @@
             <column name="pila_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtProyecto" class="com.vobi.team.modelo.VtProyecto" fetch="select">
+        <many-to-one name="vtProyecto" class="com.vobi.team.modelo.VtProyecto" fetch="select" lazy="false">
             <column name="proy_codigo" not-null="true" />
         </many-to-one>
         <property name="nombre" type="java.lang.String">

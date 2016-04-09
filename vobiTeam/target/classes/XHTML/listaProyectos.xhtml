@@ -35,6 +35,7 @@
 						<p:commandButton id="btnCrearProyectos" value="Crear Proyecto"
 							binding="#{vtProyectosView.btnCrearProyecto}"
 							icon="fa fa-plus white" onclick="PF('dlgCrearProyecto').show();" />
+
 					</div>
 				</p:panel>
 
@@ -44,9 +45,13 @@
 						icon="fa fa-pencil " oncomplete="PF('dlg2').show()"
 						action="#{vtProyectosView.modificarListener}" />
 
+					<p:menuitem value="Asignar usuarios a este proyecto"
+						icon="fa fa-plus" oncomplete="PF('dlg').show()"
+						action="#{asignarUsuariosView.asignarProyectoAction}"
+						update="pickList" />
+
 					<p:menuitem value="Ir a la pila de producto" update="formDialog"
 						icon="fa fa-list " action="#{vtProyectosView.backlogListener}" />
-
 				</p:contextMenu>
 
 				<p:dataTable id="dtProyectos"
@@ -182,7 +187,34 @@
 				</div>
 			</p:dialog>
 
+			<p:dialog header="Asignar o Desasignar Usuarios" widgetVar="dlg"
+				resizable="true" id="dlAsignar" draggable="true" responsive="true"
+				modal="true" width="800">
+				<p:growl id="msj" />
+				<p:pickList id="pickList"
+					value="#{asignarUsuariosView.losUsuariosSeleccionados}"
+					showSourceControls="true" showTargetControls="true"
+					showCheckbox="true" responsive="true" var="usuarios"
+					itemLabel="#{usuarios}" itemValue="#{usuarios}"
+					converter="usuarioPickListConverter">
 
+					<f:facet name="sourceCaption">Usuarios Disponibles</f:facet>
+					<f:facet name="targetCaption">Usuarios Asignados</f:facet>
+
+					<p:ajax event="transfer"
+						listener="#{asignarUsuariosView.onTransfer}" update="msj" />
+
+					<p:column style="width:10%;">
+						<h:outputText styleClass="icon-user" />
+					</p:column>
+
+					<p:column style="width:90%;">
+						<h:outputText value="#{usuarios.nombre}" />
+					</p:column>
+
+				</p:pickList>
+
+			</p:dialog>
 
 
 		</h:form>

@@ -38,9 +38,6 @@
 
 				</p:contextMenu>
 
-
-
-
 				<p:dataTable id="checkboxDT"
 					value="#{asignarUsuariosView.losProyectos}" var="proyecto"
 					rowKey="#{proyecto.proyCodigo}" style="margin-bottom:0"
@@ -65,12 +62,14 @@
 
 				<p:dialog header="Asignar o Desasignar Usuarios" widgetVar="dlg"
 					resizable="true" id="dlAsignar" draggable="true" responsive="true"
-					modal="true" width="500">
+					modal="true" width="800">
 					<p:growl id="msj" />
 					<p:pickList id="pickList"
 						value="#{asignarUsuariosView.losUsuariosSeleccionados}"
-						var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}"
-						converter="usuarioPickListConverter" >
+						showSourceControls="true" showTargetControls="true"
+						showCheckbox="true" responsive="true" var="usuarios"
+						itemLabel="#{usuarios}" itemValue="#{usuarios}"
+						converter="usuarioPickListConverter">
 
 						<f:facet name="sourceCaption">Usuarios Disponibles</f:facet>
 						<f:facet name="targetCaption">Usuarios Asignados</f:facet>
@@ -78,7 +77,11 @@
 						<p:ajax event="transfer"
 							listener="#{asignarUsuariosView.onTransfer}" update="msj" />
 
-						<p:column>
+						<p:column style="width:10%;">
+							<h:outputText styleClass="icon-user" />
+						</p:column>
+
+						<p:column style="width:90%;">
 							<h:outputText value="#{usuarios.nombre}" />
 						</p:column>
 

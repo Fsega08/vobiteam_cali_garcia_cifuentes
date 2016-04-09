@@ -4,26 +4,21 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
-
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,10 +26,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.vobi.team.modelo.VtArchivo;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEstado;
-import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
+import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
@@ -120,19 +115,26 @@ public class VtArtefactoView {
 
 	private VtSprint sprintSeleccionado;
 	private VtPilaProducto backlogSeleccionado;
+	private VtProyecto proyectoActual;
+	private VtUsuarioArtefacto usuarioArtefacto;
 
 	@PostConstruct
 	public void init(){
 
 		try {
-			sprintSeleccionado = (VtSprint) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sprintSeleccionado");
-			backlogSeleccionado = (VtPilaProducto) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("backlogSeleccionado");
+			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
+			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
 			subirArchivos = new ArrayList<VtArchivo>();
+			proyectoActual = backlogSeleccionado.getVtProyecto();
+			artefactoSeleccionado = (VtArtefacto) FacesUtils.getfromSession("artefactoSeleccionado");			
+			usuarioArtefacto = (VtUsuarioArtefacto) FacesUtils.getfromSession("usuarioArtefacto");
+			
 		} catch (Exception e) {
 			log.info(e.getMessage());
-		}
-
-	}
+		}		
+		
+		
+	}	
 
 	public String getUsuarioActual() {
 		return usuarioActual;
@@ -165,73 +167,51 @@ public class VtArtefactoView {
 	public void setTxtDescripcion(InputTextarea txtDescripcion) {
 		this.txtDescripcion = txtDescripcion;
 	}
-
-
-
+	
 	public InputText getTxtEsfuerzoEstimado() {
 		return txtEsfuerzoEstimado;
 	}
 
-
-
 	public void setTxtEsfuerzoEstimado(InputText txtEsfuerzoEstimado) {
 		this.txtEsfuerzoEstimado = txtEsfuerzoEstimado;
 	}
-
-
-
+	
 	public InputText getTxtEsfuerzoReal() {
 		return txtEsfuerzoReal;
 	}
-
-
 
 	public void setTxtEsfuerzoReal(InputText txtEsfuerzoReal) {
 		this.txtEsfuerzoReal = txtEsfuerzoReal;
 	}
 
-
-
 	public InputText getTxtEsfuerzoRestante() {
 		return txtEsfuerzoRestante;
 	}
-
-
 
 	public void setTxtEsfuerzoRestante(InputText txtEsfuerzoRestante) {
 		this.txtEsfuerzoRestante = txtEsfuerzoRestante;
 	}
 
-
-
 	public InputText getTxtPuntos() {
 		return txtPuntos;
 	}
-
-
 
 	public void setTxtPuntos(InputText txtPuntos) {
 		this.txtPuntos = txtPuntos;
 	}
 
-
-
 	public InputText getTxtOrigen() {
 		return txtOrigen;
 	}
-
-
 
 	public void setTxtOrigen(InputText txtOrigen) {
 		this.txtOrigen = txtOrigen;
 	}
 
-
-
 	public VtArchivo getArchivoSeleccionado() {
 		return archivoSeleccionado;
 	}
-
+	
 	public void setArchivoSeleccionado(VtArchivo archivoSeleccionado) {
 		this.archivoSeleccionado = archivoSeleccionado;
 	}
@@ -269,19 +249,13 @@ public class VtArtefactoView {
 		return losTiposArtefactos;
 	}
 
-
-
 	public void setLosTiposArtefactos(List<SelectItem> losTiposArtefactos) {
 		this.losTiposArtefactos = losTiposArtefactos;
 	}
 
-
-
 	public SelectOneMenu getSomTipoArtefacto() {
 		return somTipoArtefacto;
 	}
-
-
 
 	public void setSomTipoArtefacto(SelectOneMenu somTipoArtefacto) {
 		this.somTipoArtefacto = somTipoArtefacto;
@@ -310,25 +284,17 @@ public class VtArtefactoView {
 		return lasPrioridadesArtefactos;
 	}
 
-
-
 	public void setLasPrioridadesArtefactos(List<SelectItem> lasPrioridadesArtefactos) {
 		this.lasPrioridadesArtefactos = lasPrioridadesArtefactos;
 	}
-
-
 
 	public SelectOneMenu getSomPrioridadesArtefacto() {
 		return somPrioridadesArtefacto;
 	}
 
-
-
 	public void setSomPrioridadesArtefacto(SelectOneMenu somPrioridadesArtefacto) {
 		this.somPrioridadesArtefacto = somPrioridadesArtefacto;
 	}
-
-
 
 	public List<SelectItem> getLosEstadosArtefactos() {
 		try {
@@ -345,49 +311,33 @@ public class VtArtefactoView {
 		return losEstadosArtefactos;
 	}
 
-
-
 	public void setLosEstadosArtefactos(List<SelectItem> losEstadosArtefactos) {
 		this.losEstadosArtefactos = losEstadosArtefactos;
 	}
-
-
 
 	public SelectOneMenu getSomEstadoArtefacto() {
 		return somEstadoArtefacto;
 	}
 
-
-
 	public void setSomEstadoArtefacto(SelectOneMenu somEstadoArtefacto) {
 		this.somEstadoArtefacto = somEstadoArtefacto;
 	}
-
-
 
 	public CommandButton getBtnModificar() {
 		return btnModificar;
 	}
 
-
-
 	public void setBtnModificar(CommandButton btnModificar) {
 		this.btnModificar = btnModificar;
 	}
-
-
 
 	public CommandButton getBtnLimpiar() {
 		return btnLimpiar;
 	}
 
-
-
 	public void setBtnLimpiar(CommandButton btnLimpiar) {
 		this.btnLimpiar = btnLimpiar;
 	}
-
-
 
 	public InputText getTxtCrearNombre() {
 		return txtCrearNombre;
@@ -409,8 +359,6 @@ public class VtArtefactoView {
 		return txtCrearEsfuerzoEstimado;
 	}
 
-
-
 	public void setTxtCrearEsfuerzoEstimado(InputText txtCrearEsfuerzoEstimado) {
 		this.txtCrearEsfuerzoEstimado = txtCrearEsfuerzoEstimado;
 	}
@@ -427,73 +375,49 @@ public class VtArtefactoView {
 		return txtCrearEsfuerzoReal;
 	}
 
-
-
 	public void setTxtCrearEsfuerzoReal(InputText txtCrearEsfuerzoReal) {
 		this.txtCrearEsfuerzoReal = txtCrearEsfuerzoReal;
 	}
-
-
 
 	public InputText getTxtCrearEsfuerzoRestante() {
 		return txtCrearEsfuerzoRestante;
 	}
 
-
-
 	public void setTxtCrearEsfuerzoRestante(InputText txtCrearEsfuerzoRestante) {
 		this.txtCrearEsfuerzoRestante = txtCrearEsfuerzoRestante;
 	}
-
-
 
 	public InputText getTxtCrearPuntos() {
 		return txtCrearPuntos;
 	}
 
-
-
 	public void setTxtCrearPuntos(InputText txtCrearPuntos) {
 		this.txtCrearPuntos = txtCrearPuntos;
 	}
-
-
 
 	public InputText getTxtCrearOrigen() {
 		return txtCrearOrigen;
 	}
 
-
-
 	public CommandButton getBtnCrear() {
 		return btnCrear;
 	}
-
-
 
 	public void setBtnCrear(CommandButton btnCrear) {
 		this.btnCrear = btnCrear;
 	}
 
-
-
 	public CommandButton getBtnCrearLimpiar() {
 		return btnCrearLimpiar;
 	}
-
-
 
 	public void setBtnCrearLimpiar(CommandButton btnCrearLimpiar) {
 		this.btnCrearLimpiar = btnCrearLimpiar;
 	}
 
-
-
 	public void setTxtCrearOrigen(InputText txtCrearOrigen) {
 		this.txtCrearOrigen = txtCrearOrigen;
 	}
-
-
 
 	public List<SelectItem> getLosCrearTiposArtefactos() {
 		try {
@@ -510,8 +434,6 @@ public class VtArtefactoView {
 		return losCrearTiposArtefactos;
 	}
 
-
-
 	public void setLosCrearTiposArtefactos(List<SelectItem> losCrearTiposArtefactos) {
 		this.losCrearTiposArtefactos = losCrearTiposArtefactos;
 	}
@@ -520,25 +442,17 @@ public class VtArtefactoView {
 		return somCrearTipoArtefacto;
 	}
 
-
-
 	public void setSomCrearTipoArtefacto(SelectOneMenu somCrearTipoArtefacto) {
 		this.somCrearTipoArtefacto = somCrearTipoArtefacto;
 	}
-
-
 
 	public CommandButton getBtnCArtefacto() {
 		return btnCArtefacto;
 	}
 
-
-
 	public void setBtnCArtefacto(CommandButton btnCArtefacto) {
 		this.btnCArtefacto = btnCArtefacto;
 	}
-
-
 
 	public List<SelectItem> getLasCrearPrioridadesArtefactos() {
 		try {
@@ -555,25 +469,17 @@ public class VtArtefactoView {
 		return lasCrearPrioridadesArtefactos;
 	}
 
-
-
 	public void setLasCrearPrioridadesArtefactos(List<SelectItem> lasCrearPrioridadesArtefactos) {
 		this.lasCrearPrioridadesArtefactos = lasCrearPrioridadesArtefactos;
 	}
-
-
 
 	public SelectOneMenu getSomCrearPrioridadesArtefacto() {
 		return somCrearPrioridadesArtefacto;
 	}
 
-
-
 	public void setSomCrearPrioridadesArtefacto(SelectOneMenu somCrearPrioridadesArtefacto) {
 		this.somCrearPrioridadesArtefacto = somCrearPrioridadesArtefacto;
 	}
-
-
 
 	public List<SelectItem> getLosCrearEstadosArtefactos() {
 		try {
@@ -590,25 +496,17 @@ public class VtArtefactoView {
 		return losCrearEstadosArtefactos;
 	}
 
-
-
 	public void setLosCrearEstadosArtefactos(List<SelectItem> losCrearEstadosArtefactos) {
 		this.losCrearEstadosArtefactos = losCrearEstadosArtefactos;
 	}
-
-
 
 	public SelectOneMenu getSomCrearEstadoArtefacto() {
 		return somCrearEstadoArtefacto;
 	}
 
-
-
 	public void setSomCrearEstadoArtefacto(SelectOneMenu somCrearEstadoArtefacto) {
 		this.somCrearEstadoArtefacto = somCrearEstadoArtefacto;
 	}
-
-
 
 	public VtPilaProducto getBacklogSeleccionado() {
 		return backlogSeleccionado;
@@ -657,7 +555,6 @@ public class VtArtefactoView {
 		this.sprintSeleccionado = sprintSeleccionado;
 	}
 	
-	
 
 	//	public void actualizarLista() throws Exception {
 	//
@@ -670,11 +567,27 @@ public class VtArtefactoView {
 	//	}
 
 
+	public VtProyecto getProyectoActual() {
+		return proyectoActual;
+	}
+
+	public void setProyectoActual(VtProyecto proyectoActual) {
+		this.proyectoActual = proyectoActual;
+	}
+
+	public VtUsuarioArtefacto getUsuarioArtefacto() {
+		return usuarioArtefacto;
+	}
+
+	public void setUsuarioArtefacto(VtUsuarioArtefacto usuarioArtefacto) {
+		this.usuarioArtefacto = usuarioArtefacto;
+	}
+
 	public List<SelectItem> getLosCrearDesarrolladores() {
 		
 		try {
 			if(losCrearDesarrolladores == null){
-				List<VtUsuario> listaDesarrolladores = businessDelegatorView.getVtUsuarioDesarrolladores();
+				List<VtUsuario> listaDesarrolladores = businessDelegatorView.getVtUsuarioAsignados(proyectoActual);
 				losCrearDesarrolladores = new ArrayList<SelectItem>();
 				for (VtUsuario vtUsuario : listaDesarrolladores) {
 					losCrearDesarrolladores.add(new SelectItem(vtUsuario.getUsuaCodigo(), vtUsuario.getNombre()));
@@ -703,7 +616,7 @@ public class VtArtefactoView {
 	public List<SelectItem> getLosDesarrolladores() {
 		try {
 			if(losDesarrolladores == null){
-				List<VtUsuario> listaDesarrolladores = businessDelegatorView.getVtUsuarioDesarrolladores();
+				List<VtUsuario> listaDesarrolladores = businessDelegatorView.getVtUsuarioAsignados(proyectoActual);
 				losDesarrolladores = new ArrayList<SelectItem>();
 				for (VtUsuario vtUsuario : listaDesarrolladores) {
 					losDesarrolladores.add(new SelectItem(vtUsuario.getUsuaCodigo(), vtUsuario.getNombre()));
@@ -727,8 +640,7 @@ public class VtArtefactoView {
 
 	public void setSomDesarrolladores(SelectOneMenu somDesarrolladores) {
 		this.somDesarrolladores = somDesarrolladores;
-	}
-	
+	}	
 
 	public List<SelectItem> getLosCrearInteres() {
 		try {
@@ -787,6 +699,8 @@ public class VtArtefactoView {
 	public void setSomInteres(SelectOneMenu somInteres) {
 		this.somInteres = somInteres;
 	}
+	
+	//.......................................Fin de los Gets y Sets..............................................................
 
 	public void crearAction() {
 
@@ -833,26 +747,19 @@ public class VtArtefactoView {
 			vtArtefacto.setOrigen(txtCrearOrigen.getValue().toString());
 			vtArtefacto.setPuntos(Integer.parseInt(txtCrearPuntos.getValue().toString().trim()));
 			vtArtefacto.setActivo("S");
-
-			Date fecha = new Date();
-
-			vtArtefacto.setFechaCreacion(fecha);
-			vtArtefacto.setFechaModificacion(fecha);
+			vtArtefacto.setFechaCreacion(new Date());
+			vtArtefacto.setFechaModificacion(new Date());
 			vtArtefacto.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
 			vtArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somCrearEstadoArtefacto.getValue().toString().trim()));
-
 			vtArtefacto.setVtEstado(vtEstado);
 
 			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somCrearTipoArtefacto.getValue().toString().trim()));
-
 			vtArtefacto.setVtTipoArtefacto(vtTipoArtefacto);
 
 			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somCrearPrioridadesArtefacto.getValue().toString().trim()));
-
 			vtArtefacto.setVtPrioridad(vtPrioridad);
-
 
 			vtArtefacto.setVtPilaProducto(backlogSeleccionado);
 			
@@ -893,15 +800,13 @@ public class VtArtefactoView {
 				businessDelegatorView.saveVtArchivo(vtArchivo);
 			}
 			
-			subirArchivos = new ArrayList<VtArchivo>();
-			
+			subirArchivos = new ArrayList<VtArchivo>();			
 		}
 	}
 	
 	private void asignarDesarrollador(VtArtefacto vtArtefacto, VtInteres vtInteres, VtUsuario vtUsuario) throws Exception{
 		try {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);			
-
 			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(vtArtefacto);
 			
 			if(vtUsuarioArtefacto == null){
@@ -988,7 +893,6 @@ public class VtArtefactoView {
 		int valorTipoArtefacto = Integer.parseInt(somCrearTipoArtefacto.getValue().toString().trim());
 
 		if (valorTipoArtefacto == 1 || valorTipoArtefacto==4) {
-
 			txtCrearEsfuerzoEstimado.setDisabled(false);
 
 		}else if (valorTipoArtefacto == 2 || valorTipoArtefacto==3) {
@@ -1010,7 +914,6 @@ public class VtArtefactoView {
 		log.info("entro al metodo modificar");
 
 		if (valorModTipoArtefacto == 1 || valorModTipoArtefacto==4) {
-
 			txtEsfuerzoEstimado.setDisabled(false);
 			txtEsfuerzoReal.setDisabled(false);
 			txtEsfuerzoRestante.setDisabled(false);
@@ -1018,7 +921,6 @@ public class VtArtefactoView {
 
 
 		}else if (valorModTipoArtefacto == 2 || valorModTipoArtefacto ==3) {
-
 			txtEsfuerzoEstimado.setDisabled(true);
 			txtEsfuerzoReal.setDisabled(true);
 			txtEsfuerzoRestante.setDisabled(true);
@@ -1033,7 +935,6 @@ public class VtArtefactoView {
 		}
 	}
 
-
 	public void esfuerzoListener() {
 		int valor = Integer.parseInt(txtCrearEsfuerzoEstimado.getValue().toString().trim());
 
@@ -1047,7 +948,6 @@ public class VtArtefactoView {
 
 	}
 
-
 	public void esfuerzoModListener() {
 		int valor = Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim());
 
@@ -1060,9 +960,7 @@ public class VtArtefactoView {
 		txtPuntos.setValue(valor);
 	}
 
-
-	public void hidratarArtefactoMod() throws Exception {
-		
+	public void hidratarArtefactoMod() throws Exception {		
 		
 		log.info("Artefacto= " + artefactoSeleccionado.getTitulo());
 		if (artefactoSeleccionado != null) {
@@ -1079,7 +977,7 @@ public class VtArtefactoView {
 			somTipoArtefacto.setValue(artefactoSeleccionado.getVtTipoArtefacto().getTparCodigo());
 			
 			
-			VtUsuarioArtefacto usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
+			usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
 			
 			if(usuarioArtefacto == null ){
 				somDesarrolladores.setValue("-1");
@@ -1087,10 +985,7 @@ public class VtArtefactoView {
 			}else{
 				somDesarrolladores.setValue(usuarioArtefacto.getVtUsuario().getUsuaCodigo());
 				somInteres.setValue(usuarioArtefacto.getVtInteres().getInteCodigo());
-			}
-			
-			
-			
+			}		
 			
 			tipoModArtefactoListener();
 		}else {
@@ -1099,6 +994,8 @@ public class VtArtefactoView {
 		
 
 	}
+	
+
 
 	public void modificarAction() {
 
@@ -1150,23 +1047,17 @@ public class VtArtefactoView {
 			artefactoSeleccionado.setOrigen(txtOrigen.getValue().toString());
 			artefactoSeleccionado.setPuntos(Integer.parseInt(txtPuntos.getValue().toString().trim()));
 			artefactoSeleccionado.setActivo(somArtefactoActivo.getValue().toString().trim());
-
-			Date fecha = new Date();
-
-
-			artefactoSeleccionado.setFechaModificacion(fecha);
+			
+			artefactoSeleccionado.setFechaModificacion(new Date());
 			artefactoSeleccionado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somEstadoArtefacto.getValue().toString().trim()));
-
 			artefactoSeleccionado.setVtEstado(vtEstado);
 
 			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somTipoArtefacto.getValue().toString().trim()));
-
 			artefactoSeleccionado.setVtTipoArtefacto(vtTipoArtefacto);
 
 			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somPrioridadesArtefacto.getValue().toString().trim()));
-
 			artefactoSeleccionado.setVtPrioridad(vtPrioridad);
 			artefactoSeleccionado.setVtSprint(sprintSeleccionado);
 			artefactoSeleccionado.setVtPilaProducto(backlogSeleccionado);
@@ -1184,14 +1075,11 @@ public class VtArtefactoView {
 				}
 				
 				VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somInteres.getValue().toString().trim()));
-				VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somDesarrolladores.getValue().toString().trim()));
-				
+				VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somDesarrolladores.getValue().toString().trim()));				
 				
 				businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);			
 				asignarDesarrollador(artefactoSeleccionado, vtInteres, vtUsuario);
-			}
-
-			
+			}			
 
 			FacesUtils.addInfoMessage("El artefacto se ha modificado con exito");	
 
@@ -1283,9 +1171,19 @@ public class VtArtefactoView {
 		return "/XHTML/CrearArtefactos.xhtml";
 	}
 	
-	public String modificarArtefactoAction(){
+	public String modificarArtefactoAction() throws Exception{
 		
-		return "/XHTML/moidificarArtefactos.xhtml";
+		usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
+		
+		if (artefactoSeleccionado.getActivo().equals("S")) {
+			FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
+			FacesUtils.putinSession("usuarioArtefacto", usuarioArtefacto);
+			return "/XHTML/modificarArtefactos.xhtml";
+		}
+		else{
+			FacesUtils.addErrorMessage("El proyecto esta inactivo");
+			return "";
+		}
 		
 	}
 	
@@ -1293,11 +1191,6 @@ public class VtArtefactoView {
 		return "/XHTML/listarArtefactos.xhtml";
 	}
 
-	public void artefactoSesionAction() {
-
-		FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
-
-	}
 	
 	public void escogerDessarrollador()throws Exception{
 		somCrearDesarrolladores.setDisabled(false);
@@ -1315,7 +1208,7 @@ public class VtArtefactoView {
 
 			FacesUtils.addInfoMessage("Archivo eliminado");
 		} catch (Exception e) {
-			FacesUtils.addInfoMessage("Lo siento no se pudo eliminar");
+			FacesUtils.addInfoMessage("No se pudo eliminar el Archivo");
 		}
 	}
 

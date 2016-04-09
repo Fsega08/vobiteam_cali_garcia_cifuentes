@@ -86,22 +86,15 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
                     "descripcion");
             }
 
-            if ((entity.getEsfuerzoEstimado() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getEsfuerzoEstimado(), 255) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "esfuerzoEstimado");
-            }
-
             if (entity.getFechaCreacion() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "fechaCreacion");
             }
 
-//            if (entity.getHistoriaCodigo() == null) {
-//                throw new ZMessManager().new EmptyFieldException(
-//                    "historiaCodigo");
-//            }
+            if (entity.getHistoriaCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "historiaCodigo");
+            }
 
             if ((entity.getOrigen() != null) &&
                     (Utilities.checkWordAndCheckWithlength(entity.getOrigen(),
@@ -128,9 +121,9 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
                     "arteCodigo_VtArtefacto");
             }
 
-//            if (getVtHistoriaArtefacto(entity.getHistoriaCodigo()) != null) {
-//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-//            }
+            if (getVtHistoriaArtefacto(entity.getHistoriaCodigo()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+            }
 
             vtHistoriaArtefactoDAO.save(entity);
 
@@ -187,13 +180,6 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
                         entity.getDescripcion(), 255) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "descripcion");
-            }
-
-            if ((entity.getEsfuerzoEstimado() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getEsfuerzoEstimado(), 255) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "esfuerzoEstimado");
             }
 
             if (entity.getFechaCreacion() == null) {
@@ -503,24 +489,23 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
 
         return list;
     }
-    
-    @Transactional(readOnly=true)
-    public List<VtHistoriaArtefacto> findHistoriaByArtefacto(VtArtefacto vtArtefacto) throws Exception{    	
-    	
-    	List<VtHistoriaArtefacto> elHistorialArtefacto = new ArrayList<VtHistoriaArtefacto>();
-    	
-    	try {
-    		Object[] variables = {"vtArtefacto.arteCodigo", false, vtArtefacto.getArteCodigo(), "="};
-    		
-    		elHistorialArtefacto = findByCriteria(variables, null, null);
-    		
-		} catch (Exception e) {
-			log.info(e.getMessage(), e);
-			throw new Exception("No se encontro la historial por ese artefacto por ese Id");
-		}
-    	
-    	return (elHistorialArtefacto != null && !elHistorialArtefacto.isEmpty()
-    			? elHistorialArtefacto : null);
+
+     @Transactional(readOnly=true)
+    public List<VtHistoriaArtefacto> findHistoriaByArtefacto(VtArtefacto vtArtefacto) throws Exception{     
+        
+        List<VtHistoriaArtefacto> elHistorialArtefacto = new ArrayList<VtHistoriaArtefacto>();
+        
+        try {
+            Object[] variables = {"vtArtefacto.arteCodigo", false, vtArtefacto.getArteCodigo(), "="};
+            
+            elHistorialArtefacto = findByCriteria(variables, null, null);
+            
+        } catch (Exception e) {
+            log.info(e.getMessage(), e);
+            throw new Exception("No se encontro la historial por ese artefacto por ese Id");
+        }
+        
+        return (elHistorialArtefacto != null && !elHistorialArtefacto.isEmpty()
+                ? elHistorialArtefacto : null);
     }
-    
 }

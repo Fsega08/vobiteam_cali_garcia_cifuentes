@@ -17,10 +17,10 @@ import java.util.Date;
 *
 */
 public class VtHistoriaArtefactoDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(VtHistoriaArtefactoDTO.class);
     private String descripcion;
-    private String esfuerzoEstimado;
+    private Integer esfuerzoEstimado;
     private Integer esfuerzoReal;
     private Integer esfuerzoRestante;
     private Date fechaCreacion;
@@ -41,11 +41,11 @@ public class VtHistoriaArtefactoDTO implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getEsfuerzoEstimado() {
+    public Integer getEsfuerzoEstimado() {
         return esfuerzoEstimado;
     }
 
-    public void setEsfuerzoEstimado(String esfuerzoEstimado) {
+    public void setEsfuerzoEstimado(Integer esfuerzoEstimado) {
         this.esfuerzoEstimado = esfuerzoEstimado;
     }
 

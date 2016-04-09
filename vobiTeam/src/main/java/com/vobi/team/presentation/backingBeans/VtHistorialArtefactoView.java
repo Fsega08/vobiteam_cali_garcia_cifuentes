@@ -218,7 +218,7 @@ public class VtHistorialArtefactoView {
 			
     		artefactoSeleccionado.setTitulo(historialArtefactoSeleccionado.getTitulo());
         	artefactoSeleccionado.setDescripcion(historialArtefactoSeleccionado.getDescripcion());
-        	artefactoSeleccionado.setEsfuerzoEstimado(Integer.parseInt(historialArtefactoSeleccionado.getEsfuerzoEstimado()));
+        	artefactoSeleccionado.setEsfuerzoEstimado(historialArtefactoSeleccionado.getEsfuerzoEstimado());
         	artefactoSeleccionado.setEsfuerzoRestante(historialArtefactoSeleccionado.getEsfuerzoRestante());
         	artefactoSeleccionado.setEsfuerzoReal(historialArtefactoSeleccionado.getEsfuerzoReal());
         	artefactoSeleccionado.setPuntos(historialArtefactoSeleccionado.getPuntos());

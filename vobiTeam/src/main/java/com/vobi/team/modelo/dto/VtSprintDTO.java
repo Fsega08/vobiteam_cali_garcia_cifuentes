@@ -20,6 +20,8 @@ public class VtSprintDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(VtSprintDTO.class);
     private String activo;
+    private Integer capacidadEstimada;
+    private Integer capacidadReal;
     private Date fechaCreacion;
     private Date fechaFin;
     private Date fechaInicio;
@@ -37,6 +39,22 @@ public class VtSprintDTO implements Serializable {
 
     public void setActivo(String activo) {
         this.activo = activo;
+    }
+
+    public Integer getCapacidadEstimada() {
+        return capacidadEstimada;
+    }
+
+    public void setCapacidadEstimada(Integer capacidadEstimada) {
+        this.capacidadEstimada = capacidadEstimada;
+    }
+
+    public Integer getCapacidadReal() {
+        return capacidadReal;
+    }
+
+    public void setCapacidadReal(Integer capacidadReal) {
+        this.capacidadReal = capacidadReal;
     }
 
     public Date getFechaCreacion() {
