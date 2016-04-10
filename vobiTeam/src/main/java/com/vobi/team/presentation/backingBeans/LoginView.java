@@ -100,16 +100,27 @@ public class LoginView {
     public void recuperarAction() throws Exception{
 
     	try {
+    		
+    		if (email.isEmpty() || email.trim().equals("")) {
+    			throw new Exception("Por favor ingrese un email");
+			}
+    		
+    		if (Utilities.validateEmail(email) == false) {
+    			throw new Exception("Por favor ingrese un email valido");
+			}
+    		
     		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(email);
     		
     		if (vtUsuario==null) {
 				throw new Exception("El usuario no se encuentra registrado");
+			} else {
+				businessDelegatorView.recuperarContrasena(vtUsuario);
+				
+				FacesUtils.addInfoMessage("Se ha enviado el correo");
 			}
-    		
-    		FacesUtils.addInfoMessage("Se ha enviado el correo");
+
 		} catch (Exception e) {
-			log.info(e.getMessage());
-			FacesUtils.addInfoMessage(e.getMessage());
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
     
     }

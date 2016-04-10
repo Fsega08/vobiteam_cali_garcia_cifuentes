@@ -33,6 +33,7 @@ import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
+import com.vobi.team.service.mail.IMailService;
 
 
 
@@ -69,8 +70,6 @@ public class testUsuarios {
 	
 	@Autowired
 	private IVtArtefactoLogic vtArtefactoLogic;
-	
-
 
 	//@Test
 	public void testA() throws Exception {
@@ -200,5 +199,18 @@ public class testUsuarios {
 		log.info("Código: "+usuarioArtefacto.getUsuartCodigo());
 	}
 
+	@Test
+	public void testJ() throws Exception {
+		
+		VtUsuario vtUsuario = vtUsuarioLogic.findUsuarioByLogin("fsega08@gmail.com");
+		
+		log.info("clave= " + vtUsuario.getClave());
+		
+		vtUsuarioLogic.recuperarContrasena(vtUsuario);
+		
+		log.info("clave= " + vtUsuario.getClave());
+		
+		
+	}	
 
 }

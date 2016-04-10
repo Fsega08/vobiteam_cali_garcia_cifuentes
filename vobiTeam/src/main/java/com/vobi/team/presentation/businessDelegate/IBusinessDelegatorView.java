@@ -86,6 +86,8 @@ import java.util.Set;
 public interface IBusinessDelegatorView {
 
 	public List<VtUsuario> getVtUsuarioAsignados(VtProyecto proyecto) throws Exception;
+	
+	public void recuperarContrasena(VtUsuario vtUsuario) throws Exception;
 
 	public List<VtArchivo> getVtArchivo() throws Exception;
 

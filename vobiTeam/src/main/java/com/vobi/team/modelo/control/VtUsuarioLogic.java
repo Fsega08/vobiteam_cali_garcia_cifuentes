@@ -9,6 +9,7 @@ import com.vobi.team.exceptions.ZMessManager.NotValidFormatException;
 import com.vobi.team.exceptions.ZMessManager.NullEntityExcepcion;
 import com.vobi.team.modelo.*;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
+import com.vobi.team.service.mail.IMailService;
 import com.vobi.team.utilities.Utilities;
 
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Scope;
-
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -51,7 +52,8 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	 */
 	@Autowired
 	private IVtProyectoUsuarioDAO vtProyectoUsuarioDAO;
-
+	
+	
 	/**
 	 * DAO injected by Spring that manages VtUsuarioArtefacto entities
 	 *
@@ -72,15 +74,18 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	 */
 	@Autowired
 	private IVtEmpresaLogic logicVtEmpresa1;
-	
+
 	@Autowired
 	private IVtProyectoUsuarioLogic proyectoUsuarioLogic;
-	
+
 	@Autowired
 	private IVtRolLogic vtRolLogic;
-	
+
 	@Autowired
 	private IVtUsuarioRolLogic vtUsuarioRolLogic;
+	
+	@Autowired
+	private IMailService mailService;
 
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuario() throws Exception {
@@ -163,12 +168,12 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 					throw new Exception("Ya hay un usuario con ese login.");
 				}
 			}
-			
+
 			boolean mailCorrecto = Utilities.validateEmail(entity.getLogin());
 			if(!mailCorrecto){
 				throw new Exception("El correo no es valido");
 			}
-			
+
 			//            if (entity.getUsuaCodigo() == null) {
 			//                throw new ZMessManager().new EmptyFieldException("usuaCodigo");
 			//            }
@@ -229,9 +234,9 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 					entity.getUsuaCodigo());
 			if (Utilities.validationsList(vtUsuarioRols) == true) { 
 				throw new ZMessManager().new DeletingException("vtUsuarioRols");
-			
+
 			}
-			
+
 			entity.setActivo("N");
 			vtUsuarioDAO.update(entity);
 
@@ -581,7 +586,8 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 
 		try {
 			Object[] variables = {"login", true, login, "="};
-
+			
+			
 
 			vtUsuarios = findByCriteria(variables, null, null);
 
@@ -605,16 +611,16 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 
 			//Si no lo encuentra arroja excepcion
 			if (usuarioEncontrado == null){
-				throw new Exception("No existe el usuario");
+				throw new Exception("El login especificado no se encuentra registrado");
 			}
 
 			//Si lo encuentra pero no coincide ellogin arroja excepcion
-			if(!usuarioEncontrado.getLogin().equals(login)){
-				throw new Exception("El login no coincide con el del usuario");
-			}
+//			if(!usuarioEncontrado.getLogin().equals(login)){
+//				throw new Exception("El login no coincide con el del usuario");
+//			}
 			//Si lo encuentra pero no coincide la clave arroja excepcion
 			if(!usuarioEncontrado.getClave().equals(password)){
-				throw new Exception("La clave no coincide con el del usuario");
+				throw new Exception("El login o contraseña son incorrectos");
 			}			
 
 			return true;
@@ -626,31 +632,31 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuarioNoAsignados(VtProyecto proyecto) throws Exception {
-		
+
 		List<VtUsuario> usuariosSource = getVtUsuarioDesarrolladores();		
 		List<VtProyectoUsuario> proyectosUsuarios = proyectoUsuarioLogic.findProyectoUsuarioPorProyecto(proyecto);
 
 		if (proyectosUsuarios != null) {
-			
+
 			for (VtProyectoUsuario vtProyectoUsuario : proyectosUsuarios) {
 				if(vtProyectoUsuario.getActivo().equals("S"))
 					usuariosSource.remove(vtProyectoUsuario.getVtUsuario());
 			}
 		}
-		
+
 
 		return usuariosSource;
 	}
-	
-	
+
+
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuarioAsignados(VtProyecto proyecto) throws Exception {
-		
+
 		List<VtUsuario> usuariosSource = getVtUsuarioDesarrolladores();
-		
+
 		List<VtProyectoUsuario> proyectosUsuarios = proyectoUsuarioLogic.findProyectoUsuarioPorProyecto(proyecto);
 		List<VtUsuario> usuariosTarget= new ArrayList<>();
-		
+
 		if (proyectosUsuarios != null) {
 			for (VtUsuario vtUsuario : usuariosSource) {
 				for (VtProyectoUsuario vtProyectoUsuario : proyectosUsuarios) {
@@ -659,26 +665,47 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 					}
 				}
 			}
-			
+
 		}
-		
+
 		return usuariosTarget;
 	}
 
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuarioDesarrolladores() throws Exception {
 		List<VtUsuario> losDesarrolladores = new ArrayList<VtUsuario>();
-		
+
 		VtRol vtRol = vtRolLogic.getVtRol(2L);		
 		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyRol(vtRol);		
-		
+
 		for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
 			if(vtUsuarioRol.getActivo().equals("S")){
 				losDesarrolladores.add(vtUsuarioRol.getVtUsuario());
 			}
-			
+
 		}
-		
+
 		return losDesarrolladores;
+	}
+
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void recuperarContrasena(VtUsuario vtUsuario) throws Exception{
+	
+			String clave = Utilities.getPassword();
+			
+			vtUsuario.setClave(clave);
+			
+			String asunto = "Reestablecer la contraseña de VobiTeam";
+			
+			String cuerpo = "Sr@, se ha solicitado un cambio de contraseña " + '\n' + '\n' +
+							"Su nueva contraseña es= " + clave + '\n' + '\n'  + '\n' 
+							+ "Por favor ingrese a VobiTeam lo más pronto posible y haga el cambio "
+							+ "de ella" + '\n' + '\n'  
+							+ "Gracias por su atención.";
+			
+			vtUsuarioDAO.update(vtUsuario);
+			
+			mailService.send(vtUsuario.getLogin(), asunto, cuerpo);
 	}
 }

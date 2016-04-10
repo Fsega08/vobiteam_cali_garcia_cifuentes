@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -13,19 +14,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.vobi.team.dataaccess.dao.IVtArtefactoDAO;
+
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
-import com.vobi.team.modelo.VtProyecto;
-import com.vobi.team.modelo.VtProyectoUsuario;
+
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
 import com.vobi.team.modelo.control.IVtPilaProductoLogic;
-import com.vobi.team.modelo.control.IVtProyectoLogic;
-import com.vobi.team.modelo.control.IVtProyectoUsuarioLogic;
+
 import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
+import com.vobi.team.service.mail.IMailService;
+import com.vobi.team.service.mail.MailService;
+
+
 
 
 
@@ -43,7 +46,10 @@ public class testArtefacto {
 	 
 	 @Autowired
 	 private IVtSprintLogic sprintLogic;
-
+	 
+	 @Autowired
+	private IVtUsuarioLogic vtUsuarioLogic; 
+	 
 	@Test
 	public void testA() throws Exception {
 		VtPilaProducto vtPilaProducto = vtPilaProductoLogic.getVtPilaProducto(1L);
@@ -79,6 +85,10 @@ public class testArtefacto {
 		
 		
 	}	
+	
+	
+
+	    
 	
 
 }

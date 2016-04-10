@@ -1106,6 +1106,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public VtUsuarioArtefacto findUsuarioArtefactoByArtefacto(VtArtefacto artefacto) throws Exception {
 		return vtUsuarioArtefactoLogic.findUsuarioArtefactoByArtefacto(artefacto);
 	}
+
+	@Override
+	public void recuperarContrasena(VtUsuario vtUsuario) throws Exception {
+		vtUsuarioLogic.recuperarContrasena(vtUsuario);
+	}
 	
 	
 	

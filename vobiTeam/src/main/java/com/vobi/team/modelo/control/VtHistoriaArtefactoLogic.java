@@ -91,10 +91,10 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
                     "fechaCreacion");
             }
 
-            if (entity.getHistoriaCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "historiaCodigo");
-            }
+//            if (entity.getHistoriaCodigo() == null) {
+//                throw new ZMessManager().new EmptyFieldException(
+//                    "historiaCodigo");
+//            }
 
             if ((entity.getOrigen() != null) &&
                     (Utilities.checkWordAndCheckWithlength(entity.getOrigen(),
@@ -121,9 +121,9 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
                     "arteCodigo_VtArtefacto");
             }
 
-            if (getVtHistoriaArtefacto(entity.getHistoriaCodigo()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+//            if (getVtHistoriaArtefacto(entity.getHistoriaCodigo()) != null) {
+//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+//            }
 
             vtHistoriaArtefactoDAO.save(entity);
 

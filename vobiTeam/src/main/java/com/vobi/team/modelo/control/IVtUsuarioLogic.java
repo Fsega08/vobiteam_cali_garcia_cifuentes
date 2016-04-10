@@ -59,4 +59,6 @@ public interface IVtUsuarioLogic {
 	public List<VtUsuario> getVtUsuarioAsignados(VtProyecto proyecto) throws Exception;
 	
 	public List<VtUsuario> getVtUsuarioDesarrolladores() throws Exception;
+	
+	public void recuperarContrasena(VtUsuario vtUsuario) throws Exception;
 }
