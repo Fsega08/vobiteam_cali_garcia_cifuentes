@@ -33,6 +33,7 @@ import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
+import com.vobi.team.utilities.Utilities;
 import com.vobi.team.service.mail.IMailService;
 
 

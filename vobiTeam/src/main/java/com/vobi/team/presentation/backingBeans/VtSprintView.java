@@ -1,6 +1,8 @@
 package com.vobi.team.presentation.backingBeans;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.chart.MeterGaugeChartModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,11 +29,13 @@ import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
+import com.vobi.team.utilities.Utilities;
 
 
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("serial")
 public class VtSprintView {
 
 	public final static Logger log=LoggerFactory.getLogger(VtSprintView.class);
@@ -83,12 +88,45 @@ public class VtSprintView {
 	
 	private DualListModel<VtArtefacto> losArtefactos;
 	private List<VtArtefacto> artefactosSource;
-	private List<VtArtefacto> artefactosTarget;
-	
+	private List<VtArtefacto> artefactosTarget;	
 	
 	////////////////////////////
 	
-	private List<VtArtefacto> losArtefactosAsginados;
+	private List<VtArtefacto> losArtefactosAsginados;	
+	
+	///////////////////////////// Grafico
+	
+	private MeterGaugeChartModel chartModel;
+	int sumaEsfuerzoReal;
+	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
+
+	@PostConstruct
+	public void init(){
+
+		try {
+			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
+			
+			artefactosSource = businessDelegatorView.getVtArtefacto();
+			artefactosTarget = businessDelegatorView.getVtArtefacto();
+
+			losArtefactos = new DualListModel<>(artefactosSource, artefactosTarget);
+
+	        createMeterGaugeModels();
+	        sumaEsfuerzoReal = 0 ;
+			
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+
+	}	
+	
+	public MeterGaugeChartModel getChartModel() {
+		return chartModel;
+	}
+
+	public void setChartModel(MeterGaugeChartModel chartModel) {
+		this.chartModel = chartModel;
+	}
 	
 	public List<VtArtefacto> getLosArtefactosAsginados() {
 		try {
@@ -103,25 +141,6 @@ public class VtSprintView {
 
 	public void setLosArtefactosAsginados(List<VtArtefacto> losArtefactosAsginados) {
 		this.losArtefactosAsginados = losArtefactosAsginados;
-	}
-
-
-	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-
-	@PostConstruct
-	public void init(){
-
-		try {
-			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
-			
-			artefactosSource = businessDelegatorView.getVtArtefacto();
-			artefactosTarget = businessDelegatorView.getVtArtefacto();
-
-			losArtefactos = new DualListModel<>(artefactosSource, artefactosTarget);
-		} catch (Exception e) {
-			log.info(e.getMessage());
-		}
-
 	}
 
 	public InputText getTxtNombre() {
@@ -369,14 +388,35 @@ public class VtSprintView {
 	public void setTxtMCapacidadReal(InputText txtMCapacidadReal) {
 		this.txtMCapacidadReal = txtMCapacidadReal;
 	}
-
+	
+	 private MeterGaugeChartModel initMeterGaugeModel() {
+	        
+			List<Number> intervals = new ArrayList<Number>(){{
+	            add(20);
+	            add(50);
+	            add(120);
+	            add(220);
+	        }};
+	         
+	        return new MeterGaugeChartModel(140, intervals);
+	    }
+	 
+	    private void createMeterGaugeModels() {
+	         
+	        chartModel = initMeterGaugeModel();
+	        chartModel.setTitle("Custom Options");
+	        chartModel.setSeriesColors("66cc66,93b75f,E7E658,cc6666");
+	        chartModel.setIntervalOuterRadius(100);
+	        
+	    }
+	
 	public void crearAction() throws Exception{
 		try {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			String nombre = txtNombre.getValue().toString();
 			String descripcion = txtDescripcion.getValue().toString();
-
+			String capacidadE = txtMCapacidadEstimada.getValue().toString();
 
 			if(nombre.equals("")|| nombre == null){
 				throw new Exception("El nombre es requerido");
@@ -393,7 +433,10 @@ public class VtSprintView {
 			if(fechaFin.equals("")|| fechaFin == null){
 				throw new Exception("Se necesita una fecha de fin");
 			}
-
+			
+			if(capacidadE.equals("")|| capacidadE == null || !Utilities.isNumeric(capacidadE)){
+				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
+			}
 
 			VtSprint sprint = new VtSprint();
 
@@ -403,6 +446,8 @@ public class VtSprintView {
 			sprint.setFechaFin(fechaFin);
 			sprint.setFechaCreacion(new Date());
 			sprint.setFechaModificacion(new Date());
+			sprint.setCapacidadEstimada(Integer.parseInt(capacidadE));
+			sprint.setCapacidadReal(0);
 			sprint.setActivo("S");
 			sprint.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
 			sprint.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
@@ -421,6 +466,7 @@ public class VtSprintView {
 	public void limpiarAction(){
 		txtNombre.resetValue();
 		txtDescripcion.resetValue();
+		txtCapacidadEstimada.resetValue();
 		fechaFin = null;
 		fechaInicio = null;
 	}
@@ -428,6 +474,8 @@ public class VtSprintView {
 	public void limpiarActionM(){
 		txtMNombre.resetValue();
 		txtMDescripcion.resetValue();
+		txtMCapacidadEstimada.resetValue();
+		txtMCapacidadReal.resetValue();
 		fechaFinM = null;
 		fechaInicioM = null;
 	}
@@ -440,6 +488,7 @@ public class VtSprintView {
 
 			String nombre = txtMNombre.getValue().toString();
 			String descripcion = txtMDescripcion.getValue().toString();
+			String capacidadE = txtMCapacidadEstimada.getValue().toString();
 			if(nombre.equals("")|| nombre == null){
 				throw new Exception("El nombre es requerido");
 			}
@@ -455,6 +504,10 @@ public class VtSprintView {
 			if(fechaFinM.equals("")|| fechaFinM == null){
 				throw new Exception("Se necesita una fecha de fin");				
 			}
+			
+			if(capacidadE.equals("")|| capacidadE == null || !Utilities.isNumeric(capacidadE)){
+				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
+			}					
 
 			VtSprint sprint = sprintSeleccionado;
 
@@ -464,7 +517,7 @@ public class VtSprintView {
 			sprint.setFechaFin(fechaFinM);
 			sprint.setFechaModificacion(new Date());
 			sprint.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
-			
+			sprint.setCapacidadEstimada(Integer.parseInt(capacidadE));
 			sprint.setActivo(somSprintActivo.getValue().toString().trim());
 
 			businessDelegatorView.updateVtSprint(sprint);
@@ -490,7 +543,47 @@ public class VtSprintView {
 		fechaInicioM = sprint.getFechaInicio();
 		fechaFinM = sprint.getFechaFin();
 		txtMCapacidadEstimada.setValue(sprint.getCapacidadEstimada());
-		txtMCapacidadReal.setValue(sprint.getCapacidadReal());
+		txtMCapacidadReal.setValue(sprint.getCapacidadReal());		
+	}
+	
+	public void actualizarChartAction(){		
+		
+		double inteval1 = sprintSeleccionado.getCapacidadEstimada()*(0.333);
+		double inteval2 = sprintSeleccionado.getCapacidadEstimada()*(0.666);
+		
+		List<Number> intervals = new ArrayList<Number>();
+		
+		if(losArtefactosAsginados != null){
+			for (VtArtefacto vtArtefacto : losArtefactosAsginados) {
+				sumaEsfuerzoReal += vtArtefacto.getEsfuerzoReal();
+			}
+		}
+		
+		if(sumaEsfuerzoReal > sprintSeleccionado.getCapacidadEstimada()){
+			intervals = new ArrayList<Number>(){{
+				add(inteval1);
+		        add(inteval2);
+		        add(sprintSeleccionado.getCapacidadEstimada());
+		        add(sumaEsfuerzoReal);
+	        }};
+		}else{
+			intervals = new ArrayList<Number>(){{
+				add(inteval1);
+		        add(inteval2);
+		        add(sumaEsfuerzoReal);
+		        add(sprintSeleccionado.getCapacidadEstimada());
+		        
+	        }};
+	        //intervals.sort();
+		}			
+		Collections.sort(intervals, new Comparador());
+        chartModel =  new MeterGaugeChartModel(sumaEsfuerzoReal, intervals);
+        
+        chartModel.setTitle("Esfuerzo");
+        chartModel.setSeriesColors("66cc66,93b75f,E7E658,cc6666");
+        chartModel.setIntervalOuterRadius(100);
+        
+        sumaEsfuerzoReal = 0;
 	}
 	
 	public String regresarAction(){
@@ -550,7 +643,7 @@ public class VtSprintView {
 				asignarArtefactoASprint(vtArtefacto, sprintSeleccionado);
 			}
 			if(event.isRemove()){
-				removerArtefacto(vtArtefacto);
+				removerArtefacto(vtArtefacto, sprintSeleccionado);
 			}
 		}
 
@@ -562,23 +655,37 @@ public class VtSprintView {
 		try {
 			log.info("asigno");
 			vtArtefacto.setVtSprint(vtSprint);
-			
+			vtSprint.setCapacidadReal(vtSprint.getCapacidadReal()+vtArtefacto.getEsfuerzoReal());
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
+			businessDelegatorView.updateVtSprint(vtSprint);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 	
 	
-	public void removerArtefacto(VtArtefacto vtArtefacto) {
+	public void removerArtefacto(VtArtefacto vtArtefacto, VtSprint vtSprint) {
 		try {
 			log.info("removio");
 			vtArtefacto.setVtSprint(null);
+			vtSprint.setCapacidadReal(vtSprint.getCapacidadReal()-vtArtefacto.getEsfuerzoReal());
 			
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
+			businessDelegatorView.updateVtSprint(vtSprint);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
+	}
+	
+	class Comparador implements Comparator<Number>{
+
+		@Override
+		public int compare(Number o1, Number o2) {
+			return o1.doubleValue()<o2.doubleValue()?-1:
+				o1.doubleValue()>o2.doubleValue()?1:
+					0;
+		}
+		
 	}
 	
 	

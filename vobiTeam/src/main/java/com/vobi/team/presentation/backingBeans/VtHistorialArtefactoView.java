@@ -1,10 +1,6 @@
 package com.vobi.team.presentation.backingBeans;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,27 +8,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
-import org.primefaces.component.selectonemenu.SelectOneMenu;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vobi.team.modelo.VtArchivo;
 import com.vobi.team.modelo.VtArtefacto;
-import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
-import com.vobi.team.modelo.VtPilaProducto;
-import com.vobi.team.modelo.VtPrioridad;
-import com.vobi.team.modelo.VtSprint;
-import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
@@ -55,14 +40,9 @@ public class VtHistorialArtefactoView {
 	private InputText txtHistorialEsfuerzoReal;
 	private InputText txtHistorialEsfuerzoRestante;
 	private InputText txtHistorialPuntos;
-	private InputText txtHistorialOrigen;
-	
-
-	
+	private InputText txtHistorialOrigen;	
 	
 	private CommandButton btnAsignar;
-
-
 
 	///////////////////////////////////////////////////////////
 
@@ -77,7 +57,19 @@ public class VtHistorialArtefactoView {
 	
 	//////////////////////////////////////////////////////////////
 	
-
+	
+	@PostConstruct
+	
+	public void init(){
+		try {			
+			artefactoSeleccionado = (VtArtefacto) FacesUtils.getfromSession("artefactoSeleccionado");
+			
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}		
+	}
+	
+	
 	public String getUsuarioActual() {
 		return usuarioActual;
 	}
