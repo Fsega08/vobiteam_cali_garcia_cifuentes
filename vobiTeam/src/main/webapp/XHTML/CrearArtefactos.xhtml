@@ -113,22 +113,11 @@
 						<p:fileUpload sequential="true"
 							fileUploadListener="#{vtArtefactoView.createHandleFileUpload}"
 							mode="advanced" multiple="true" auto="true"
-							dragDropSupport="true" update="men" label="Seleccionar" />
-							
-					</h:panelGrid>
-
-					<h:panelGrid columns="1" layout="grid" id="pnlButton">
-						<p:commandButton id="btnDesarrollador"
-							icon="fa fa-user-plus  white"
-							action="#{vtArtefactoView.escogerDessarrollador}"
-							value="Escoger Desarrollador" update="pnlgDess" />
-					</h:panelGrid>
-					
-					<p:separator />
-					
-					<h:panelGrid columns="5" layout="grid" id="pnlgDess">
+							dragDropSupport="true" update="men" label="Seleccionar" />				
+						
+						
 						<h:outputText value="Desarrollador" />
-						<p:selectOneMenu id="somCrearDesarrollador" disabled="true"
+						<p:selectOneMenu id="somCrearDesarrollador" 
 							binding="#{vtArtefactoView.somCrearDesarrolladores}">
 							<f:selectItem itemValue="-1" itemLabel="Desarrollador" />
 							<f:selectItems value="#{vtArtefactoView.losCrearDesarrolladores}" />
@@ -137,12 +126,12 @@
 						<p:spacer width="100" height="10" />
 
 						<h:outputText value="Interés" />
-						<p:selectOneMenu id="somCrearInteres" disabled="true"
+						<p:selectOneMenu id="somCrearInteres" 
 							binding="#{vtArtefactoView.somCrearInteres}">
 							<f:selectItem itemValue="-1" itemLabel="Interés" />
 							<f:selectItems value="#{vtArtefactoView.losCrearInteres}" />
 						</p:selectOneMenu>
-					</h:panelGrid>
+					</h:panelGrid>					
 
 				</p:panel>
 			</div>

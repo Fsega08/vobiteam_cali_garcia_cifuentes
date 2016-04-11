@@ -736,6 +736,13 @@ public class VtArtefactoView {
 			if (somCrearTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione un tipo de artefacto");
 			}
+			
+			if (somCrearDesarrolladores.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un Desarrollador para el artefacto");
+			}
+			if (somCrearInteres.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un interés ");
+			}
 
 			VtArtefacto vtArtefacto = new VtArtefacto();
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
@@ -763,25 +770,13 @@ public class VtArtefactoView {
 
 			vtArtefacto.setVtPilaProducto(backlogSeleccionado);
 			
-			if(somCrearDesarrolladores.isDisabled()){
-				businessDelegatorView.saveVtArtefacto(vtArtefacto);
+			VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somCrearInteres.getValue().toString().trim()));
+			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somCrearDesarrolladores.getValue().toString().trim()));
 				
-			}else{
-				
-				if (somCrearDesarrolladores.getValue().toString().trim().equals("-1") == true) {
-					throw new Exception("Seleccione un Desarrollador para el artefacto");
-				}
-				if (somCrearInteres.getValue().toString().trim().equals("-1") == true) {
-					throw new Exception("Seleccione un interés ");
-				}
-				
-				VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somCrearInteres.getValue().toString().trim()));
-				VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somCrearDesarrolladores.getValue().toString().trim()));
-				
-				businessDelegatorView.saveVtArtefacto(vtArtefacto);				
-				asignarDesarrollador(vtArtefacto, vtInteres, vtUsuario);
-			}
+			businessDelegatorView.saveVtArtefacto(vtArtefacto);				
+			asignarDesarrollador(vtArtefacto, vtInteres, vtUsuario);
 			subirArchivos(vtArtefacto);
+			
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
 			
 			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
@@ -861,19 +856,17 @@ public class VtArtefactoView {
 		somCrearTipoArtefacto.setValue("-1");
 		somCrearDesarrolladores.setValue("-1");
 		somCrearInteres.setValue("-1");
-		somCrearDesarrolladores.setDisabled(true);
-		somCrearInteres.setDisabled(true);
 
 	}
 
 	public void limpiarAction() {
-		txtDescripcion.resetValue();
-		txtNombre.resetValue();
-		txtEsfuerzoEstimado.resetValue();
-		txtEsfuerzoRestante.resetValue();
-		txtEsfuerzoReal.resetValue();
-		txtOrigen.resetValue();
-		txtPuntos.resetValue();
+		artefactoSeleccionado.setTitulo("");
+		artefactoSeleccionado.setDescripcion("");
+		artefactoSeleccionado.setEsfuerzoEstimado(0);
+		artefactoSeleccionado.setEsfuerzoRestante(0);
+		artefactoSeleccionado.setEsfuerzoReal(0);
+		artefactoSeleccionado.setOrigen("");
+		artefactoSeleccionado.setPuntos(0);
 		txtEsfuerzoReal.setDisabled(true);
 		txtEsfuerzoRestante.setDisabled(true);
 		txtPuntos.setDisabled(true);
@@ -883,9 +876,6 @@ public class VtArtefactoView {
 		somDesarrolladores.setValue("-1");
 		somInteres.setValue("-1");
 		somArtefactoActivo.setValue("-1");
-		somDesarrolladores.setDisabled(true);
-		somInteres.setDisabled(true);
-
 	}
 
 
@@ -1034,7 +1024,13 @@ public class VtArtefactoView {
 			if (somArtefactoActivo.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione un tipo de artefacto");
 			}
-
+			if (somDesarrolladores.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un Desarrollador para el artefacto");
+			}
+			if (somInteres.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un interés ");
+			}
+			
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			log.info("Usuario codigo= " + vtUsuarioActual.getUsuaCodigo());
@@ -1062,24 +1058,11 @@ public class VtArtefactoView {
 			artefactoSeleccionado.setVtSprint(sprintSeleccionado);
 			artefactoSeleccionado.setVtPilaProducto(backlogSeleccionado);
 			
-			if(somDesarrolladores.isDisabled()){
-				businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
+			VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somInteres.getValue().toString().trim()));
+			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somDesarrolladores.getValue().toString().trim()));				
 				
-			}else{
-				
-				if (somDesarrolladores.getValue().toString().trim().equals("-1") == true) {
-					throw new Exception("Seleccione un Desarrollador para el artefacto");
-				}
-				if (somInteres.getValue().toString().trim().equals("-1") == true) {
-					throw new Exception("Seleccione un interés ");
-				}
-				
-				VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somInteres.getValue().toString().trim()));
-				VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somDesarrolladores.getValue().toString().trim()));				
-				
-				businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);			
-				asignarDesarrollador(artefactoSeleccionado, vtInteres, vtUsuario);
-			}			
+			businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);			
+			asignarDesarrollador(artefactoSeleccionado, vtInteres, vtUsuario);					
 
 			FacesUtils.addInfoMessage("El artefacto se ha modificado con exito");	
 
@@ -1156,6 +1139,11 @@ public class VtArtefactoView {
 		}
 
 	}
+	
+	public void artefactoSesionAction() throws Exception {
+		FacesUtils.putinSession("artefactoSeleccionado",artefactoSeleccionado);
+	}
+	
 
 	public String regresarAction(){
 
@@ -1189,17 +1177,8 @@ public class VtArtefactoView {
 	
 	public String volverArtefactoAction(){
 		return "/XHTML/listarArtefactos.xhtml";
-	}
+	}	
 
-	
-	public void escogerDessarrollador()throws Exception{
-		somCrearDesarrolladores.setDisabled(false);
-		somCrearInteres.setDisabled(false);
-	}
-	public void escogerDesarrollador()throws Exception{
-		somDesarrolladores.setDisabled(false);
-		somInteres.setDisabled(false);
-	}
 
 	public void borrarArchivo(){
 		try {

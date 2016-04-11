@@ -154,13 +154,15 @@
 						<p:column headerText="Origen"
 							filterBy="#{historialArtefacto.origen}"
 							sortBy="#{historialArtefacto.origen}">
-							<h:outputText value="#{historialArtefacto.origen}" />
+							<h:outputText value="#{historialArtefacto.origen}" />							
 						</p:column>
 
 						<p:column headerText="Fecha Creación"
 							filterBy="#{historialArtefacto.fechaCreacion}"
 							sortBy="#{historialArtefacto.fechaCreacion}">
-							<h:outputText value="#{historialArtefacto.fechaCreacion}" />
+							<h:outputText value="#{historialArtefacto.fechaCreacion}" >
+								<f:convertDateTime dateStyle="full" type="date" />
+							</h:outputText>
 						</p:column>
 
 						<p:column headerText="Usuario Creador"
@@ -336,142 +338,142 @@
 				</p:dataTable>
 			</p:dialog>
 
-			<p:dialog header="Modificar Artefacto" widgetVar="dlgModArtefacto"
-				modal="true" id="dlModArtefacto" width="800">
+			<!-- <p:dialog header="modificar artefacto" widgetvar="dlgmodartefacto"
+				modal="true" id="dlmodartefacto" width="800">
 				<div class="ui-fluid">
-					<p:panel header="Modificar Artefacto" id="pnlArtefacto">
-						<h:panelGrid columns="5" layout="grid" id="pnlgTit">
+					<p:panel header="modificar artefacto" id="pnlartefacto">
+						<h:panelgrid columns="5" layout="grid" id="pnlgtit">
 
-							<h:outputText value="Tipo Artefacto" />
-							<p:selectOneMenu id="somMTiposDeArtefactos"
-								binding="#{vtArtefactoView.somTipoArtefacto}">
-								<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
-								<f:selectItems value="#{vtArtefactoView.losTiposArtefactos}" />
-								<p:ajax listener="#{vtArtefactoView.tipoModArtefactoListener}"
-									update="txtMEsfuerzoEstimado, txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
-							</p:selectOneMenu>
+							<h:outputtext value="tipo artefacto" />
+							<p:selectonemenu id="sommtiposdeartefactos"
+								binding="#{vtartefactoview.somtipoartefacto}">
+								<f:selectitem itemvalue="-1" itemlabel="tipo de artefacto" />
+								<f:selectitems value="#{vtartefactoview.lostiposartefactos}" />
+								<p:ajax listener="#{vtartefactoview.tipomodartefactolistener}"
+									update="txtmesfuerzoestimado, txtmesfuerzorestante, txtmesfuerzoreal, txtmpuntos" />
+							</p:selectonemenu>
 
 							<p:spacer width="100" height="10" />
 
-							<h:outputText value="Titulo del artefacto" />
-							<p:inputText id="txtMNombre" placeholder="Título"
-								binding="#{vtArtefactoView.txtNombre}" size="75" />
+							<h:outputtext value="titulo del artefacto" />
+							<p:inputtext id="txtmnombre" placeholder="título"
+								binding="#{vtartefactoview.txtnombre}" size="75" />
 
-						</h:panelGrid>
+						</h:panelgrid>
 
-						<h:panelGrid columns="1" layout="grid" id="pnlgDesc">
+						<h:panelgrid columns="1" layout="grid" id="pnlgdesc">
 
-							<h:outputText value="Descripción del artefacto" />
-							<p:inputTextarea id="txtAreaMDescripcion" cols="148"
-								placeholder="Descripción" maxlength="100000000"
-								binding="#{vtArtefactoView.txtDescripcion}" />
+							<h:outputtext value="descripción del artefacto" />
+							<p:inputtextarea id="txtareamdescripcion" cols="148"
+								placeholder="descripción" maxlength="100000000"
+								binding="#{vtartefactoview.txtdescripcion}" />
 
 							<p:separator />
-						</h:panelGrid>
+						</h:panelgrid>
 
-						<h:panelGrid columns="5" layout="grid" id="pnlgDemas">
+						<h:panelgrid columns="5" layout="grid" id="pnlgdemas">
 
 
-							<h:outputText value="Estado Artefacto" />
-							<p:selectOneMenu id="somMEstados"
-								binding="#{vtArtefactoView.somEstadoArtefacto}">
-								<f:selectItem itemValue="-1" itemLabel="Estado" />
-								<f:selectItems value="#{vtArtefactoView.losEstadosArtefactos}" />
-							</p:selectOneMenu>
+							<h:outputtext value="estado artefacto" />
+							<p:selectonemenu id="sommestados"
+								binding="#{vtartefactoview.somestadoartefacto}">
+								<f:selectitem itemvalue="-1" itemlabel="estado" />
+								<f:selectitems value="#{vtartefactoview.losestadosartefactos}" />
+							</p:selectonemenu>
 
 							<p:spacer width="100" height="10" />
 
-							<h:outputText value="Nivel de prioridad" />
-							<p:selectOneMenu id="somMPrioridades"
-								binding="#{vtArtefactoView.somPrioridadesArtefacto}">
-								<f:selectItem itemValue="-1" itemLabel="Prioridad" />
-								<f:selectItems
-									value="#{vtArtefactoView.lasPrioridadesArtefactos}" />
-							</p:selectOneMenu>
+							<h:outputtext value="nivel de prioridad" />
+							<p:selectonemenu id="sommprioridades"
+								binding="#{vtartefactoview.somprioridadesartefacto}">
+								<f:selectitem itemvalue="-1" itemlabel="prioridad" />
+								<f:selectitems
+									value="#{vtartefactoview.lasprioridadesartefactos}" />
+							</p:selectonemenu>
 
-							<h:outputText value="Esfuerzo Estimado" />
-							<p:inputText id="txtMEsfuerzoEstimado"
-								placeholder="Esfuerzo Estimado"
-								binding="#{vtArtefactoView.txtEsfuerzoEstimado}" disabled="true">
-								<p:ajax listener="#{vtArtefactoView.esfuerzoModListener}"
+							<h:outputtext value="esfuerzo estimado" />
+							<p:inputtext id="txtmesfuerzoestimado"
+								placeholder="esfuerzo estimado"
+								binding="#{vtartefactoview.txtesfuerzoestimado}" disabled="true">
+								<p:ajax listener="#{vtartefactoview.esfuerzomodlistener}"
 									event="blur"
-									update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
-							</p:inputText>
+									update="txtmesfuerzorestante, txtmesfuerzoreal, txtmpuntos" />
+							</p:inputtext>
 
 							<p:spacer width="100" height="10" />
 
-							<h:outputText value="Esfuerzo Restante" />
-							<p:inputText id="txtMEsfuerzoRestante"
-								placeholder="Esfuerzo Restante"
-								binding="#{vtArtefactoView.txtEsfuerzoRestante}" disabled="true" />
+							<h:outputtext value="esfuerzo restante" />
+							<p:inputtext id="txtmesfuerzorestante"
+								placeholder="esfuerzo restante"
+								binding="#{vtartefactoview.txtesfuerzorestante}" disabled="true" />
 
-							<h:outputText value="Esfuerzo Real" />
-							<p:inputText id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
-								binding="#{vtArtefactoView.txtEsfuerzoReal}" disabled="true" />
-
-							<p:spacer width="100" height="10" />
-
-							<h:outputText value="Puntos del artefacto" />
-							<p:inputText id="txtMPuntos" placeholder="Puntos"
-								binding="#{vtArtefactoView.txtPuntos}" disabled="true" />
-
-							<h:outputText value="Origen del artefacto" />
-							<p:inputText id="txtMOrigen" placeholder="Origen"
-								binding="#{vtArtefactoView.txtOrigen}" />
+							<h:outputtext value="esfuerzo real" />
+							<p:inputtext id="txtmesfuerzoreal" placeholder="esfuerzo real"
+								binding="#{vtartefactoview.txtesfuerzoreal}" disabled="true" />
 
 							<p:spacer width="100" height="10" />
 
-							<h:outputText value="Artefacto activo?" />
-							<p:selectOneMenu id="somArtefactoActivo"
-								binding="#{vtArtefactoView.somArtefactoActivo}">
-								<f:selectItem itemValue="-1" itemLabel="Artefacto activo?" />
-								<f:selectItem itemValue="S" itemLabel="Si" />
-								<f:selectItem itemValue="N" itemLabel="No" />
-							</p:selectOneMenu>
+							<h:outputtext value="puntos del artefacto" />
+							<p:inputtext id="txtmpuntos" placeholder="puntos"
+								binding="#{vtartefactoview.txtpuntos}" disabled="true" />
+
+							<h:outputtext value="origen del artefacto" />
+							<p:inputtext id="txtmorigen" placeholder="origen"
+								binding="#{vtartefactoview.txtorigen}" />
+
+							<p:spacer width="100" height="10" />
+
+							<h:outputtext value="artefacto activo?" />
+							<p:selectonemenu id="somartefactoactivo"
+								binding="#{vtartefactoview.somartefactoactivo}">
+								<f:selectitem itemvalue="-1" itemlabel="artefacto activo?" />
+								<f:selectitem itemvalue="s" itemlabel="si" />
+								<f:selectitem itemvalue="n" itemlabel="no" />
+							</p:selectonemenu>
 							<br />
-						</h:panelGrid>
-						<h:panelGrid columns="1" layout="grid" id="pnlButton">
-							<p:commandButton id="btnDesarrollador"
+						</h:panelgrid>
+						<h:panelgrid columns="1" layout="grid" id="pnlbutton">
+							<p:commandbutton id="btndesarrollador"
 								icon="fa fa-user-plus  white"
-								action="#{vtArtefactoView.escogerDesarrollador}"
-								value="Escoger Desarrollador" update="pnlgDess" />
-						</h:panelGrid>
+								action="#{vtartefactoview.escogerdesarrollador}"
+								value="escoger desarrollador" update="pnlgdess" />
+						</h:panelgrid>
 						<p:separator />
-						<h:panelGrid columns="5" layout="grid" id="pnlgDess">
-							<h:outputText value="Desarrollador" />
-							<p:selectOneMenu id="somDesarrollador" disabled="true"
-								binding="#{vtArtefactoView.somDesarrolladores}">
-								<f:selectItem itemValue="-1" itemLabel="Desarrollador" />
-								<f:selectItems value="#{vtArtefactoView.losDesarrolladores}" />
-							</p:selectOneMenu>
+						<h:panelgrid columns="5" layout="grid" id="pnlgdess">
+							<h:outputtext value="desarrollador" />
+							<p:selectonemenu id="somdesarrollador" disabled="true"
+								binding="#{vtartefactoview.somdesarrolladores}">
+								<f:selectitem itemvalue="-1" itemlabel="desarrollador" />
+								<f:selectitems value="#{vtartefactoview.losdesarrolladores}" />
+							</p:selectonemenu>
 
 							<p:spacer width="100" height="10" />
 
-							<h:outputText value="Interés" />
-							<p:selectOneMenu id="somInteres" disabled="true"
-								binding="#{vtArtefactoView.somInteres}">
-								<f:selectItem itemValue="-1" itemLabel="Interés" />
-								<f:selectItems value="#{vtArtefactoView.losInteres}" />
-							</p:selectOneMenu>
-						</h:panelGrid>
+							<h:outputtext value="interés" />
+							<p:selectonemenu id="sominteres" disabled="true"
+								binding="#{vtartefactoview.sominteres}">
+								<f:selectitem itemvalue="-1" itemlabel="interés" />
+								<f:selectitems value="#{vtartefactoview.losinteres}" />
+							</p:selectonemenu>
+						</h:panelgrid>
 					</p:panel>
 				</div>
 
 				<p:panel>
 					<div align="center">
-						<p:commandButton id="btnModificarArtefacto"
-							binding="#{vtArtefactoView.btnModificar}"
-							icon="fa fa-pencil white" value="Modificar"
-							action="#{vtArtefactoView.modificarAction}"
-							update="pnlArtefacto, men, dtArtefactos" />
+						<p:commandbutton id="btnmodificarartefacto"
+							binding="#{vtartefactoview.btnmodificar}"
+							icon="fa fa-pencil white" value="modificar"
+							action="#{vtartefactoview.modificaraction}"
+							update="pnlartefacto, men, dtartefactos" />
 
-						<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
-							value="Limpiar" action="#{vtArtefactoView.limpiarAction}"
-							binding="#{vtArtefactoView.btnLimpiar}" update="pnlArtefacto" />
+						<p:commandbutton id="btnmlimpiar" icon="fa fa-eraser white"
+							value="limpiar" action="#{vtartefactoview.limpiaraction}"
+							binding="#{vtartefactoview.btnlimpiar}" update="pnlartefacto" />
 
 					</div>
 				</p:panel>
-			</p:dialog>
+			</p:dialog> -->
 
 
 

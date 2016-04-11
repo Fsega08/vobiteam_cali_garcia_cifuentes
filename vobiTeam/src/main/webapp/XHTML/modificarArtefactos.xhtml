@@ -131,19 +131,11 @@
 							<f:selectItem itemValue="S" itemLabel="Si" />
 							<f:selectItem itemValue="N" itemLabel="No" />
 						</p:selectOneMenu>
-						<br />
-					</h:panelGrid>
-					<h:panelGrid columns="1" layout="grid" id="pnlButton">
-						<p:commandButton id="btnDesarrollador"
-							icon="fa fa-user-plus  white"
-							action="#{vtArtefactoView.escogerDesarrollador}"
-							value="Escoger Desarrollador" update="pnlgDess" />
-					</h:panelGrid>
-					<p:separator />
-					<h:panelGrid columns="5" layout="grid" id="pnlgDess">
+						
 						<h:outputText value="Desarrollador" />
-						<p:selectOneMenu id="somDesarrollador" disabled="true" value="#{vtArtefactoView.usuarioArtefacto.vtUsuario.usuaCodigo}"
-							binding="#{vtArtefactoView.somDesarrolladores}" >
+						<p:selectOneMenu id="somDesarrollador" 
+							value="#{vtArtefactoView.usuarioArtefacto.vtUsuario.usuaCodigo}"
+							binding="#{vtArtefactoView.somDesarrolladores}">
 							<f:selectItem itemValue="-1" itemLabel="Desarrollador" />
 							<f:selectItems value="#{vtArtefactoView.losDesarrolladores}" />
 						</p:selectOneMenu>
@@ -151,14 +143,13 @@
 						<p:spacer width="100" height="10" />
 
 						<h:outputText value="Interés" />
-						<p:selectOneMenu id="somInteres" disabled="true" value="#{vtArtefactoView.usuarioArtefacto.vtInteres.inteCodigo}"
-							binding="#{vtArtefactoView.somInteres}"> 
+						<p:selectOneMenu id="somInteres" 
+							value="#{vtArtefactoView.usuarioArtefacto.vtInteres.inteCodigo}"
+							binding="#{vtArtefactoView.somInteres}">
 							<f:selectItem itemValue="-1" itemLabel="Interés" />
 							<f:selectItems value="#{vtArtefactoView.losInteres}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-
-
 				</p:panel>
 			</div>
 

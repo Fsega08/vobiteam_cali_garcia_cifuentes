@@ -33,6 +33,7 @@ import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
+import com.vobi.team.utilities.Utilities;
 
 
 
@@ -193,11 +194,14 @@ public class testUsuarios {
 	@Test
 	public void testI()throws Exception{
 
-		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(22L);
+//		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(22L);
+//		
+//		VtUsuarioArtefacto usuarioArtefacto = vtUsuarioArtefactoLogic.findUsuarioArtefactoByArtefacto(vtArtefacto);
+//			
+//		log.info("Código: "+usuarioArtefacto.getUsuartCodigo());
 		
-		VtUsuarioArtefacto usuarioArtefacto = vtUsuarioArtefactoLogic.findUsuarioArtefactoByArtefacto(vtArtefacto);
-			
-		log.info("Código: "+usuarioArtefacto.getUsuartCodigo());
+		
+		log.info(""+Utilities.isNumeric("12"));
 	}
 
 

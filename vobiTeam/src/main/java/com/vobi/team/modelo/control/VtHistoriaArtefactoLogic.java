@@ -1,29 +1,23 @@
 package com.vobi.team.modelo.control;
 
-import com.vobi.team.dataaccess.dao.*;
-import com.vobi.team.exceptions.*;
-import com.vobi.team.modelo.*;
-import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
-import com.vobi.team.utilities.Utilities;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.vobi.team.dataaccess.dao.IVtHistoriaArtefactoDAO;
+import com.vobi.team.exceptions.ZMessManager;
+import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtHistoriaArtefacto;
+import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
+import com.vobi.team.utilities.Utilities;
 
 
 /**
@@ -91,10 +85,10 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
                     "fechaCreacion");
             }
 
-            if (entity.getHistoriaCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "historiaCodigo");
-            }
+//            if (entity.getHistoriaCodigo() == null) {
+//                throw new ZMessManager().new EmptyFieldException(
+//                    "historiaCodigo");
+//            }
 
             if ((entity.getOrigen() != null) &&
                     (Utilities.checkWordAndCheckWithlength(entity.getOrigen(),
@@ -121,9 +115,9 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
                     "arteCodigo_VtArtefacto");
             }
 
-            if (getVtHistoriaArtefacto(entity.getHistoriaCodigo()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+//            if (getVtHistoriaArtefacto(entity.getHistoriaCodigo()) != null) {
+//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+//            }
 
             vtHistoriaArtefactoDAO.save(entity);
 
