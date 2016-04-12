@@ -20,7 +20,7 @@ import com.vobi.team.test.testArtefacto;
 @Service("mailService")
 public class MailService implements IMailService {
 
-	private final static Logger log=LoggerFactory.getLogger(testArtefacto.class);
+	private final static Logger log=LoggerFactory.getLogger(MailService.class);
 	
 
 	private Properties mailServerProperties;
