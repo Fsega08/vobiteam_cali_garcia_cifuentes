@@ -18,6 +18,10 @@ import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.exceptions.ZMessManager;
@@ -80,13 +84,17 @@ public class VtUsuarioView {
 	private DualListModel<VtRol> pickListRol;
 	private List<VtRol> rolSource;
 	private List<VtRol> rolTarget;
-
+	
+	private List<VtRol> usuarioRol;
+	
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-
+	
+	private VtUsuario usuSesion;
 
 	@PostConstruct
 	public void init(){
 		try {
+			usuSesion = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			usuarioSeleccionado = businessDelegatorView.getVtUsuario(1L);
 			rolSource = businessDelegatorView.getRolesNoAsignados(usuarioSeleccionado);
 			rolTarget = businessDelegatorView.getRolesAsignados(usuarioSeleccionado);
@@ -96,6 +104,18 @@ public class VtUsuarioView {
 
 		pickListRol = new DualListModel<VtRol>(rolSource, rolTarget);
 	}
+
+	public VtUsuario getUsuSesion() {
+		return usuSesion;
+	}
+
+
+
+	public void setUsuSesion(VtUsuario usuSesion) {
+		this.usuSesion = usuSesion;
+	}
+
+
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
@@ -159,6 +179,25 @@ public class VtUsuarioView {
 	public void setBtnManual(CommandButton btnManual) {
 		this.btnManual = btnManual;
 	}
+	
+	public List<VtRol> getUsuarioRol() {
+		
+		try {
+			if(usuSesion != null){
+				usuarioRol = businessDelegatorView.getRolesAsignados(usuSesion);
+			}
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+		return usuarioRol;
+	}
+
+	public void setUsuarioRol(List<VtRol> usuarioRol) {
+		this.usuarioRol = usuarioRol;
+	}
+
 	public List<VtUsuario> getLosUsuarios() {
 
 		try {
@@ -336,10 +375,6 @@ public class VtUsuarioView {
 			if(!clave.equals(clave2)){
 				throw new Exception("las Claves no coinciden");
 			}
-			
-				
-			
-			
 
 			long empresaID;			
 			try {
@@ -347,8 +382,6 @@ public class VtUsuarioView {
 			} catch (Exception e) {
 				throw new Exception("Problemas con el Id de la Empresa");
 			}
-
-
 
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
@@ -368,7 +401,7 @@ public class VtUsuarioView {
 
 			businessDelegatorView.saveVtUsuario(vtUsuario);
 			businessDelegatorView.nuevoUsuario(vtUsuario);
-			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+			FacesUtils.addInfoMessage("El usuario fue creado con exito.");
 			
 			limpiarAction();
 			
@@ -467,7 +500,7 @@ public class VtUsuarioView {
 
 
 			businessDelegatorView.updateVtUsuario(vtUsuario);    		
-			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);  
+			FacesUtils.addInfoMessage("El usuario fue modificado con exito.");  
 			losUsuarios = businessDelegatorView.getVtUsuario();
 		} 
 		catch (Exception e){			

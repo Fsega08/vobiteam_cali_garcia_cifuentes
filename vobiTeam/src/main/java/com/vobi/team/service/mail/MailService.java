@@ -73,7 +73,6 @@ public class MailService implements IMailService {
 
 	public void send(String para, String asunto, String cuerpo) throws MessagingException {
 		
-		log.info("\n 1st ===> setup Mail Server Properties..");
 		mailServerProperties = System.getProperties();
 		mailServerProperties.put("mail.smtp.port", "587");
 		mailServerProperties.put("mail.smtp.auth", "true");
@@ -81,17 +80,14 @@ public class MailService implements IMailService {
 		log.info("Mail Server Properties have been setup successfully..");
 
 		// Step2
-		log.info("\n\n 2nd ===> get Mail Session..");
 		getMailSession = Session.getDefaultInstance(mailServerProperties, null);
 		generateMailMessage = new MimeMessage(getMailSession);
 		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(para));
 		generateMailMessage.setSubject(asunto);
 		
 		generateMailMessage.setText(cuerpo);
-		log.info("Mail Session has been created successfully..");
 
 		// Step3
-		log.info("\n\n 3rd ===> Get Session and Send mail");
 		Transport transport = getMailSession.getTransport("smtp");
 
 		// Enter your correct gmail UserID and Password

@@ -5,7 +5,6 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     
-    
     <div id="layout-header" class="Unselectable fontRegular">
         <a href="listaEmpresa.xhtml" id="layout-logo">
             <h:graphicImage name="images/LOGO.svg" styleClass="Fleft" library="sentinel-layout"/>
@@ -14,11 +13,13 @@
     	<ul id="sm-topmenu" class="layout-header-widgets white Fs14">
     		<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-user-male"></i>
     			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
-    				<li class="Animated05"><a class="white Unselectable"><i class="icon-user-male Fs26 OvHidden"></i><span class="Fs18">Walter White<br/><span class="Fs10">Last Login - 18.08.2014</span></span></a></li>
-    				<li class="Animated05"><a href="#" class="white Unselectable"><i class="icon-sliders"></i>Ver perfil</a></li>
+    				<li class="Animated05"><a class="white Unselectable"><i class="icon-user-male Fs30"></i><h:outputText class="white Fs15" value="#{vtUsuarioView.usuSesion.nombre}" /></a></li>
+    				<li class="Animated05"><a href="/vobiTeam/XHTML/perfil.xhtml" class="white Unselectable"><i class="icon-sliders"></i>Ver perfil</a></li>
     			</ul>
     		</li>
-
+			
+			
+			
     		<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-power"></i>
     			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
     				<li class="Animated05"><a href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/login.xhtml?loggedout=true" class="white Unselectable"><i class="icon-ccw-1"></i>Reiniciar</a></li>

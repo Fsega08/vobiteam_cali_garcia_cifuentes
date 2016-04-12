@@ -309,5 +309,15 @@ public class VtEmpresaView {
 		somEmpresaActiva.setValue("-1");
 		
 	}	
+	
+	public String irAEmpresa(){
+		
+		FacesUtils.putinSession("proyectoSeleccionado", null);
+		FacesUtils.putinSession("backlogSeleccionado", null);
+		FacesUtils.putinSession("artefactoSeleccionado", null);
+		FacesUtils.putinSession("sprintSeleccionado", null);
+		
+		return "/XHTML/listaEmpresa.xhtml";
+	}
 
 }

@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtUsuario;
@@ -34,53 +35,53 @@ public class VtBacklogView {
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;	
-	
+
 	private DataTable dtBacklog;
 
 	private VtProyecto proyectoSeleccionado;	
-	
+
 	private List<VtPilaProducto> losBacklogs;
-	
+
 	private VtPilaProducto backogSeleccionado;
-	
-	
+
+
 	//Para el crear backog
 	private InputText txtCNombre;
 	private InputTextarea txtCDescripcion;
-	
+
 	//Abrir el dialog de crear
 	private CommandButton btnCrear;
-	
+
 	//Crear el backlog
 	private CommandButton btnCrearBacklog;
-	
+
 	//Para modificar el dialog
 	private InputText txtMNombre;
 	private InputTextarea txtMDescripcion;
 	private SelectOneMenu somBacklogActivo;
-	
+
 	//El boton que manda a modificar
 	private CommandButton btnModificarProyecto;
-	
+
 	//Toca 2 limpiar ya que el modificar tiene la lista y el crear no.
 	private CommandButton btnCLimpiar;
 	private CommandButton btnMLimpiar;
-	
+
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-	
+
 	@PostConstruct
 	public void init(){
-		
+
 		try {
 			proyectoSeleccionado = (VtProyecto) FacesUtils.getfromSession("proyectoSeleccionado");
-			
+
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
-		
+
 	}
-	
-	
+
+
 	public String getUsuarioActual() {
 		return usuarioActual;
 	}
@@ -206,7 +207,7 @@ public class VtBacklogView {
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
-		
+
 		return losBacklogs;
 	}
 	public void setLosBacklogs(List<VtPilaProducto> losBacklogs) {
@@ -224,14 +225,14 @@ public class VtBacklogView {
 	public void setProyectoSeleccionado(VtProyecto proyectoSeleccionado) {
 		this.proyectoSeleccionado = proyectoSeleccionado;
 	}
-	
+
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
 	}
-	
+
 	//Metodo para crear el backlog
 	public void crearAction() {
 		try {
@@ -242,9 +243,9 @@ public class VtBacklogView {
 			if (txtCDescripcion.getValue().toString().trim().equals("") == true || txtCDescripcion.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			
+
 			VtPilaProducto vtPilaProducto= new VtPilaProducto();
-			
+
 			vtPilaProducto.setNombre(txtCNombre.getValue().toString());			
 			vtPilaProducto.setDescripcion(txtCDescripcion.getValue().toString());			
 			vtPilaProducto.setFechaCreacion(new Date());			
@@ -252,13 +253,13 @@ public class VtBacklogView {
 			vtPilaProducto.setUsuCreador(vtUsuarioActual.getUsuaCodigo());			
 			vtPilaProducto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());			
 			vtPilaProducto.setActivo("S");
-			
+
 			vtPilaProducto.setVtProyecto(proyectoSeleccionado);
-			
+
 			businessDelegatorView.saveVtPilaProducto(vtPilaProducto);
-			
+
 			FacesUtils.addInfoMessage("Se ha creado el backlog con éxito");
-			
+
 			limpiarCAction();
 			losBacklogs = businessDelegatorView.findBacklogByProyecto(proyectoSeleccionado);
 		} catch (Exception e) {
@@ -266,29 +267,29 @@ public class VtBacklogView {
 
 		}
 	}
-	
+
 	//Limpiar el Crear dialog
 	public void limpiarCAction() {
 		txtCNombre.resetValue();
 		txtCDescripcion.resetValue();
 
 	}
-	
+
 	//Este listener es para mandar el backlog seleccionado y setear los datos en el dialogo
 	public void modificarListener() {
-		
+
 		VtPilaProducto vtPilaProducto = backogSeleccionado;
-		
+
 		txtMNombre.setValue(vtPilaProducto.getNombre());
 		txtMDescripcion.setValue(vtPilaProducto.getDescripcion());
 		somBacklogActivo.setValue(vtPilaProducto.getActivo());
-		
+
 	}
-	
+
 	public void modificarAction() {
 		try {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			
+
 			if (txtMNombre.getValue().toString().trim().equals("") == true || txtMNombre.getValue() == null) {
 				throw new Exception("El nombre no es valido");
 			}
@@ -298,43 +299,43 @@ public class VtBacklogView {
 			if (somBacklogActivo.getValue().equals("-1") ==true ) {
 				throw new Exception("Asigne un estado al backlog");
 			}
-			
+
 			VtPilaProducto vtPilaProducto = backogSeleccionado;
-			
+
 			vtPilaProducto.setNombre(txtMNombre.getValue().toString());			
 			vtPilaProducto.setDescripcion(txtMDescripcion.getValue().toString());			
 			vtPilaProducto.setFechaModificacion(new Date());
-			
+
 			vtPilaProducto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
-			
+
 			vtPilaProducto.setActivo(somBacklogActivo.getValue().toString().trim());
-			
-			
+
+
 			businessDelegatorView.updateVtPilaProducto(vtPilaProducto);
-			
+
 			FacesUtils.addInfoMessage("Se ha modificado con éxito");
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 
 		}
 	}
-	
-	
+
+
 	public void limpiarMAction() {
 		txtMNombre.resetValue();
 		txtMDescripcion.resetValue();
 		somBacklogActivo.setValue("-1");
 
 	}
-	
+
 	public String regresarAction(){
 
 		return "/XHTML/listaProyectos.xhtml";
 
 	}
-	
-		public String artefactoListener(){
-		
+
+	public String artefactoListener(){
+
 		//Guardo objeto en la sesion
 		if (backogSeleccionado.getActivo().equals("S")) {
 			FacesUtils.putinSession("backlogSeleccionado", backogSeleccionado);
@@ -344,11 +345,11 @@ public class VtBacklogView {
 			FacesUtils.addErrorMessage("La pila producto esta inactiva");
 			return "";
 		}
-		
+
 	}
-	
+
 	public String sprintListener(){
-		
+
 		//Guardo objeto en la sesion
 		if (backogSeleccionado.getActivo().equals("S")) {
 			FacesUtils.putinSession("backlogSeleccionado", backogSeleccionado);
@@ -358,8 +359,29 @@ public class VtBacklogView {
 			FacesUtils.addErrorMessage("La pila producto esta inactiva");
 			return "";
 		}
-		
+
 	}
-	
-	
+
+	public String irABacklog(){
+
+		VtEmpresa vtEmpresa = (VtEmpresa) FacesUtils.getfromSession("empresaSeleccionada");
+		
+
+		FacesUtils.putinSession("artefactoSeleccionado", null);
+		FacesUtils.putinSession("sprintSeleccionado", null);
+
+		if (proyectoSeleccionado!=null) {
+			return "/XHTML/listaBacklog.xhtml";
+		}
+		else {
+			if (vtEmpresa== null) {
+				return "/XHTML/listaEmpresa.xhtml";
+			}
+			else {
+				return "/XHTML/listaProyectos.xhtml";
+			}
+		}
+
+	}
+
 }

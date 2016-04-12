@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<p:panel header="Perfil" id="pnlPerfil">
+
+				<div class="TexAlCenter">
+					<h:outputText class="red Fs40" value="#{vtUsuarioView.usuSesion.nombre}" />
+					
+				</div>
+				
+				<p:spacer width="100" height="50" />
+				
+				<p:panel class="leaden-back">
+					<div class="Fs20 TexAlCenter red">Información</div>
+
+					<h:panelGrid columns="2" layout="grid" id="pnlInfo">
+
+						<h:outputText value="Nombre: " />
+						<h:outputText value="#{vtUsuarioView.usuSesion.nombre}" />
+						
+						<h:outputText value="Fecha de creación: " />
+						<h:outputText value="#{vtUsuarioView.usuSesion.fechaCreacion}" />
+						
+						<h:outputText value="Activo: " />
+						<h:outputText value="Sí" />
+						
+						<h:outputText value="Ultima vez modificado: " />
+						<h:outputText value="#{vtUsuarioView.usuSesion.fechaModificacion}" />
+												
+						<h:outputText value="Empresa a la que pertenece: " />
+						<h:outputText value="#{vtUsuarioView.usuSesion.vtEmpresa.nombre}" />
+						
+					</h:panelGrid>
+
+				</p:panel>
+
+				<p:dataTable id="dtRol" value="#{vtUsuarioView.usuarioRol}"
+					var="rol" paginator="true" rows="3"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="3,5,7" rowKey="#{rol.rolCodigo}"
+					rendered="true" 
+					emptyMessage="El usuario no posee roles hasta el momento"
+					paginatorPosition="bottom">
+
+					<p:column style="width:10%">
+						<h:outputText styleClass="icon-briefcase-1" />
+					</p:column>
+
+					<p:column style="width:90%" headerText="Roles del Usuario">
+						<h:outputText value="#{rol.rolNombre}"/>
+					</p:column>
+
+				</p:dataTable>
+				
+			</p:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

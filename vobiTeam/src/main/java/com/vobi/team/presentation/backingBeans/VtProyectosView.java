@@ -366,4 +366,22 @@ public class VtProyectosView {
 		somProyectoActivo.setValue("-1");
 		somProyectoPublico.setValue("-1");
 	}
+	
+	public String irAProyecto(){
+		
+
+		FacesUtils.putinSession("backlogSeleccionado", null);
+		FacesUtils.putinSession("artefactoSeleccionado", null);
+		FacesUtils.putinSession("sprintSeleccionado", null);
+		
+		if (vtEmpresaSelected!=null) {
+			return "/XHTML/listaProyectos.xhtml";
+		}
+		else {
+			return "/XHTML/listaEmpresa.xhtml";
+		}
+		
+	}
+	
+	
 }
