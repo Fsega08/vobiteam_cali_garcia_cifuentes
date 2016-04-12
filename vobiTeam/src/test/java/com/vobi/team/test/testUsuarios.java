@@ -207,7 +207,7 @@ public class testUsuarios {
 		
 		log.info("clave= " + vtUsuario.getClave());
 		
-		vtUsuarioLogic.recuperarContrasena(vtUsuario);
+		vtUsuarioLogic.nuevoUsuario(vtUsuario);
 		
 		log.info("clave= " + vtUsuario.getClave());
 		

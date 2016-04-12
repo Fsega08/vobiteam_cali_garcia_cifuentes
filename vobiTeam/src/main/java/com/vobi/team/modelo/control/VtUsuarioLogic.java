@@ -708,4 +708,24 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 			
 			mailService.send(vtUsuario.getLogin(), asunto, cuerpo);
 	}
+	
+	@Transactional(readOnly = true)
+	public void nuevoUsuario(VtUsuario vtUsuario) throws Exception{
+			
+			String asunto = "Bienvenido a VobiTeam";
+			
+			String cuerpo = "Sr@," + vtUsuario.getNombre() +" le damos la bienvenida a VobiTeam " + '\n' 
+							+ "Esperamos que la aplicación sea de su agrado, momentaneamente su cuenta es: " + '\n' + '\n' +
+							"Usuario o Login= " + vtUsuario.getLogin() + '\n' +
+							"Contraseña= " + vtUsuario.getClave() + '\n' + '\n' 
+							+ "Perteneciente a la empresa " + vtUsuario.getVtEmpresa().getNombre() 
+							+ '\n' + '\n'  
+							+ "Por motivos de seguridad trate de ingresar lo mas pronto posible "
+							+ "y hacer cambio de su contraseña." + '\n'
+							+ "Le deseamos un excelente día." + '\n'  + '\n' ;
+			
+			
+			mailService.send(vtUsuario.getLogin(), asunto, cuerpo);
+	}
+	
 }
