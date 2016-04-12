@@ -28,10 +28,6 @@ import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
 
 
-
-
-
-@SuppressWarnings("unused")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/applicationContext.xml")
 public class testUsuarios {
@@ -200,7 +196,7 @@ public class testUsuarios {
 			
 		log.info("clave= " + vtUsuario.getClave());
 			
-		vtUsuarioLogic.recuperarContrasena(vtUsuario);
+		vtUsuarioLogic.nuevoUsuario(vtUsuario);
 			
 		log.info("clave= " + vtUsuario.getClave());
 			

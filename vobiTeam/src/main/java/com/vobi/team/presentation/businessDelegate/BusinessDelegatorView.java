@@ -1111,6 +1111,12 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public void recuperarContrasena(VtUsuario vtUsuario) throws Exception {
 		vtUsuarioLogic.recuperarContrasena(vtUsuario);
 	}
+
+	@Override
+	public void nuevoUsuario(VtUsuario vtUsuario) throws Exception {
+		vtUsuarioLogic.nuevoUsuario(vtUsuario);
+		
+	}
 	
 	
 	
