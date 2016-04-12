@@ -25,8 +25,7 @@ import com.vobi.team.modelo.control.IVtPilaProductoLogic;
 
 import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
-import com.vobi.team.service.mail.IMailService;
-import com.vobi.team.service.mail.MailService;
+
 
 
 
@@ -48,7 +47,7 @@ public class testArtefacto {
 	 private IVtSprintLogic sprintLogic;
 	 
 	 @Autowired
-	private IVtUsuarioLogic vtUsuarioLogic; 
+	private IVtUsuarioLogic vtUsuarioLogic;  
 	 
 	@Test
 	public void testA() throws Exception {

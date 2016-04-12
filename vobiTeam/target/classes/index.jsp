@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>.:VOBITeam:.</title>
+<title>VOBITeam</title>
 </head>
 <body>
 	<jsp:forward page="login.xhtml"/>

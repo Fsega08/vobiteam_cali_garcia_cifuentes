@@ -22,14 +22,12 @@ import com.vobi.team.test.testArtefacto;
 @Service("mailService")
 public class MailService implements IMailService {
 
-	private final static Logger log=LoggerFactory.getLogger(testArtefacto.class);
+	private final static Logger log=LoggerFactory.getLogger(MailService.class);
 	
 
 	private Properties mailServerProperties;
 	
-	
-	private Session getMailSession;
-	
+	private Session getMailSession;	
 	
 	private MimeMessage generateMailMessage;
 	
@@ -38,46 +36,36 @@ public class MailService implements IMailService {
 	public Properties getMailServerProperties() {
 		return mailServerProperties;
 	}
-
-
+	
 	@Transactional(readOnly = true)
 	public void setMailServerProperties(Properties mailServerProperties) {
 		this.mailServerProperties = mailServerProperties;
 	}
 
-
-
 	public Session getGetMailSession() {
 		return getMailSession;
 	}
-
-
 
 	public void setGetMailSession(Session getMailSession) {
 		this.getMailSession = getMailSession;
 	}
 
-
-
 	public MimeMessage getGenerateMailMessage() {
 		return generateMailMessage;
 	}
-
-
 
 	public void setGenerateMailMessage(MimeMessage generateMailMessage) {
 		this.generateMailMessage = generateMailMessage;
 	}
 
-
-
 	public void send(String para, String asunto, String cuerpo) throws MessagingException {
+		
+
 		
 		mailServerProperties = System.getProperties();
 		mailServerProperties.put("mail.smtp.port", "587");
 		mailServerProperties.put("mail.smtp.auth", "true");
 		mailServerProperties.put("mail.smtp.starttls.enable", "true");
-		log.info("Mail Server Properties have been setup successfully..");
 
 		// Step2
 		getMailSession = Session.getDefaultInstance(mailServerProperties, null);
