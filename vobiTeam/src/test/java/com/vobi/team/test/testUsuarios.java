@@ -15,15 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.vobi.team.modelo.VtArtefacto;
-import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtProyecto;
-import com.vobi.team.modelo.VtProyectoUsuario;
-import com.vobi.team.modelo.VtRol;
-import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
-import com.vobi.team.modelo.VtUsuarioArtefacto;
-import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
 import com.vobi.team.modelo.control.IVtInteresLogic;
 import com.vobi.team.modelo.control.IVtProyectoLogic;
@@ -33,8 +26,8 @@ import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
-import com.vobi.team.utilities.Utilities;
-import com.vobi.team.service.mail.IMailService;
+
+
 
 
 
@@ -62,27 +55,27 @@ public class testUsuarios {
 
 	@Autowired
 	private IVtRolLogic vtRolLogic;	 
-	
+
 	@Autowired
 	private IVtInteresLogic vtInteresLogic;
-	
+
 	@Autowired
 	private IVtUsuarioArtefactoLogic vtUsuarioArtefactoLogic;
-	
+
 	@Autowired
 	private IVtArtefactoLogic vtArtefactoLogic;
 
 	//@Test
 	public void testA() throws Exception {
 
-		//		VtProyecto vtProyecto = vtProyectoLogic.getVtProyecto(1L);
-		//		
-		//		List<VtUsuario> losUsuarios = vtUsuarioLogic.getVtUsuarioNoAsignados(vtProyecto);
-		//		
-		//		for (VtUsuario vtUsuario : losUsuarios) {
-		//			log.info("Nombre: "+vtUsuario.getNombre());
-		//			log.info("Codigo: "+vtUsuario.getUsuaCodigo()+"\n");
-		//		}	
+//				VtProyecto vtProyecto = vtProyectoLogic.getVtProyecto(1L);
+//				
+//				List<VtUsuario> losUsuarios = vtUsuarioLogic.getVtUsuarioNoAsignados(vtProyecto);
+//				
+//				for (VtUsuario vtUsuario : losUsuarios) {
+//					log.info("Nombre: "+vtUsuario.getNombre());
+//					log.info("Codigo: "+vtUsuario.getUsuaCodigo()+"\n");
+//				}	
 
 	}
 
@@ -152,7 +145,7 @@ public class testUsuarios {
 
 	//	@Test
 	public void testG()throws Exception{
-		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
+		//		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
 
 		//		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyUsuario(vtUsuario);
 		//		
@@ -190,28 +183,28 @@ public class testUsuarios {
 		//			log.info("Codigo: "+vtUsuario.getUsuaCodigo()+"\n");
 		//		}
 	}
-	@Test
+	//	@Test
 	public void testI()throws Exception{
 
-		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(22L);
-		
-		VtUsuarioArtefacto usuarioArtefacto = vtUsuarioArtefactoLogic.findUsuarioArtefactoByArtefacto(vtArtefacto);
-			
-		log.info("Código: "+usuarioArtefacto.getUsuartCodigo());
+		//		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(22L);
+		//		
+		//		VtUsuarioArtefacto usuarioArtefacto = vtUsuarioArtefactoLogic.findUsuarioArtefactoByArtefacto(vtArtefacto);
+		//			
+		//		log.info("Código: "+usuarioArtefacto.getUsuartCodigo());
 	}
 
 	@Test
 	public void testJ() throws Exception {
-		
+			
 		VtUsuario vtUsuario = vtUsuarioLogic.findUsuarioByLogin("fsega08@gmail.com");
-		
+			
 		log.info("clave= " + vtUsuario.getClave());
-		
+			
 		vtUsuarioLogic.recuperarContrasena(vtUsuario);
-		
+			
 		log.info("clave= " + vtUsuario.getClave());
-		
-		
+			
+			
 	}	
 
 }
