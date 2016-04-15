@@ -229,26 +229,32 @@
 				id="dlAsignar" draggable="true" responsive="true" modal="true"
 				width="600" >
 				<p:growl id="msj" />
-				<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
-					showSourceControls="true" showTargetControls="true"
-					showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
-					itemValue="#{artefactos}" converter="usuarioPickListConverter">
-
-					<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
-					<f:facet name="targetCaption">Artefactos Asignados</f:facet>
-
-					<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
-						update="msj" />
-
-					<p:column style="width:10%">
-						<h:outputText styleClass="icon-doc-text-inv" />
-					</p:column>
-
-					<p:column style="width:90%;">
-						<h:outputText value="#{artefactos.titulo}" />
-					</p:column>
-				</p:pickList>
-
+				<p:panel id="panelAsignar">
+					<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
+						showSourceControls="true" showTargetControls="true"
+						showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
+						itemValue="#{artefactos}" converter="usuarioPickListConverter">
+	
+						<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
+						<f:facet name="targetCaption">Artefactos Asignados</f:facet>
+	
+						<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
+							update="msj, panelAsignar" />
+	
+						<p:column style="width:10%">
+							<h:outputText styleClass="icon-doc-text-inv" />
+						</p:column>
+	
+						<p:column style="width:90%;">
+							<h:outputText value="#{artefactos.titulo}" />
+						</p:column>
+					</p:pickList>
+					<br/>
+					<p:chart id="chartModel" type="metergauge" model="#{vtSprintView.chartModel}" style="width:400px;height:250px" />
+				
+				</p:panel>
+					
+				
 			</p:dialog>
 
 
