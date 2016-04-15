@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<p:panel header="Las Prioridad" id="pnlDashboard">
+				<h:panelGrid columns="1" layout="grid">
+
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnCrearPrioridad" value="Crear una Prioridad"
+								icon="fa fa-plus white" onclick="PF('dlgCrearPrioridad').show();" />
+						</div>
+					</p:panel>
+
+					<p:contextMenu for="dtPrioridad" event="click contextmenu">
+						<p:menuitem value="Modificar" update="panelVtPrioridad"
+							icon="fa fa-pencil " oncomplete="PF('dlgModPrio').show()"
+							action="#{vtPrioridadView.modificarListener}" />
+
+					</p:contextMenu>
+
+
+					<p:dataTable id="dtPrioridad" value="#{vtPrioridadView.lasPrioridades}" var="prio"
+						paginator="true" rows="10"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10, 15" rowKey="#{prio.prioCodigo}"
+						emptyMessage="No se encontraron prioridades"
+						selection="#{vtPrioridadView.laPrioridad}" selectionMode="single"
+						paginatorPosition="bottom">
+
+						<p:column headerText="Prioridad" filterBy="#{prio.nombre}"
+							sortBy="#{prio.nombre}" filterMatchMode="contains">
+							<h:outputText value="#{prio.nombre}"
+								title="Presiona click para ver las opciones" />
+						</p:column>
+
+						<p:column headerText="Activa" filterBy="#{prio.activo}"
+							sortBy="#{prio.activo}">
+							<h:outputText value="#{prio.activo}"
+								title="Presiona click para ver las opciones" />
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGrid>
+
+				<p:dialog header="Modificar Prioridad" widgetVar="dlgModPrio"
+					modal="true" width="500" resizable="false">
+					<div align="center">
+						<p:panel id="panelVtPrioridad" header="Modificar Rol">
+							<h:panelGrid columns="2">
+								<h:outputText value="Prioridad" />
+								<p:inputText id="txtMNombre" placeholder="Nombre"
+									binding="#{vtPrioridadView.txtMNombre}" maxlength="60" />
+
+								<h:outputText value="Estado de prioridad" />
+								<p:selectOneMenu id="somEmpresaActiva"
+									binding="#{vtPrioridadView.somPrioridadActiva}">
+									<f:selectItem itemValue="-1" itemLabel="Prioridad Activa?" />
+									<f:selectItem itemValue="S" itemLabel="Si" />
+									<f:selectItem itemValue="N" itemLabel="No" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<br />
+							<p:commandButton id="btnModificar"
+								binding="#{vtPrioridadView.btnModificar}" icon="fa fa-pencil white"
+								action="#{vtPrioridadView.modificarAction}" value="Modificar"
+								update="panelVtPrioridad,dtPrioridad,men" />
+
+							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
+								action="#{vtPrioridadView.limpiarMAction}" value="Limpiar"
+								update="panelVtPrioridad" />
+						</p:panel>
+					</div>
+				</p:dialog>
+
+			</p:panel>
+
+			<p:dialog header="Crear Prioridad" widgetVar="dlgCrearPrioridad" modal="true"
+				width="500">
+				<div align="center">
+					<p:panel id="panelCrearPrio" header="Crear Prioridad">
+						<h:panelGrid columns="2">
+							<h:outputText value="Prioridad" />
+							<p:inputText id="txtNombre" placeholder="Nombre"
+								binding="#{vtPrioridadView.txtNombre}" maxlength="60" />
+
+
+						</h:panelGrid>
+						<br />
+
+						<p:commandButton id="btnCrear" binding="#{vtPrioridadView.btnCrear}"
+							icon="fa fa-plus white" action="#{vtPrioridadView.crearAction}"
+							value="Crear" update="panelCrearPrio,dtPrioridad,men" />
+
+						<p:commandButton id="btnClear" icon="fa fa-eraser white"
+							action="#{vtPrioridadView}" value="Limpiar"
+							update="panelCrearPrio" />
+					</p:panel>
+				</div>
+			</p:dialog>
+
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

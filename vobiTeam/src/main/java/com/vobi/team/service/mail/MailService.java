@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vobi.team.test.testArtefacto;
 
 
 @Service("mailService")
@@ -30,6 +28,7 @@ public class MailService implements IMailService {
 	private Session getMailSession;	
 	
 	private MimeMessage generateMailMessage;
+	
 	
 	
 	
