@@ -574,7 +574,7 @@ public class VtSprintView {
 		        add(sprintSeleccionado.getCapacidadEstimada());
 		        
 	        }};
-	        //intervals.sort();
+	        
 		}			
 		Collections.sort(intervals, new Comparador());
         chartModel =  new MeterGaugeChartModel(sumaEsfuerzoReal, intervals);
@@ -618,10 +618,9 @@ public class VtSprintView {
 			}else {
 				List<VtArtefacto> artTarget = new ArrayList<VtArtefacto>();
 				losArtefactos.setTarget(artTarget);
-			}
+			}			
 			
-			
-			
+			actualizarChartAction();
 			
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -641,14 +640,17 @@ public class VtSprintView {
 			//true si paso de izquierda a derecha
 			if(event.isAdd()){
 				asignarArtefactoASprint(vtArtefacto, sprintSeleccionado);
+				
 			}
 			if(event.isRemove()){
 				removerArtefacto(vtArtefacto, sprintSeleccionado);
 			}
+			
+			
 		}
-
+		
 		FacesUtils.addInfoMessage("Artefacto(s) Transferidos");
-
+		
 	}
 	
 	public void asignarArtefactoASprint(VtArtefacto vtArtefacto, VtSprint vtSprint) {
@@ -658,6 +660,8 @@ public class VtSprintView {
 			vtSprint.setCapacidadReal(vtSprint.getCapacidadReal()+vtArtefacto.getEsfuerzoReal());
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
 			businessDelegatorView.updateVtSprint(vtSprint);
+			getLosArtefactosAsginados();
+			actualizarChartAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -672,6 +676,8 @@ public class VtSprintView {
 			
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
 			businessDelegatorView.updateVtSprint(vtSprint);
+			getLosArtefactosAsginados();
+			actualizarChartAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
