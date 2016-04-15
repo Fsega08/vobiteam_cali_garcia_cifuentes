@@ -1,0 +1,139 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<p:panel header="Los Tipos de Artefactos" id="pnlDashboard">
+				<h:panelGrid columns="1" layout="grid">
+
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnCrearTipoArtefacto"
+								value="Crear un Tipo de Artefacto" icon="fa fa-plus white"
+								onclick="PF('dlgCrearTipoArtefacto').show();" />
+						</div>
+					</p:panel>
+
+					<p:contextMenu for="dtTipoArtefacto" event="click contextmenu">
+						<p:menuitem value="Modificar" update="panelVtTipoArtefacto"
+							icon="fa fa-pencil " oncomplete="PF('dlgModPrio').show()"
+							action="#{vtTipoArtefactoView.modificarListener}" />
+
+					</p:contextMenu>
+
+
+					<p:dataTable id="dtTipoArtefacto"
+						value="#{vtTipoArtefactoView.losTiposArtefactos}"
+						var="tipoArtefacto" paginator="true" rows="10"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10, 15" rowKey="#{tipoArtefacto.tparCodigo}"
+						emptyMessage="No se encontraron tipos de artefactos"
+						selection="#{vtTipoArtefactoView.elTipoArtefacto}"
+						selectionMode="single" paginatorPosition="bottom">
+
+						<p:column headerText="Tipos de Artefacto"
+							filterBy="#{tipoArtefacto.nombre}"
+							sortBy="#{tipoArtefacto.nombre}" filterMatchMode="contains">
+							<h:outputText value="#{tipoArtefacto.nombre}"
+								title="Presiona click para ver las opciones" />
+						</p:column>
+
+						<p:column headerText="Activa" filterBy="#{tipoArtefacto.activo}"
+							sortBy="#{tipoArtefacto.activo}">
+							<h:outputText value="#{tipoArtefacto.activo}"
+								title="Presiona click para ver las opciones" />
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGrid>
+
+				<p:dialog header="Modificar el Tipo de Artefacto"
+					widgetVar="dlgModPrio" modal="true" width="500" resizable="false">
+					<div align="center">
+						<p:panel id="panelVtTipoArtefacto"
+							header="Modificar TipoArtefactos">
+							<h:panelGrid columns="2">
+								<h:outputText value="Nombre del Tipo de Artefacto" />
+								<p:inputText id="txtMNombre" placeholder="Nombre"
+									binding="#{vtTipoArtefactoView.txtMNombre}" maxlength="140" />
+
+								<h:outputText value="Actividad del Tipo de Artefacto" />
+								<p:selectOneMenu id="somArtefactoActiva"
+									binding="#{vtTipoArtefactoView.somTipoArfeactoActiva}">
+									<f:selectItem itemValue="-1" itemLabel="Tipo Artefacto Activo?" />
+									<f:selectItem itemValue="S" itemLabel="Si" />
+									<f:selectItem itemValue="N" itemLabel="No" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<br />
+							<p:commandButton id="btnModificar"
+								binding="#{vtTipoArtefactoView.btnModificar}"
+								icon="fa fa-pencil white"
+								action="#{vtTipoArtefactoView.modificarAction}"
+								value="Modificar"
+								update="panelVtTipoArtefacto,dtTipoArtefacto,men" />
+
+							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
+								action="#{vtTipoArtefactoView.limpiarMAction}" value="Limpiar"
+								update="panelVtTipoArtefacto" />
+						</p:panel>
+					</div>
+				</p:dialog>
+
+			</p:panel>
+
+			<p:dialog header="Crear un Tipo de Artefacto"
+				widgetVar="dlgCrearTipoArtefacto" modal="true" width="500">
+				<div align="center">
+					<p:panel id="panelCrearPrio" header="Crear un Tipo de Artefacto">
+						<h:panelGrid columns="2">
+							<h:outputText value="TipoArtefacto" />
+							<p:inputText id="txtNombre" placeholder="Nombre"
+								binding="#{vtTipoArtefactoView.txtNombre}" maxlength="140" />
+
+
+						</h:panelGrid>
+						<br />
+
+						<p:commandButton id="btnCrear"
+							binding="#{vtTipoArtefactoView.btnCrear}" icon="fa fa-plus white"
+							action="#{vtTipoArtefactoView.crearAction}" value="Crear"
+							update="panelCrearPrio,dtTipoArtefacto,men" />
+
+						<p:commandButton id="btnClear" icon="fa fa-eraser white"
+							action="#{vtTipoArtefactoView.limpiarAction}" value="Limpiar"
+							update="panelCrearPrio" />
+					</p:panel>
+				</div>
+			</p:dialog>
+
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

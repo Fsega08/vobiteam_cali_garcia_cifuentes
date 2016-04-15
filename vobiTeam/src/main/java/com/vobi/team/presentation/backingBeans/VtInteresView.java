@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
@@ -22,8 +23,8 @@ import com.vobi.team.utilities.FacesUtils;
 
 @ManagedBean
 @ViewScoped
-public class VtPrioridadView {
-	public final static Logger log=LoggerFactory.getLogger(VtPrioridadView.class);
+public class VtInteresView {
+	public final static Logger log=LoggerFactory.getLogger(VtInteresView.class);
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -38,16 +39,15 @@ public class VtPrioridadView {
 
 	//PARA EL MODIFICAR
 	private InputText txtMNombre;
-	private SelectOneMenu somPrioridadActiva;
+	private SelectOneMenu somInteresActivo;
 
 	private CommandButton btnModificar;
 	private CommandButton btnMLimpiar;
 	////////////////////////////
 
+	private VtInteres elInteres;
 
-	private VtPrioridad laPrioridad;
-
-	private List<VtPrioridad> lasPrioridades;
+	private List<VtInteres> losIntereses;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -79,42 +79,43 @@ public class VtPrioridadView {
 	public void setUsuarioActual(String usuarioActual) {
 		this.usuarioActual = usuarioActual;
 	}
-
 	
-	
-	public SelectOneMenu getSomPrioridadActiva() {
-		return somPrioridadActiva;
+	public SelectOneMenu getSomInteresActivo() {
+		return somInteresActivo;
 	}
 
 
-	public void setSomPrioridadActiva(SelectOneMenu somPrioridadActiva) {
-		this.somPrioridadActiva = somPrioridadActiva;
+	public void setSomInteresActivo(SelectOneMenu somInteresActivo) {
+		this.somInteresActivo = somInteresActivo;
 	}
 
-	public List<VtPrioridad> getLasPrioridades() {
+
+	public VtInteres getElInteres() {
+		return elInteres;
+	}
+
+
+	public void setElInteres(VtInteres elInteres) {
+		this.elInteres = elInteres;
+	}
+
+
+	public List<VtInteres> getLosIntereses() {
 		try {
-			if (lasPrioridades==null) {
-				lasPrioridades = businessDelegatorView.getVtPrioridad();
+			if (losIntereses==null) {
+				losIntereses = businessDelegatorView.getVtInteres();
 			}
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
-		return lasPrioridades;
+		return losIntereses;
 	}
 
 
-	public void setLasPrioridades(List<VtPrioridad> lasPrioridades) {
-		this.lasPrioridades = lasPrioridades;
-	}
-	
-	public VtPrioridad getLaPrioridad() {
-		return laPrioridad;
+	public void setLosIntereses(List<VtInteres> losIntereses) {
+		this.losIntereses = losIntereses;
 	}
 
-
-	public void setLaPrioridad(VtPrioridad laPrioridad) {
-		this.laPrioridad = laPrioridad;
-	}
 
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
@@ -154,7 +155,7 @@ public class VtPrioridadView {
 
 	public void crearAction() throws Exception{
 		try {
-			VtPrioridad vtPrioridad = new VtPrioridad();
+			VtInteres vtInteres = new VtInteres();
 
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
@@ -163,24 +164,24 @@ public class VtPrioridadView {
 			}
 			
 			
-			vtPrioridad.setNombre(txtNombre.getValue().toString());
-			vtPrioridad.setActivo("S");
+			vtInteres.setNombre(txtNombre.getValue().toString());
+			vtInteres.setActivo("S");
 
-			vtPrioridad.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
-			vtPrioridad.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			vtInteres.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			vtInteres.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			Date date = new Date();
 
-			vtPrioridad.setFechaCreacion(date);
-			vtPrioridad.setFechaModificacion(date);
+			vtInteres.setFechaCreacion(date);
+			vtInteres.setFechaModificacion(date);
 
-			businessDelegatorView.saveVtPrioridad(vtPrioridad);
+			businessDelegatorView.saveVtInteres(vtInteres);
 			limpiarAction();
-			FacesUtils.addInfoMessage("Se creó la prioridad con éxito");
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			FacesUtils.addInfoMessage("Se creó el interés con éxito");
+			losIntereses = businessDelegatorView.getVtInteres();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losIntereses = businessDelegatorView.getVtInteres();
 		}
 	}
 
@@ -193,31 +194,31 @@ public class VtPrioridadView {
 				throw new Exception("Por favor llene todos los campos");
 			}
 
-			if (somPrioridadActiva.getValue().equals("-1") ==true ) {
+			if (somInteresActivo.getValue().equals("-1") ==true ) {
 				throw new Exception("Por favor llene todos los campos");
 			}
 			
-			VtPrioridad vtPrioridad = laPrioridad;
+			VtInteres vtInteres = elInteres;
 			
-			vtPrioridad.setNombre(txtMNombre.getValue().toString());
-			vtPrioridad.setActivo(somPrioridadActiva.getValue().toString().trim());
+			vtInteres.setNombre(txtMNombre.getValue().toString());
+			vtInteres.setActivo(somInteresActivo.getValue().toString().trim());
 
-			vtPrioridad.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			vtInteres.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
-			vtPrioridad.setFechaModificacion(new Date());
+			vtInteres.setFechaModificacion(new Date());
 
-			businessDelegatorView.updateVtPrioridad(vtPrioridad);
+			businessDelegatorView.updateVtInteres(vtInteres);
 			FacesUtils.addInfoMessage("Se modificó la prioridad con éxito");
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losIntereses = businessDelegatorView.getVtInteres();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losIntereses = businessDelegatorView.getVtInteres();
 		}
 	}
 
 	public void modificarListener() throws Exception{
-		txtMNombre.setValue(laPrioridad.getNombre());
-		somPrioridadActiva.setValue(laPrioridad.getActivo());
+		txtMNombre.setValue(elInteres.getNombre());
+		somInteresActivo.setValue(elInteres.getActivo());
 	}
 
 	public void limpiarAction() {
@@ -232,7 +233,7 @@ public class VtPrioridadView {
 
 		txtMNombre.resetValue();
 
-		somPrioridadActiva.setValue("-1");
+		somInteresActivo.setValue("-1");
 		
 	}	
 

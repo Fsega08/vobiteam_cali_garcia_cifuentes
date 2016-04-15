@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
@@ -22,8 +23,8 @@ import com.vobi.team.utilities.FacesUtils;
 
 @ManagedBean
 @ViewScoped
-public class VtPrioridadView {
-	public final static Logger log=LoggerFactory.getLogger(VtPrioridadView.class);
+public class VtEstadoView {
+	public final static Logger log=LoggerFactory.getLogger(VtEstadoView.class);
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -38,23 +39,21 @@ public class VtPrioridadView {
 
 	//PARA EL MODIFICAR
 	private InputText txtMNombre;
-	private SelectOneMenu somPrioridadActiva;
+	private SelectOneMenu somEstadoActiva;
 
 	private CommandButton btnModificar;
 	private CommandButton btnMLimpiar;
 	////////////////////////////
 
+	private VtEstado elEstado;
 
-	private VtPrioridad laPrioridad;
-
-	private List<VtPrioridad> lasPrioridades;
+	private List<VtEstado> losEstados;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
-
 
 	public InputText getTxtMNombre() {
 		return txtMNombre;
@@ -79,41 +78,39 @@ public class VtPrioridadView {
 	public void setUsuarioActual(String usuarioActual) {
 		this.usuarioActual = usuarioActual;
 	}
-
 	
 	
-	public SelectOneMenu getSomPrioridadActiva() {
-		return somPrioridadActiva;
+	
+	public SelectOneMenu getSomEstadoActiva() {
+		return somEstadoActiva;
 	}
 
-
-	public void setSomPrioridadActiva(SelectOneMenu somPrioridadActiva) {
-		this.somPrioridadActiva = somPrioridadActiva;
+	public void setSomEstadoActiva(SelectOneMenu somEstadoActiva) {
+		this.somEstadoActiva = somEstadoActiva;
 	}
 
-	public List<VtPrioridad> getLasPrioridades() {
+	public VtEstado getElEstado() {
+		return elEstado;
+	}
+
+	public void setElEstado(VtEstado elEstado) {
+		this.elEstado = elEstado;
+	}
+
+	public List<VtEstado> getLosEstados() {
 		try {
-			if (lasPrioridades==null) {
-				lasPrioridades = businessDelegatorView.getVtPrioridad();
+			if (losEstados==null) {
+				losEstados = businessDelegatorView.getVtEstado();
 			}
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
-		return lasPrioridades;
+		
+		return losEstados;
 	}
 
-
-	public void setLasPrioridades(List<VtPrioridad> lasPrioridades) {
-		this.lasPrioridades = lasPrioridades;
-	}
-	
-	public VtPrioridad getLaPrioridad() {
-		return laPrioridad;
-	}
-
-
-	public void setLaPrioridad(VtPrioridad laPrioridad) {
-		this.laPrioridad = laPrioridad;
+	public void setLosEstados(List<VtEstado> losEstados) {
+		this.losEstados = losEstados;
 	}
 
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
@@ -154,7 +151,7 @@ public class VtPrioridadView {
 
 	public void crearAction() throws Exception{
 		try {
-			VtPrioridad vtPrioridad = new VtPrioridad();
+			VtEstado vtEstado = new VtEstado();
 
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
@@ -163,24 +160,24 @@ public class VtPrioridadView {
 			}
 			
 			
-			vtPrioridad.setNombre(txtNombre.getValue().toString());
-			vtPrioridad.setActivo("S");
+			vtEstado.setNombre(txtNombre.getValue().toString());
+			vtEstado.setActivo("S");
 
-			vtPrioridad.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
-			vtPrioridad.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			vtEstado.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			vtEstado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			Date date = new Date();
 
-			vtPrioridad.setFechaCreacion(date);
-			vtPrioridad.setFechaModificacion(date);
+			vtEstado.setFechaCreacion(date);
+			vtEstado.setFechaModificacion(date);
 
-			businessDelegatorView.saveVtPrioridad(vtPrioridad);
+			businessDelegatorView.saveVtEstado(vtEstado);
 			limpiarAction();
 			FacesUtils.addInfoMessage("Se creó la prioridad con éxito");
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losEstados = businessDelegatorView.getVtEstado();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losEstados = businessDelegatorView.getVtEstado();
 		}
 	}
 
@@ -193,31 +190,31 @@ public class VtPrioridadView {
 				throw new Exception("Por favor llene todos los campos");
 			}
 
-			if (somPrioridadActiva.getValue().equals("-1") ==true ) {
+			if (somEstadoActiva.getValue().equals("-1") ==true ) {
 				throw new Exception("Por favor llene todos los campos");
 			}
 			
-			VtPrioridad vtPrioridad = laPrioridad;
+			VtEstado vtEstado = elEstado;
 			
-			vtPrioridad.setNombre(txtMNombre.getValue().toString());
-			vtPrioridad.setActivo(somPrioridadActiva.getValue().toString().trim());
+			vtEstado.setNombre(txtMNombre.getValue().toString());
+			vtEstado.setActivo(somEstadoActiva.getValue().toString().trim());
 
-			vtPrioridad.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			vtEstado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
-			vtPrioridad.setFechaModificacion(new Date());
+			vtEstado.setFechaModificacion(new Date());
 
-			businessDelegatorView.updateVtPrioridad(vtPrioridad);
+			businessDelegatorView.updateVtEstado(vtEstado);
 			FacesUtils.addInfoMessage("Se modificó la prioridad con éxito");
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losEstados = businessDelegatorView.getVtEstado();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losEstados = businessDelegatorView.getVtEstado();
 		}
 	}
 
 	public void modificarListener() throws Exception{
-		txtMNombre.setValue(laPrioridad.getNombre());
-		somPrioridadActiva.setValue(laPrioridad.getActivo());
+		txtMNombre.setValue(elEstado.getNombre());
+		somEstadoActiva.setValue(elEstado.getActivo());
 	}
 
 	public void limpiarAction() {
@@ -232,7 +229,7 @@ public class VtPrioridadView {
 
 		txtMNombre.resetValue();
 
-		somPrioridadActiva.setValue("-1");
+		somEstadoActiva.setValue("-1");
 		
 	}	
 

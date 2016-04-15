@@ -14,7 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtPrioridad;
+import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
@@ -22,8 +24,8 @@ import com.vobi.team.utilities.FacesUtils;
 
 @ManagedBean
 @ViewScoped
-public class VtPrioridadView {
-	public final static Logger log=LoggerFactory.getLogger(VtPrioridadView.class);
+public class VtTipoArtefactoView {
+	public final static Logger log=LoggerFactory.getLogger(VtTipoArtefactoView.class);
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -38,23 +40,21 @@ public class VtPrioridadView {
 
 	//PARA EL MODIFICAR
 	private InputText txtMNombre;
-	private SelectOneMenu somPrioridadActiva;
+	private SelectOneMenu somTipoArfeactoActiva;
 
 	private CommandButton btnModificar;
 	private CommandButton btnMLimpiar;
 	////////////////////////////
 
+	private VtTipoArtefacto elTipoArtefacto;
 
-	private VtPrioridad laPrioridad;
-
-	private List<VtPrioridad> lasPrioridades;
+	private List<VtTipoArtefacto> losTiposArtefactos;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
-
 
 	public InputText getTxtMNombre() {
 		return txtMNombre;
@@ -80,40 +80,36 @@ public class VtPrioridadView {
 		this.usuarioActual = usuarioActual;
 	}
 
-	
-	
-	public SelectOneMenu getSomPrioridadActiva() {
-		return somPrioridadActiva;
+	public SelectOneMenu getSomTipoArfeactoActiva() {
+		return somTipoArfeactoActiva;
 	}
 
-
-	public void setSomPrioridadActiva(SelectOneMenu somPrioridadActiva) {
-		this.somPrioridadActiva = somPrioridadActiva;
+	public void setSomTipoArfeactoActiva(SelectOneMenu somTipoArfeactoActiva) {
+		this.somTipoArfeactoActiva = somTipoArfeactoActiva;
 	}
 
-	public List<VtPrioridad> getLasPrioridades() {
+	public VtTipoArtefacto getElTipoArtefacto() {
+		return elTipoArtefacto;
+	}
+
+	public void setElTipoArtefacto(VtTipoArtefacto elTipoArtefacto) {
+		this.elTipoArtefacto = elTipoArtefacto;
+	}
+
+	public List<VtTipoArtefacto> getLosTiposArtefactos() {
 		try {
-			if (lasPrioridades==null) {
-				lasPrioridades = businessDelegatorView.getVtPrioridad();
+			if (losTiposArtefactos==null) {
+				losTiposArtefactos = businessDelegatorView.getVtTipoArtefacto();
 			}
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
-		return lasPrioridades;
+		
+		return losTiposArtefactos;
 	}
 
-
-	public void setLasPrioridades(List<VtPrioridad> lasPrioridades) {
-		this.lasPrioridades = lasPrioridades;
-	}
-	
-	public VtPrioridad getLaPrioridad() {
-		return laPrioridad;
-	}
-
-
-	public void setLaPrioridad(VtPrioridad laPrioridad) {
-		this.laPrioridad = laPrioridad;
+	public void setLosTiposArtefactos(List<VtTipoArtefacto> losTiposArtefactos) {
+		this.losTiposArtefactos = losTiposArtefactos;
 	}
 
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
@@ -154,7 +150,7 @@ public class VtPrioridadView {
 
 	public void crearAction() throws Exception{
 		try {
-			VtPrioridad vtPrioridad = new VtPrioridad();
+			VtTipoArtefacto vtTipoArtefacto = new VtTipoArtefacto();
 
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
@@ -163,24 +159,24 @@ public class VtPrioridadView {
 			}
 			
 			
-			vtPrioridad.setNombre(txtNombre.getValue().toString());
-			vtPrioridad.setActivo("S");
+			vtTipoArtefacto.setNombre(txtNombre.getValue().toString());
+			vtTipoArtefacto.setActivo("S");
 
-			vtPrioridad.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
-			vtPrioridad.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			vtTipoArtefacto.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			vtTipoArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
 			Date date = new Date();
 
-			vtPrioridad.setFechaCreacion(date);
-			vtPrioridad.setFechaModificacion(date);
+			vtTipoArtefacto.setFechaCreacion(date);
+			vtTipoArtefacto.setFechaModificacion(date);
 
-			businessDelegatorView.saveVtPrioridad(vtPrioridad);
+			businessDelegatorView.saveVtTipoArtefacto(vtTipoArtefacto);
 			limpiarAction();
-			FacesUtils.addInfoMessage("Se creó la prioridad con éxito");
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			FacesUtils.addInfoMessage("Se creó el tipo artefacto con éxito");
+			losTiposArtefactos = businessDelegatorView.getVtTipoArtefacto();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losTiposArtefactos = businessDelegatorView.getVtTipoArtefacto();
 		}
 	}
 
@@ -193,31 +189,31 @@ public class VtPrioridadView {
 				throw new Exception("Por favor llene todos los campos");
 			}
 
-			if (somPrioridadActiva.getValue().equals("-1") ==true ) {
+			if (somTipoArfeactoActiva.getValue().equals("-1") ==true ) {
 				throw new Exception("Por favor llene todos los campos");
 			}
 			
-			VtPrioridad vtPrioridad = laPrioridad;
+			VtTipoArtefacto vtTipoArtefacto = elTipoArtefacto;
 			
-			vtPrioridad.setNombre(txtMNombre.getValue().toString());
-			vtPrioridad.setActivo(somPrioridadActiva.getValue().toString().trim());
+			vtTipoArtefacto.setNombre(txtMNombre.getValue().toString());
+			vtTipoArtefacto.setActivo(somTipoArfeactoActiva.getValue().toString().trim());
 
-			vtPrioridad.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			vtTipoArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 
-			vtPrioridad.setFechaModificacion(new Date());
+			vtTipoArtefacto.setFechaModificacion(new Date());
 
-			businessDelegatorView.updateVtPrioridad(vtPrioridad);
-			FacesUtils.addInfoMessage("Se modificó la prioridad con éxito");
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			businessDelegatorView.updateVtTipoArtefacto(vtTipoArtefacto);
+			FacesUtils.addInfoMessage("Se modificó el tipo artefacto con éxito");
+			losTiposArtefactos = businessDelegatorView.getVtTipoArtefacto();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
-			lasPrioridades = businessDelegatorView.getVtPrioridad();
+			losTiposArtefactos = businessDelegatorView.getVtTipoArtefacto();
 		}
 	}
 
 	public void modificarListener() throws Exception{
-		txtMNombre.setValue(laPrioridad.getNombre());
-		somPrioridadActiva.setValue(laPrioridad.getActivo());
+		txtMNombre.setValue(elTipoArtefacto.getNombre());
+		somTipoArfeactoActiva.setValue(elTipoArtefacto.getActivo());
 	}
 
 	public void limpiarAction() {
@@ -232,7 +228,7 @@ public class VtPrioridadView {
 
 		txtMNombre.resetValue();
 
-		somPrioridadActiva.setValue("-1");
+		somTipoArfeactoActiva.setValue("-1");
 		
 	}	
 

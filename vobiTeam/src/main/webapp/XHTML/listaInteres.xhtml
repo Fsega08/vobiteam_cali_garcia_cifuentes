@@ -26,98 +26,98 @@
 
 		<h:form id="formDialog">
 			<p:growl id="men" />
-			<p:panel header="Las Prioridad" id="pnlDashboard">
+			<p:panel header="Los Intereses" id="pnlDashboard">
 				<h:panelGrid columns="1" layout="grid">
 
 					<p:panel id="panelBotones">
 						<div align="center">
-							<p:commandButton id="btnCrearPrioridad" value="Crear una Prioridad"
-								icon="fa fa-plus white" onclick="PF('dlgCrearPrioridad').show();" />
+							<p:commandButton id="btnCrearInteres" value="Crear un Interes"
+								icon="fa fa-plus white" onclick="PF('dlgCrearInteres').show();" />
 						</div>
 					</p:panel>
 
-					<p:contextMenu for="dtPrioridad" event="click contextmenu">
-						<p:menuitem value="Modificar" update="panelVtPrioridad"
+					<p:contextMenu for="dtInteres" event="click contextmenu">
+						<p:menuitem value="Modificar" update="panelVtInteres"
 							icon="fa fa-pencil " oncomplete="PF('dlgModPrio').show()"
-							action="#{vtPrioridadView.modificarListener}" />
+							action="#{vtInteresView.modificarListener}" />
 
 					</p:contextMenu>
 
 
-					<p:dataTable id="dtPrioridad" value="#{vtPrioridadView.lasPrioridades}" var="prio"
+					<p:dataTable id="dtInteres" value="#{vtInteresView.losIntereses}" var="interes"
 						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="10, 15" rowKey="#{prio.prioCodigo}"
-						emptyMessage="No se encontraron prioridades"
-						selection="#{vtPrioridadView.laPrioridad}" selectionMode="single"
+						rowsPerPageTemplate="10, 15" rowKey="#{interes.inteCodigo}"
+						emptyMessage="No se encontraron los intereses"
+						selection="#{vtInteresView.elInteres}" selectionMode="single"
 						paginatorPosition="bottom">
 
-						<p:column headerText="Prioridad" filterBy="#{prio.nombre}"
-							sortBy="#{prio.nombre}" filterMatchMode="contains">
-							<h:outputText value="#{prio.nombre}"
+						<p:column headerText="Interes" filterBy="#{interes.nombre}"
+							sortBy="#{interes.nombre}" filterMatchMode="contains">
+							<h:outputText value="#{interes.nombre}"
 								title="Presiona click para ver las opciones" />
 						</p:column>
 
-						<p:column headerText="Activa" filterBy="#{prio.activo}"
-							sortBy="#{prio.activo}">
-							<h:outputText value="#{prio.activo}"
+						<p:column headerText="Activa" filterBy="#{interes.activo}"
+							sortBy="#{interes.activo}">
+							<h:outputText value="#{interes.activo}"
 								title="Presiona click para ver las opciones" />
 						</p:column>
 
 					</p:dataTable>
 				</h:panelGrid>
 
-				<p:dialog header="Modificar Prioridad" widgetVar="dlgModPrio"
+				<p:dialog header="Modificar Interes" widgetVar="dlgModPrio"
 					modal="true" width="500" resizable="false">
 					<div align="center">
-						<p:panel id="panelVtPrioridad" header="Modificar Prioridad">
+						<p:panel id="panelVtInteres" header="Modificar Interes">
 							<h:panelGrid columns="2">
-								<h:outputText value="Prioridad" />
+								<h:outputText value="Nombre del Interes" />
 								<p:inputText id="txtMNombre" placeholder="Nombre"
-									binding="#{vtPrioridadView.txtMNombre}" maxlength="60" />
+									binding="#{vtInteresView.txtMNombre}" maxlength="60" />
 
-								<h:outputText value="Estado de prioridad" />
+								<h:outputText value="Actividad del Interes" />
 								<p:selectOneMenu id="somEmpresaActiva"
-									binding="#{vtPrioridadView.somPrioridadActiva}">
-									<f:selectItem itemValue="-1" itemLabel="Prioridad Activa?" />
+									binding="#{vtInteresView.somInteresActivo}">
+									<f:selectItem itemValue="-1" itemLabel="Interes Activo?" />
 									<f:selectItem itemValue="S" itemLabel="Si" />
 									<f:selectItem itemValue="N" itemLabel="No" />
 								</p:selectOneMenu>
 							</h:panelGrid>
 							<br />
 							<p:commandButton id="btnModificar"
-								binding="#{vtPrioridadView.btnModificar}" icon="fa fa-pencil white"
-								action="#{vtPrioridadView.modificarAction}" value="Modificar"
-								update="panelVtPrioridad,dtPrioridad,men" />
+								binding="#{vtInteresView.btnModificar}" icon="fa fa-pencil white"
+								action="#{vtInteresView.modificarAction}" value="Modificar"
+								update="panelVtInteres,dtInteres,men" />
 
 							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
-								action="#{vtPrioridadView.limpiarMAction}" value="Limpiar"
-								update="panelVtPrioridad" />
+								action="#{vtInteresView.limpiarMAction}" value="Limpiar"
+								update="panelVtInteres" />
 						</p:panel>
 					</div>
 				</p:dialog>
 
 			</p:panel>
 
-			<p:dialog header="Crear Prioridad" widgetVar="dlgCrearPrioridad" modal="true"
+			<p:dialog header="Crear Interes" widgetVar="dlgCrearInteres" modal="true"
 				width="500">
 				<div align="center">
-					<p:panel id="panelCrearPrio" header="Crear Prioridad">
+					<p:panel id="panelCrearPrio" header="Crear Interes">
 						<h:panelGrid columns="2">
-							<h:outputText value="Prioridad" />
+							<h:outputText value="Nombre del Interes" />
 							<p:inputText id="txtNombre" placeholder="Nombre"
-								binding="#{vtPrioridadView.txtNombre}" maxlength="60" />
+								binding="#{vtInteresView.txtNombre}" maxlength="60" />
 
 
 						</h:panelGrid>
 						<br />
 
-						<p:commandButton id="btnCrear" binding="#{vtPrioridadView.btnCrear}"
-							icon="fa fa-plus white" action="#{vtPrioridadView.crearAction}"
-							value="Crear" update="panelCrearPrio,dtPrioridad,men" />
+						<p:commandButton id="btnCrear" binding="#{vtInteresView.btnCrear}"
+							icon="fa fa-plus white" action="#{vtInteresView.crearAction}"
+							value="Crear" update="panelCrearPrio,dtInteres,men" />
 
 						<p:commandButton id="btnClear" icon="fa fa-eraser white"
-							action="#{vtPrioridadView.limpiarAction}" value="Limpiar"
+							action="#{vtInteresView.limpiarAction}" value="Limpiar"
 							update="panelCrearPrio" />
 					</p:panel>
 				</div>
