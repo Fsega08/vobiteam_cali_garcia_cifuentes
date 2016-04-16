@@ -93,7 +93,7 @@ public class LoginView {
             return "/login.xhtml";
         }
 
-        return "/XHTML/listaEmpresa.xhtml";
+        return "/XHTML/TreeTable.xhtml";
     }
     
     

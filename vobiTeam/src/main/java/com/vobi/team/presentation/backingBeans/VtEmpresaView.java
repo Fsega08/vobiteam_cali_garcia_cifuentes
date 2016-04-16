@@ -319,5 +319,11 @@ public class VtEmpresaView {
 		
 		return "/XHTML/listaEmpresa.xhtml";
 	}
+	
+public String treeTable(){
+		
+		
+		return "/XHTML/TreeTable.xhtml";
+	}
 
 }
