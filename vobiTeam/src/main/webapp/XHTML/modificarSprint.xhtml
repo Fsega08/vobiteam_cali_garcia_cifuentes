@@ -1,0 +1,144 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<div class="ui-fluid">
+				<p:panel header="Modificar Sprint" id="pnlModificarSprint">
+					<h:panelGrid columns="2" layout="grid" id="pnlgTit">
+
+						<h:outputText value="Nombre del Sprint" />
+						<p:inputText id="txtMNombre" placeholder="Nombre"
+							binding="#{vtSprintView.txtMNombre}"
+							value="#{vtSprintView.sprintSeleccionado.nombre}" size="31" />
+
+						<h:outputText value="Estado del Sprint" />
+						<p:selectOneMenu id="somBacklogActivo"
+							binding="#{vtSprintView.somSprintActivo}">
+							<f:selectItem itemValue="-1" itemLabel="Estado" />
+							<f:selectItem itemValue="S" itemLabel="Activo" />
+							<f:selectItem itemValue="N" itemLabel="Inactivo" />
+						</p:selectOneMenu>
+
+						<h:outputText value="Descripción del Sprint" />
+						<p:inputTextarea id="txtMDescripcion" rows="7" cols="30"
+							placeholder="Descripcion"
+							binding="#{vtSprintView.txtMDescripcion}"
+							value="#{vtSprintView.sprintSeleccionado.objetivo}"
+							maxlength="100000000" />
+
+						<p:separator />
+					</h:panelGrid>
+
+					<h:panelGrid columns="5" layout="grid" id="pnlgDemas">
+
+						<h:outputText value="Inicio del Sprint" />
+						<p:calendar id="clndFechaIncio" placeholder="Fecha de Inicio"
+							binding="#{vtSprintView.clndFechaIncio}"
+							value="#{vtSprintView.fechaInicio}" size="31">
+							<p:ajax update="clndFechaFin" event="dateSelect" />
+						</p:calendar>
+
+						<p:spacer width="100" height="10" />
+
+						<h:outputText value="Final del Sprint" />
+						<p:calendar id="clndFechaFin" placeholder="Fecha de Fin"
+							binding="#{vtSprintView.clndFechaFin}"
+							mindate="#{vtSprintView.fechaInicio}"
+							value="#{vtSprintView.fechaFin}" size="31" />
+
+						<h:outputText value="Capacidad Estimada del Sprint" />
+						<p:inputText id="txtMCapacidadEstimada"
+							placeholder="Capacidad Estimada del Sprint"
+							binding="#{vtSprintView.txtMCapacidadEstimada}" size="31">
+							<p:ajax event="blur" update="panelAsignar"
+								listener="#{vtSprintView.actualizarCrearChartAction}" />
+						</p:inputText>
+
+						<h:outputText value="Capacidad Real del Sprint" />
+						<p:inputText id="txtMCapacidadReal"
+							placeholder="Capacidad Real del Sprint" disabled="true"
+							binding="#{vtSprintView.txtMCapacidadReal}" size="31" />
+
+					</h:panelGrid>
+
+					<h:panelGrid id="panelAsignar" columns="2">
+
+						<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
+							showSourceControls="true" showTargetControls="true"
+							showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
+							itemValue="#{artefactos}" converter="usuarioPickListConverter">
+
+							<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
+							<f:facet name="targetCaption">Artefactos Asignados</f:facet>
+
+							<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
+								update="msj, panelAsignar" />
+
+							<p:column style="width:10%">
+								<h:outputText styleClass="icon-doc-text-inv" />
+							</p:column>
+
+							<p:column style="width:90%;">
+								<h:outputText value="#{artefactos.titulo}" />
+							</p:column>
+						</p:pickList>
+
+						<p:chart id="chartModel" type="metergauge"
+							model="#{vtSprintView.chartModel}"
+							style="width:400px;height:250px" />
+
+					</h:panelGrid>
+
+				</p:panel>
+			</div>
+
+			<p:panel>
+				<div align="center">
+					<p:commandButton id="btnCrear" icon="fa fa-plus white"
+						update="pnlCrearSprint, men"
+						binding="#{vtSprintView.btnCrearNuevo}"
+						action="#{vtSprintView.crearAction}" value="Crear" />
+
+					<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
+						update="pnlCrearSprint" binding="#{vtSprintView.btnLimpiar}"
+						action="#{vtSprintView.limpiarAction}" value="Limpiar" />
+
+				</div>
+
+				<h:panelGrid columns="1" id="panelGrid2">
+					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+						action="#{vtArtefactoView.sprintAction}" value="Regresar a Sprint"
+						update="formDialog" />
+
+				</h:panelGrid>
+			</p:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
