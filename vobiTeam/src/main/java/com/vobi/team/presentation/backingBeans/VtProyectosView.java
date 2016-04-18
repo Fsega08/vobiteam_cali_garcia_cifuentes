@@ -13,12 +13,15 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
@@ -60,6 +63,11 @@ public class VtProyectosView {
 
 	private VtEmpresa vtEmpresaSelected;
 
+	private DualListModel<VtUsuario> losUsuariosSeleccionados;
+	private List<VtUsuario> usuariosSource;
+	private List<VtUsuario> usuariosTarget;
+
+
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
 	@PostConstruct
@@ -67,6 +75,15 @@ public class VtProyectosView {
 
 		try {
 			vtEmpresaSelected = (VtEmpresa) FacesUtils.getfromSession("empresaSeleccionada");
+			proyectoSeleccionado = (VtProyecto) FacesUtils.getfromSession("proyectoSeleccionado");
+			if(proyectoSeleccionado == null){
+				proyectoSeleccionado = businessDelegatorView.getVtProyecto(1L);
+			}
+
+			usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
+			usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);
+
+			losUsuariosSeleccionados = new DualListModel<VtUsuario>(usuariosSource, usuariosTarget);	
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
@@ -244,6 +261,30 @@ public class VtProyectosView {
 		this.btnMLimpiar = btnMLimpiar;
 	}
 
+	public List<VtUsuario> getUsuariosSource() {
+		return usuariosSource;
+	}
+
+	public void setUsuariosSource(List<VtUsuario> usuariosSource) {
+		this.usuariosSource = usuariosSource;
+	}
+
+	public List<VtUsuario> getUsuariosTarget() {
+		return usuariosTarget;
+	}
+
+	public void setUsuariosTarget(List<VtUsuario> usuariosTarget) {
+		this.usuariosTarget = usuariosTarget;
+	}
+
+	public DualListModel<VtUsuario> getLosUsuariosSeleccionados() {
+		return losUsuariosSeleccionados;
+	}
+
+	public void setLosUsuariosSeleccionados(DualListModel<VtUsuario> losUsuariosSeleccionados) {
+		this.losUsuariosSeleccionados = losUsuariosSeleccionados;
+	}
+
 
 	public void crearAction() throws Exception {
 
@@ -272,7 +313,7 @@ public class VtProyectosView {
 			businessDelegatorView.saveVtProyecto(vtProyecto);
 
 			FacesUtils.addInfoMessage("Se ha creado el Proyecto con éxito");
-			
+
 			limpiarCAction();
 			losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresaSelected);
 		} catch (Exception e) {
@@ -366,22 +407,105 @@ public class VtProyectosView {
 		somProyectoActivo.setValue("-1");
 		somProyectoPublico.setValue("-1");
 	}
-	
+
 	public String irAProyecto(){
-		
+
 
 		FacesUtils.putinSession("backlogSeleccionado", null);
 		FacesUtils.putinSession("artefactoSeleccionado", null);
 		FacesUtils.putinSession("sprintSeleccionado", null);
-		
+
 		if (vtEmpresaSelected!=null) {
 			return "/XHTML/listaProyectos.xhtml";
 		}
 		else {
 			return "/XHTML/listaEmpresa.xhtml";
 		}
-		
+
 	}
-	
-	
+
+
+	public void asignarProyectoAction() throws Exception {
+
+		usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
+		usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);	
+
+		if (usuariosSource!=null) {		
+			losUsuariosSeleccionados.setTarget(usuariosTarget);
+			losUsuariosSeleccionados.setSource(usuariosSource);
+		}
+
+
+	}
+
+	public void onTransfer(TransferEvent event) throws Exception {
+		StringBuilder builder = new StringBuilder();
+
+		for(Object item : event.getItems()) {
+			VtUsuario vtUsuario=(VtUsuario) item;
+
+			builder.append(((VtUsuario) item).getNombre()).append("<br />");
+
+			//true si paso de izquierda a derecha
+			if(event.isAdd()){
+				asignarUsuarioAction(vtUsuario, proyectoSeleccionado);
+			}
+			if(event.isRemove()){
+				removerUsuarioAction(vtUsuario, proyectoSeleccionado);
+			}
+		}
+
+		FacesUtils.addInfoMessage("Usuario(s) Transferidos");
+
+	}
+
+
+	public void asignarUsuarioAction(VtUsuario usuario, VtProyecto proyecto) throws Exception{
+
+		try {
+			VtProyectoUsuario proyectoUsuario = businessDelegatorView.findProyectoUsuarioByProyectoAndUsuario(proyectoSeleccionado.getProyCodigo(), usuario.getUsuaCodigo());
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+
+			if(proyectoUsuario == null){
+				proyectoUsuario = new VtProyectoUsuario();
+
+				proyectoUsuario.setVtUsuario(usuario);
+				proyectoUsuario.setVtProyecto(proyecto);
+				proyectoUsuario.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+				proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+				proyectoUsuario.setFechaCreacion(new Date());
+				proyectoUsuario.setFechaModificacion(new Date());
+				proyectoUsuario.setActivo("S");
+
+				businessDelegatorView.saveVtProyectoUsuario(proyectoUsuario);
+
+			}else{
+				proyectoUsuario.setActivo("S");
+				proyectoUsuario.setFechaModificacion(new Date());
+				proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+
+				businessDelegatorView.updateVtProyectoUsuario(proyectoUsuario);
+			}
+
+
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+
+	public void removerUsuarioAction(VtUsuario usuario, VtProyecto proyecto) throws Exception{
+		try {
+			VtProyectoUsuario proyectoUsuario = businessDelegatorView.findProyectoUsuarioByProyectoAndUsuario(proyectoSeleccionado.getProyCodigo(), usuario.getUsuaCodigo());
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+
+			proyectoUsuario.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+
+			businessDelegatorView.deleteVtProyectoUsuario(proyectoUsuario);
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+	}
+
+
 }

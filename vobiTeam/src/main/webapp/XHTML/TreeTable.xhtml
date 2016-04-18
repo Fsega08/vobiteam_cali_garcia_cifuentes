@@ -33,16 +33,16 @@
 							icon="fa fa-plus white" onclick="PF('dlgCrearEmpresa').show();" />
 					</div>
 				</p:panel>
+				
 				<p:contextMenu for="TreeTable" nodeType="Empresa"
 					event="contextmenu">
-
-
 					<p:menuitem value="Modificar" update="pnlTreeTable"
 						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
-						action="#{vtEmpresaView.modificarListener}" />
+						action="#{vtEmpresaThreeView.modificarListener}" />
 					<p:menuitem value="Ir a Empresa" update="pnlTreeTable, men"
 						icon="fa fa-building" action="#{vtEmpresaThreeView.irEmpresa}" />
 				</p:contextMenu>
+				
 				<p:contextMenu for="TreeTable" nodeType="Proyecto"
 					event="contextmenu">
 					<p:menuitem value="Ir a Proyecto" update="pnlTreeTable, men"
@@ -86,21 +86,21 @@
 							<h:outputText value="Identificacion de la empresa" />
 							<p:inputText id="txtIdentificacion"
 								placeholder="Identificación (NIT)"
-								binding="#{vtEmpresaView.txtIdentificacion}" maxlength="50" />
+								binding="#{vtEmpresaThreeView.txtEmpresaCIdentificacion}" maxlength="50" />
 
 							<h:outputText value="Nombre de la Empresa" />
 							<p:inputText id="txtNombre" placeholder="Nombre"
-								binding="#{vtEmpresaView.txtNombre}" maxlength="60" />
+								binding="#{vtEmpresaThreeView.txtEmpresaCNombre}" maxlength="60" />
 
 
 						</h:panelGrid>
 						<br />
-						<p:commandButton id="btnCrear" binding="#{vtEmpresaView.btnCrear}"
-							icon="fa fa-plus white" action="#{vtEmpresaView.crearAction}"
+						<p:commandButton id="btnCrear" binding="#{vtEmpresaThreeView.btnEmpresaCCrear}"
+							icon="fa fa-plus white" action="#{vtEmpresaThreeView.crearEmpresaAction}"
 							value="Crear" update="panelCrearEmpresa,pnlTreeTable,men" />
 
 						<p:commandButton id="btnClear" icon="fa fa-eraser white"
-							action="#{vtEmpresaView.limpiarAction}" value="Limpiar"
+							action="#{vtEmpresaThreeView.limpiarCrearEmpresaAction}" value="Limpiar"
 							update="panelCrearEmpresa" />
 					</p:panel>
 
@@ -115,11 +115,11 @@
 
 							<h:outputText value="Nombre de la Empresa" />
 							<p:inputText id="txtMNombre" placeholder="Nombre"
-								binding="#{vtEmpresaView.txtMNombre}" maxlength="60" />
+								binding="#{vtEmpresaThreeView.txtEmpresaMNombre}" maxlength="60" />
 
 							<h:outputText value="Estado de la Empresa" />
 							<p:selectOneMenu id="somEmpresaActiva"
-								binding="#{vtEmpresaView.somEmpresaActiva}">
+								binding="#{vtEmpresaThreeView.somEmpresaActiva}">
 								<f:selectItem itemValue="-1" itemLabel="Empresa Activa" />
 								<f:selectItem itemValue="S" itemLabel="Activa" />
 								<f:selectItem itemValue="N" itemLabel="Inactiva" />
@@ -129,12 +129,12 @@
 						</h:panelGrid>
 						<br />
 						<p:commandButton id="btnModificar"
-							binding="#{vtEmpresaView.btnModificar}" icon="fa fa-pencil white"
-							action="#{vtEmpresaView.modificarAction}" value="Modificar"
+							binding="#{vtEmpresaThreeView.btnEmpresaModificar}" icon="fa fa-pencil white"
+							action="#{vtEmpresaThreeView.modificarEmpresaAction}" value="Modificar"
 							update="panelVtEmpresa,pnlTreeTable,men " />
 
 						<p:commandButton id="btnMClear" icon="fa fa-eraser white"
-							action="#{vtEmpresaView.limpiarMAction}" value="Limpiar"
+							action="#{vtEmpresaThreeView.limpiarModificarEmpresaAction}" value="Limpiar"
 							update="panelVtEmpresa" />
 					</p:panel>
 				</div>

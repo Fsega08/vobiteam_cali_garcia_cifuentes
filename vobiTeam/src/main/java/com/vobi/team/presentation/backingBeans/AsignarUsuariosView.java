@@ -30,7 +30,7 @@ public class AsignarUsuariosView {
 	private final static Logger log=LoggerFactory.getLogger(AsignarUsuariosView.class);
 
 	private VtProyecto proyectoSeleccionado;
-	private CommandButton btnGenerar;
+	
 	private DualListModel<VtUsuario> losUsuariosSeleccionados;
 	private List<VtUsuario> usuariosSource;
 	private List<VtUsuario> usuariosTarget;
@@ -43,11 +43,16 @@ public class AsignarUsuariosView {
 	public void init(){
 
 		try {
-			proyectoSeleccionado = businessDelegatorView.getVtProyecto(1L);
+			proyectoSeleccionado = (VtProyecto) FacesUtils.getfromSession("proyectoSeleccionado");
+			if(proyectoSeleccionado == null){
+				proyectoSeleccionado = businessDelegatorView.getVtProyecto(1L);
+			}
+			
 			usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 			usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);
 
-			losUsuariosSeleccionados = new DualListModel<VtUsuario>(usuariosSource, usuariosTarget);
+			losUsuariosSeleccionados = new DualListModel<VtUsuario>(usuariosSource, usuariosTarget);			
+			
 		} catch (Exception e1) {
 			log.info("" + e1.getMessage());
 		}
@@ -88,14 +93,6 @@ public class AsignarUsuariosView {
 		this.proyectoSeleccionado = proyectoSeleccionado;
 	}
 
-	public CommandButton getBtnGenerar() {
-		return btnGenerar;
-	}
-
-	public void setBtnGenerar(CommandButton btnGenerar) {
-		this.btnGenerar = btnGenerar;
-	}
-
 	public DualListModel<VtUsuario> getLosUsuariosSeleccionados() {
 		return losUsuariosSeleccionados;
 	}
@@ -122,7 +119,7 @@ public class AsignarUsuariosView {
 
 	public void asignarProyectoAction() throws Exception {
 
-		log.info(""+proyectoSeleccionado.getProyCodigo());
+		FacesUtils.setManagedBeanInSession("proyectoSeleccionado", proyectoSeleccionado);
 		usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 		usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);	
 		
@@ -200,8 +197,6 @@ public class AsignarUsuariosView {
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-
-
 
 	}
 

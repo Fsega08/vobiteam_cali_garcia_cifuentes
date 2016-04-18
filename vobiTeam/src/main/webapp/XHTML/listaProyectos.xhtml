@@ -47,7 +47,7 @@
 
 					<p:menuitem value="Asignar usuarios a este proyecto"
 						icon="fa fa-plus" oncomplete="PF('dlg').show()"
-						action="#{asignarUsuariosView.asignarProyectoAction}"
+						action="#{vtProyectosView.asignarProyectoAction}"
 						update="pickList" />
 
 					<p:menuitem value="Ir a la pila de producto" update="formDialog"
@@ -132,15 +132,7 @@
 
 
 			</p:panel>
-
-
-			<!-- Aca estan los botones que abren el dialogo
-				 en la vista solo tengo el binding del boton
-				 sin ninguna action
-				 Lo que hago es uso el onClick para abrir un
-				 panel que se encuentra en la misma ventana, TENER 
-				 en cuenta que widgetVar es el nombre del dialog 
-				 que quiero abrir -->
+			
 			<p:panel id="panelBotones">
 				<div align="left">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
@@ -149,11 +141,6 @@
 				</div>
 			</p:panel>
 
-			<!-- Aca lo que hago es meter todo el panel que quiere que muestre
-				 en el dialog y le doy modal para que lo que este afuera
-				 del panel que abre se vea opaco, eso es todo no tiene mucha ciencia
-				 pero es efectivo como el solo TENER en cuenta que widgetVar
-				 es el nombre del dialog que quiero abrir -->
 			<p:dialog header="Crear Proyecto" widgetVar="dlgCrearProyecto"
 				modal="true" width="500" resizable="false">
 				<div align="center">
@@ -192,7 +179,7 @@
 				modal="true" width="800">
 				<p:growl id="msj" />
 				<p:pickList id="pickList"
-					value="#{asignarUsuariosView.losUsuariosSeleccionados}"
+					value="#{vtProyectosView.losUsuariosSeleccionados}"
 					showSourceControls="true" showTargetControls="true"
 					showCheckbox="true" responsive="true" var="usuarios"
 					itemLabel="#{usuarios}" itemValue="#{usuarios}"
@@ -202,7 +189,7 @@
 					<f:facet name="targetCaption">Usuarios Asignados</f:facet>
 
 					<p:ajax event="transfer"
-						listener="#{asignarUsuariosView.onTransfer}" update="msj" />
+						listener="#{vtProyectosView.onTransfer}" update="msj" />
 
 					<p:column style="width:10%;">
 						<h:outputText styleClass="icon-user" />
