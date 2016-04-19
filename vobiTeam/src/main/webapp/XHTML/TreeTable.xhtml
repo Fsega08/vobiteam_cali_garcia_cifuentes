@@ -34,8 +34,11 @@
 					</div>
 				</p:panel>
 
+				
 				<p:contextMenu for="TreeTable" nodeType="Empresa"
 					event="contextmenu">
+
+
 					<p:menuitem value="Modificar" update="pnlTreeTable"
 						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
 						action="#{vtEmpresaThreeView.modificarListener}" />
@@ -136,7 +139,7 @@
 							icon="fa fa-plus white"
 							action="#{vtEmpresaThreeView.crearEmpresaAction}" value="Crear"
 							update="panelCrearEmpresa,pnlTreeTable,men" />
-
+					
 						<p:commandButton id="btnClear" icon="fa fa-eraser white"
 							action="#{vtEmpresaThreeView.limpiarCrearEmpresaAction}"
 							value="Limpiar" update="panelCrearEmpresa" />
