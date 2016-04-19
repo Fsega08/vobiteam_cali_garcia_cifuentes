@@ -1,15 +1,14 @@
 package com.vobi.team.presentation.backingBeans;
 
 import java.util.Date;
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+
 import org.primefaces.component.commandbutton.CommandButton;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
@@ -38,26 +37,28 @@ public class VtProyectosView {
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
+	//...............Crear...................
 	private InputText txtCNombre;
 	private InputTextarea txtCDescripcion;
-
+	
+	private CommandButton btnCrear;
+	private CommandButton btnCLimpiar;
+	//.......................................
+	
+	//...............Modificar...................
 	private InputText txtMNombre;
 	private InputTextarea txtMDescripcion;
 
 	private SelectOneMenu somProyectoActivo;
 	private SelectOneMenu somProyectoPublico;
-
-	private CommandButton btnCrear;
+	
 	private	CommandButton btnModificar;
-	private CommandButton btnCrearProyecto;
-	private CommandButton btnModificarProyecto;
-	private	CommandButton btnSeleccionarProyecto;
-	private	CommandButton btnSeleccionarBacklog;
-	private CommandButton btnCLimpiar;
 	private CommandButton btnMLimpiar;
+	//...........................................
+	
+	private CommandButton btnCrearProyecto;	
 
-	private DataTable dtProyectos;
-
+	//....................Picklist.....................
 	private VtProyecto proyectoSeleccionado;
 	private List<VtProyecto> losProyectos;
 
@@ -66,7 +67,7 @@ public class VtProyectosView {
 	private DualListModel<VtUsuario> losUsuariosSeleccionados;
 	private List<VtUsuario> usuariosSource;
 	private List<VtUsuario> usuariosTarget;
-
+	//................................................
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -91,58 +92,29 @@ public class VtProyectosView {
 	}
 
 
-	public CommandButton getBtnSeleccionarProyecto() {
-		return btnSeleccionarProyecto;
-	}
-
-
-	public void setBtnSeleccionarProyecto(CommandButton btnSeleccionarProyecto) {
-		this.btnSeleccionarProyecto = btnSeleccionarProyecto;
-	}
-
-
 	public SelectOneMenu getSomProyectoActivo() {
 		return somProyectoActivo;
 	}
-
-
 	public void setSomProyectoActivo(SelectOneMenu somProyectoActivo) {
 		this.somProyectoActivo = somProyectoActivo;
 	}
-
-
 	public SelectOneMenu getSomProyectoPublico() {
 		return somProyectoPublico;
 	}
-
-
 	public void setSomProyectoPublico(SelectOneMenu somProyectoPublico) {
 		this.somProyectoPublico = somProyectoPublico;
 	}
-
 	public CommandButton getBtnCrearProyecto() {
 		return btnCrearProyecto;
 	}
 	public void setBtnCrearProyecto(CommandButton btnCrearProyecto) {
 		this.btnCrearProyecto = btnCrearProyecto;
 	}
-	public CommandButton getBtnModificarProyecto() {
-		return btnModificarProyecto;
-	}
-	public void setBtnModificarProyecto(CommandButton btnModificarProyecto) {
-		this.btnModificarProyecto = btnModificarProyecto;
-	}
 	public CommandButton getBtnModificar() {
 		return btnModificar;
 	}
 	public void setBtnModificar(CommandButton btnModificar) {
 		this.btnModificar = btnModificar;
-	}
-	public DataTable getDtProyectos() {
-		return dtProyectos;
-	}
-	public void setDtProyectos(DataTable dtProyectos) {
-		this.dtProyectos = dtProyectos;
 	}
 	public VtEmpresa getVtEmpresaSelected() {
 		return vtEmpresaSelected;
@@ -178,21 +150,10 @@ public class VtProyectosView {
 		this.businessDelegatorView = businessDelegatorView;
 	}
 
-	public CommandButton getBtnSeleccionarBacklog() {
-		return btnSeleccionarBacklog;
-	}
-
-
-	public void setBtnSeleccionarBacklog(CommandButton btnSeleccionarBacklog) {
-		this.btnSeleccionarBacklog = btnSeleccionarBacklog;
-	}
-
-
 	public InputText getTxtCNombre() {
 		return txtCNombre;
 	}
-
-
+	
 	public void setTxtCNombre(InputText txtCNombre) {
 		this.txtCNombre = txtCNombre;
 	}
@@ -200,7 +161,6 @@ public class VtProyectosView {
 	public InputText getTxtMNombre() {
 		return txtMNombre;
 	}
-
 
 	public void setTxtMNombre(InputText txtMNombre) {
 		this.txtMNombre = txtMNombre;
@@ -210,31 +170,25 @@ public class VtProyectosView {
 		return txtCDescripcion;
 	}
 
-
 	public void setTxtCDescripcion(InputTextarea txtCDescripcion) {
 		this.txtCDescripcion = txtCDescripcion;
 	}
-
 
 	public InputTextarea getTxtMDescripcion() {
 		return txtMDescripcion;
 	}
 
-
 	public void setTxtMDescripcion(InputTextarea txtMDescripcion) {
 		this.txtMDescripcion = txtMDescripcion;
 	}
-
 
 	public String getUsuarioActual() {
 		return usuarioActual;
 	}
 
-
 	public void setUsuarioActual(String usuarioActual) {
 		this.usuarioActual = usuarioActual;
 	}
-
 
 	public CommandButton getBtnCrear() {
 		return btnCrear;
@@ -246,11 +200,9 @@ public class VtProyectosView {
 		return btnCLimpiar;
 	}
 
-
 	public void setBtnCLimpiar(CommandButton btnCLimpiar) {
 		this.btnCLimpiar = btnCLimpiar;
 	}
-
 
 	public CommandButton getBtnMLimpiar() {
 		return btnMLimpiar;
@@ -324,7 +276,7 @@ public class VtProyectosView {
 	}
 
 	public void modificarAction() throws Exception {
-		log.info("Entro al modificar");
+
 		try {
 
 			VtProyecto vtProyecto = proyectoSeleccionado;
@@ -362,7 +314,19 @@ public class VtProyectosView {
 		}
 
 	}
+	
+	public void limpiarCAction() {
+		txtCNombre.resetValue();
+		txtCDescripcion.resetValue();
 
+	}
+
+	public void limpiarAction() {
+		txtMNombre.resetValue();
+		txtMDescripcion.resetValue();
+		somProyectoActivo.setValue("-1");
+		somProyectoPublico.setValue("-1");
+	}
 
 	public void modificarListener() {		
 
@@ -393,20 +357,7 @@ public class VtProyectosView {
 
 		return "/XHTML/listaEmpresa.xhtml";
 
-	}
-
-	public void limpiarCAction() {
-		txtCNombre.resetValue();
-		txtCDescripcion.resetValue();
-
-	}
-
-	public void limpiarAction() {
-		txtMNombre.resetValue();
-		txtMDescripcion.resetValue();
-		somProyectoActivo.setValue("-1");
-		somProyectoPublico.setValue("-1");
-	}
+	}	
 
 	public String irAProyecto(){
 

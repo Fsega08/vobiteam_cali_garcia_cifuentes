@@ -34,38 +34,35 @@ public class VtBacklogView {
 
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
-	private IBusinessDelegatorView businessDelegatorView;	
-
-	private DataTable dtBacklog;
+	private IBusinessDelegatorView businessDelegatorView;		
 
 	private VtProyecto proyectoSeleccionado;	
 
 	private List<VtPilaProducto> losBacklogs;
 
-	private VtPilaProducto backogSeleccionado;
+	private VtPilaProducto backlogSeleccionado;
 
 
-	//Para el crear backog
+	//................Para el crear backlog...............
 	private InputText txtCNombre;
 	private InputTextarea txtCDescripcion;
-
-	//Abrir el dialog de crear
-	private CommandButton btnCrear;
-
-	//Crear el backlog
+	
 	private CommandButton btnCrearBacklog;
+	private CommandButton btnCLimpiar;
+	//....................................................
+	//Abrir el dialog de crear
+	private CommandButton btnCrear;	
 
-	//Para modificar el dialog
+	//.................Para modificar backlog................
 	private InputText txtMNombre;
 	private InputTextarea txtMDescripcion;
 	private SelectOneMenu somBacklogActivo;
 
-	//El boton que manda a modificar
 	private CommandButton btnModificarProyecto;
-
-	//Toca 2 limpiar ya que el modificar tiene la lista y el crear no.
-	private CommandButton btnCLimpiar;
 	private CommandButton btnMLimpiar;
+	//....................................................
+	
+	
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -92,13 +89,13 @@ public class VtBacklogView {
 	}
 
 
-	public VtPilaProducto getBackogSeleccionado() {
-		return backogSeleccionado;
+	public VtPilaProducto getBacklogSeleccionado() {
+		return backlogSeleccionado;
 	}
 
 
-	public void setBackogSeleccionado(VtPilaProducto backogSeleccionado) {
-		this.backogSeleccionado = backogSeleccionado;
+	public void setBacklogSeleccionado(VtPilaProducto backogSeleccionado) {
+		this.backlogSeleccionado = backogSeleccionado;
 	}
 
 
@@ -213,12 +210,6 @@ public class VtBacklogView {
 	public void setLosBacklogs(List<VtPilaProducto> losBacklogs) {
 		this.losBacklogs = losBacklogs;
 	}
-	public DataTable getDtBacklog() {
-		return dtBacklog;
-	}
-	public void setDtBacklog(DataTable dtBacklog) {
-		this.dtBacklog = dtBacklog;
-	}
 	public VtProyecto getProyectoSeleccionado() {
 		return proyectoSeleccionado;
 	}
@@ -278,7 +269,7 @@ public class VtBacklogView {
 	//Este listener es para mandar el backlog seleccionado y setear los datos en el dialogo
 	public void modificarListener() {
 
-		VtPilaProducto vtPilaProducto = backogSeleccionado;
+		VtPilaProducto vtPilaProducto = backlogSeleccionado;
 
 		txtMNombre.setValue(vtPilaProducto.getNombre());
 		txtMDescripcion.setValue(vtPilaProducto.getDescripcion());
@@ -300,7 +291,7 @@ public class VtBacklogView {
 				throw new Exception("Asigne un estado al backlog");
 			}
 
-			VtPilaProducto vtPilaProducto = backogSeleccionado;
+			VtPilaProducto vtPilaProducto = backlogSeleccionado;
 
 			vtPilaProducto.setNombre(txtMNombre.getValue().toString());			
 			vtPilaProducto.setDescripcion(txtMDescripcion.getValue().toString());			
@@ -337,8 +328,8 @@ public class VtBacklogView {
 	public String artefactoListener(){
 
 		//Guardo objeto en la sesion
-		if (backogSeleccionado.getActivo().equals("S")) {
-			FacesUtils.putinSession("backlogSeleccionado", backogSeleccionado);
+		if (backlogSeleccionado.getActivo().equals("S")) {
+			FacesUtils.putinSession("backlogSeleccionado", backlogSeleccionado);
 			return "/XHTML/listarArtefactos.xhtml";
 		}
 		else{
@@ -351,8 +342,8 @@ public class VtBacklogView {
 	public String sprintListener(){
 
 		//Guardo objeto en la sesion
-		if (backogSeleccionado.getActivo().equals("S")) {
-			FacesUtils.putinSession("backlogSeleccionado", backogSeleccionado);
+		if (backlogSeleccionado.getActivo().equals("S")) {
+			FacesUtils.putinSession("backlogSeleccionado", backlogSeleccionado);
 			return "/XHTML/listaSprint.xhtml";
 		}
 		else{
