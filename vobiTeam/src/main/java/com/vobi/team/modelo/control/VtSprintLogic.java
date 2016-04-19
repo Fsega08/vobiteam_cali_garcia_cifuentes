@@ -517,7 +517,7 @@ public class VtSprintLogic implements IVtSprintLogic {
 
 		} catch (Exception e) {
 			log.info(e.getMessage(), e);
-			throw new Exception("No se encontro la sprint por ese Id");
+			throw new Exception("No se encontro sprint por ese Id");
 		}
 
 		return (vtSprints != null && !vtSprints.isEmpty()

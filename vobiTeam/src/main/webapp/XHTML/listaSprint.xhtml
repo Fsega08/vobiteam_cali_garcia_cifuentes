@@ -32,7 +32,7 @@
 					<div align="center">
 						<p:commandButton id="btnCrearSprint" value="Crear Sprint"
 							binding="#{vtSprintView.btnCrearSprint}" icon="fa fa-plus white"
-							onclick="PF('dlgCrearSprint').show();" />
+							action="#{vtSprintView.crearSpringAction}" />
 					</div>
 				</p:panel>
 
@@ -49,10 +49,12 @@
 					<p:menuitem value="Ver artefactos asignados al sprint"
 						update="dtArtefactos" icon="fa fa-list "
 						oncomplete="PF('dlgArtefacto').show()" />
-						
-					<p:menuitem  icon="fa fa-line-chart" oncomplete="PF('dlgCapacidadSprint').show()"						
-						value="Ver capacidad del sprint" update="dlgCapacidadSprint" action="#{vtSprintView.actualizarChartAction}"  />
-						
+
+					<p:menuitem icon="fa fa-line-chart"
+						oncomplete="PF('dlgCapacidadSprint').show()"
+						value="Ver capacidad del sprint" update="dlgCapacidadSprint"
+						action="#{vtSprintView.actualizarChartAction}" />
+
 
 				</p:contextMenu>
 
@@ -97,8 +99,8 @@
 					</p:column>
 
 					<p:column headerText="Capacidad Estimada del Sprint"
-						filterBy="#{sprint.capacidadEstimada}" sortBy="#{sprint.capacidadEstimada}"
-						filterMatchMode="contains">
+						filterBy="#{sprint.capacidadEstimada}"
+						sortBy="#{sprint.capacidadEstimada}" filterMatchMode="contains">
 						<h:outputText value="#{sprint.capacidadEstimada}"
 							title="Presiona click derecho para ver las opciones" />
 					</p:column>
@@ -137,14 +139,16 @@
 									<f:selectItem itemValue="-1" itemLabel="Estado" />
 									<f:selectItem itemValue="S" itemLabel="Activo" />
 									<f:selectItem itemValue="N" itemLabel="Inactivo" />
-								</p:selectOneMenu>			
-									
+								</p:selectOneMenu>
+
 								<h:outputText value="Capacidad Estimada del Sprint" />
-								<p:inputText id="txtMCapacidadEstimada" placeholder="Capacidad Estimada del Sprint"
+								<p:inputText id="txtMCapacidadEstimada"
+									placeholder="Capacidad Estimada del Sprint"
 									binding="#{vtSprintView.txtMCapacidadEstimada}" size="31" />
-									
+
 								<h:outputText value="Capacidad Real del Sprint" />
-								<p:inputText id="txtMCapacidadReal" placeholder="Capacidad Real del Sprint" disabled="true"
+								<p:inputText id="txtMCapacidadReal"
+									placeholder="Capacidad Real del Sprint" disabled="true"
 									binding="#{vtSprintView.txtMCapacidadReal}" size="31" />
 							</h:panelGrid>
 							<br />
@@ -155,7 +159,7 @@
 
 							<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
 								update="pnlModificarSprint"
-								binding="#{vtSprintView.btnLimpiarM}" 
+								binding="#{vtSprintView.btnLimpiarM}"
 								action="#{vtSprintView.limpiarActionM}" value="Limpiar" />
 						</p:panel>
 
@@ -172,89 +176,42 @@
 
 					<p:commandButton id="btnArtefactos" icon="fa fa-arrow-right white"
 						action="#{vtSprintView.artefactosAction}"
-						value="Ir a artefactos sin sprint" update="formDialog" />				
+						value="Ir a artefactos sin sprint" update="formDialog" />
 
 				</h:panelGrid>
 			</p:panel>
 
-
-			<p:dialog header="Crear Sprint" widgetVar="dlgCrearSprint"
-				modal="true" width="500" resizable="false">
-				<div align="center">
-					<p:panel header="Crear Sprint" id="pnlCrearSprint">
-						<h:panelGrid columns="2">
-							<h:outputText value="Nombre del Sprint" />
-							<p:inputText id="txtCNombre" placeholder="Nombre"
-								binding="#{vtSprintView.txtNombre}" size="31" />
-
-							<h:outputText value="Descripción del Sprint" />
-							<p:inputTextarea id="txtCDescripcion" placeholder="Descripción"
-								binding="#{vtSprintView.txtDescripcion}" rows="7" cols="30"
-								maxlength="100000000" />
-
-							<h:outputText value="Inicio del Sprint" />
-							<p:calendar id="clndFechaIncio" placeholder="Fecha de Inicio"
-								binding="#{vtSprintView.clndFechaIncio}"
-								value="#{vtSprintView.fechaInicio}" size="31">
-								<p:ajax update="clndFechaFin" event="dateSelect" />
-							</p:calendar>
-
-							<h:outputText value="Final del Sprint" />
-							<p:calendar id="clndFechaFin" placeholder="Fecha de Fin"
-								binding="#{vtSprintView.clndFechaFin}"
-								mindate="#{vtSprintView.fechaInicio}"
-								value="#{vtSprintView.fechaFin}" size="31" />
-								
-							<h:outputText value="Capacidad Estimada del Sprint" />
-							<p:inputText id="txtCapacidadEstimada" placeholder="Capacidad Estimada del Sprint"
-									binding="#{vtSprintView.txtCapacidadEstimada}" size="31" />		
-						</h:panelGrid>
-						<br />
-						<p:commandButton id="btnCrear" icon="fa fa-plus white"
-							update="pnlCrearSprint, dtSprint, msg"
-							binding="#{vtSprintView.btnCrearNuevo}"
-							action="#{vtSprintView.crearAction}" value="Crear" />
-
-						<p:commandButton id="btnCLimpiar" icon="fa fa-eraser white"
-							update="pnlCrearSprint" binding="#{vtSprintView.btnLimpiar}"
-							action="#{vtSprintView.limpiarAction}" value="Limpiar" />
-					</p:panel>
-
-				</div>
-
-			</p:dialog>
-
-
 			<p:dialog header="Asignar o Des-asignar Historias" widgetVar="dlg"
 				id="dlAsignar" draggable="true" responsive="true" modal="true"
-				width="600" >
+				width="990">
 				<p:growl id="msj" />
-				<p:panel id="panelAsignar">
-					<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
-						showSourceControls="true" showTargetControls="true"
-						showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
-						itemValue="#{artefactos}" converter="usuarioPickListConverter">
-	
-						<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
-						<f:facet name="targetCaption">Artefactos Asignados</f:facet>
-	
-						<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
-							update="msj, panelAsignar" />
-	
-						<p:column style="width:10%">
-							<h:outputText styleClass="icon-doc-text-inv" />
-						</p:column>
-	
-						<p:column style="width:90%;">
-							<h:outputText value="#{artefactos.titulo}" />
-						</p:column>
-					</p:pickList>
-					<br/>
-					<p:chart id="chartModel" type="metergauge" model="#{vtSprintView.chartModel}" style="width:400px;height:250px" />
-				
-				</p:panel>
-					
-				
+				<h:panelGrid id="panelAsignar" columns="2">
+			
+						<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
+							showSourceControls="true" showTargetControls="true"
+							showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
+							itemValue="#{artefactos}" converter="usuarioPickListConverter">
+
+							<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
+							<f:facet name="targetCaption">Artefactos Asignados</f:facet>
+
+							<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
+								update="msj, panelAsignar" />
+
+							<p:column style="width:10%">
+								<h:outputText styleClass="icon-doc-text-inv" />
+							</p:column>
+
+							<p:column style="width:90%;">
+								<h:outputText value="#{artefactos.titulo}" />
+							</p:column>
+						</p:pickList>
+						
+							<p:chart id="chartModel" type="metergauge"
+								model="#{vtSprintView.chartModel}"
+								style="width:400px;height:250px" />
+						
+				</h:panelGrid>
 			</p:dialog>
 
 
@@ -262,7 +219,7 @@
 				widgetVar="dlgArtefacto" resizable="false" id="dlArtefactosAsig"
 				draggable="true" responsive="true" modal="true" width="800">
 				<p:dataTable id="dtArtefactos"
-					value="#{vtSprintView.losArtefactosAsginados}" var="artefacto"
+					value="#{vtSprintView.losArtefactosAsignados}" var="artefacto"
 					paginator="true" rows="10" paginatorPosition="bottom"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="10,15" rendered="true"
@@ -285,14 +242,15 @@
 
 				</p:dataTable>
 			</p:dialog>
-			
+
 			<p:dialog header="Capacidad del Sprint"
-				widgetVar="dlgCapacidadSprint"  id="dlgCapacidadSprint"
-				draggable="true" responsive="true" modal="true" >
-				
-				<p:chart type="metergauge" model="#{vtSprintView.chartModel}" style="width:400px;height:250px" />
-				
-				
+				widgetVar="dlgCapacidadSprint" id="dlgCapacidadSprint"
+				draggable="true" responsive="true" modal="true">
+
+				<p:chart type="metergauge" model="#{vtSprintView.chartModel}"
+					style="width:400px;height:250px" />
+
+
 			</p:dialog>
 
 		</h:form>

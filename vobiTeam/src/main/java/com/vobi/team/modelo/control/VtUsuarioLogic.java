@@ -728,4 +728,14 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 			mailService.send(vtUsuario.getLogin(), asunto, cuerpo);
 	}
 	
+	@Transactional(readOnly = true)
+	public boolean verificarContraseña(String password1, String password2){	
+		if (password1.equals(password2)) {
+			return true;
+		}
+		else {
+			return false;
+		}		
+	}
+	
 }

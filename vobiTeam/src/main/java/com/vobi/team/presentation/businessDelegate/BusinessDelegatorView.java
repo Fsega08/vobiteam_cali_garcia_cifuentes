@@ -65,6 +65,7 @@ import com.vobi.team.modelo.dto.VtUsuarioArtefactoDTO;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
 import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
+import com.vobi.team.service.mail.IMailService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,6 +83,8 @@ import java.sql.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import javax.mail.MessagingException;
 
 
 /**
@@ -129,6 +132,8 @@ import java.util.Set;
 @Service("BusinessDelegatorView")
 public class BusinessDelegatorView implements IBusinessDelegatorView {
     private static final Logger log = LoggerFactory.getLogger(BusinessDelegatorView.class);
+    @Autowired
+    private IMailService mailService;
     @Autowired
     private IVtArchivoLogic vtArchivoLogic;
     @Autowired
@@ -1116,6 +1121,16 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public void nuevoUsuario(VtUsuario vtUsuario) throws Exception {
 		vtUsuarioLogic.nuevoUsuario(vtUsuario);
 		
+	}
+
+	@Override
+	public boolean verificarContraseña(String password1, String password2) {
+		return vtUsuarioLogic.verificarContraseña(password1, password2);
+	}
+
+	@Override
+	public void send(String para, String asunto, String cuerpo) throws MessagingException {	
+		mailService.send(para, asunto, cuerpo);
 	}
 	
 	

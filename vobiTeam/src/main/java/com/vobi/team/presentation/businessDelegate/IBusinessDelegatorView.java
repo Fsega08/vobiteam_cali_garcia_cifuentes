@@ -77,6 +77,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 
 /**
  * @author Zathura Code Generator http://zathuracode.org/
@@ -520,4 +522,8 @@ public interface IBusinessDelegatorView {
 	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo, Long inteCodigo) throws Exception;
 
 	public VtUsuarioArtefacto findUsuarioArtefactoByArtefacto(VtArtefacto artefacto) throws Exception;
+	
+	public boolean verificarContraseña(String password1, String password2);
+	
+	public void send(String para, String asunto, String cuerpo) throws MessagingException;
 }

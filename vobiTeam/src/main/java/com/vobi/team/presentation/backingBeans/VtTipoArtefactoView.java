@@ -14,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vobi.team.modelo.VtEstado;
-import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;

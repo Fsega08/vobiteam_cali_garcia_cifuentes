@@ -79,6 +79,11 @@ public class VtUsuarioView {
 	private SelectOneMenu somEmpresasM;
 	private SelectOneMenu somEstado;	
 	private List<SelectItem> lasEmpresasM;
+	
+	//// Perfil
+	
+	private Password txtPassword;
+	private Password txtPasswordConfirmation;
 
 	////// PickList
 	private DualListModel<VtRol> pickListRol;
@@ -244,6 +249,22 @@ public class VtUsuarioView {
 	}
 	public void setSomEmpresasC(SelectOneMenu somEmpresasC) {
 		this.somEmpresasC = somEmpresasC;
+	}
+	
+	public Password getTxtPassword() {
+		return txtPassword;
+	}
+
+	public void setTxtPassword(Password txtPassword) {
+		this.txtPassword = txtPassword;
+	}
+
+	public Password getTxtPasswordConfirmation() {
+		return txtPasswordConfirmation;
+	}
+
+	public void setTxtPasswordConfirmation(Password txtPasswordConfirmation) {
+		this.txtPasswordConfirmation = txtPasswordConfirmation;
 	}
 
 	public InputText getTxtNombreM() {
@@ -642,6 +663,11 @@ public class VtUsuarioView {
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
+	}
+	
+	public void perfilPasswordSet(){
+		txtPassword.setValue(usuSesion.getClave());
+		txtPasswordConfirmation.setValue(usuSesion.getClave());
 	}
 
 }
