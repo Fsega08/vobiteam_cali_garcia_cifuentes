@@ -63,39 +63,43 @@
 
 						<h:outputText value="Capacidad Estimada del Sprint" />
 						<p:inputText id="txtCapacidadEstimada"
-							placeholder="Capacidad Estimada del Sprint" size="31" value="#{vtSprintView.capacidadEstimada}">
-							<p:ajax event="blur" update="panelAsignar" listener="#{vtSprintView.actualizarCrearChartAction}"/>
+							placeholder="Capacidad Estimada del Sprint" size="31"
+							value="#{vtSprintView.capacidadEstimada}">
+							<p:ajax event="blur" update="panelAsignar"
+								listener="#{vtSprintView.actualizarCrearChartAction}" />
 						</p:inputText>
-							
-					</h:panelGrid>
-
-					<h:panelGrid id="panelAsignar" columns="2">
-
-						<p:pickList id="pickList" value="#{vtSprintView.losCArtefactos}"
-							showSourceControls="true" showTargetControls="true"
-							showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
-							itemValue="#{artefactos}" converter="usuarioPickListConverter">
-
-							<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
-							<f:facet name="targetCaption">Artefactos por Asignar</f:facet>
-
-							<p:ajax event="transfer" listener="#{vtSprintView.onTransferCrear}"
-								update="men, panelAsignar" />
-
-							<p:column style="width:10%">
-								<h:outputText styleClass="icon-doc-text-inv" />
-							</p:column>
-
-							<p:column style="width:90%;">
-								<h:outputText value="#{artefactos.titulo}" />
-							</p:column>
-						</p:pickList>
-
-						<p:chart id="chartModel" type="metergauge"
-							model="#{vtSprintView.chartCrear}"
-							style="width:400px;height:250px" />
 
 					</h:panelGrid>
+
+
+
+						<h:panelGrid id="panelAsignar" columns="2">
+							<p:pickList id="pickList" value="#{vtSprintView.losCArtefactos}"
+								showSourceControls="true" showTargetControls="true"
+								showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
+								itemValue="#{artefactos}" converter="usuarioPickListConverter">
+
+								<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
+								<f:facet name="targetCaption">Artefactos por Asignar</f:facet>
+
+								<p:ajax event="transfer"
+									listener="#{vtSprintView.onTransferCrear}"
+									update="men, panelAsignar" />
+
+								<p:column style="width:10%">
+									<h:outputText styleClass="icon-doc-text-inv" />
+								</p:column>
+
+								<p:column style="width:90%;">
+									<h:outputText value="#{artefactos.titulo}" />
+								</p:column>
+							</p:pickList>
+
+							<p:chart id="chartModel" type="metergauge"
+								model="#{vtSprintView.chartCrear}"
+								style="width:400px;height:250px" />
+
+						</h:panelGrid>
 
 				</p:panel>
 			</div>
@@ -115,8 +119,8 @@
 
 				<h:panelGrid columns="1" id="panelGrid2">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
-						action="#{vtArtefactoView.sprintAction}"
-						value="Regresar a Sprint" update="formDialog" />
+						action="#{vtArtefactoView.sprintAction}" value="Regresar a Sprint"
+						update="formDialog" />
 
 				</h:panelGrid>
 			</p:panel>

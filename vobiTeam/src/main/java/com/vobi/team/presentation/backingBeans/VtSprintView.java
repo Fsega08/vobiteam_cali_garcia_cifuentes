@@ -87,11 +87,11 @@ public class VtSprintView {
 	private DualListModel<VtArtefacto> losArtefactos;
 	private List<VtArtefacto> artefactosSource;
 	private List<VtArtefacto> artefactosTarget;	
-	
+
 	private DualListModel<VtArtefacto> losCArtefactos;
 	private List<VtArtefacto> artefactosCSource;
 	private List<VtArtefacto> artefactosCTarget;	
-	
+
 	////////////////////////////
 
 	private List<VtArtefacto> losArtefactosAsignados;	
@@ -118,7 +118,7 @@ public class VtSprintView {
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
 
 			losArtefactosParaAsignar = new ArrayList<VtArtefacto>();
-			
+
 			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			artefactosTarget = new ArrayList<VtArtefacto>();
 
@@ -132,13 +132,14 @@ public class VtSprintView {
 			sumaEsfuerzoReal = 0;
 			sumaCrearEsfuerzoEstimado = 0;
 			sumaCrearEsfuerzoReal = 0;
+			capacidadEstimada = "";
 
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
 
 	}	
-	
+
 	public String getCapacidadEstimada() {
 		return capacidadEstimada;
 	}
@@ -166,7 +167,7 @@ public class VtSprintView {
 	public void setLosArtefactosParaAsignar(List<VtArtefacto> losArtefactosParaAsignar) {
 		this.losArtefactosParaAsignar = losArtefactosParaAsignar;
 	}
-	
+
 	public DualListModel<VtArtefacto> getLosCArtefactos() {
 		return losCArtefactos;
 	}
@@ -481,7 +482,7 @@ public class VtSprintView {
 
 			String nombre = txtNombre.getValue().toString();
 			String descripcion = txtDescripcion.getValue().toString();
-			
+
 
 			if(nombre.equals("")|| nombre == null){
 				throw new Exception("El nombre es requerido");
@@ -787,9 +788,9 @@ public class VtSprintView {
 	public void onTransferCrear(TransferEvent event) throws Exception {
 		try {
 			
-			if(capacidadEstimada.equals("")|| capacidadEstimada == null || !Utilities.isNumeric(capacidadEstimada)){
+			if(capacidadEstimada.equals("") == true || capacidadEstimada == null || !(Utilities.isNumeric(capacidadEstimada)) ){
 				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
-			}			
+			}
 			
 			StringBuilder builder = new StringBuilder();
 
@@ -800,9 +801,11 @@ public class VtSprintView {
 
 				//true si paso de izquierda a derecha
 				if(event.isAdd()){
+					
 					log.info("capaciadadObt+"
 							+ "= "+ capacidadEstimada);
 					losArtefactosParaAsignar.add(vtArtefacto);
+						
 				}
 				if(event.isRemove()){
 					losArtefactosParaAsignar.remove(vtArtefacto);
@@ -810,9 +813,10 @@ public class VtSprintView {
 
 			}
 			actualizarCrearChartAction();
-			FacesUtils.addInfoMessage("Artefacto(s) Listo Para Transferir");	
+			FacesUtils.addInfoMessage("Artefacto(s) Listo Para Transferir");
 
 		} catch (Exception e) {
+			pickListAsignarArtefactoAction();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
@@ -820,10 +824,8 @@ public class VtSprintView {
 	public void actualizarCrearChartAction(){		
 
 		try {
-			
-			if(capacidadEstimada.equals("")|| capacidadEstimada == null || !Utilities.isNumeric(capacidadEstimada)){
-				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
-			}		
+
+
 
 			double inteval1 = Double.parseDouble(capacidadEstimada)*(0.333);
 			double inteval2 = Double.parseDouble(capacidadEstimada)*(0.666);
@@ -869,6 +871,6 @@ public class VtSprintView {
 
 
 	}
-	
+
 
 }
