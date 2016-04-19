@@ -1147,7 +1147,7 @@ public class VtArtefactoView {
 
 	public String regresarAction(){
 
-		return "/XHTML/listaBacklog.xhtml";
+		return "/XHTML/TreeTable.xhtml";
 
 	}
 

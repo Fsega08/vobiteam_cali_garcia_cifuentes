@@ -23,42 +23,58 @@
 				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
 		</p:dialog>
 
-
+<!--..............................................Form............................................... -->
 		<h:form id="formDialog">
 			<p:growl id="men" />
 			<p:panel id="pnlTreeTable" header="Informacion de las Empresas">
 				<p:panel id="panelBotones">
 					<div align="center">
-						<p:commandButton id="btnCrearEmpresa" value="Crear Empresa"
+						<p:commandButton id="btnCrearEmpresaStatic" value="Crear Empresa"
 							icon="fa fa-plus white" onclick="PF('dlgCrearEmpresa').show();" />
 					</div>
 				</p:panel>
 
-				
+<!--......................................contextmenu Empresa........................................ -->
 				<p:contextMenu for="TreeTable" nodeType="Empresa"
 					event="contextmenu">
 
-
 					<p:menuitem value="Modificar" update="pnlTreeTable"
-						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
+						icon="fa fa-pencil " oncomplete="PF('dlgModEmpresa').show()"
 						action="#{vtEmpresaThreeView.modificarListener}" />
-					<p:menuitem value="Ir a Empresa" update="pnlTreeTable, men"
-						icon="fa fa-building" action="#{vtEmpresaThreeView.irEmpresa}" />
+					<p:menuitem value="Crear Proyecto" update="pnlTreeTable"
+						icon="fa fa-plus " oncomplete="PF('dlgCrearProyecto').show()"
+						 />					
 				</p:contextMenu>
-
+<!--...............................contextmenu Empresa....................... -->
+<!--...............................contextmenu Proyecto....................... -->
 				<p:contextMenu for="TreeTable" nodeType="Proyecto"
 					event="contextmenu">
-					<p:menuitem value="Ir a Proyecto" update="pnlTreeTable, men"
-						action="#{vtEmpresaThreeView.irProyectos}" icon="fa fa-list"
-						oncomplete="nodeDialog.show()" />
+					<p:menuitem value="Modificar" update="pnlTreeTable"
+						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
+						action="#{vtEmpresaThreeView.modificarProyectoListener}" />
+					<p:menuitem value="Crear Backlog" update="pnlTreeTable"
+						icon="fa fa-plus " oncomplete="PF('dlgCrearBacklog').show()"
+						 />
+					<p:menuitem value="Asignar usuarios a este proyecto"
+						icon="fa fa-user" oncomplete="PF('dlgPicklist').show()"
+						action="#{vtEmpresaThreeView.asignarProyectoAction}"
+						update="pickList" />					
 				</p:contextMenu>
-
+<!--...............................contextmenu Backlog....................... -->
 				<p:contextMenu for="TreeTable" nodeType="Backlog"
 					event="contextmenu">
-					<p:menuitem value="Ir a Backlog" update="pnlTreeTable, men"
-						action="#{vtEmpresaThreeView.irBacklog}" icon="fa fa-th-list" />
-				</p:contextMenu>
+					<p:menuitem value="Modificar" update="pnlTreeTable"
+						icon="fa fa-pencil " oncomplete="PF('dlgModBacklog').show()"
+						action="#{vtEmpresaThreeView.modificarBacklogListener}" />
+					<p:menuitem value="Ver lista de artefactos sin asignar"
+						update="formDialog" icon="fa fa-list "
+						action="#{vtEmpresaThreeView.artefactoListener}" />
 
+					<p:menuitem value="Ver lista Sprint" update="formDialog"
+						icon="fa fa-list " action="#{vtEmpresaThreeView.sprintListener}" />
+				</p:contextMenu>
+<!--...............................contextmenu Backlog....................... -->
+<!--...............................TreeTable................................... -->
 				<p:treeTable value="#{vtEmpresaThreeView.root}" var="empresa"
 					selectionMode="single" id="TreeTable"
 					selection="#{vtEmpresaThreeView.selectedNode}">
@@ -76,16 +92,16 @@
 					</p:column>
 
 				</p:treeTable>
-
-
-				<p:dialog header="Modificar Empresa" widgetVar="dlgModProyecto"
+<!--...............................TreeTable................................... -->
+<!--..............................................Modificar Empresa............................................... -->
+				<p:dialog header="Modificar Empresa" widgetVar="dlgModEmpresa"
 					modal="true" width="500" resizable="true" responsive="true" >
 					<div align="center">
 						<p:panel id="panelVtEmpresa" header="Modificar Empresa">
 							<h:panelGrid columns="2">
 
 								<h:outputText value="Nombre de la Empresa" />
-								<p:inputText id="txtMNombre" placeholder="Nombre"
+								<p:inputText id="txtEmpresaMNombre" placeholder="Nombre"
 									binding="#{vtEmpresaThreeView.txtEmpresaMNombre}"
 									maxlength="60" />
 
@@ -100,21 +116,111 @@
 
 							</h:panelGrid>
 							<br />
-							<p:commandButton id="btnModificar"
+							<p:commandButton id="btnEmpresaModificar"
 								binding="#{vtEmpresaThreeView.btnEmpresaModificar}"
 								icon="fa fa-pencil white"
 								action="#{vtEmpresaThreeView.modificarEmpresaAction}"
 								value="Modificar" update="panelVtEmpresa,pnlTreeTable,men " />
 
-							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
+							<p:commandButton id="btnEmpresaMClear" icon="fa fa-eraser white"
 								action="#{vtEmpresaThreeView.limpiarModificarEmpresaAction}"
 								value="Limpiar" update="panelVtEmpresa" />
 						</p:panel>
 					</div>
 				</p:dialog>
+<!--..............................................Modificar Empresa............................................... -->
+<!--..............................................Modificar Proyecto............................................... -->
+				<p:dialog header="Modificar Proyecto" widgetVar="dlgModProyecto" modal="true"
+					width="500" resizable="false">
+					<p:panel header="Modificar Proyecto" id="pnlModificarProyecto">
+						<h:panelGrid columns="2">
 
+							<h:outputText value="Nombre del Proyecto" />
+							<p:inputText id="txtProyectoMNombre" placeholder="Nombre" size="31"
+								binding="#{vtEmpresaThreeView.txtProyectoMNombre}" maxlength="100" />
+
+							<h:outputText value="Descripcion del Proyecto" />
+							<p:inputTextarea id="txtProyectoMDescripcion" rows="7" cols="30"
+								placeholder="Descripcion"
+								binding="#{vtEmpresaThreeView.txtProyectoMDescripcion}"
+								maxlength="100000000" />
+
+
+							<h:outputText value="Estado del Proyecto" />
+							<p:selectOneMenu id="somProyectoActivo"
+								binding="#{vtEmpresaThreeView.somProyectoActivo}">
+								<f:selectItem itemValue="-1" itemLabel="Proyecto Activo" />
+								<f:selectItem itemValue="S" itemLabel="Activo" />
+								<f:selectItem itemValue="N" itemLabel="Inactivo" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Proyecto Público" />
+							<p:selectOneMenu id="somProyectoPublico"
+								binding="#{vtEmpresaThreeView.somProyectoPublico}">
+								<f:selectItem itemValue="-1" itemLabel="Proyecto Publico" />
+								<f:selectItem itemValue="S" itemLabel="Si" />
+								<f:selectItem itemValue="N" itemLabel="No" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<br />
+						<div align="center">
+							<p:commandButton id="btnProyectoModificar" icon="fa fa-pencil white"
+								value="Modificar" binding="#{vtEmpresaThreeView.btnProyectoModificar}"
+								action="#{vtEmpresaThreeView.modificarProyectoAction}"
+								update="pnlModificarProyecto,pnlTreeTable,men" />
+
+							<p:commandButton id="btnProyectoMLimpiar" icon="fa fa-eraser white"
+								value="Limpiar" binding="#{vtEmpresaThreeView.btnProyectoMLimpiar}"
+								action="#{vtEmpresaThreeView.limpiarProyectoAction}"
+								update="pnlModificarProyecto" />
+						</div>
+					</p:panel>
+				</p:dialog>
+<!--..............................................Modificar Proyecto............................................... -->	
+<!--..............................................Modificar Backlog............................................... -->	
+				
+<!--..............................................Modificar Backlog............................................... -->	
+				<p:dialog header="Modificar Backlog" widgetVar="dlgModBacklog" modal="true"
+					 width="500" resizable="false">
+					<p:panel header="Modificar Proyecto" id="pnlModificarBacklog">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nombre de la Pila Producto" />
+							<p:inputText id="txtBacklogMNombre" placeholder="Nombre" size="31"
+								binding="#{vtEmpresaThreeView.txtBacklogMNombre}" maxlength="50">
+							</p:inputText>
+
+							<h:outputText value="Descripcion de la Pila Producto" />
+							<p:inputTextarea id="txtBacklogMDescripcion" rows="7" cols="30"
+								placeholder="Descripcion"
+								binding="#{vtEmpresaThreeView.txtBacklogMDescripcion}" maxlength="100000000" />
+
+
+							<h:outputText value="Estado de Pila Producto" />
+							<p:selectOneMenu id="somBacklogActivo"
+								binding="#{vtEmpresaThreeView.somBacklogActivo}">
+								<f:selectItem itemValue="-1" itemLabel="Pila Producto Activa?" />
+								<f:selectItem itemValue="S" itemLabel="Activo" />
+								<f:selectItem itemValue="N" itemLabel="Inactivo" />
+							</p:selectOneMenu>
+
+						</h:panelGrid>
+						<div align="center">
+							<br/>
+							<p:commandButton id="btnModificarBacklog" icon="fa fa-pencil white"
+								binding="#{vtEmpresaThreeView.btnModificarBacklog}"
+								action="#{vtEmpresaThreeView.modificarBacklogAction}" value="Modificar"
+								update="pnlModificarBacklog, pnlTreeTable, men" />
+							<p:commandButton id="btnBacklogMLimpiar" icon="fa fa-eraser white"
+								binding="#{vtEmpresaThreeView.btnBacklogMLimpiar}" value="Limpiar"
+								action="#{vtEmpresaThreeView.limpiarBacklogMAction}"
+								update="pnlModificarBacklog" />
+						</div>
+					</p:panel>
+
+				</p:dialog>	
 			</p:panel>
-
+			
+<!--..............................................Crear Empresa................................................... -->
 			<p:dialog header="Crear Empresa" widgetVar="dlgCrearEmpresa"
 				modal="true" width="500" resizable="false">
 				<div align="center">
@@ -122,37 +228,129 @@
 						<h:panelGrid columns="2">
 
 							<h:outputText value="Identificacion de la empresa" />
-							<p:inputText id="txtIdentificacion"
+							<p:inputText id="txtEmpresaCIdentificacion"
 								placeholder="Identificación (NIT)"
 								binding="#{vtEmpresaThreeView.txtEmpresaCIdentificacion}"
 								maxlength="50" />
 
 							<h:outputText value="Nombre de la Empresa" />
-							<p:inputText id="txtNombre" placeholder="Nombre"
+							<p:inputText id="txtEmpresaCNombre" placeholder="Nombre"
 								binding="#{vtEmpresaThreeView.txtEmpresaCNombre}" maxlength="60" />
 
 
 						</h:panelGrid>
 						<br />
-						<p:commandButton id="btnCrear"
+						<p:commandButton id="btnCrearEmpresa"
 							binding="#{vtEmpresaThreeView.btnEmpresaCCrear}"
 							icon="fa fa-plus white"
 							action="#{vtEmpresaThreeView.crearEmpresaAction}" value="Crear"
 							update="panelCrearEmpresa,pnlTreeTable,men" />
 					
-						<p:commandButton id="btnClear" icon="fa fa-eraser white"
+						<p:commandButton id="btnClearEmpresa" icon="fa fa-eraser white"
 							action="#{vtEmpresaThreeView.limpiarCrearEmpresaAction}"
 							value="Limpiar" update="panelCrearEmpresa" />
 					</p:panel>
 
 				</div>
 			</p:dialog>
+<!--..............................................Crear Empresa............................................... -->
+<!--..............................................Crear Proyecto............................................... -->
+			<p:dialog header="Crear Proyecto" widgetVar="dlgCrearProyecto"
+				modal="true" width="500" resizable="false">
+				<div align="center">
+					<p:panel header="Crear Proyecto" id="pnlCrearProyecto">
+						<h:panelGrid columns="2">
+
+							<h:outputText value="Nombre del proyecto" />
+							<p:inputText id="txtProyectoCNombre" placeholder="Nombre" size="31"
+								binding="#{vtEmpresaThreeView.txtProyectoCNombre}" maxlength="100" />
+
+							<h:outputText value="Descripción del proyecto" />
+							<p:inputTextarea id="txtProyectoCDescripcion" rows="7" cols="30"
+								placeholder="Descripcion"
+								binding="#{vtEmpresaThreeView.txtProyectoCDescripcion}"
+								maxlength="100000000" />
 
 
+						</h:panelGrid>
+						<br></br>
+						<p:commandButton id="btnCrearProyecto" icon="fa fa-plus white"
+							action="#{vtEmpresaThreeView.crearProyectoAction}" value="Crear"
+							update="pnlCrearProyecto,pnlTreeTable,men" />
 
 
+						<p:commandButton id="btnCLimpiarProyecto" icon="fa fa-eraser white"
+							binding="#{vtEmpresaThreeView.btnProyectoCLimpiar}"
+							action="#{vtEmpresaThreeView.limpiarProyectoCAction}" value="Limpiar"
+							update="pnlCrearProyecto" />
+					</p:panel>
+
+				</div>
+			</p:dialog>
+<!--..............................................Crear Proyecto............................................... -->
+<!--........................................Asignar o Desasignar Usuarios............................................... -->
+			<p:dialog header="Asignar o Desasignar Usuarios" widgetVar="dlgPicklist"
+				resizable="true" id="dlAsignar" draggable="true" responsive="true"
+				modal="true" width="800">
+				<p:pickList id="pickList"
+					value="#{vtEmpresaThreeView.losUsuariosSeleccionados}"
+					showSourceControls="true" showTargetControls="true"
+					showCheckbox="true" responsive="true" var="usuarios"
+					itemLabel="#{usuarios}" itemValue="#{usuarios}"
+					converter="usuarioPickListConverter">
+
+					<f:facet name="sourceCaption">Usuarios Disponibles</f:facet>
+					<f:facet name="targetCaption">Usuarios Asignados</f:facet>
+
+					<p:ajax event="transfer"
+						listener="#{vtEmpresaThreeView.onTransfer}" update="men" />
+
+					<p:column style="width:10%;">
+						<h:outputText styleClass="icon-user" />
+					</p:column>
+
+					<p:column style="width:90%;">
+						<h:outputText value="#{usuarios.nombre}" />
+					</p:column>
+
+				</p:pickList>
+
+			</p:dialog>
+<!--........................................Asignar o Desasignar Usuarios............................................... -->
+<!--..............................................Crear Backlog............................................... -->		
+			<p:dialog header="Crear Backlog" widgetVar="dlgCrearBacklog"
+				modal="true" width="500" resizable="false">
+				<div align="center">
+					<p:panel header="Crear Backlog" id="pnlCrearBacklog">
+						<h:panelGrid columns="2">
+
+							<h:outputText value="Nombre de la Pila Producto" />
+							<p:inputText id="txtBacklogCNombre" placeholder="Nombre" size="31"
+								binding="#{vtEmpresaThreeView.txtBacklogCNombre}" maxlength="255" />
+
+							<h:outputText value="Descripcion de la Pila Producto" />
+							<p:inputTextarea id="txtBacklogCDescripcion" rows="7" cols="30"
+								placeholder="Descripcion"
+								binding="#{vtEmpresaThreeView.txtBacklogCDescripcion}" maxlength="100000000" />
+
+						</h:panelGrid>
+						<br/>
+						<p:commandButton id="btnCrearBacklog" icon="fa fa-plus white"
+							binding="#{vtEmpresaThreeView.btnCrearBacklog}"
+							action="#{vtEmpresaThreeView.crearBacklogAction}" value="Crear"
+							update="pnlCrearBacklog, pnlTreeTable, men" />
+
+						<p:commandButton id="btnBacklogCLimpiar" icon="fa fa-eraser white"
+							binding="#{vtEmpresaThreeView.btnBacklogCLimpiar}" value="Limpiar"
+							action="#{vtEmpresaThreeView.limpiarBacklogCAction}" update="pnlCrearBacklog" />
+					</p:panel>
+
+				</div>
+			</p:dialog>
+<!--..............................................Crear Backlog............................................... -->		
+		
 		</h:form>
-
+<!--..............................................Form............................................... -->
 	</ui:define>
 
 </ui:composition>

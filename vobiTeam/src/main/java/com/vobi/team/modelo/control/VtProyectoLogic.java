@@ -300,18 +300,8 @@ public class VtProyectoLogic implements IVtProyectoLogic {
             if (entity.getVtEmpresa().getEmprCodigo() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "emprCodigo_VtEmpresa");
-            }
-            
-            log.info("Llego el proyecto= " + entity.getProyCodigo());
-            
-            List<VtPilaProducto> losBacklog = vtPilaProductoLogic.findBacklogByProyecto(entity);
-            
-            for (VtPilaProducto vtPilaProducto : losBacklog) {
-				vtPilaProducto.setActivo(entity.getActivo());
-				vtPilaProducto.setUsuModificador(entity.getUsuModificador());
-				vtPilaProducto.setFechaModificacion(entity.getFechaModificacion());
-				vtPilaProductoLogic.updateVtPilaProducto(vtPilaProducto);
-			}
+            }  
+
             
             vtProyectoDAO.update(entity);
 

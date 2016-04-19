@@ -661,7 +661,7 @@ public class VtSprintView {
 
 	public String regresarAction(){
 
-		return "/XHTML/listaBacklog.xhtml";
+		return "/XHTML/TreeTable.xhtml";
 
 	}
 
