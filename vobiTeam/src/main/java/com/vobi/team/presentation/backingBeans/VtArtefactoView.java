@@ -1169,7 +1169,7 @@ public class VtArtefactoView {
 			return "/XHTML/modificarArtefactos.xhtml";
 		}
 		else{
-			FacesUtils.addErrorMessage("El proyecto esta inactivo");
+			FacesUtils.addErrorMessage("El artefacto esta inactivo");
 			return "";
 		}
 		

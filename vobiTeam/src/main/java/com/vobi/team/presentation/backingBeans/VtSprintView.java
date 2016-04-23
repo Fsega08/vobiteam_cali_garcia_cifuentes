@@ -770,6 +770,17 @@ public class VtSprintView {
 		pickListAsignarArtefactoAction();
 		return "/XHTML/crearSprint.xhtml";
 	}
+	
+	public String modificarSpringAction() throws Exception{
+		if (sprintSeleccionado.getActivo().equals("S")) {
+			FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+			return "/XHTML/modificarArtefactos.xhtml";
+		}
+		else{
+			FacesUtils.addErrorMessage("El sprint esta inactivo");
+			return "";
+		}
+	}
 
 	public void pickListAsignarArtefactoAction() throws Exception {
 		try {		

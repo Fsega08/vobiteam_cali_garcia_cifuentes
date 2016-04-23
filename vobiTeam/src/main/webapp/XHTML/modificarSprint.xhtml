@@ -58,7 +58,7 @@
 						<h:outputText value="Inicio del Sprint" />
 						<p:calendar id="clndFechaIncio" placeholder="Fecha de Inicio"
 							binding="#{vtSprintView.clndFechaIncio}"
-							value="#{vtSprintView.fechaInicio}" size="31">
+							value="#{vtSprintView.sprintSeleccionado.fechaCreacion}" size="31">
 							<p:ajax update="clndFechaFin" event="dateSelect" />
 						</p:calendar>
 
@@ -68,7 +68,7 @@
 						<p:calendar id="clndFechaFin" placeholder="Fecha de Fin"
 							binding="#{vtSprintView.clndFechaFin}"
 							mindate="#{vtSprintView.fechaInicio}"
-							value="#{vtSprintView.fechaFin}" size="31" />
+							value="#{vtSprintView.sprintSeleccionado.fechaFin}" size="31" />
 
 						<h:outputText value="Capacidad Estimada del Sprint" />
 						<p:inputText id="txtMCapacidadEstimada"

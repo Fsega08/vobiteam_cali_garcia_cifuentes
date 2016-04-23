@@ -652,10 +652,18 @@ public class VtEmpresaThreeView {
 			businessDelegatorView.saveVtProyecto(vtProyecto);
 
 			FacesUtils.addInfoMessage("Se ha creado el Proyecto con éxito");
-
+			
 			limpiarProyectoCAction();		
 			
 			new DefaultTreeNode("Proyecto",vtProyecto, selectedNode);
+			
+//			VtPilaProducto vtPilaProducto = businessDelegatorView.findBacklogByProyecto(vtProyecto).get(0);
+//			
+//			List<TreeNode> hijos = selectedNode.getChildren();
+//        	hijos.clear();
+//			hijos.add(new DefaultTreeNode("Backlog",vtPilaProducto, selectedNode));
+			
+			
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -848,7 +856,6 @@ public class VtEmpresaThreeView {
 			businessDelegatorView.saveVtPilaProducto(vtPilaProducto);
 
 			FacesUtils.addInfoMessage("Se ha creado el backlog con éxito");
-
 			limpiarBacklogCAction();
 			new DefaultTreeNode("Backlog",vtPilaProducto, selectedNode);
 		} catch (Exception e) {
