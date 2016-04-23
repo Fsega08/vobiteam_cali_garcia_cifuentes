@@ -774,7 +774,7 @@ public class VtSprintView {
 	public String modificarSpringAction() throws Exception{
 		if (sprintSeleccionado.getActivo().equals("S")) {
 			FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
-			return "/XHTML/modificarArtefactos.xhtml";
+			return "/XHTML/modificarSprint.xhtml";
 		}
 		else{
 			FacesUtils.addErrorMessage("El sprint esta inactivo");
@@ -784,7 +784,6 @@ public class VtSprintView {
 
 	public void pickListAsignarArtefactoAction() throws Exception {
 		try {		
-
 			artefactosCSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			artefactosCTarget = new ArrayList<VtArtefacto>();
 
