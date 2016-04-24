@@ -116,7 +116,7 @@ public class VtSprintView {
 
 		try {
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
-
+			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
 			losArtefactosParaAsignar = new ArrayList<VtArtefacto>();
 
 			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
