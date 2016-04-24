@@ -120,15 +120,25 @@ public class VtSprintView {
 			losArtefactosParaAsignar = new ArrayList<VtArtefacto>();
 
 			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
-			artefactosTarget = new ArrayList<VtArtefacto>();
+			
+			createMeterGaugeModels();
+			iniciarMeterGaugeModelsCreate();
+			
+			if(sprintSeleccionado != null){
+				artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
+				actualizarChartAction();
+			}else{
+				artefactosTarget = new ArrayList<VtArtefacto>();
+				pickListAsignarArtefactoAction();
+			}
+			
 
-			pickListAsignarArtefactoAction();
+			
 
 			losArtefactos = new DualListModel<>(artefactosSource, artefactosTarget);
 			losCArtefactos = new DualListModel<>(artefactosCSource, artefactosCTarget);
 
-			createMeterGaugeModels();
-			iniciarMeterGaugeModelsCreate();
+			
 			sumaEsfuerzoReal = 0;
 			sumaCrearEsfuerzoEstimado = 0;
 			sumaCrearEsfuerzoReal = 0;
@@ -144,13 +154,9 @@ public class VtSprintView {
 		return capacidadEstimada;
 	}
 
-
-
 	public void setCapacidadEstimada(String capacidadEstimada) {
 		this.capacidadEstimada = capacidadEstimada;
 	}
-
-
 
 	public MeterGaugeChartModel getChartModel() {
 		return chartModel;
