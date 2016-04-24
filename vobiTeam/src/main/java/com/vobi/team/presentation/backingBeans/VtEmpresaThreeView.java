@@ -1,5 +1,6 @@
 package com.vobi.team.presentation.backingBeans;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -655,13 +656,15 @@ public class VtEmpresaThreeView {
 			
 			limpiarProyectoCAction();		
 			
-			new DefaultTreeNode("Proyecto",vtProyecto, selectedNode);
+			TreeNode proyecto = new DefaultTreeNode("Proyecto",vtProyecto, selectedNode);
 			
-//			VtPilaProducto vtPilaProducto = businessDelegatorView.findBacklogByProyecto(vtProyecto).get(0);
-//			
-//			List<TreeNode> hijos = selectedNode.getChildren();
-//        	hijos.clear();
-//			hijos.add(new DefaultTreeNode("Backlog",vtPilaProducto, selectedNode));
+			List<VtPilaProducto> losBacklog = businessDelegatorView.findBacklogByProyecto(vtProyecto);
+            if(losBacklog!=null){
+            	List<TreeNode> hijos = new ArrayList<TreeNode>();
+                for (VtPilaProducto vtPilaProducto : losBacklog) {                	   				
+    				hijos.add(new DefaultTreeNode("Backlog",vtPilaProducto, proyecto));
+    			}
+            }
 			
 			
 		} catch (Exception e) {

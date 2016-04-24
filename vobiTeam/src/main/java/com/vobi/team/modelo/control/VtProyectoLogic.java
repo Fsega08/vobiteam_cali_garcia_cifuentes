@@ -158,20 +158,13 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 
             VtPilaProducto vtPilaProducto = new VtPilaProducto();
             
-            vtPilaProducto.setNombre(entity.getNombre());
-            
-            vtPilaProducto.setDescripcion(entity.getDescripcion());
-            
+            vtPilaProducto.setNombre(entity.getNombre());            
+            vtPilaProducto.setDescripcion(entity.getDescripcion());            
             vtPilaProducto.setActivo(entity.getActivo());
-            
-            vtPilaProducto.setFechaCreacion(entity.getFechaCreacion());
-            
-            vtPilaProducto.setFechaModificacion(entity.getFechaModificacion());
-            
-        	vtPilaProducto.setUsuCreador(entity.getUsuCreador());
-        	
-        	vtPilaProducto.setUsuModificador(entity.getUsuModificador());
-        	
+            vtPilaProducto.setFechaCreacion(entity.getFechaCreacion());            
+            vtPilaProducto.setFechaModificacion(entity.getFechaModificacion());            
+        	vtPilaProducto.setUsuCreador(entity.getUsuCreador());        	
+        	vtPilaProducto.setUsuModificador(entity.getUsuModificador());        	
         	vtPilaProducto.setVtProyecto(entity);
             
             vtProyectoDAO.save(entity);
