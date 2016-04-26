@@ -75,15 +75,35 @@ public class MenuModelView {
 		
 	}
 
-	private void menuDesarrollador() {
-		// TODO Auto-generated method stub
+	private void menuDesarrollador() {		
+		
+		DefaultMenuItem menuDashboard = new DefaultMenuItem("Derecha");
+		menuDashboard.setOutcome("dashboard.xhtml");
+		menuDashboard.setIcon("icon-home");
+		menuDashboard.setId("sm_Dashboard");
+		
+		DefaultSubMenu menuOrientacion = new DefaultSubMenu("Orientación del Menu");
+		DefaultMenuItem itemDerecha = new DefaultMenuItem("Derecha");
+		DefaultMenuItem itemIzquierda = new DefaultMenuItem("Izquierda");
+		
+		itemDerecha.setId("sm_rtl");
+		itemDerecha.setIcon("icon-align-right");
+		itemDerecha.setOnclick("$('body').addClass('ui-sentinel-rtl');return false;);");
+		
+		itemIzquierda.setId("sm_ltr");
+		itemIzquierda.setIcon("icon-align-left");
+		itemIzquierda.setOnclick("$('body').removeClass('ui-sentinel-rtl');return false;");
+		
+		menuOrientacion.setIcon("icon-align-right");
+		menuOrientacion.addElement(itemDerecha);
+		menuOrientacion.addElement(itemIzquierda);
+		
+		menuModel.addElement(menuDashboard);
+		menuModel.addElement(menuOrientacion);
 		
 	}
 
-	private void menuAdministrador() {
-		
-		
-		
+	private void menuAdministrador() {		
 		
 		DefaultSubMenu empresaSubmenu = new DefaultSubMenu("Empresa");		
 		DefaultMenuItem empresaItem = new DefaultMenuItem("Lista de Empresas");
