@@ -126,13 +126,8 @@
     </mime-mapping>
 	
 	<error-page>
-<<<<<<< HEAD
 		<error-code>403</error-code>
 		<location>/access-denied.xhtml</location>
-=======
-		<error-code>404</error-code>
-		<location>/404.xhtml</location>
->>>>>>> refs/remotes/origin/desarrollo
 	</error-page>
 	
 	<error-page>
