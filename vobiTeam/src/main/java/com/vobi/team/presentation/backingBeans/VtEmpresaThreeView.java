@@ -949,6 +949,8 @@ public class VtEmpresaThreeView {
 		//Guardo objeto en la sesion
 		if (backlogSeleccionado.getActivo().equals("S")) {
 			FacesUtils.putinSession("backlogSeleccionado", backlogSeleccionado);
+			proyectoSeleccionado = backlogSeleccionado.getVtProyecto();
+			FacesUtils.putinSession("proyectoSeleccionado", proyectoSeleccionado);
 			return "/XHTML/listaSprint.xhtml";
 		}
 		else{

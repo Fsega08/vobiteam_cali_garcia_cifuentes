@@ -1124,8 +1124,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	}
 
 	@Override
-	public boolean verificarContraseña(String password1, String password2) {
-		return vtUsuarioLogic.verificarContraseña(password1, password2);
+	public boolean verificarContraseña(VtUsuario vtUsuario, String passActual ,String password1, String password2){
+		return vtUsuarioLogic.verificarContraseña(vtUsuario, passActual, password1, password2);
 	}
 
 	@Override

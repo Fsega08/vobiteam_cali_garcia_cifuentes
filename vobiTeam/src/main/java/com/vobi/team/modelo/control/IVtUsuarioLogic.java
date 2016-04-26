@@ -64,5 +64,5 @@ public interface IVtUsuarioLogic {
 	
 	public void nuevoUsuario(VtUsuario vtUsuario) throws Exception;
 	
-	public boolean verificarContraseña(String password1, String password2);
+	public boolean verificarContraseña(VtUsuario vtUsuario, String passActual ,String password1, String password2);
 }

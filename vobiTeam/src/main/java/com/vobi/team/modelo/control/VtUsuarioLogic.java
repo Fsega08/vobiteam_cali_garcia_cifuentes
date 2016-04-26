@@ -729,13 +729,20 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	}
 	
 	@Transactional(readOnly = true)
-	public boolean verificarContraseña(String password1, String password2){	
-		if (password1.equals(password2)) {
-			return true;
-		}
-		else {
+	public boolean verificarContraseña(VtUsuario vtUsuario, String passActual ,String password1, String password2){	
+		
+		if (vtUsuario.getClave().equals(passActual)) {
+			if (password1.equals(password2)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}else {
 			return false;
-		}		
+		}
+		
+				
 	}
 	
 }

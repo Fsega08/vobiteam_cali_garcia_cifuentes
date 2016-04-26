@@ -724,9 +724,9 @@ public class VtSprintView {
 				removerArtefacto(vtArtefacto, sprintSeleccionado);
 			}
 
-
+			
 		}
-
+		actualizarChartAction();
 		FacesUtils.addInfoMessage("Artefacto(s) Transferidos");
 
 	}
@@ -780,6 +780,7 @@ public class VtSprintView {
 	public String modificarSpringAction() throws Exception{
 		if (sprintSeleccionado.getActivo().equals("S")) {
 			FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+			actualizarChartAction();
 			return "/XHTML/modificarSprint.xhtml";
 		}
 		else{

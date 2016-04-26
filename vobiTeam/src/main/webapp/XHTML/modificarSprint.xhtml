@@ -75,7 +75,7 @@
 							placeholder="Capacidad Estimada del Sprint" value="#{vtSprintView.sprintSeleccionado.capacidadEstimada}"
 							binding="#{vtSprintView.txtMCapacidadEstimada}" size="31">
 							<p:ajax event="blur" update="panelAsignar"
-								listener="#{vtSprintView.asignarArtefactoASprint}" />
+								listener="#{vtSprintView.asignarArtefactoAction}" />
 						</p:inputText>
 						<p:spacer width="100" height="10" />
 						<h:outputText value="Capacidad Real del Sprint" />

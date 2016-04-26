@@ -523,7 +523,7 @@ public interface IBusinessDelegatorView {
 
 	public VtUsuarioArtefacto findUsuarioArtefactoByArtefacto(VtArtefacto artefacto) throws Exception;
 	
-	public boolean verificarContraseña(String password1, String password2);
+	public boolean verificarContraseña(VtUsuario vtUsuario, String passActual ,String password1, String password2);
 	
 	public void send(String para, String asunto, String cuerpo) throws MessagingException;
 }

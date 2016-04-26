@@ -38,9 +38,8 @@
 
 
 				<p:contextMenu for="dtSprint" event="click contextmenu">
-					<p:menuitem value="Modificar" update="pnlModificarSprint"
-						icon="fa fa-pencil " oncomplete="PF('dlgModificarSprint').show()"
-						action="#{vtSprintView.modificarSpringAction}" />
+					<p:menuitem value="Modificar" 
+						icon="fa fa-pencil" action="#{vtSprintView.modificarSpringAction}" />
 
 					<p:menuitem value="Asignar artefactos a este sprint"
 						icon="fa fa-plus" oncomplete="PF('dlg').show()"
@@ -107,65 +106,7 @@
 
 				</p:dataTable>
 
-				<p:dialog header="Modificar Sprint" widgetVar="dlgModificarSprint"
-					modal="true" width="500">
-					<div align="center">
-						<p:panel header="Modificar Sprint" id="pnlModificarSprint">
-							<h:panelGrid columns="2">
-								<h:outputText value="Nombre del Sprint" />
-								<p:inputText id="txtMNombre" placeholder="Nombre"
-									binding="#{vtSprintView.txtMNombre}" size="31" />
-
-								<h:outputText value="Descripción del Sprint" />
-								<p:inputTextarea id="txtMDescripcion" rows="7" cols="30"
-									placeholder="Descripcion"
-									binding="#{vtSprintView.txtMDescripcion}" maxlength="100000000" />
-
-								<h:outputText value="Inicio del Sprint" />
-								<p:calendar id="clndFechaIncioM" placeholder="Fecha de Inicio"
-									binding="#{vtSprintView.clndMFechaIncio}"
-									value="#{vtSprintView.fechaInicioM}" size="31">
-									<p:ajax update="clndFechaFinM" event="dateSelect" />
-								</p:calendar>
-								<h:outputText value="Final del Sprint" />
-								<p:calendar id="clndFechaFinM" placeholder="Fecha de Fin"
-									binding="#{vtSprintView.clndMFechaFin}"
-									mindate="#{vtSprintView.fechaInicioM}"
-									value="#{vtSprintView.fechaFinM}" size="31" />
-
-								<h:outputText value="Estado del Sprint" />
-								<p:selectOneMenu id="somBacklogActivo"
-									binding="#{vtSprintView.somSprintActivo}">
-									<f:selectItem itemValue="-1" itemLabel="Estado" />
-									<f:selectItem itemValue="S" itemLabel="Activo" />
-									<f:selectItem itemValue="N" itemLabel="Inactivo" />
-								</p:selectOneMenu>
-
-								<h:outputText value="Capacidad Estimada del Sprint" />
-								<p:inputText id="txtMCapacidadEstimada"
-									placeholder="Capacidad Estimada del Sprint"
-									binding="#{vtSprintView.txtMCapacidadEstimada}" size="31" />
-
-								<h:outputText value="Capacidad Real del Sprint" />
-								<p:inputText id="txtMCapacidadReal"
-									placeholder="Capacidad Real del Sprint" disabled="true"
-									binding="#{vtSprintView.txtMCapacidadReal}" size="31" />
-							</h:panelGrid>
-							<br />
-							<p:commandButton id="btnModificar" icon="fa fa-pencil white"
-								binding="#{vtSprintView.btnModificar}"
-								action="#{vtSprintView.modificarAction}" value="Modificar"
-								update="pnlModificarSprint, dtSprint, msg" />
-
-							<p:commandButton id="btnMLimpiar" icon="fa fa-eraser white"
-								update="pnlModificarSprint"
-								binding="#{vtSprintView.btnLimpiarM}"
-								action="#{vtSprintView.limpiarActionM}" value="Limpiar" />
-						</p:panel>
-
-					</div>
-
-				</p:dialog>
+				
 			</p:panel>
 
 			<p:panel>
@@ -196,7 +137,7 @@
 							<f:facet name="targetCaption">Artefactos Asignados</f:facet>
 
 							<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
-								update="msj, panelAsignar" />
+								update="men, panelAsignar" />
 
 							<p:column style="width:10%">
 								<h:outputText styleClass="icon-doc-text-inv" />
@@ -206,10 +147,10 @@
 								<h:outputText value="#{artefactos.titulo}" />
 							</p:column>
 						</p:pickList>
-						
-							<p:chart id="chartModel" type="metergauge"
-								model="#{vtSprintView.chartModel}"
-								style="width:400px;height:250px" />
+
+						<p:chart id="chartModel" type="metergauge"
+							model="#{vtSprintView.chartModel}"
+							style="width:400px;height:250px" />
 						
 				</h:panelGrid>
 			</p:dialog>
