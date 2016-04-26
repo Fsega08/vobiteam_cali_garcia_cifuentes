@@ -122,7 +122,7 @@ public class VtSprintView {
 			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			
 			createMeterGaugeModels();
-			iniciarMeterGaugeModelsCreate();
+			
 			
 			if(sprintSeleccionado != null){
 				artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
@@ -138,6 +138,7 @@ public class VtSprintView {
 			losArtefactos = new DualListModel<>(artefactosSource, artefactosTarget);
 			losCArtefactos = new DualListModel<>(artefactosCSource, artefactosCTarget);
 
+			iniciarMeterGaugeModelsCreate();
 			
 			sumaEsfuerzoReal = 0;
 			sumaCrearEsfuerzoEstimado = 0;
