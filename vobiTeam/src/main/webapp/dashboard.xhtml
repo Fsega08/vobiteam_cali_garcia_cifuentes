@@ -58,12 +58,12 @@
                         <p:panel style="min-height: 300px;">
                             <i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>
                             <div class="Fs24 Fright MarTop10 leaden Wid70"><h:outputText class="hardblue" value="#{vtUsuarioView.usuSesion.nombre}" />, Bienvenido</div>
-                            <div class="Fs12 Fright leaden Wid70">You have <span class="red">3 unread messages</span> and <span class="red"><h:outputText class="red" value="#{vtUsuarioView.cantidadArtefactos}" /> tasks</span> !</div>
+                            <div class="Fs12 Fright leaden Wid70">Tienes <span class="red"><h:outputText class="red" value="#{vtUsuarioView.cantidadArtefactos}" /> tareas asignadas</span> !</div>
                             <div class="EmptyBox10"></div>
                             <p:separator styleClass="Wid100"></p:separator>
                             <div class="EmptyBox10"></div>
                             <div class="Fs16 Fright">
-                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-briefcase hardblue"> Tareas (<h:outputText class="red" value="#{vtUsuarioView.cantidadArtefactos}" />)</i></a>
+                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-briefcase hardblue"> Tareas (<h:outputText class="hardblue" value="#{vtUsuarioView.cantidadArtefactos}" />)</i></a>
                                 
                                 <a href="/vobiTeam/perfil.xhtml" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-cog-alt hardblue"> Ir a perfil</i></a>
                             </div>

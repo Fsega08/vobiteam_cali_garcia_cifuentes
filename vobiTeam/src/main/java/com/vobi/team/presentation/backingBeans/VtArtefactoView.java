@@ -36,6 +36,7 @@ import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
+import com.vobi.team.utilities.Utilities;
 
 
 
@@ -706,25 +707,25 @@ public class VtArtefactoView {
 
 		try {
 			if (txtCrearNombre.getValue().toString().trim().equals("") == true || txtCrearNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor ingrese el nombre");
 			}
 			if (txtCrearDescripcion.getValue().toString().trim().equals("") == true || txtCrearDescripcion.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor ingrese la descripción");
 			}
 			if (txtCrearOrigen.getValue().toString().trim().equals("") == true || txtCrearOrigen.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor ingrese el origen del artefacto");
 			}
-			if (txtCrearPuntos.getValue().toString().trim().equals("") == true || txtCrearPuntos.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+			if (txtCrearPuntos.getValue().toString().trim().equals("") == true || txtCrearPuntos.getValue() == null || !Utilities.isNumeric(txtCrearPuntos.getValue().toString().trim())) {
+				throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta numeros");
 			}
-			if (txtCrearEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoEstimado.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+			if (txtCrearEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoEstimado.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoEstimado.getValue().toString().trim())) {
+				throw new Exception("Por favor ingrese el esfuerzo estimado, recuerde este campo solo acepta numeros");
 			}
-			if (txtCrearEsfuerzoReal.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoReal.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+			if (txtCrearEsfuerzoReal.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoReal.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoReal.getValue().toString().trim()) ) {
+				throw new Exception("Por favor ingrese el esfuerzo real, recuerde este campo solo acepta numeros");
 			}
-			if (txtCrearEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoRestante.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+			if (txtCrearEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoRestante.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoRestante.getValue().toString().trim())) {
+				throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo solo acepta numeros");
 			}
 
 			if (somCrearEstadoArtefacto.getValue().toString().trim().equals("-1") == true) {
@@ -991,25 +992,25 @@ public class VtArtefactoView {
 
 		try {
 			if (txtNombre.getValue().toString().trim().equals("") == true || txtNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor ingrese el nombre");
 			}
 			if (txtDescripcion.getValue().toString().trim().equals("") == true || txtDescripcion.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor ingrese una descripción");
 			}
 			if (txtOrigen.getValue().toString().trim().equals("") == true || txtOrigen.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor ingrese el origen del artefacto");
 			}
-			if (txtPuntos.getValue().toString().trim().equals("") == true || txtPuntos.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+			if (txtPuntos.getValue().toString().trim().equals("") == true || txtPuntos.getValue() == null || !Utilities.isNumeric(txtPuntos.getValue().toString().trim())) {
+				throw new Exception("Por favor ingrese los puntos, recuerde que este campo es de valor numerico");
 			}
-			if (txtEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtEsfuerzoEstimado.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+			if (txtEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtEsfuerzoEstimado.getValue() == null || !Utilities.isNumeric(txtEsfuerzoEstimado.getValue().toString().trim())) {
+				throw new Exception("Por favor ingrese el esfuerzo estimado, recuerde que este campo es de valor numerico");
 			}
-			if (txtEsfuerzoReal.getValue().toString().trim().equals("") == true || txtEsfuerzoReal.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+			if (txtEsfuerzoReal.getValue().toString().trim().equals("") == true || txtEsfuerzoReal.getValue() == null || !Utilities.isNumeric(txtEsfuerzoReal.getValue().toString().trim())) {
+				throw new Exception("Por favor ingrese el esfuerzo real, recuerde que este campo es de valor numerico");
 			}
-			if (txtEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtEsfuerzoRestante.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+			if (txtEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtEsfuerzoRestante.getValue() == null || !Utilities.isNumeric(txtEsfuerzoRestante.getValue().toString().trim())) {
+				throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo es de valor numerico");
 			}
 
 			if (somEstadoArtefacto.getValue().toString().trim().equals("-1") == true) {
