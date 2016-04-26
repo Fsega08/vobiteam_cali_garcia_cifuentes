@@ -32,14 +32,15 @@
 					<div align="center">
 						<p:commandButton id="btnCrearSprint" value="Crear Sprint"
 							binding="#{vtSprintView.btnCrearSprint}" icon="fa fa-plus white"
-							action="#{vtSprintView.crearSpringAction}" />
+							action="#{vtSprintView.crearSprintAction}" />
 					</div>
 				</p:panel>
 
 
 				<p:contextMenu for="dtSprint" event="click contextmenu">
 					<p:menuitem value="Modificar" 
-						icon="fa fa-pencil" action="#{vtSprintView.modificarSpringAction}" />
+						icon="fa fa-pencil " oncomplete="PF('dlgModificarSprint').show()"
+						action="#{vtSprintView.modificarSprintAction}" />
 
 					<p:menuitem value="Asignar artefactos a este sprint"
 						icon="fa fa-plus" oncomplete="PF('dlg').show()"
@@ -105,7 +106,6 @@
 					</p:column>
 
 				</p:dataTable>
-
 				
 			</p:panel>
 
@@ -137,7 +137,7 @@
 							<f:facet name="targetCaption">Artefactos Asignados</f:facet>
 
 							<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
-								update="men, panelAsignar" />
+								update="msj, panelAsignar" />
 
 							<p:column style="width:10%">
 								<h:outputText styleClass="icon-doc-text-inv" />
@@ -147,10 +147,10 @@
 								<h:outputText value="#{artefactos.titulo}" />
 							</p:column>
 						</p:pickList>
-
-						<p:chart id="chartModel" type="metergauge"
-							model="#{vtSprintView.chartModel}"
-							style="width:400px;height:250px" />
+						
+							<p:chart id="chartModel" type="metergauge"
+								model="#{vtSprintView.chartModel}"
+								style="width:400px;height:250px" />
 						
 				</h:panelGrid>
 			</p:dialog>
