@@ -1146,12 +1146,13 @@ public class VtArtefactoView {
 	
 
 	public String regresarAction(){
-
+		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
 		return "/XHTML/TreeTable.xhtml";
 
 	}
 
 	public String sprintAction(){
+		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
 		return "/XHTML/listaSprint.xhtml";
 	}
 

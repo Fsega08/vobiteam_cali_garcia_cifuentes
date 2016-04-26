@@ -58,15 +58,15 @@
 
 						<h:outputText value="Inicio del Sprint" />
 						<p:calendar id="clndFechaIncio" placeholder="Fecha de Inicio"
-							binding="#{vtSprintView.clndFechaIncio}"
-							value="#{vtSprintView.sprintSeleccionado.fechaCreacion}"
+							binding="#{vtSprintView.clndMFechaIncio}"
+							value="#{vtSprintView.sprintSeleccionado.fechaInicio}"
 							size="31">
 							<p:ajax update="clndFechaFin" event="dateSelect" />
 						</p:calendar>
 						<p:spacer width="100" height="10" />
 						<h:outputText value="Final del Sprint" />
 						<p:calendar id="clndFechaFin" placeholder="Fecha de Fin"
-							binding="#{vtSprintView.clndFechaFin}"
+							binding="#{vtSprintView.clndMFechaFin}"
 							mindate="#{vtSprintView.sprintSeleccionado.fechaInicio}"
 							value="#{vtSprintView.sprintSeleccionado.fechaFin}" size="31" />
 
@@ -133,7 +133,7 @@
 
 				<h:panelGrid columns="1" id="panelGrid2">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
-						action="#{vtArtefactoView.sprintAction}" value="Regresar a Sprint"
+						action="#{vtSprintView.sprintAction}" value="Regresar a Sprint"
 						update="formDialog" />
 
 				</h:panelGrid>

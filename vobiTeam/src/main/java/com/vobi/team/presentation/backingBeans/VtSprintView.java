@@ -31,8 +31,6 @@ import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 import com.vobi.team.utilities.Utilities;
 
-
-
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("serial")
@@ -74,7 +72,6 @@ public class VtSprintView {
 	private InputText txtMCapacidadReal;
 
 	private SelectOneMenu somSprintActivo;
-
 
 	private CommandButton btnModificar;
 	private CommandButton btnLimpiarM;
@@ -121,8 +118,7 @@ public class VtSprintView {
 
 			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			
-			createMeterGaugeModels();
-			
+			createMeterGaugeModels();			
 			
 			if(sprintSeleccionado != null){
 				artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
@@ -130,10 +126,7 @@ public class VtSprintView {
 			}else{
 				artefactosTarget = new ArrayList<VtArtefacto>();
 				pickListAsignarArtefactoAction();
-			}
-			
-
-			
+			}			
 
 			losArtefactos = new DualListModel<>(artefactosSource, artefactosTarget);
 			losCArtefactos = new DualListModel<>(artefactosCSource, artefactosCTarget);
@@ -552,12 +545,13 @@ public class VtSprintView {
 	}
 
 	public void limpiarActionM(){
-		txtMNombre.resetValue();
-		txtMDescripcion.resetValue();
-		txtMCapacidadEstimada.resetValue();
-		txtMCapacidadReal.resetValue();
-		fechaFinM = null;
-		fechaInicioM = null;
+		sprintSeleccionado.setNombre("");
+		sprintSeleccionado.setObjetivo("");
+		sprintSeleccionado.setCapacidadEstimada(0);
+		sprintSeleccionado.setCapacidadReal(0);
+		sprintSeleccionado.setFechaInicio(null);
+		sprintSeleccionado.setFechaFin(null);
+		somSprintActivo.setValue("-1");
 	}
 
 	public void modificarAction()throws Exception{
@@ -569,6 +563,9 @@ public class VtSprintView {
 			String nombre = txtMNombre.getValue().toString();
 			String descripcion = txtMDescripcion.getValue().toString();
 			String capacidadE = txtMCapacidadEstimada.getValue().toString();
+			fechaInicioM = sprintSeleccionado.getFechaInicio();
+			fechaFinM = sprintSeleccionado.getFechaFin();
+			
 			if(nombre.equals("")|| nombre == null){
 				throw new Exception("El nombre es requerido");
 			}
@@ -587,20 +584,18 @@ public class VtSprintView {
 
 			if(capacidadE.equals("")|| capacidadE == null || !Utilities.isNumeric(capacidadE)){
 				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
-			}					
+			}
+			
+			sprintSeleccionado.setNombre(nombre);
+			sprintSeleccionado.setObjetivo(descripcion);
+			sprintSeleccionado.setFechaInicio(fechaInicioM);
+			sprintSeleccionado.setFechaFin(fechaFinM);
+			sprintSeleccionado.setFechaModificacion(new Date());
+			sprintSeleccionado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+			sprintSeleccionado.setCapacidadEstimada(Integer.parseInt(capacidadE));
+			sprintSeleccionado.setActivo(somSprintActivo.getValue().toString().trim());
 
-			VtSprint sprint = sprintSeleccionado;
-
-			sprint.setNombre(nombre);
-			sprint.setObjetivo(descripcion);
-			sprint.setFechaInicio(fechaInicioM);
-			sprint.setFechaFin(fechaFinM);
-			sprint.setFechaModificacion(new Date());
-			sprint.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
-			sprint.setCapacidadEstimada(Integer.parseInt(capacidadE));
-			sprint.setActivo(somSprintActivo.getValue().toString().trim());
-
-			businessDelegatorView.updateVtSprint(sprint);
+			businessDelegatorView.updateVtSprint(sprintSeleccionado);
 			FacesUtils.addInfoMessage("Se ha actualizado el Sprint con exito");
 			losSprint = businessDelegatorView.findSprintByBacklog(backlogSeleccionado);
 
@@ -627,10 +622,12 @@ public class VtSprintView {
 	}
 
 	public void actualizarChartAction(){		
-
+		
+		getLosArtefactosAsignados();
+		
 		double inteval1 = sprintSeleccionado.getCapacidadEstimada()*(0.333);
-		double inteval2 = sprintSeleccionado.getCapacidadEstimada()*(0.666);
-
+		double inteval2 = sprintSeleccionado.getCapacidadEstimada()*(0.666);		
+		
 		List<Number> intervals = new ArrayList<Number>();
 
 		if(losArtefactosAsignados != null){
@@ -734,12 +731,12 @@ public class VtSprintView {
 
 	public void asignarArtefactoASprint(VtArtefacto vtArtefacto, VtSprint vtSprint) {
 		try {
-			log.info("asigno");
 			vtArtefacto.setVtSprint(vtSprint);
 			vtSprint.setCapacidadReal(vtSprint.getCapacidadReal()+vtArtefacto.getEsfuerzoReal());
+			
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
 			businessDelegatorView.updateVtSprint(vtSprint);
-			getLosArtefactosAsignados();
+			
 			actualizarChartAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -749,13 +746,11 @@ public class VtSprintView {
 
 	public void removerArtefacto(VtArtefacto vtArtefacto, VtSprint vtSprint) {
 		try {
-			log.info("removio");
 			vtArtefacto.setVtSprint(null);
 			vtSprint.setCapacidadReal(vtSprint.getCapacidadReal()-vtArtefacto.getEsfuerzoReal());
 
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
-			businessDelegatorView.updateVtSprint(vtSprint);
-			getLosArtefactosAsignados();
+			businessDelegatorView.updateVtSprint(vtSprint);			
 			actualizarChartAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -773,12 +768,12 @@ public class VtSprintView {
 
 	}
 
-	public String crearSpringAction() throws Exception{
+	public String crearSprintAction() throws Exception{
 		pickListAsignarArtefactoAction();
 		return "/XHTML/crearSprint.xhtml";
 	}
 	
-	public String modificarSpringAction() throws Exception{
+	public String modificarSprintAction() throws Exception{
 		if (sprintSeleccionado.getActivo().equals("S")) {
 			FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
 			actualizarChartAction();
@@ -810,18 +805,14 @@ public class VtSprintView {
 				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
 			}
 			
-			StringBuilder builder = new StringBuilder();
+			
 
 			for(Object item : event.getItems()) {
-				VtArtefacto vtArtefacto=(VtArtefacto) item;
-
-				builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
+				VtArtefacto vtArtefacto=(VtArtefacto) item;				
 
 				//true si paso de izquierda a derecha
 				if(event.isAdd()){
 					
-					log.info("capaciadadObt+"
-							+ "= "+ capacidadEstimada);
 					losArtefactosParaAsignar.add(vtArtefacto);
 						
 				}
@@ -842,8 +833,6 @@ public class VtSprintView {
 	public void actualizarCrearChartAction(){		
 
 		try {
-
-
 
 			double inteval1 = Double.parseDouble(capacidadEstimada)*(0.333);
 			double inteval2 = Double.parseDouble(capacidadEstimada)*(0.666);
@@ -888,6 +877,11 @@ public class VtSprintView {
 		}
 
 
+	}
+	
+	public String sprintAction(){
+		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+		return "/XHTML/listaSprint.xhtml";
 	}
 
 
