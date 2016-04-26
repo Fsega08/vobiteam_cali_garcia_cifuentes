@@ -21,35 +21,7 @@
 
 		<h:form id="menuform">
 
-			<ps:menu id="sm_leftmenu">
-
-				<p:submenu id="sm_Empresa" label="Empresa" icon=" icon-home">
-					<p:menuitem id="sm_DashboardEmpresa" value="Lista de Empresas "
-						icon="icon-list" outcome="/XHTML/TreeTable.xhtml" />
-				</p:submenu>
-				<p:submenu id="sm_Usuario" label="Usuario" icon="icon-male">
-					<p:menuitem id="sm_vtUsuario" value="Lista de Usuarios" icon="icon-list"
-						outcome="/XHTML/listaUsuarios" />
-				</p:submenu>
-				<p:submenu id="sm_PropArte" label="Otras Propiedades"
-					icon="icon-cog-alt">
-					<p:menuitem id="sm_vtRol" value="Gestion de Roles"
-						icon="icon-users-2" outcome="/XHTML/listaRoles.xhtml" />
-					<p:menuitem id="sm_vtPrioridad"
-						value="Gestión Prioridades del Artefacto" icon="icon-menu-outline"
-						outcome="/XHTML/listaPrioridad.xhtml" />
-					<p:menuitem id="sm_vtEstado" value="Gestión Estados del Artefacto"
-						icon="icon-archive" outcome="/XHTML/listaEstado.xhtml" />
-					<p:menuitem id="sm_vtTipo" value="Gestión Tipos de Artefacto"
-						icon="icon-clipboard" outcome="/XHTML/listaTipoArtefacto.xhtml" />
-					<p:menuitem id="sm_vtInteres" value="Gestión Interes"
-						icon="icon-stackoverflow" outcome="/XHTML/listaInteres.xhtml" />
-				</p:submenu>
-				<p:submenu id="sm_orientation" label="Orientación del menu" icon="icon-align-right">
-                    <p:menuitem id="sm_rtl" value="Derecha" icon="icon-align-right" onclick="$('body').addClass('ui-sentinel-rtl');return false;" />
-                    <p:menuitem id="sm_ltr" value="Izquierda" icon="icon-align-left" onclick="$('body').removeClass('ui-sentinel-rtl');return false;" />
-                </p:submenu>
-			</ps:menu>
+			<ps:menu model="#{menuModelView.menuModel}"/>
 
 
 		</h:form>
