@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
    
     <http auto-config="true" >
-        <intercept-url pattern="/XHTML/*" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/XHTML/*" access="hasRole('ROLE_ADMINISTRADOR')" />
                
         <form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?authfailed=true" default-target-url="/XHTML/initialMenu.xhtml" always-use-default-target="false"  />
 			

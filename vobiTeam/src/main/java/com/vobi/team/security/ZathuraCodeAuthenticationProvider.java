@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.stereotype.Component;
 
+import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -47,19 +49,23 @@ public class ZathuraCodeAuthenticationProvider implements AuthenticationProvider
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
         
-        if (name.equals("admin") && password.equals("admin")) {
-            final List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
-            grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-            final UserDetails principal = new User(name, password, grantedAuths);
-            final Authentication auth = new UsernamePasswordAuthenticationToken(principal,
-                    password, grantedAuths);
-
-            return auth;
-        } else if(autorizado){
+        if(autorizado){
         	 final List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
-             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
 
+             try {
+            	VtUsuario vtUsuario = buisnessDelegator.findUsuarioByLogin(name);
+				List<VtUsuarioRol> usuarioRol = buisnessDelegator.findUsuarioRolbyUsuario(vtUsuario);
+				
+				for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
+					String rol = vtUsuarioRol.getVtRol().getRolNombre();
+					
+					grantedAuths.add(new SimpleGrantedAuthority("ROLE_" + rol));
+				}
+			} catch (Exception e) {
+				FacesUtils.addErrorMessage(e.getMessage());
+			}
+                     
+             
              final UserDetails principal = new User(name, password, grantedAuths);
              final Authentication auth = new UsernamePasswordAuthenticationToken(principal,
                      password, grantedAuths);

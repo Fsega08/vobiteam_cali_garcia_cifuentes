@@ -57,15 +57,15 @@
                     <div class="ContainerIndent">
                         <p:panel style="min-height: 300px;">
                             <i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>
-                            <div class="Fs24 Fright MarTop10 leaden Wid70"><span class="hardblue">Walter White</span>, Welcome</div>
-                            <div class="Fs12 Fright leaden Wid70">You have <span class="red">3 unread messages</span> and <span class="red"> 32 tasks</span> !</div>
+                            <div class="Fs24 Fright MarTop10 leaden Wid70"><h:outputText class="hardblue" value="#{vtUsuarioView.usuSesion.nombre}" />, Bienvenido</div>
+                            <div class="Fs12 Fright leaden Wid70">You have <span class="red">3 unread messages</span> and <span class="red"><h:outputText class="red" value="#{vtUsuarioView.cantidadArtefactos}" /> tasks</span> !</div>
                             <div class="EmptyBox10"></div>
                             <p:separator styleClass="Wid100"></p:separator>
                             <div class="EmptyBox10"></div>
                             <div class="Fs16 Fright">
-                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-briefcase hardblue"> Tasks (32)</i></a>
-                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-bell-alt hardblue"> Messages (3)</i></a>
-                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-cog-alt hardblue"> Settings</i></a>
+                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-briefcase hardblue"> Tareas (<h:outputText class="red" value="#{vtUsuarioView.cantidadArtefactos}" />)</i></a>
+                                
+                                <a href="/vobiTeam/perfil.xhtml" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-cog-alt hardblue"> Ir a perfil</i></a>
                             </div>
                             <div class="EmptyBox10"></div>
                             <p:separator styleClass="Wid100"></p:separator>

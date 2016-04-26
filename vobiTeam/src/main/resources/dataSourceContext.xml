@@ -15,7 +15,7 @@
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://127.0.0.1:5432/vobiteam" />
 		<property name="username" value="postgres" />
-		<property name="password" value="1125" />
+		<property name="password" value="sega0826" />
 
 	</bean>
 

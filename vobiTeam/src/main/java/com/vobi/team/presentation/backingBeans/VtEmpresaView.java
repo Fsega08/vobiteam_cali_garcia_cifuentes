@@ -137,36 +137,6 @@ public class VtEmpresaView {
 		this.lasEmpresas = lasEmpresas;
 	}
 
-	//	public MenuModel getMenuDinamicoEmpresa() {
-	//		try {
-	//			lasEmpresas = businessDelegatorView.getVtEmpresa();
-	//			menuDinamicoEmpresa =  new DefaultMenuModel();
-	//			
-	//			subMenuEmpresa = new DefaultSubMenu("Lista Empresas Asociadas");
-	//			subMenuEmpresa.setIcon("icon-building");
-	//			for (VtEmpresa vtEmpresa : lasEmpresas) {
-	//				if (subMenuEmpresa != null && vtEmpresa != null) {
-	//					log.info("La empresa es: " + vtEmpresa.getNombre());
-	//					item = new DefaultMenuItem(vtEmpresa.getNombre());
-	//					subMenuEmpresa.addElement(item);
-	//					item.setAjax(true);
-	//					item.setUrl("/XHTML/vtEmpresa.xhtml");
-	//					item.setIcon("icon-building-filled");
-	//					item.setOnclick(vtEmpresa.getIdentificacion());
-	//					item.setCommand("#{vtEmpresaView.pruebaListener}");
-	//				}
-	//			}
-	//			menuDinamicoEmpresa.addElement(subMenuEmpresa);
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//		}
-	//		return menuDinamicoEmpresa;
-	//	}
-	//
-	//	public void setMenuDinamicoEmpresa(MenuModel menuDinamicoEmpresa) {
-	//		this.menuDinamicoEmpresa = menuDinamicoEmpresa;
-	//	}
-
 	public CommandButton getBtnCrear() {
 		return btnCrear;
 	}

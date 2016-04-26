@@ -86,7 +86,7 @@ import javax.mail.MessagingException;
  *
  */
 public interface IBusinessDelegatorView {
-
+	
 	public List<VtUsuario> getVtUsuarioAsignados(VtProyecto proyecto) throws Exception;
 	
 	public void recuperarContrasena(VtUsuario vtUsuario) throws Exception;
@@ -526,4 +526,6 @@ public interface IBusinessDelegatorView {
 	public boolean verificarContraseña(VtUsuario vtUsuario, String passActual ,String password1, String password2);
 	
 	public void send(String para, String asunto, String cuerpo) throws MessagingException;
+	
+	public List<VtUsuarioArtefacto> findUsuarioArtefactoByUsuarios(VtUsuario vtUsuario) throws Exception;
 }

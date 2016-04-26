@@ -126,8 +126,13 @@
     </mime-mapping>
 	
 	<error-page>
-		<error-code>404</error-code>
+		<error-code>403</error-code>
 		<location>/access-denied.xhtml</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.xhtml</location>
 	</error-page>
 	
 </web-app>

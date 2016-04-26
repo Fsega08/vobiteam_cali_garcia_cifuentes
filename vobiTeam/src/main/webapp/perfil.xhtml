@@ -33,7 +33,16 @@
 					
 				</div>
 				
-				<p:spacer width="100" height="50" />
+				<p:spacer width="100" height="20" />
+				
+				<div align="center">
+				<p:commandButton value="Cambiar Contreseña" update="pnlInfo"
+							icon="fa fa-pencil white" oncomplete="PF('cambioPass').show()" />
+				
+				
+				</div>
+				
+				<p:spacer width="100" height="10" />
 				
 				<p:panel class="leaden-back">
 					<div class="Fs20 TexAlCenter red">Información</div>
@@ -79,7 +88,41 @@
 				
 			</p:panel>
 			
+			<p:dialog header="Cambiar Contraseña"
+				widgetVar="cambioPass" modal="true" id="modHistArt" width="400"
+				resizable="false">
+						
+						<h:panelGrid columns="2" id="panelHMGrid">
+
+							<h:outputText value="Contraseña Actual" />
+							<p:password id="txtActual"
+								placeholder="Contraseña Actual"
+								binding="#{vtUsuarioView.contrasenaActual}"/>
 			
+
+							<h:outputText value="Nueva Contraseña" />
+							<p:password id="txtPassNuevo"
+								placeholder="Nueva Contraseña"
+								binding="#{vtUsuarioView.contrasenaNueva}"
+								/>
+
+							<h:outputText value="Confirmar Contraseña" />
+							<p:password id="txtPassConfirmar" placeholder="Confirmar Contraseña"
+								binding="#{vtUsuarioView.contrasenaConfirmacion}" />
+
+						</h:panelGrid>
+
+					<div align="center">
+						<br />
+						<p:commandButton id="btnModificar"
+								icon="fa fa-pencil white" action="#{vtUsuarioView.modficarContrasena}" value="Modificar"
+								update="panelHMGrid, men" />
+
+							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
+								action="#{vtUsuarioView.limpiarModificarContraseñaAction}" value="Limpiar"
+								update="panelHMGrid" />
+					</div>
+			</p:dialog>
 
 		</h:form>
 

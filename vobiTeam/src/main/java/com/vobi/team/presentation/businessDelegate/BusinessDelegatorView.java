@@ -1132,6 +1132,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public void send(String para, String asunto, String cuerpo) throws MessagingException {	
 		mailService.send(para, asunto, cuerpo);
 	}
+
+	@Override
+	public List<VtUsuarioArtefacto> findUsuarioArtefactoByUsuarios(VtUsuario vtUsuario) throws Exception {
+		return vtUsuarioArtefactoLogic.findUsuarioArtefactoByUsuarios(vtUsuario);
+	}
 	
 	
 	

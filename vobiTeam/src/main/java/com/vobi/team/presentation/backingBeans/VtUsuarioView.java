@@ -18,16 +18,12 @@ import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vobi.team.exceptions.ZMessManager;
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
@@ -79,21 +75,25 @@ public class VtUsuarioView {
 	private SelectOneMenu somEmpresasM;
 	private SelectOneMenu somEstado;	
 	private List<SelectItem> lasEmpresasM;
-	
-	//// Perfil
-	
-	private Password txtPassword;
-	private Password txtPasswordConfirmation;
 
 	////// PickList
 	private DualListModel<VtRol> pickListRol;
 	private List<VtRol> rolSource;
 	private List<VtRol> rolTarget;
-	
+
+	// Cambiar contraseña
+
+	private Password contrasenaActual;
+	private Password contrasenaNueva;
+	private Password contrasenaConfirmacion;
+
 	private List<VtRol> usuarioRol;
 	
-	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
+	private List<VtUsuarioArtefacto> usuarioArtefactos;
+	private int cantidadArtefactos;
 	
+	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
+
 	private VtUsuario usuSesion;
 
 	@PostConstruct
@@ -103,6 +103,8 @@ public class VtUsuarioView {
 			usuarioSeleccionado = businessDelegatorView.getVtUsuario(1L);
 			rolSource = businessDelegatorView.getRolesNoAsignados(usuarioSeleccionado);
 			rolTarget = businessDelegatorView.getRolesAsignados(usuarioSeleccionado);
+			usuarioArtefactos = businessDelegatorView.findUsuarioArtefactoByUsuarios(usuSesion);
+			cantidadArtefactos = usuarioArtefactos.size();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -113,14 +115,28 @@ public class VtUsuarioView {
 	public VtUsuario getUsuSesion() {
 		return usuSesion;
 	}
+	
+	
 
+	public int getCantidadArtefactos() {
+		return cantidadArtefactos;
+	}
 
+	public void setCantidadArtefactos(int cantidadArtefactos) {
+		this.cantidadArtefactos = cantidadArtefactos;
+	}
 
 	public void setUsuSesion(VtUsuario usuSesion) {
 		this.usuSesion = usuSesion;
 	}
 
+	public List<VtUsuarioArtefacto> getUsuarioArtefactos() {
+		return usuarioArtefactos;
+	}
 
+	public void setUsuarioArtefactos(List<VtUsuarioArtefacto> usuarioArtefactos) {
+		this.usuarioArtefactos = usuarioArtefactos;
+	}
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
@@ -147,6 +163,31 @@ public class VtUsuarioView {
 	public void setTxtPasswordC(Password txtPasswordC) {
 		this.txtPasswordC = txtPasswordC;
 	}	
+
+	public Password getContrasenaActual() {
+		return contrasenaActual;
+	}
+
+	public void setContrasenaActual(Password contrasenaActual) {
+		this.contrasenaActual = contrasenaActual;
+	}
+
+	public Password getContrasenaNueva() {
+		return contrasenaNueva;
+	}
+
+	public void setContrasenaNueva(Password contrasenaNueva) {
+		this.contrasenaNueva = contrasenaNueva;
+	}
+
+	public Password getContrasenaConfirmacion() {
+		return contrasenaConfirmacion;
+	}
+
+	public void setContrasenaConfirmacion(Password contrasenaConfirmacion) {
+		this.contrasenaConfirmacion = contrasenaConfirmacion;
+	}
+
 	public Password getTxtPasswordC2() {
 		return txtPasswordC2;
 	}
@@ -184,9 +225,9 @@ public class VtUsuarioView {
 	public void setBtnManual(CommandButton btnManual) {
 		this.btnManual = btnManual;
 	}
-	
+
 	public List<VtRol> getUsuarioRol() {
-		
+
 		try {
 			if(usuSesion != null){
 				usuarioRol = businessDelegatorView.getRolesAsignados(usuSesion);
@@ -195,7 +236,7 @@ public class VtUsuarioView {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-		
+
 		return usuarioRol;
 	}
 
@@ -250,23 +291,6 @@ public class VtUsuarioView {
 	public void setSomEmpresasC(SelectOneMenu somEmpresasC) {
 		this.somEmpresasC = somEmpresasC;
 	}
-	
-	public Password getTxtPassword() {
-		return txtPassword;
-	}
-
-	public void setTxtPassword(Password txtPassword) {
-		this.txtPassword = txtPassword;
-	}
-
-	public Password getTxtPasswordConfirmation() {
-		return txtPasswordConfirmation;
-	}
-
-	public void setTxtPasswordConfirmation(Password txtPasswordConfirmation) {
-		this.txtPasswordConfirmation = txtPasswordConfirmation;
-	}
-
 	public InputText getTxtNombreM() {
 		return txtNombreM;
 	}
@@ -423,9 +447,9 @@ public class VtUsuarioView {
 			businessDelegatorView.saveVtUsuario(vtUsuario);
 			businessDelegatorView.nuevoUsuario(vtUsuario);
 			FacesUtils.addInfoMessage("El usuario fue creado con exito.");
-			
+
 			limpiarAction();
-			
+
 			losUsuarios = businessDelegatorView.getVtUsuario();
 
 		} 
@@ -653,21 +677,57 @@ public class VtUsuarioView {
 		try {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			VtUsuarioRol usuarioRol = businessDelegatorView.findUsuarioRolByUsuarioAndRol(vtUsuario.getUsuaCodigo(), vtRol.getRolCodigo());
-			
+
 			usuarioRol.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			usuarioRol.setFechaModificacion(new Date());
-			
+
 			businessDelegatorView.deleteVtUsuarioRol(usuarioRol);
-			
-		
+
+
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
-	
-	public void perfilPasswordSet(){
-		txtPassword.setValue(usuSesion.getClave());
-		txtPasswordConfirmation.setValue(usuSesion.getClave());
+
+	public void modficarContrasena() throws Exception {
+		try {
+			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+
+			if (contrasenaActual.getValue().toString().trim()==null || contrasenaActual.getValue().toString().trim().equals("")){
+				throw new Exception("Por favor ingrese todos los campos");
+			}
+
+			if (contrasenaConfirmacion.getValue().toString().trim()==null || contrasenaConfirmacion.getValue().toString().trim().equals("")){
+				throw new Exception("Por favor ingrese todos los campos");
+			}
+
+			if (contrasenaNueva.getValue().toString().trim()==null || contrasenaNueva.getValue().toString().trim().equals("")){
+				throw new Exception("Por favor ingrese todos los campos");
+			}
+
+			if ((businessDelegatorView.verificarContraseña(vtUsuario, contrasenaActual.getValue().toString().trim(), contrasenaNueva.getValue().toString().trim(), contrasenaConfirmacion.getValue().toString().trim()) == true)) {
+				vtUsuario.setClave(contrasenaNueva.getValue().toString().trim());
+				businessDelegatorView.updateVtUsuario(vtUsuario);
+				FacesUtils.addInfoMessage("La contraseña se ha modificado con exito."); 
+				limpiarModificarContraseñaAction();
+			
+			}else {
+				limpiarModificarContraseñaAction();
+				throw new Exception("La contraseña actual no coincide o la nueva contraseña y su confirmación son diferentes.");
+			}
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+
+		}
+
+
+
+	}
+
+	public void limpiarModificarContraseñaAction() {
+		contrasenaActual.resetValue();
+		contrasenaConfirmacion.resetValue();
+		contrasenaNueva.resetValue();
 	}
 
 }

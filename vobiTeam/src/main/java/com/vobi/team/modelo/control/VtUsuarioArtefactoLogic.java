@@ -16,6 +16,7 @@ import com.vobi.team.dataaccess.dao.IVtUsuarioArtefactoDAO;
 import com.vobi.team.exceptions.ZMessManager;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtSprint;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.dto.VtUsuarioArtefactoDTO;
 import com.vobi.team.utilities.Utilities;
@@ -523,4 +524,25 @@ public class VtUsuarioArtefactoLogic implements IVtUsuarioArtefactoLogic {
 		return (usuarioArtefacto != null && !usuarioArtefacto.isEmpty()
     			? usuarioArtefacto.get(0) : null);	
 	}
+    
+    @Transactional(readOnly = true)
+	public List<VtUsuarioArtefacto> findUsuarioArtefactoByUsuarios(VtUsuario vtUsuario) throws Exception {
+		
+		List<VtUsuarioArtefacto> usuarioArtefacto = new ArrayList<VtUsuarioArtefacto>();
+
+		try {
+			Object[] variables = {"vtUsuario.usuaCodigo", false, vtUsuario.getUsuaCodigo(), "="};
+
+			usuarioArtefacto = findByCriteria(variables, null, null);
+
+		} catch (Exception e) {
+			log.info(e.getMessage(), e);
+			throw new Exception("No se encontro usuarioArtefacto por ese Id de este usuario");
+		}
+
+		return (usuarioArtefacto != null && !usuarioArtefacto.isEmpty()
+    			? usuarioArtefacto : null);	
+	}
+    
+    
 }

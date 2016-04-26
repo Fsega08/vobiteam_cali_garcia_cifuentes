@@ -17,6 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
+import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
 import com.vobi.team.modelo.control.IVtInteresLogic;
 import com.vobi.team.modelo.control.IVtProyectoLogic;
@@ -64,14 +66,14 @@ public class testUsuarios {
 	//@Test
 	public void testA() throws Exception {
 
-//				VtProyecto vtProyecto = vtProyectoLogic.getVtProyecto(1L);
-//				
-//				List<VtUsuario> losUsuarios = vtUsuarioLogic.getVtUsuarioNoAsignados(vtProyecto);
-//				
-//				for (VtUsuario vtUsuario : losUsuarios) {
-//					log.info("Nombre: "+vtUsuario.getNombre());
-//					log.info("Codigo: "+vtUsuario.getUsuaCodigo()+"\n");
-//				}	
+		//				VtProyecto vtProyecto = vtProyectoLogic.getVtProyecto(1L);
+		//				
+		//				List<VtUsuario> losUsuarios = vtUsuarioLogic.getVtUsuarioNoAsignados(vtProyecto);
+		//				
+		//				for (VtUsuario vtUsuario : losUsuarios) {
+		//					log.info("Nombre: "+vtUsuario.getNombre());
+		//					log.info("Codigo: "+vtUsuario.getUsuaCodigo()+"\n");
+		//				}	
 
 	}
 
@@ -139,24 +141,19 @@ public class testUsuarios {
 
 	}
 
-	//	@Test
+	@Test
 	public void testG()throws Exception{
-		//		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
+		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(4L);
 
-		//		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyUsuario(vtUsuario);
-		//		
-		//		for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
-		//			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
-		//			log.info("Usuario: "+ vtUsuarioRol.getVtUsuario().getNombre());
-		//			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
-		//		}
+		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyUsuario(vtUsuario);
 
-		//		VtUsuarioRol usuarioRol = vtUsuarioRolLogic.findUsuarioRolByUsuarioAndRol(vtUsuario.getUsuaCodigo(), 1L);
-		//		assertNotNull(usuarioRol);
-		//
-		//		log.info("Codigo: "+ usuarioRol.getUsroCodigo());
-		//		log.info("Usuario: "+ usuarioRol.getVtUsuario().getNombre());
-		//		log.info("Rol: "+ usuarioRol.getVtRol().getRolNombre()+"\n");
+		for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
+			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
+			log.info("Usuario: "+ vtUsuarioRol.getVtUsuario().getNombre());
+			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
+		}
+
+
 
 	}
 
@@ -191,16 +188,48 @@ public class testUsuarios {
 
 	@Test
 	public void testJ() throws Exception {
-			
+
 		VtUsuario vtUsuario = vtUsuarioLogic.findUsuarioByLogin("fsega08@gmail.com");
-			
+
 		log.info("clave= " + vtUsuario.getClave());
-			
+
 		vtUsuarioLogic.nuevoUsuario(vtUsuario);
-			
+
 		log.info("clave= " + vtUsuario.getClave());
-			
-			
+
+
 	}	
+
+	@Test
+	public void testK() throws Exception{
+		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(3L);
+		List<VtUsuarioRol> vtUsuarioRoles = vtUsuarioRolLogic.findUsuarioRolbyUsuario(vtUsuario);
+		int permisos = vtRolLogic.getVtRol().size();
+		
+		log.info("permisosPre= " + permisos);
+		
+		for (VtUsuarioRol vtUsuarioRol : vtUsuarioRoles) {
+			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
+			log.info("Usuario: "+ vtUsuarioRol.getVtUsuario().getNombre());
+			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
+		}
+
+		for (VtUsuarioRol vtUsuarioRol : vtUsuarioRoles) {
+			if (vtUsuarioRol.getVtRol().getRolCodigo() == 3L) {
+				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
+					permisos = 3;
+				}
+			}else if (vtUsuarioRol.getVtRol().getRolCodigo() == 2L) {
+				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
+					permisos = 2;
+				}
+			}else if (vtUsuarioRol.getVtRol().getRolCodigo() == 1L) {
+				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
+					permisos = 1;
+				}
+			}
+		}
+		log.info("permisos= " + permisos);
+	}
 
 }
