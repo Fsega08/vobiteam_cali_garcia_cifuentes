@@ -207,7 +207,7 @@ public class VtInteresView {
 			vtInteres.setFechaModificacion(new Date());
 
 			businessDelegatorView.updateVtInteres(vtInteres);
-			FacesUtils.addInfoMessage("Se modificó la prioridad con éxito");
+			FacesUtils.addInfoMessage("Se modificó el interés con éxito");
 			losIntereses = businessDelegatorView.getVtInteres();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

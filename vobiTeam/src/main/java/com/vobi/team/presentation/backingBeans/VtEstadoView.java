@@ -172,7 +172,7 @@ public class VtEstadoView {
 
 			businessDelegatorView.saveVtEstado(vtEstado);
 			limpiarAction();
-			FacesUtils.addInfoMessage("Se creó la prioridad con éxito");
+			FacesUtils.addInfoMessage("Se creó el estado con éxito");
 			losEstados = businessDelegatorView.getVtEstado();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -203,7 +203,7 @@ public class VtEstadoView {
 			vtEstado.setFechaModificacion(new Date());
 
 			businessDelegatorView.updateVtEstado(vtEstado);
-			FacesUtils.addInfoMessage("Se modificó la prioridad con éxito");
+			FacesUtils.addInfoMessage("Se modificó el estado con éxito");
 			losEstados = businessDelegatorView.getVtEstado();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
