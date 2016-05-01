@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<p:panel header="Los Estados Sprint" id="pnlDashboard">
+				<h:panelGrid columns="1" layout="grid">
+
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnCrearEstadoSprint" value="Crear un Estado de Sprint"
+								icon="fa fa-plus white" onclick="PF('dlgCrearEstadoSprint').show();" />
+						</div>
+					</p:panel>
+
+					<p:contextMenu for="dtEstado" event="click contextmenu">
+						<p:menuitem value="Modificar" update="panelVtEstado"
+							icon="fa fa-pencil " oncomplete="PF('dlgModEstadoSprint').show()"
+							action="#{vtEstadoSprintView.modificarListener}" />
+
+					</p:contextMenu>
+
+
+					<p:dataTable id="dtEstado" value="#{vtEstadoSprintView.losEstadosSprint}" var="estados"
+						paginator="true" rows="10"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10, 15" rowKey="#{estados.esspCodigo}"
+						emptyMessage="No se encontraron Estadoes"
+						selection="#{vtEstadoSprintView.elEstadoSprint}" selectionMode="single"
+						paginatorPosition="bottom">
+
+						<p:column headerText="Estado" filterBy="#{estados.nombre}"
+							sortBy="#{estados.nombre}" filterMatchMode="contains">
+							<h:outputText value="#{estados.nombre}"
+								title="Presiona click para ver las opciones" />
+						</p:column>
+
+						<p:column headerText="Activo" filterBy="#{estados.activo}"
+							sortBy="#{estados.activo}">
+							<h:outputText value="#{estados.activo}"
+								title="Presiona click para ver las opciones" />
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGrid>
+
+				<p:dialog header="Modificar Estado Sprint" widgetVar="dlgModEstadoSprint"
+					modal="true" width="500" >
+					<div align="center">
+						<p:panel id="panelVtEstado" header="Modificar Estados">
+							<h:panelGrid columns="2">
+								<h:outputText value="Nombre del Estado Sprint" />
+								<p:inputText id="txtMNombre" placeholder="Nombre"
+									binding="#{vtEstadoSprintView.txtMNombre}" maxlength="60" />
+
+								<h:outputText value="Actividad del estado" />
+								<p:selectOneMenu id="somEmpresaActiva"
+									binding="#{vtEstadoSprintView.somEstadoSprintActivo}">
+									<f:selectItem itemValue="-1" itemLabel="Estado Activo?" />
+									<f:selectItem itemValue="S" itemLabel="Si" />
+									<f:selectItem itemValue="N" itemLabel="No" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<br />
+							<p:commandButton id="btnModificar"
+								binding="#{vtEstadoSprintView.btnModificar}" icon="fa fa-pencil white"
+								action="#{vtEstadoSprintView.modificarAction}" value="Modificar"
+								update="panelVtEstado,dtEstado,men" />
+
+							<p:commandButton id="btnMClear" icon="fa fa-eraser white"
+								action="#{vtEstadoSprintView.limpiarMAction}" value="Limpiar"
+								update="panelVtEstado" />
+						</p:panel>
+					</div>
+				</p:dialog>
+
+			</p:panel>
+
+			<p:dialog header="Crear Estado" widgetVar="dlgCrearEstadoSprint" modal="true"
+				width="500">
+				<div align="center">
+					<p:panel id="panelCrearEstadoSprint" header="Crear Estado">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nombre del Estado Sprint" />
+							<p:inputText id="txtNombre" placeholder="Nombre"
+								binding="#{vtEstadoSprintView.txtNombre}" maxlength="60" />
+						</h:panelGrid>
+						<br />
+
+						<p:commandButton id="btnCrear" binding="#{vtEstadoSprintView.btnCrear}"
+							icon="fa fa-plus white" action="#{vtEstadoSprintView.crearAction}"
+							value="Crear" update="panelCrearEstadoSprint,dtEstado,men" />
+
+						<p:commandButton id="btnClear" icon="fa fa-eraser white"
+							action="#{vtEstadoSprintView.limpiarAction}" value="Limpiar"
+							update="panelCrearEstadoSprint" />
+					</p:panel>
+				</div>
+			</p:dialog>
+
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

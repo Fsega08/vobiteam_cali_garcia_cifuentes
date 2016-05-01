@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
@@ -91,8 +92,7 @@ public class VtSprintView {
 
 	////////////////////////////
 
-	private List<VtArtefacto> losArtefactosAsignados;	
-
+	private List<VtArtefacto> losArtefactosAsignados;
 	private List<VtArtefacto> losArtefactosParaAsignar;	
 
 	///////////////////////////// Grafico Crear
@@ -479,7 +479,7 @@ public class VtSprintView {
 	public void crearAction() throws Exception{
 		try {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-
+			VtEstadoSprint estadoSprint = businessDelegatorView.getVtEstadoSprint(1L);
 			String nombre = txtNombre.getValue().toString();
 			String descripcion = txtDescripcion.getValue().toString();
 
@@ -518,6 +518,7 @@ public class VtSprintView {
 			sprint.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
 			sprint.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			sprint.setVtPilaProducto(backlogSeleccionado);
+			sprint.setVtEstadoSprint(estadoSprint);
 
 			businessDelegatorView.saveVtSprint(sprint);
 
