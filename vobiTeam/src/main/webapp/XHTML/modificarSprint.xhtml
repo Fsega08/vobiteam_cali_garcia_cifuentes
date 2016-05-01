@@ -74,8 +74,12 @@
 						<p:inputText id="txtMCapacidadEstimada"
 							placeholder="Capacidad Estimada del Sprint" value="#{vtSprintView.sprintSeleccionado.capacidadEstimada}"
 							binding="#{vtSprintView.txtMCapacidadEstimada}" size="31">
+							
 							<p:ajax event="blur" update="panelAsignar"
-								listener="#{vtSprintView.asignarArtefactoAction}" />
+								listener="#{vtSprintView.setCapEstimadaAction}" />
+								
+							<p:ajax event="blur" update="panelAsignar"
+								listener="#{vtSprintView.actualizarCrearChartAction}" />
 						</p:inputText>
 						<p:spacer width="100" height="10" />
 						<h:outputText value="Capacidad Real del Sprint" />
@@ -89,7 +93,7 @@
 
 					<h:panelGrid id="panelAsignar" columns="2">
 
-						<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
+						<p:pickList id="pickList" value="#{vtSprintView.losCArtefactos}"
 							showSourceControls="true" showTargetControls="true"
 							showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
 							itemValue="#{artefactos}" converter="usuarioPickListConverter">
@@ -97,7 +101,7 @@
 							<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
 							<f:facet name="targetCaption">Artefactos Asignados</f:facet>
 
-							<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
+							<p:ajax event="transfer" listener="#{vtSprintView.onTransferCrear}"
 								update="men, panelAsignar" />
 
 							<p:column style="width:10%">
@@ -110,7 +114,7 @@
 						</p:pickList>
 
 						<p:chart id="chartModel" type="metergauge"
-							model="#{vtSprintView.chartModel}"
+							model="#{vtSprintView.chartCrear}"
 							style="width:400px;height:250px" />
 
 					</h:panelGrid>

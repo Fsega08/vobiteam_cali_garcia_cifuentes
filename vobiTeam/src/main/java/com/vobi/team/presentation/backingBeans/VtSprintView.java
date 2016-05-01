@@ -112,31 +112,42 @@ public class VtSprintView {
 	public void init(){
 
 		try {
+			sumaEsfuerzoReal = 0;
+			sumaCrearEsfuerzoEstimado = 0;
+			sumaCrearEsfuerzoReal = 0;
+			capacidadEstimada = "";
+
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
+
 			losArtefactosParaAsignar = new ArrayList<VtArtefacto>();
 
+
+			iniciarMeterGaugeModelsCreate();
+			createMeterGaugeModels();
+			
+			//Picklist inmediato	
 			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
-			
-			createMeterGaugeModels();			
-			
+			artefactosCSource = artefactosSource;
 			if(sprintSeleccionado != null){
 				artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
+				artefactosCTarget = artefactosTarget;
+				
+				capacidadEstimada = ""+sprintSeleccionado.getCapacidadEstimada();
+				losArtefactosParaAsignar = artefactosCTarget;
+				
+				actualizarCrearChartAction();
 				actualizarChartAction();
 			}else{
 				artefactosTarget = new ArrayList<VtArtefacto>();
+				artefactosCTarget = new ArrayList<VtArtefacto>();
 				pickListAsignarArtefactoAction();
 			}			
 
 			losArtefactos = new DualListModel<>(artefactosSource, artefactosTarget);
 			losCArtefactos = new DualListModel<>(artefactosCSource, artefactosCTarget);
 
-			iniciarMeterGaugeModelsCreate();
 			
-			sumaEsfuerzoReal = 0;
-			sumaCrearEsfuerzoEstimado = 0;
-			sumaCrearEsfuerzoReal = 0;
-			capacidadEstimada = "";
 
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -566,7 +577,7 @@ public class VtSprintView {
 			String capacidadE = txtMCapacidadEstimada.getValue().toString();
 			fechaInicioM = sprintSeleccionado.getFechaInicio();
 			fechaFinM = sprintSeleccionado.getFechaFin();
-			
+
 			if(nombre.equals("")|| nombre == null){
 				throw new Exception("El nombre es requerido");
 			}
@@ -586,7 +597,7 @@ public class VtSprintView {
 			if(capacidadE.equals("")|| capacidadE == null || !Utilities.isNumeric(capacidadE)){
 				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
 			}
-			
+
 			sprintSeleccionado.setNombre(nombre);
 			sprintSeleccionado.setObjetivo(descripcion);
 			sprintSeleccionado.setFechaInicio(fechaInicioM);
@@ -597,6 +608,14 @@ public class VtSprintView {
 			sprintSeleccionado.setActivo(somSprintActivo.getValue().toString().trim());
 
 			businessDelegatorView.updateVtSprint(sprintSeleccionado);
+			
+			if (losArtefactosParaAsignar != null) {
+				for (VtArtefacto vtArtefacto : losArtefactosParaAsignar) {
+					vtArtefacto.setVtSprint(sprintSeleccionado);
+					businessDelegatorView.updateVtArtefacto(vtArtefacto);
+				}
+			}
+			
 			FacesUtils.addInfoMessage("Se ha actualizado el Sprint con exito");
 			losSprint = businessDelegatorView.findSprintByBacklog(backlogSeleccionado);
 
@@ -623,12 +642,12 @@ public class VtSprintView {
 	}
 
 	public void actualizarChartAction(){		
-		
+
 		getLosArtefactosAsignados();
-		
+
 		double inteval1 = sprintSeleccionado.getCapacidadEstimada()*(0.333);
 		double inteval2 = sprintSeleccionado.getCapacidadEstimada()*(0.666);		
-		
+
 		List<Number> intervals = new ArrayList<Number>();
 
 		if(losArtefactosAsignados != null){
@@ -723,7 +742,7 @@ public class VtSprintView {
 				removerArtefacto(vtArtefacto, sprintSeleccionado);
 			}
 
-			
+
 		}
 		actualizarChartAction();
 		FacesUtils.addInfoMessage("Artefacto(s) Transferidos");
@@ -734,10 +753,10 @@ public class VtSprintView {
 		try {
 			vtArtefacto.setVtSprint(vtSprint);
 			vtSprint.setCapacidadReal(vtSprint.getCapacidadReal()+vtArtefacto.getEsfuerzoReal());
-			
+
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
 			businessDelegatorView.updateVtSprint(vtSprint);
-			
+
 			actualizarChartAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -773,7 +792,7 @@ public class VtSprintView {
 		pickListAsignarArtefactoAction();
 		return "/XHTML/crearSprint.xhtml";
 	}
-	
+
 	public String modificarSprintAction() throws Exception{
 		if (sprintSeleccionado.getActivo().equals("S")) {
 			FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
@@ -790,10 +809,13 @@ public class VtSprintView {
 		try {		
 			artefactosCSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			artefactosCTarget = new ArrayList<VtArtefacto>();
-			
-	
+
 			losCArtefactos.setSource(artefactosCSource);
 			losCArtefactos.setTarget(artefactosCTarget);
+
+			if (sprintSeleccionado != null) {
+				capacidadEstimada = ""+(sprintSeleccionado.getCapacidadEstimada());
+			}
 
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -802,21 +824,19 @@ public class VtSprintView {
 
 	public void onTransferCrear(TransferEvent event) throws Exception {
 		try {
-			
-			if(capacidadEstimada.equals("") == true || capacidadEstimada == null || !(Utilities.isNumeric(capacidadEstimada)) ){
-				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
+			if (sprintSeleccionado == null) {
+				if(capacidadEstimada.equals("") == true || capacidadEstimada == null || !(Utilities.isNumeric(capacidadEstimada)) ){
+					throw new Exception("Es requerido un valor valido de Capacidad Estimada");
+				}
 			}
-			
-			
-
 			for(Object item : event.getItems()) {
 				VtArtefacto vtArtefacto=(VtArtefacto) item;				
 
 				//true si paso de izquierda a derecha
 				if(event.isAdd()){
-					
+
 					losArtefactosParaAsignar.add(vtArtefacto);
-						
+
 				}
 				if(event.isRemove()){
 					losArtefactosParaAsignar.remove(vtArtefacto);
@@ -880,11 +900,20 @@ public class VtSprintView {
 
 
 	}
-	
+
 	public String sprintAction(){
 		FacesUtils.putinSession("sprintSeleccionado", null);
 		return "/XHTML/listaSprint.xhtml";
 	}
 
+	public void setCapEstimadaAction(){
 
+		try {
+			if (sprintSeleccionado != null) {
+				capacidadEstimada = ""+(sprintSeleccionado.getCapacidadEstimada());
+			}
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
 }
