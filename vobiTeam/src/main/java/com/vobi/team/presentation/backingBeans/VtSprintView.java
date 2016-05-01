@@ -882,7 +882,7 @@ public class VtSprintView {
 	}
 	
 	public String sprintAction(){
-		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+		FacesUtils.putinSession("sprintSeleccionado", null);
 		return "/XHTML/listaSprint.xhtml";
 	}
 
