@@ -31,7 +31,7 @@ public class MenuModelView {
 	private IBusinessDelegatorView businessDelegatorView;
 
 	private MenuModel menuModel;
-	
+
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
 	@PostConstruct
@@ -68,10 +68,10 @@ public class MenuModelView {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-		
+
 
 	}
-	
+
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
@@ -107,25 +107,25 @@ public class MenuModelView {
 		menuDashboard.setIcon("icon-home");
 		menuDashboard.setId("sm_Dashboard");
 		menuModel.addElement(menuDashboard);
-		
+
 		DefaultSubMenu orientacion = new DefaultSubMenu("Orientación del menu");		
-		
+
 		DefaultMenuItem derechaItem = new DefaultMenuItem("Derecha");
 		derechaItem.setIcon("icon-align-right");
 		derechaItem.setId("sm_rtl");
 		derechaItem.setOnclick("$('body').addClass('ui-sentinel-rtl');return false;");
-		
+
 		DefaultMenuItem izquierdaItem = new DefaultMenuItem("Izquierda");
 		izquierdaItem.setIcon("icon-align-left");
 		izquierdaItem.setId("sm_ltr");
 		izquierdaItem.setOnclick("$('body').removeClass('ui-sentinel-rtl');return false;");
-		
+
 		orientacion.setId("sm_orientation");
 		orientacion.setIcon("icon-align-right");
 		orientacion.addElement(derechaItem);
 		orientacion.addElement(izquierdaItem);
 		menuModel.addElement(orientacion);
-		
+
 
 	}
 
@@ -180,6 +180,12 @@ public class MenuModelView {
 		estadoItem.setIcon("icon-archive");
 		estadoItem.setId("sm_vtEstado");
 
+		//Item Estado Sprint
+		DefaultMenuItem estadoSprintItem = new DefaultMenuItem("Gestión Estados del Sprint");
+		estadoSprintItem.setOutcome("/XHTML/listaEstadoSprint.xhtml");
+		estadoSprintItem.setIcon("icon-th-list-outline");
+		estadoSprintItem.setId("sm_vtEstadoSprint");
+
 		//Item Tipo
 		DefaultMenuItem tipoItem = new DefaultMenuItem("Gestión Tipos de Artefacto");
 		tipoItem.setOutcome("/XHTML/listaTipoArtefacto.xhtml");
@@ -191,30 +197,31 @@ public class MenuModelView {
 		interesItem.setOutcome("/XHTML/listaInteres.xhtml");
 		interesItem.setIcon("icon-clipboard");
 		interesItem.setId("icon-stackoverflow");
-		
+
 		propiedadesSM.setId("sm_PropArte");
 		propiedadesSM.setIcon("icon-cog-alt");
 		propiedadesSM.addElement(rolItem);
 		propiedadesSM.addElement(prioridadItem);
 		propiedadesSM.addElement(estadoItem);
+		propiedadesSM.addElement(estadoSprintItem);
 		propiedadesSM.addElement(tipoItem);
 		propiedadesSM.addElement(interesItem);
 		menuModel.addElement(propiedadesSM);
-	
+
 		//Orientacion
-		
+
 		DefaultSubMenu orientacion = new DefaultSubMenu("Orientación del menu");		
-		
+
 		DefaultMenuItem derechaItem = new DefaultMenuItem("Derecha");
 		derechaItem.setIcon("icon-align-right");
 		derechaItem.setId("sm_rtl");
 		derechaItem.setOnclick("$('body').addClass('ui-sentinel-rtl');return false;");
-		
+
 		DefaultMenuItem izquierdaItem = new DefaultMenuItem("Izquierda");
 		izquierdaItem.setIcon("icon-align-left");
 		izquierdaItem.setId("sm_ltr");
 		izquierdaItem.setOnclick("$('body').removeClass('ui-sentinel-rtl');return false;");
-		
+
 		orientacion.setId("sm_orientation");
 		orientacion.setIcon("icon-align-right");
 		orientacion.addElement(derechaItem);

@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 30/04/2016 10:41:45 PM by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="com.vobi.team.modelo.VtSprint" table="vt_sprint" schema="public" optimistic-lock="version">
         <id name="spriCodigo" type="java.lang.Long">
             <column name="spri_codigo" />
             <generator class="identity" />
         </id>
+        <many-to-one name="vtEstadoSprint" class="com.vobi.team.modelo.VtEstadoSprint" fetch="select" lazy="false">
+            <column name="essp_codigo" not-null="true" />
+        </many-to-one>
         <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select" lazy="false">
             <column name="pila_codigo" not-null="true" />
         </many-to-one>
@@ -52,4 +55,3 @@
         </set>
     </class>
 </hibernate-mapping>
-

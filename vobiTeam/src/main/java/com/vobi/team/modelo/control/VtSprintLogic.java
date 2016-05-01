@@ -126,6 +126,11 @@ public class VtSprintLogic implements IVtSprintLogic {
                 throw new ZMessManager().new EmptyFieldException(
                     "pilaCodigo_VtPilaProducto");
             }
+            
+            if (entity.getVtEstadoSprint().getEsspCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "esspCodigo_VtEstadoSprint");
+            }
 
 //            if (getVtSprint(entity.getSpriCodigo()) != null) {
 //                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
@@ -233,6 +238,11 @@ public class VtSprintLogic implements IVtSprintLogic {
                     "pilaCodigo_VtPilaProducto");
             }
             
+            if (entity.getVtEstadoSprint().getEsspCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "esspCodigo_VtEstadoSprint");
+            }
+            
             if(entity.getFechaFin().before(entity.getFechaInicio())){
 				throw new Exception("La fecha de Fin no puede ser menor a la fecha de Inicio");
 			}
@@ -276,6 +286,9 @@ public class VtSprintLogic implements IVtSprintLogic {
                     ? vtSprintTmp.getUsuCreador() : null);
                 vtSprintDTO2.setUsuModificador((vtSprintTmp.getUsuModificador() != null)
                     ? vtSprintTmp.getUsuModificador() : null);
+                vtSprintDTO2.setEsspCodigo_VtEstadoSprint((vtSprintTmp.getVtEstadoSprint()
+                                                                      .getEsspCodigo() != null)
+                    ? vtSprintTmp.getVtEstadoSprint().getEsspCodigo() : null);
                 vtSprintDTO2.setPilaCodigo_VtPilaProducto((vtSprintTmp.getVtPilaProducto()
                                                                       .getPilaCodigo() != null)
                     ? vtSprintTmp.getVtPilaProducto().getPilaCodigo() : null);

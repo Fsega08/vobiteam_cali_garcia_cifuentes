@@ -1,9 +1,14 @@
 package com.vobi.team.presentation.businessDelegate;
 
+import java.util.List;
+
+import javax.mail.MessagingException;
+
 import com.vobi.team.modelo.VtArchivo;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtEstado;
+import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
@@ -16,42 +21,11 @@ import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.VtUsuarioRol;
-import com.vobi.team.modelo.control.IVtArchivoLogic;
-import com.vobi.team.modelo.control.IVtArtefactoLogic;
-import com.vobi.team.modelo.control.IVtEmpresaLogic;
-import com.vobi.team.modelo.control.IVtEstadoLogic;
-import com.vobi.team.modelo.control.IVtHistoriaArtefactoLogic;
-import com.vobi.team.modelo.control.IVtInteresLogic;
-import com.vobi.team.modelo.control.IVtPilaProductoLogic;
-import com.vobi.team.modelo.control.IVtPrioridadLogic;
-import com.vobi.team.modelo.control.IVtProyectoLogic;
-import com.vobi.team.modelo.control.IVtProyectoUsuarioLogic;
-import com.vobi.team.modelo.control.IVtRolLogic;
-import com.vobi.team.modelo.control.IVtSprintLogic;
-import com.vobi.team.modelo.control.IVtTipoArtefactoLogic;
-import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
-import com.vobi.team.modelo.control.IVtUsuarioLogic;
-import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
-import com.vobi.team.modelo.control.VtArchivoLogic;
-import com.vobi.team.modelo.control.VtArtefactoLogic;
-import com.vobi.team.modelo.control.VtEmpresaLogic;
-import com.vobi.team.modelo.control.VtEstadoLogic;
-import com.vobi.team.modelo.control.VtHistoriaArtefactoLogic;
-import com.vobi.team.modelo.control.VtInteresLogic;
-import com.vobi.team.modelo.control.VtPilaProductoLogic;
-import com.vobi.team.modelo.control.VtPrioridadLogic;
-import com.vobi.team.modelo.control.VtProyectoLogic;
-import com.vobi.team.modelo.control.VtProyectoUsuarioLogic;
-import com.vobi.team.modelo.control.VtRolLogic;
-import com.vobi.team.modelo.control.VtSprintLogic;
-import com.vobi.team.modelo.control.VtTipoArtefactoLogic;
-import com.vobi.team.modelo.control.VtUsuarioArtefactoLogic;
-import com.vobi.team.modelo.control.VtUsuarioLogic;
-import com.vobi.team.modelo.control.VtUsuarioRolLogic;
 import com.vobi.team.modelo.dto.VtArchivoDTO;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.modelo.dto.VtEmpresaDTO;
 import com.vobi.team.modelo.dto.VtEstadoDTO;
+import com.vobi.team.modelo.dto.VtEstadoSprintDTO;
 import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
 import com.vobi.team.modelo.dto.VtInteresDTO;
 import com.vobi.team.modelo.dto.VtPilaProductoDTO;
@@ -64,20 +38,6 @@ import com.vobi.team.modelo.dto.VtTipoArtefactoDTO;
 import com.vobi.team.modelo.dto.VtUsuarioArtefactoDTO;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
 import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import javax.mail.MessagingException;
 
 
 /**
@@ -528,4 +488,33 @@ public interface IBusinessDelegatorView {
 	public void send(String para, String asunto, String cuerpo) throws MessagingException;
 	
 	public List<VtUsuarioArtefacto> findUsuarioArtefactoByUsuarios(VtUsuario vtUsuario) throws Exception;
+	
+	//---
+
+	public List<VtEstadoSprint> getVtEstadoSprint() throws Exception;
+
+    public void saveVtEstadoSprint(VtEstadoSprint entity)
+        throws Exception;
+
+    public void deleteVtEstadoSprint(VtEstadoSprint entity)
+        throws Exception;
+
+    public void updateVtEstadoSprint(VtEstadoSprint entity)
+        throws Exception;
+
+    public VtEstadoSprint getVtEstadoSprint(Long esspCodigo)
+        throws Exception;
+
+    public List<VtEstadoSprint> findByCriteriaInVtEstadoSprint(
+        Object[] variables, Object[] variablesBetween,
+        Object[] variablesBetweenDates) throws Exception;
+
+    public List<VtEstadoSprint> findPageVtEstadoSprint(String sortColumnName,
+        boolean sortAscending, int startRow, int maxResults)
+        throws Exception;
+
+    public Long findTotalNumberVtEstadoSprint() throws Exception;
+
+    public List<VtEstadoSprintDTO> getDataVtEstadoSprint()
+        throws Exception;
 }

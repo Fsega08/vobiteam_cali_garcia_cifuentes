@@ -12,7 +12,7 @@ import java.util.Date;
 
 /**
 *
-* @author Zathura Code Generator http://zathuracode.org/
+* @author Zathura Code Generator http://zathuracode.org
 * www.zathuracode.org
 *
 */
@@ -31,6 +31,7 @@ public class VtSprintDTO implements Serializable {
     private Long spriCodigo;
     private Long usuCreador;
     private Long usuModificador;
+    private Long esspCodigo_VtEstadoSprint;
     private Long pilaCodigo_VtPilaProducto;
 
     public String getActivo() {
@@ -127,6 +128,14 @@ public class VtSprintDTO implements Serializable {
 
     public void setUsuModificador(Long usuModificador) {
         this.usuModificador = usuModificador;
+    }
+
+    public Long getEsspCodigo_VtEstadoSprint() {
+        return esspCodigo_VtEstadoSprint;
+    }
+
+    public void setEsspCodigo_VtEstadoSprint(Long esspCodigo_VtEstadoSprint) {
+        this.esspCodigo_VtEstadoSprint = esspCodigo_VtEstadoSprint;
     }
 
     public Long getPilaCodigo_VtPilaProducto() {
