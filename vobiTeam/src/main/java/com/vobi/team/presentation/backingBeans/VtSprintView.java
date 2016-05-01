@@ -790,7 +790,8 @@ public class VtSprintView {
 		try {		
 			artefactosCSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			artefactosCTarget = new ArrayList<VtArtefacto>();
-
+			
+	
 			losCArtefactos.setSource(artefactosCSource);
 			losCArtefactos.setTarget(artefactosCTarget);
 
