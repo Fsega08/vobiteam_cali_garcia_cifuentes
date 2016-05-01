@@ -106,7 +106,7 @@ public class VtUsuarioView {
 			usuarioArtefactos = businessDelegatorView.findUsuarioArtefactoByUsuarios(usuSesion);
 			cantidadArtefactos = usuarioArtefactos.size();
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			//log.error(e.getMessage());
 		}
 
 		pickListRol = new DualListModel<VtRol>(rolSource, rolTarget);
@@ -234,7 +234,7 @@ public class VtUsuarioView {
 			}
 
 		} catch (Exception e) {
-			log.error(e.getMessage());
+	//		log.error(e.getMessage());
 		}
 
 		return usuarioRol;
@@ -252,7 +252,7 @@ public class VtUsuarioView {
 			}
 
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			//log.error(e.getMessage());
 		}
 
 		return losUsuarios;
@@ -278,7 +278,7 @@ public class VtUsuarioView {
 
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage());
+		//	log.error(e.getMessage());
 		}
 		return lasEmpresas;
 	}
@@ -364,7 +364,7 @@ public class VtUsuarioView {
 
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage());
+		//	log.error(e.getMessage());
 		}
 
 		return lasEmpresasM;
@@ -583,7 +583,7 @@ public class VtUsuarioView {
 			}
 
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			//log.error(e.getMessage());
 		}
 
 
