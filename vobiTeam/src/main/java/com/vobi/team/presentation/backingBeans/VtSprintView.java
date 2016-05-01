@@ -89,7 +89,8 @@ public class VtSprintView {
 	private DualListModel<VtArtefacto> losCArtefactos;
 	private List<VtArtefacto> artefactosCSource;
 	private List<VtArtefacto> artefactosCTarget;	
-
+	
+	private List<VtArtefacto> artefactosSacadosDelSprint;
 	////////////////////////////
 
 	private List<VtArtefacto> losArtefactosAsignados;
@@ -133,6 +134,8 @@ public class VtSprintView {
 				artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
 				artefactosCTarget = artefactosTarget;
 				
+				artefactosSacadosDelSprint = new ArrayList<VtArtefacto>();
+				
 				capacidadEstimada = ""+sprintSeleccionado.getCapacidadEstimada();
 				losArtefactosParaAsignar = artefactosCTarget;
 				
@@ -154,6 +157,20 @@ public class VtSprintView {
 		}
 
 	}	
+	
+	
+	
+	public List<VtArtefacto> getArtefactosSacadosDelSprint() {
+		return artefactosSacadosDelSprint;
+	}
+
+
+
+	public void setArtefactosSacadosDelSprint(List<VtArtefacto> artefactosSacadosDelSprint) {
+		this.artefactosSacadosDelSprint = artefactosSacadosDelSprint;
+	}
+
+
 
 	public String getCapacidadEstimada() {
 		return capacidadEstimada;
@@ -539,7 +556,7 @@ public class VtSprintView {
 					businessDelegatorView.updateVtArtefacto(vtArtefacto);
 				}
 			}
-
+			
 			FacesUtils.addInfoMessage("El sprint se ha creado con exito");		
 			losSprint = businessDelegatorView.findSprintByBacklog(backlogSeleccionado);
 			limpiarAction();
@@ -612,6 +629,13 @@ public class VtSprintView {
 			if (losArtefactosParaAsignar != null) {
 				for (VtArtefacto vtArtefacto : losArtefactosParaAsignar) {
 					vtArtefacto.setVtSprint(sprintSeleccionado);
+					businessDelegatorView.updateVtArtefacto(vtArtefacto);
+				}
+			}
+			
+			if (artefactosSacadosDelSprint != null) {
+				for (VtArtefacto vtArtefacto : artefactosSacadosDelSprint) {
+					vtArtefacto.setVtSprint(null);
 					businessDelegatorView.updateVtArtefacto(vtArtefacto);
 				}
 			}
@@ -834,11 +858,18 @@ public class VtSprintView {
 
 				//true si paso de izquierda a derecha
 				if(event.isAdd()){
+					if (sprintSeleccionado!=null) {
+						artefactosSacadosDelSprint.remove(vtArtefacto);
+					}
 
 					losArtefactosParaAsignar.add(vtArtefacto);
 
 				}
 				if(event.isRemove()){
+					if (sprintSeleccionado!=null) {
+						artefactosSacadosDelSprint.add(vtArtefacto);
+					}
+					
 					losArtefactosParaAsignar.remove(vtArtefacto);
 				}
 
