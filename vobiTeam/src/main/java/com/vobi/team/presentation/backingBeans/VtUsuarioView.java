@@ -87,49 +87,31 @@ public class VtUsuarioView {
 	private Password contrasenaNueva;
 	private Password contrasenaConfirmacion;
 
-	private List<VtRol> usuarioRol;
+
 	
 	private List<VtUsuarioArtefacto> usuarioArtefactos;
-	private int cantidadArtefactos;
+
 	
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
-	private VtUsuario usuSesion;
+	
 
 	@PostConstruct
 	public void init(){
 		try {
-			usuSesion = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			
 			usuarioSeleccionado = businessDelegatorView.getVtUsuario(1L);
 			rolSource = businessDelegatorView.getRolesNoAsignados(usuarioSeleccionado);
 			rolTarget = businessDelegatorView.getRolesAsignados(usuarioSeleccionado);
-			usuarioArtefactos = businessDelegatorView.findUsuarioArtefactoByUsuarios(usuSesion);
-			cantidadArtefactos = usuarioArtefactos.size();
+
+		
 		} catch (Exception e) {
 			//log.error(e.getMessage());
 		}
 
 		pickListRol = new DualListModel<VtRol>(rolSource, rolTarget);
 	}
-
-	public VtUsuario getUsuSesion() {
-		return usuSesion;
-	}
 	
-	
-
-	public int getCantidadArtefactos() {
-		return cantidadArtefactos;
-	}
-
-	public void setCantidadArtefactos(int cantidadArtefactos) {
-		this.cantidadArtefactos = cantidadArtefactos;
-	}
-
-	public void setUsuSesion(VtUsuario usuSesion) {
-		this.usuSesion = usuSesion;
-	}
-
 	public List<VtUsuarioArtefacto> getUsuarioArtefactos() {
 		return usuarioArtefactos;
 	}
@@ -224,24 +206,6 @@ public class VtUsuarioView {
 	}
 	public void setBtnManual(CommandButton btnManual) {
 		this.btnManual = btnManual;
-	}
-
-	public List<VtRol> getUsuarioRol() {
-
-		try {
-			if(usuSesion != null){
-				usuarioRol = businessDelegatorView.getRolesAsignados(usuSesion);
-			}
-
-		} catch (Exception e) {
-	//		log.error(e.getMessage());
-		}
-
-		return usuarioRol;
-	}
-
-	public void setUsuarioRol(List<VtRol> usuarioRol) {
-		this.usuarioRol = usuarioRol;
 	}
 
 	public List<VtUsuario> getLosUsuarios() {

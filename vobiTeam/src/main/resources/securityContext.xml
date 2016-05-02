@@ -8,7 +8,11 @@
    
     <http auto-config="true" >
         <intercept-url pattern="/XHTML/*" access="hasRole('ROLE_ADMINISTRADOR')" />
-               
+        
+        <intercept-url pattern="/dashboard.*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
+        
+      	<intercept-url pattern="/login.xhtml" access="permitAll" />
+        
         <form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?authfailed=true" default-target-url="/XHTML/initialMenu.xhtml" always-use-default-target="false"  />
 			
 		<logout invalidate-session="true" logout-success-url="/login.xhtml?loggedout=true" logout-url="/j_spring_security_logout" delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
