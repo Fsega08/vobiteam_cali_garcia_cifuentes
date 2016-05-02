@@ -80,7 +80,7 @@
 							placeholder="Esfuerzo Estimado" disabled="true"
 							binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}">
 							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
-								event="blur" update="pnlgDemas" />
+								event="blur" update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />
 						</p:inputText>
 						
 						<p:spacer width="100" height="10" />

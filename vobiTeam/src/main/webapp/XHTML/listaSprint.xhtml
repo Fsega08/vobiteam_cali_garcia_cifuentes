@@ -50,13 +50,22 @@
 						update="dtArtefactos" icon="fa fa-list "
 						oncomplete="PF('dlgArtefacto').show()" />
 
-					<p:menuitem icon="fa fa-line-chart"
-						oncomplete="PF('dlgCapacidadSprint').show()"
-						value="Ver capacidad del sprint" update="dlgCapacidadSprint"
-						action="#{vtSprintView.actualizarChartAction}" />
+					<p:menuitem icon="fa fa-play-circle"	update="msg, dtSprint"					
+						value="Iniciar este Sprint" action="#{vtSprintView.iniciarSprintAction}"> 
+						 <p:confirm header="Confirmation"
+							message="¿Esta seguro de iniciar  este Sprint?"
+							icon="fa fa-exclamation red" />
+					</p:menuitem>
 
 
 				</p:contextMenu>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sí" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check white" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close white" />
+				</p:confirmDialog>
 
 				<p:dataTable id="dtSprint" value="#{vtSprintView.losSprint}"
 					var="sprint" paginator="true" rows="10"

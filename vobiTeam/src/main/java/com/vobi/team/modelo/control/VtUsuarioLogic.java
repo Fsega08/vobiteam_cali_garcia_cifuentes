@@ -1,32 +1,31 @@
 package com.vobi.team.modelo.control;
 
-import com.vobi.team.dataaccess.dao.*;
-import com.vobi.team.exceptions.*;
-import com.vobi.team.exceptions.ZMessManager.DeletingException;
-import com.vobi.team.exceptions.ZMessManager.EmptyFieldException;
-import com.vobi.team.exceptions.ZMessManager.ForeignException;
-import com.vobi.team.exceptions.ZMessManager.NotValidFormatException;
-import com.vobi.team.exceptions.ZMessManager.NullEntityExcepcion;
-import com.vobi.team.modelo.*;
-import com.vobi.team.modelo.dto.VtUsuarioDTO;
-import com.vobi.team.service.mail.IMailService;
-import com.vobi.team.utilities.Utilities;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.vobi.team.dataaccess.dao.IVtProyectoUsuarioDAO;
+import com.vobi.team.dataaccess.dao.IVtUsuarioArtefactoDAO;
+import com.vobi.team.dataaccess.dao.IVtUsuarioDAO;
+import com.vobi.team.dataaccess.dao.IVtUsuarioRolDAO;
+import com.vobi.team.exceptions.ZMessManager;
+import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
+import com.vobi.team.modelo.VtRol;
+import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
+import com.vobi.team.modelo.VtUsuarioRol;
+import com.vobi.team.modelo.dto.VtUsuarioDTO;
+import com.vobi.team.service.mail.IMailService;
+import com.vobi.team.utilities.Utilities;
 
 
 /**
@@ -612,6 +611,11 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 			//Si no lo encuentra arroja excepcion
 			if (usuarioEncontrado == null){
 				throw new Exception("El login especificado no se encuentra registrado");
+			}
+			
+			//Si no lo encuentra arroja excepcion
+			if (usuarioEncontrado.getActivo().equals("N")){
+				throw new Exception("El Usuario especificado no se encuentra activo");
 			}
 
 			//Si lo encuentra pero no coincide ellogin arroja excepcion

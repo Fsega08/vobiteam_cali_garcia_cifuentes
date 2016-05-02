@@ -75,42 +75,7 @@
 						</p:selectOneMenu>
 
 						<p:spacer width="100" height="10" />
-
-						<h:outputText value="Esfuerzo Estimado" />
-						<p:inputText id="txtMEsfuerzoEstimado"
-							placeholder="Esfuerzo Estimado"
-							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoEstimado}"
-							binding="#{vtArtefactoView.txtEsfuerzoEstimado}" disabled="true">
-							<p:ajax listener="#{vtArtefactoView.esfuerzoModListener}"
-								event="blur"
-								update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
-						</p:inputText>
-
-						<h:outputText value="Esfuerzo Restante" />
-						<p:inputText id="txtMEsfuerzoRestante"
-							placeholder="Esfuerzo Restante"
-							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoRestante}"
-							binding="#{vtArtefactoView.txtEsfuerzoRestante}" disabled="true" />
-
-						<p:spacer width="100" height="10" />
-
-						<h:outputText value="Esfuerzo Real" />
-						<p:inputText id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
-							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoReal}"
-							binding="#{vtArtefactoView.txtEsfuerzoReal}" disabled="true" />
-
-						<h:outputText value="Puntos del artefacto" />
-						<p:inputText id="txtMPuntos" placeholder="Puntos"
-							value="#{vtArtefactoView.artefactoSeleccionado.puntos}"
-							binding="#{vtArtefactoView.txtPuntos}" disabled="true" />
-
-						<p:spacer width="100" height="10" />
-
-						<h:outputText value="Origen del artefacto" />
-						<p:inputText id="txtMOrigen" placeholder="Origen"
-							value="#{vtArtefactoView.artefactoSeleccionado.origen}"
-							binding="#{vtArtefactoView.txtOrigen}" />
-
+						
 						<h:outputText value="Nivel de prioridad" />
 						<p:selectOneMenu id="somMPrioridades"
 							value="#{vtArtefactoView.artefactoSeleccionado.vtPrioridad.prioCodigo}"
@@ -119,6 +84,43 @@
 							<f:selectItems
 								value="#{vtArtefactoView.lasPrioridadesArtefactos}" />
 						</p:selectOneMenu>
+
+						<h:outputText value="Esfuerzo Estimado" />
+						<p:inputText id="txtMEsfuerzoEstimado"
+							placeholder="Esfuerzo Estimado"
+							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoEstimado}"
+							binding="#{vtArtefactoView.txtEsfuerzoEstimado}" >
+							<p:ajax listener="#{vtArtefactoView.esfuerzoModListener}"
+								event="blur"
+								update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
+						</p:inputText>
+						
+						<p:spacer width="100" height="10" />
+
+						<h:outputText value="Esfuerzo Restante" />
+						<p:inputText id="txtMEsfuerzoRestante"
+							placeholder="Esfuerzo Restante"
+							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoRestante}"
+							binding="#{vtArtefactoView.txtEsfuerzoRestante}"  />
+													
+
+						<h:outputText value="Esfuerzo Real" />
+						<p:inputText id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
+							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoReal}"
+							binding="#{vtArtefactoView.txtEsfuerzoReal}"  />
+							
+						<p:spacer width="100" height="10" />
+
+						<h:outputText value="Puntos del artefacto" />
+						<p:inputText id="txtMPuntos" placeholder="Puntos"
+							value="#{vtArtefactoView.artefactoSeleccionado.puntos}"
+							binding="#{vtArtefactoView.txtPuntos}"  />
+						
+
+						<h:outputText value="Origen del artefacto" />
+						<p:inputText id="txtMOrigen" placeholder="Origen"
+							value="#{vtArtefactoView.artefactoSeleccionado.origen}"
+							binding="#{vtArtefactoView.txtOrigen}" />						
 
 
 						<p:spacer width="100" height="10" />

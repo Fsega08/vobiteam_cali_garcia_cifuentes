@@ -47,7 +47,7 @@
         <property name="activo" type="java.lang.String">
             <column name="activo" length="1" not-null="true" />
         </property>
-        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="spri_codigo" />
             </key>

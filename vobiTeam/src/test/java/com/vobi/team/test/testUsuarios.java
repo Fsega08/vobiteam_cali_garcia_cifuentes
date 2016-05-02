@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.VtUsuarioRol;
@@ -141,28 +143,24 @@ public class testUsuarios {
 
 	}
 
-	@Test
+	//	@Test
 	public void testG()throws Exception{
-		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(4L);
-
-		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyUsuario(vtUsuario);
-
-		for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
-			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
-			log.info("Usuario: "+ vtUsuarioRol.getVtUsuario().getNombre());
-			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
-		}
-
-
-
+		//		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(4L);
+		//
+		//		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyUsuario(vtUsuario);
+		//
+		//		for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
+		//			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
+		//			log.info("Usuario: "+ vtUsuarioRol.getVtUsuario().getNombre());
+		//			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
+		//		}
 	}
 
 	//	@Test
 	public void testH()throws Exception{
 		//		VtRol vtRol = vtRolLogic.getVtRol(2L);
 		//		List<VtUsuario> losUsuarios = new ArrayList<VtUsuario>();
-		//		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyRol(vtRol);
-		//		
+		//		List<VtUsuarioRol> usuarioRol = vtUsuarioRolLogic.findUsuarioRolbyRol(vtRol);		
 		//		
 		//		for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
 		//			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
@@ -179,57 +177,60 @@ public class testUsuarios {
 	//	@Test
 	public void testI()throws Exception{
 
-		//		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(22L);
-		//		
+		//		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(22L);		
 		//		VtUsuarioArtefacto usuarioArtefacto = vtUsuarioArtefactoLogic.findUsuarioArtefactoByArtefacto(vtArtefacto);
 		//			
 		//		log.info("Código: "+usuarioArtefacto.getUsuartCodigo());
 	}
 
-	@Test
+	//	@Test
 	public void testJ() throws Exception {
 
-		VtUsuario vtUsuario = vtUsuarioLogic.findUsuarioByLogin("fsega08@gmail.com");
-
-		log.info("clave= " + vtUsuario.getClave());
-
-		vtUsuarioLogic.nuevoUsuario(vtUsuario);
-
-		log.info("clave= " + vtUsuario.getClave());
-
-
+		//		VtUsuario vtUsuario = vtUsuarioLogic.findUsuarioByLogin("fsega08@gmail.com");
+		//		log.info("clave= " + vtUsuario.getClave());
+		//		vtUsuarioLogic.nuevoUsuario(vtUsuario);
+		//		log.info("clave= " + vtUsuario.getClave());
 	}	
 
-	@Test
+	//	@Test
 	public void testK() throws Exception{
-		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(3L);
-		List<VtUsuarioRol> vtUsuarioRoles = vtUsuarioRolLogic.findUsuarioRolbyUsuario(vtUsuario);
-		int permisos = vtRolLogic.getVtRol().size();
-		
-		log.info("permisosPre= " + permisos);
-		
-		for (VtUsuarioRol vtUsuarioRol : vtUsuarioRoles) {
-			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
-			log.info("Usuario: "+ vtUsuarioRol.getVtUsuario().getNombre());
-			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
-		}
+		//		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(3L);
+		//		List<VtUsuarioRol> vtUsuarioRoles = vtUsuarioRolLogic.findUsuarioRolbyUsuario(vtUsuario);
+		//		int permisos = vtRolLogic.getVtRol().size();
+		//		
+		//		log.info("permisosPre= " + permisos);
+		//		
+		//		for (VtUsuarioRol vtUsuarioRol : vtUsuarioRoles) {
+		//			log.info("Codigo: "+ vtUsuarioRol.getUsroCodigo());
+		//			log.info("Usuario: "+ vtUsuarioRol.getVtUsuario().getNombre());
+		//			log.info("Rol: "+ vtUsuarioRol.getVtRol().getRolNombre()+"\n");
+		//		}
+		//
+		//		for (VtUsuarioRol vtUsuarioRol : vtUsuarioRoles) {
+		//			if (vtUsuarioRol.getVtRol().getRolCodigo() == 3L) {
+		//				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
+		//					permisos = 3;
+		//				}
+		//			}else if (vtUsuarioRol.getVtRol().getRolCodigo() == 2L) {
+		//				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
+		//					permisos = 2;
+		//				}
+		//			}else if (vtUsuarioRol.getVtRol().getRolCodigo() == 1L) {
+		//				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
+		//					permisos = 1;
+		//				}
+		//			}
+		//		}
+		//		log.info("permisos= " + permisos);
+	}
 
-		for (VtUsuarioRol vtUsuarioRol : vtUsuarioRoles) {
-			if (vtUsuarioRol.getVtRol().getRolCodigo() == 3L) {
-				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
-					permisos = 3;
-				}
-			}else if (vtUsuarioRol.getVtRol().getRolCodigo() == 2L) {
-				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
-					permisos = 2;
-				}
-			}else if (vtUsuarioRol.getVtRol().getRolCodigo() == 1L) {
-				if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
-					permisos = 1;
-				}
-			}
+	@Test
+	public void testL() throws Exception{
+		VtSprint sprint = vtSprintLogic.getVtSprint(2L);
+
+		for (VtArtefacto artefacto : sprint.getVtArtefactos()) {
+			log.info(""+artefacto.getTitulo());
 		}
-		log.info("permisos= " + permisos);
 	}
 
 }

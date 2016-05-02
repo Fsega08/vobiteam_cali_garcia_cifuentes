@@ -936,6 +936,20 @@ public class VtSprintView {
 		FacesUtils.putinSession("sprintSeleccionado", null);
 		return "/XHTML/listaSprint.xhtml";
 	}
+	
+	public String iniciarSprintAction(){
+		VtEstadoSprint estadoSprint;
+		try {
+			estadoSprint = businessDelegatorView.getVtEstadoSprint(2L);		
+			sprintSeleccionado.setVtEstadoSprint(estadoSprint);
+			FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+			businessDelegatorView.updateVtSprint(sprintSeleccionado);
+			return "/XHTML/iniciarSprint.xhtml";
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+		return "";
+	}
 
 	public void setCapEstimadaAction(){
 
