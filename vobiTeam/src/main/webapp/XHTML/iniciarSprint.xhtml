@@ -42,11 +42,18 @@
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="10,15" rendered="true"
 								rowKey="#{artefacto.arteCodigo}"
-								emptyMessage="No se encontraron artefactos en esta pila de producto, puedes crear uno."
+								emptyMessage="No se encontraron artefactos por hacer."
 								selectionMode="single"
 								selection="#{iniciarSprintView.artefactoSeleccionado}"
 								paginatorPosition="bottom">
-								<p:column headerText="Nombre Artefacto"
+
+								<p:column styleClass="Wid20 ">
+									<h:outputText id="dragIcon"
+										styleClass="ui-icon ui-icon-arrow-4" />
+									<p:draggable for="dragIcon" revert="true" helper="clone" />
+								</p:column>
+
+								<p:column headerText="Nombre Artefacto" styleClass="Wid80 "
 									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
 									filterMatchMode="contains">
 									<h:outputText value="#{artefacto.titulo}"
@@ -60,14 +67,60 @@
 					<p:fieldset id="fsEnCurso" legend="En Curso"
 						styleClass="Container30  ">
 						<div class="Container">
-							<p:dataTable id="dtEnCurso" styleClass="Container100"></p:dataTable>
+							<p:dataTable id="dtEnCurso" styleClass="Container100"
+								value="#{iniciarSprintView.losArtefactosEnCurso}"
+								var="artefacto" paginator="true" rows="10"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,15" rendered="true"
+								rowKey="#{artefacto.arteCodigo}"
+								emptyMessage="No se encontraron artefactos en curso."
+								selectionMode="single"
+								selection="#{iniciarSprintView.artefactoSeleccionado}"
+								paginatorPosition="bottom">
+
+								<p:column styleClass="Wid20 ">
+									<h:outputText id="dragIcon"
+										styleClass="ui-icon ui-icon-arrow-4" />
+									<p:draggable for="dragIcon" revert="true" helper="clone" />
+								</p:column>
+
+								<p:column headerText="Nombre Artefacto" styleClass="Wid80 "
+									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.titulo}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+							</p:dataTable>
 						</div>
 					</p:fieldset>
 
 					<p:fieldset id="fsFinalizado" legend="Finalizado"
 						styleClass="Container30">
 						<div class="Container">
-							<p:dataTable id="dtFinalizado" styleClass="Container100"></p:dataTable>
+							<p:dataTable id="dtFinalizado" styleClass="Container100"
+								value="#{iniciarSprintView.losArtefactosFinalizados}"
+								var="artefacto" paginator="true" rows="10"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,15" rendered="true"
+								rowKey="#{artefacto.arteCodigo}"
+								emptyMessage="No se encontraron artefactos Finalizados"
+								selectionMode="single"
+								selection="#{iniciarSprintView.artefactoSeleccionado}"
+								paginatorPosition="bottom">
+
+								<p:column styleClass="Wid20 ">
+									<h:outputText id="dragIcon"
+										styleClass="ui-icon ui-icon-arrow-4" />
+									<p:draggable for="dragIcon" revert="true" helper="clone" />
+								</p:column>
+
+								<p:column headerText="Nombre Artefacto" styleClass="Wid80 "
+									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.titulo}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+							</p:dataTable>
 						</div>
 					</p:fieldset>
 
