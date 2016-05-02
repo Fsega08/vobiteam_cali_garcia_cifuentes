@@ -52,7 +52,15 @@ public class IniciarSprintView {
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
 			
 			for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
-				losArtefactosPorHacer.add(vtArtefacto);
+				if (vtArtefacto.getVtEstado().getEstaCodigo() == 1L) {
+					losArtefactosPorHacer.add(vtArtefacto);
+				}
+				if (vtArtefacto.getVtEstado().getEstaCodigo() == 2L) {
+					losArtefactosEnCurso.add(vtArtefacto);
+				}
+				if (vtArtefacto.getVtEstado().getEstaCodigo() == 4L) {
+					losArtefactosFinalizados.add(vtArtefacto);
+				}
 			}
 
 		} catch (Exception e) {

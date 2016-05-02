@@ -60,14 +60,48 @@
 					<p:fieldset id="fsEnCurso" legend="En Curso"
 						styleClass="Container30  ">
 						<div class="Container">
-							<p:dataTable id="dtEnCurso" styleClass="Container100"></p:dataTable>
+							<p:dataTable id="dtEnCurso" styleClass="Container100"
+								value="#{iniciarSprintView.losArtefactosEnCurso}"
+								var="artefacto" paginator="true" rows="10"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,15" rendered="true"
+								rowKey="#{artefacto.arteCodigo}"
+								emptyMessage="No se encontraron artefactos en esta pila de producto, puedes crear uno."
+								selectionMode="single"
+								selection="#{iniciarSprintView.artefactoSeleccionado}"
+								paginatorPosition="bottom">
+								<p:column headerText="Nombre Artefacto"
+									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.titulo}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+
+							</p:dataTable>
 						</div>
 					</p:fieldset>
 
 					<p:fieldset id="fsFinalizado" legend="Finalizado"
 						styleClass="Container30">
 						<div class="Container">
-							<p:dataTable id="dtFinalizado" styleClass="Container100"></p:dataTable>
+							<p:dataTable id="dtFinalizado" styleClass="Container100"
+								value="#{iniciarSprintView.losArtefactosFinalizados}"
+								var="artefacto" paginator="true" rows="10"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,15" rendered="true"
+								rowKey="#{artefacto.arteCodigo}"
+								emptyMessage="No se encontraron artefactos en esta pila de producto, puedes crear uno."
+								selectionMode="single"
+								selection="#{iniciarSprintView.artefactoSeleccionado}"
+								paginatorPosition="bottom">
+								<p:column headerText="Nombre Artefacto"
+									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.titulo}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+
+							</p:dataTable>
 						</div>
 					</p:fieldset>
 
