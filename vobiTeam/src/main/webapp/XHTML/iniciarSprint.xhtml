@@ -4,6 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
+
 	<ui:define name="content">
 		<p:ajaxStatus onstart="PF('statusDialog').show()"
 			onsuccess="PF('statusDialog').hide()" />
@@ -25,66 +26,64 @@
 
 		<div class="Container">
 			<h:form id="formDialog">
-				<p:growl id="msg" />
+				<p:growl id="men" />
 				<p:panel id="pnlInicarSprint" header="Sprint en Curso"
 					styleClass="Responsive100 ">
 
 					<p:commandButton id="terminar" value="Terminar Sprint"
-						styleClass="Fright" />
+						styleClass="Fright" action="#{iniciarSprintView.calculoArtefactos}" 
+						onclick="PF('cdSprint').show()" />
+
+
+
 					<div class="EmptyBox10"></div>
 
-					<p:fieldset id="fsPorHacer" legend="Por Hacer"
-						styleClass="Container30">
-						<div class="Container">
+					<p:accordionPanel multiple="true" id="acordArtefacto">
+
+						<p:tab title="Artefactos Por Hacer">
+							<p:contextMenu for="dtPorHacer" event="click contextmenu">
+								<p:menuitem value="Mover a En curso" icon="fa icon-login"
+									onclick="PF('dlHora').show()" />
+							</p:contextMenu>
+
 							<p:dataTable id="dtPorHacer" styleClass="Container100"
 								value="#{iniciarSprintView.losArtefactosPorHacer}"
 								var="artefacto" paginator="true" rows="10"
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="10,15" rendered="true"
-								rowKey="#{artefacto.arteCodigo}"
+								rowsPerPageTemplate="10,15" rowKey="#{artefacto.arteCodigo}"
 								emptyMessage="No se encontraron artefactos por hacer."
 								selectionMode="single"
-								selection="#{iniciarSprintView.artefactoSeleccionado}"
+								selection="#{iniciarSprintView.vtArtefactoPorHacer}"
 								paginatorPosition="bottom">
 
-								<p:column styleClass="Wid20 ">
-									<h:outputText id="dragIcon"
-										styleClass="ui-icon ui-icon-arrow-4" />
-									<p:draggable for="dragIcon" revert="true" helper="clone" />
-								</p:column>
-
-								<p:column headerText="Nombre Artefacto" styleClass="Wid80 "
-									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
-									filterMatchMode="contains">
-									<h:outputText value="#{artefacto.titulo}"
-										title="Presiona click derecho para ver las opciones" />
-								</p:column>
-
-							</p:dataTable>
-						</div>
-					</p:fieldset>
-
-					<p:fieldset id="fsEnCurso" legend="En Curso"
-						styleClass="Container30  ">
-						<div class="Container">
-							<p:dataTable id="dtEnCurso" styleClass="Container100"
-								value="#{iniciarSprintView.losArtefactosEnCurso}"
-								var="artefacto" paginator="true" rows="10"
-								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="10,15" rendered="true"
-								rowKey="#{artefacto.arteCodigo}"
-								emptyMessage="No se encontraron artefactos en esta pila de producto, puedes crear uno."
-								selectionMode="single"
-								selection="#{iniciarSprintView.artefactoSeleccionado}"
-								paginatorPosition="bottom">
 								<p:column headerText="Nombre Artefacto"
 									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
 									filterMatchMode="contains">
 									<h:outputText value="#{artefacto.titulo}"
 										title="Presiona click derecho para ver las opciones" />
 								</p:column>
+								<p:column headerText="Esfuerzo Estimado"
+									filterBy="#{artefacto.esfuerzoEstimado}"
+									sortBy="#{artefacto.esfuerzoEstimado}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.esfuerzoEstimado}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+								<p:column headerText="Esfuerzo Real"
+									filterBy="#{artefacto.esfuerzoReal}"
+									sortBy="#{artefacto.esfuerzoReal}" filterMatchMode="contains">
+									<h:outputText value="#{artefacto.esfuerzoReal}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
 
 							</p:dataTable>
+						</p:tab>
+						<p:tab title="Artefactos En Curso">
+							<p:contextMenu for="dtEnCurso" event="click contextmenu">
+								<p:menuitem value="Mover a Finalizado" icon="fa icon-login"
+									onclick="PF('dlHora').show()" update="acordArtefacto" />
+							</p:contextMenu>
+
 							<p:dataTable id="dtEnCurso" styleClass="Container100"
 								value="#{iniciarSprintView.losArtefactosEnCurso}"
 								var="artefacto" paginator="true" rows="10"
@@ -93,46 +92,31 @@
 								rowKey="#{artefacto.arteCodigo}"
 								emptyMessage="No se encontraron artefactos en curso."
 								selectionMode="single"
-								selection="#{iniciarSprintView.artefactoSeleccionado}"
+								selection="#{iniciarSprintView.vtArtefactoEnCurso}"
 								paginatorPosition="bottom">
 
-								<p:column styleClass="Wid20 ">
-									<h:outputText id="dragIcon"
-										styleClass="ui-icon ui-icon-arrow-4" />
-									<p:draggable for="dragIcon" revert="true" helper="clone" />
-								</p:column>
-
-								<p:column headerText="Nombre Artefacto" styleClass="Wid80 "
-									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
-									filterMatchMode="contains">
-									<h:outputText value="#{artefacto.titulo}"
-										title="Presiona click derecho para ver las opciones" />
-								</p:column>
-							</p:dataTable>
-						</div>
-					</p:fieldset>
-
-					<p:fieldset id="fsFinalizado" legend="Finalizado"
-						styleClass="Container30">
-						<div class="Container">
-							<p:dataTable id="dtFinalizado" styleClass="Container100"
-								value="#{iniciarSprintView.losArtefactosFinalizados}"
-								var="artefacto" paginator="true" rows="10"
-								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="10,15" rendered="true"
-								rowKey="#{artefacto.arteCodigo}"
-								emptyMessage="No se encontraron artefactos en esta pila de producto, puedes crear uno."
-								selectionMode="single"
-								selection="#{iniciarSprintView.artefactoSeleccionado}"
-								paginatorPosition="bottom">
 								<p:column headerText="Nombre Artefacto"
 									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
 									filterMatchMode="contains">
 									<h:outputText value="#{artefacto.titulo}"
 										title="Presiona click derecho para ver las opciones" />
 								</p:column>
-
+								<p:column headerText="Esfuerzo Estimado"
+									filterBy="#{artefacto.esfuerzoEstimado}"
+									sortBy="#{artefacto.esfuerzoEstimado}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.esfuerzoEstimado}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+								<p:column headerText="Esfuerzo Real"
+									filterBy="#{artefacto.esfuerzoReal}"
+									sortBy="#{artefacto.esfuerzoReal}" filterMatchMode="contains">
+									<h:outputText value="#{artefacto.esfuerzoReal}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
 							</p:dataTable>
+						</p:tab>
+						<p:tab title="Artefactos Finalizados">
 							<p:dataTable id="dtFinalizado" styleClass="Container100"
 								value="#{iniciarSprintView.losArtefactosFinalizados}"
 								var="artefacto" paginator="true" rows="10"
@@ -141,28 +125,187 @@
 								rowKey="#{artefacto.arteCodigo}"
 								emptyMessage="No se encontraron artefactos Finalizados"
 								selectionMode="single"
-								selection="#{iniciarSprintView.artefactoSeleccionado}"
+								selection="#{iniciarSprintView.vtArtefactoFinalizado}"
 								paginatorPosition="bottom">
 
-								<p:column styleClass="Wid20 ">
-									<h:outputText id="dragIcon"
-										styleClass="ui-icon ui-icon-arrow-4" />
-									<p:draggable for="dragIcon" revert="true" helper="clone" />
-								</p:column>
-
-								<p:column headerText="Nombre Artefacto" styleClass="Wid80 "
+								<p:column headerText="Nombre Artefacto"
 									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
 									filterMatchMode="contains">
 									<h:outputText value="#{artefacto.titulo}"
 										title="Presiona click derecho para ver las opciones" />
 								</p:column>
+								<p:column headerText="Esfuerzo Estimado"
+									filterBy="#{artefacto.esfuerzoEstimado}"
+									sortBy="#{artefacto.esfuerzoEstimado}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.esfuerzoEstimado}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+								<p:column headerText="Esfuerzo Real"
+									filterBy="#{artefacto.esfuerzoReal}"
+									sortBy="#{artefacto.esfuerzoReal}" filterMatchMode="contains">
+									<h:outputText value="#{artefacto.esfuerzoReal}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
 							</p:dataTable>
-						</div>
-					</p:fieldset>
+						</p:tab>
+
+						<p:dialog header="Detalles del artefacto"
+							widgetvar="dlgDetaArtefacto" modal="true" id="dlDetArtefacto"
+							width="800">
+							<div class="ui-fluid">
+								<p:panel header="Detalles artefacto" id="pnlartefacto">
+									<h:panelGrid columns="5" layout="grid" id="pnlgTit">
+										<h:outputText value="Tipo Artefacto" />
+										<p:selectOneMenu id="somMTiposDeArtefactos"
+											value="#{iniciarSprintView.artefactoSeleccionado.vtTipoArtefacto.tparCodigo}"
+											disabled="true" />
+
+										<p:spacer width="170" height="10" />
+
+										<h:outputText value="Titulo del artefacto" />
+										<p:inputText id="txtMNombre" placeholder="Título" size="75"
+											value="#{iniciarSprintView.artefactoSeleccionado.titulo}"
+											disabled="true" />
+
+									</h:panelGrid>
+
+									<h:panelGrid columns="1" layout="grid" id="pnlgDesc">
+
+										<h:outputText value="Descripción del artefacto" />
+										<p:inputTextarea id="txtAreaMDescripcion" cols="148"
+											style="overflow:auto;" autoResize="false"
+											placeholder="Descripción" maxlength="100000000"
+											disabled="true"
+											value="#{iniciarSprintView.artefactoSeleccionado.descripcion}" />
+
+										<p:separator />
+									</h:panelGrid>
+
+									<h:panelGrid columns="5" layout="grid" id="pnlgDemas">
 
 
-					<div class="EmptyBox30"></div>
+										<h:outputText value="Estado Artefacto" />
+										<p:selectOneMenu id="somMEstados"
+											value="#{iniciarSprintView.artefactoSeleccionado.vtEstado.estaCodigo}"
+											disabled="true" />
+
+										<p:spacer width="100" height="10" />
+
+										<h:outputText value="Nivel de prioridad" />
+										<p:selectOneMenu id="somMPrioridades"
+											value="#{iniciarSprintView.artefactoSeleccionado.vtPrioridad.prioCodigo}"
+											disabled="true" />
+
+										<h:outputText value="Esfuerzo Estimado" />
+										<p:inputText id="txtMEsfuerzoEstimado"
+											placeholder="Esfuerzo Estimado"
+											value="#{iniciarSprintView.artefactoSeleccionado.esfuerzoEstimado}"
+											disabled="true">
+
+										</p:inputText>
+
+										<p:spacer width="100" height="10" />
+
+										<h:outputText value="Esfuerzo Restante" />
+										<p:inputText id="txtMEsfuerzoRestante"
+											placeholder="Esfuerzo Restante" disabled="true"
+											value="#{iniciarSprintView.artefactoSeleccionado.esfuerzoRestante}" />
+
+
+										<h:outputText value="Esfuerzo Real" />
+										<p:inputText id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
+											value="#{iniciarSprintView.artefactoSeleccionado.esfuerzoReal}"
+											disabled="true" />
+
+										<p:spacer width="100" height="10" />
+
+										<h:outputText value="Puntos del artefacto" />
+										<p:inputText id="txtMPuntos" placeholder="Puntos"
+											disabled="true"
+											value="#{iniciarSprintView.artefactoSeleccionado.puntos}" />
+
+
+										<h:outputText value="Origen del artefacto" />
+										<p:inputText id="txtMOrigen" placeholder="Origen"
+											disabled="true"
+											value="#{iniciarSprintView.artefactoSeleccionado.origen}" />
+
+
+										<p:spacer width="100" height="10" />
+
+										<h:outputText value="Artefacto activo?" />
+										<p:selectOneMenu id="somArtefactoActivo" disabled="true"
+											value="#{iniciarSprintView.artefactoSeleccionado.activo}" />
+
+										<h:outputText value="Desarrollador" />
+										<p:selectOneMenu id="somDesarrollador" disabled="true"
+											value="#{iniciarSprintView.usuarioArtefacto.vtUsuario.usuaCodigo}" />
+
+										<p:spacer width="100" height="10" />
+
+										<h:outputText value="Interés" />
+										<p:selectOneMenu id="somInteres" disabled="true"
+											value="#{iniciarSprintView.usuarioArtefacto.vtInteres.inteCodigo}" />
+									</h:panelGrid>
+								</p:panel>
+							</div>
+						</p:dialog>
+
+
+
+					</p:accordionPanel>
 				</p:panel>
+
+				<p:dialog header="Horas Trabajadas" widgetVar="dlHora"
+					resizable="false" id="dlHorasTrab" draggable="true"
+					responsive="true" modal="true" width="350">
+
+					<h:panelGrid columns="2" id="pnlEsfuerzoReal">
+						<h:outputText value="Ingrese horas trabajadas" />
+						<p:inputText id="txtEsfuerzoReal" placeholder="Esfuerzo Real"
+							binding="#{iniciarSprintView.txtEsfuerzo}" maxlength="5" />
+
+
+					</h:panelGrid>
+					<br />
+
+					<p:commandButton id="btnModificar" icon="fa fa-pencil white"
+						action="#{iniciarSprintView.esfuerzoRealAction}" value="Modificar"
+						update="men, acordArtefacto, pnlEsfuerzoReal" />
+
+					<p:commandButton id="btnClear" icon="fa fa-eraser white"
+						action="#{iniciarSprintView.limpiarAction}" value="Limpiar"
+						update="men, acordArtefacto, pnlEsfuerzoReal" />
+				</p:dialog>
+
+				<p:dialog header="Confirmation" widgetVar="cdSprint"
+					resizable="false" id="dlConfirmSprint" draggable="true"
+					responsive="true" modal="true" width="500">
+					<p:panelGrid >
+						<h:outputText class="red" value="¿Esta seguro de terminar  este Sprint? " />
+						<p:spacer />
+						<h:outputText class="red" value=" Se encuentran " />
+						<h:outputText value="#{iniciarSprintView.totalArtefactos}" />
+						<h:outputText class="red" value=" Artefactos sin terminar" />
+					</p:panelGrid>
+					
+						<p:commandButton value="Terminar Sprint"
+							action="#{iniciarSprintView.terminarSprintAction}" update="formDialog" />
+						
+					
+				</p:dialog>
+
+
+				<p:panel>
+					<h:panelGrid columns="1">
+						<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+							action="#{iniciarSprintView.sprintAction}"
+							value="Regresar a Lista de Sprint" update="formDialog" />
+					</h:panelGrid>
+				</p:panel>
+
+
 
 			</h:form>
 		</div>

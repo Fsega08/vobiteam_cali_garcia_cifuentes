@@ -16,6 +16,7 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.chart.MeterGaugeChartModel;
@@ -938,19 +939,28 @@ public class VtSprintView {
 	}
 	
 	public String iniciarSprintAction(){
-		VtEstadoSprint estadoSprint;
 		try {
-			estadoSprint = businessDelegatorView.getVtEstadoSprint(2L);		
-			sprintSeleccionado.setVtEstadoSprint(estadoSprint);
-			FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
-			businessDelegatorView.updateVtSprint(sprintSeleccionado);
-			return "/XHTML/iniciarSprint.xhtml";
+			if (sprintSeleccionado.getVtEstadoSprint().getEsspCodigo() == 1L) {
+				RequestContext.getCurrentInstance().execute("PF('cdSprint').show();");
+			}else if (sprintSeleccionado.getVtEstadoSprint().getEsspCodigo() == 2L) {
+				FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+				return "/XHTML/iniciarSprint.xhtml";
+			} 
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
 		return "";
 	}
-
+	
+	
+	public String cambioEstadoSprint() throws Exception {
+ 		VtEstadoSprint estadoSprint = businessDelegatorView.getVtEstadoSprint(2L);		
+		sprintSeleccionado.setVtEstadoSprint(estadoSprint);
+		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+		businessDelegatorView.updateVtSprint(sprintSeleccionado);
+		return "/XHTML/iniciarSprint.xhtml";
+	}
+	
 	public void setCapEstimadaAction(){
 
 		try {

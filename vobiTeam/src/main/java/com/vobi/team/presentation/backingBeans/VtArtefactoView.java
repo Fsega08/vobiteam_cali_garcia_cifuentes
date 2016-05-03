@@ -978,7 +978,7 @@ public class VtArtefactoView {
 				somInteres.setValue(usuarioArtefacto.getVtInteres().getInteCodigo());
 			}		
 			
-			tipoModArtefactoListener();
+			//tipoModArtefactoListener();
 		}else {
 			log.info("No se ha seleccionado ningún artefacto");
 		}

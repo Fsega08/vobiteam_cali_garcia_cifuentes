@@ -38,8 +38,8 @@
 
 
 				<p:contextMenu for="dtSprint" event="click contextmenu">
-					<p:menuitem value="Modificar" 
-						icon="fa fa-pencil " oncomplete="PF('dlgModificarSprint').show()"
+					<p:menuitem value="Modificar" icon="fa fa-pencil "
+						oncomplete="PF('dlgModificarSprint').show()"
 						action="#{vtSprintView.modificarSprintAction}" />
 
 					<p:menuitem value="Asignar artefactos a este sprint"
@@ -50,27 +50,17 @@
 						update="dtArtefactos" icon="fa fa-list "
 						oncomplete="PF('dlgArtefacto').show()" />
 
-					<p:menuitem icon="fa fa-play-circle"	update="msg, dtSprint"					
-						value="Iniciar este Sprint" action="#{vtSprintView.iniciarSprintAction}"> 
-						 <p:confirm header="Confirmation"
-							message="¿Esta seguro de iniciar  este Sprint?"
-							icon="fa fa-exclamation red" />
-					</p:menuitem>
+					<p:menuitem icon="fa fa-play-circle" update="msg, dtSprint"
+						value="Iniciar este Sprint"
+						action="#{vtSprintView.iniciarSprintAction}" />
 
 
 				</p:contextMenu>
-				
-				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-					<p:commandButton value="Sí" type="button"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check white" />
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close white" />
-				</p:confirmDialog>
 
 				<p:dataTable id="dtSprint" value="#{vtSprintView.losSprint}"
 					var="sprint" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15" rowKey="#{sprint.spriCodigo}"
+					row5sPerPageTemplate="5,10,15" rowKey="#{sprint.spriCodigo}"
 					selectionMode="single"
 					selection="#{vtSprintView.sprintSeleccionado}"
 					emptyMessage="Parece que no hay Sprints, por que no creas uno"
@@ -98,7 +88,16 @@
 							<f:convertDateTime dateStyle="full" type="date" />
 						</h:outputText>
 					</p:column>
-
+					
+					<p:column headerText="Estado de Sprint" filterBy="#{sprint.vtEstadoSprint.esspCodigo}"
+						sortBy="#{sprint.vtEstadoSprint.esspCodigo}" filterMatchMode="contains">
+						<h:outputText value="#{sprint.vtEstadoSprint.esspCodigo}"
+							title="Presiona click derecho para ver las opciones">
+			
+						</h:outputText>
+					</p:column>
+					
+					
 					<p:column headerText="Fin" filterBy="#{sprint.fechaFin}"
 						sortBy="#{sprint.fechaFin}" filterMatchMode="contains">
 						<h:outputText value="#{sprint.fechaFin}"
@@ -115,7 +114,7 @@
 					</p:column>
 
 				</p:dataTable>
-				
+
 			</p:panel>
 
 			<p:panel>
@@ -136,32 +135,45 @@
 				width="990">
 				<p:growl id="msj" />
 				<h:panelGrid id="panelAsignar" columns="2">
-			
-						<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
-							showSourceControls="true" showTargetControls="true"
-							showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
-							itemValue="#{artefactos}" converter="usuarioPickListConverter">
 
-							<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
-							<f:facet name="targetCaption">Artefactos Asignados</f:facet>
+					<p:pickList id="pickList" value="#{vtSprintView.losArtefactos}"
+						showSourceControls="true" showTargetControls="true"
+						showCheckbox="true" var="artefactos" itemLabel="#{artefactos}"
+						itemValue="#{artefactos}" converter="usuarioPickListConverter">
 
-							<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
-								update="msj, panelAsignar" />
+						<f:facet name="sourceCaption">Artefactos no Asignados</f:facet>
+						<f:facet name="targetCaption">Artefactos Asignados</f:facet>
 
-							<p:column style="width:10%">
-								<h:outputText styleClass="icon-doc-text-inv" />
-							</p:column>
+						<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
+							update="msj, panelAsignar" />
 
-							<p:column style="width:90%;">
-								<h:outputText value="#{artefactos.titulo}" />
-							</p:column>
-						</p:pickList>
-						
-							<p:chart id="chartModel" type="metergauge"
-								model="#{vtSprintView.chartModel}"
-								style="width:400px;height:250px" />
-						
+						<p:column style="width:10%">
+							<h:outputText styleClass="icon-doc-text-inv" />
+						</p:column>
+
+						<p:column style="width:90%;">
+							<h:outputText value="#{artefactos.titulo}" />
+						</p:column>
+					</p:pickList>
+
+					<p:chart id="chartModel" type="metergauge"
+						model="#{vtSprintView.chartModel}"
+						style="width:400px;height:250px" />
+
 				</h:panelGrid>
+			</p:dialog>
+
+			<!-- Confirm dialog -->
+
+			<p:dialog header="Confirmation" widgetVar="cdSprint"
+				resizable="false" id="dlConfirmSprint" draggable="true"
+				responsive="true" modal="true" width="500">
+				<p:panelGrid >
+					<h:outputText value="¿Esta seguro de iniciar  este Sprint?" />
+					<br />
+					</p:panelGrid>
+					<p:commandButton value="Comenzar Sprint"
+						action="#{vtSprintView.cambioEstadoSprint}" update="formDialog" />
 			</p:dialog>
 
 
