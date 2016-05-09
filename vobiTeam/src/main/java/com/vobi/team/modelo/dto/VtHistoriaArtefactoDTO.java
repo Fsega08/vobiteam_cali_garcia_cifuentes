@@ -12,26 +12,40 @@ import java.util.Date;
 
 /**
 *
-* @author Zathura Code Generator http://zathuracode.org/
+* @author Zathura Code Generator http://zathuracode.org
 * www.zathuracode.org
 *
 */
 public class VtHistoriaArtefactoDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(VtHistoriaArtefactoDTO.class);
+    private String activo;
     private String descripcion;
     private Integer esfuerzoEstimado;
     private Integer esfuerzoReal;
     private Integer esfuerzoRestante;
+    private Long estaCodigo;
     private Date fechaCreacion;
     private Date fechaModificacion;
     private Long historiaCodigo;
     private String origen;
+    private Long pilaCodigo;
+    private Long prioCodigo;
     private Integer puntos;
+    private Long spriCodigo;
     private String titulo;
+    private Long tparCodigo;
     private Long usuCreador;
     private Long usuModificador;
     private Long arteCodigo_VtArtefacto;
+
+    public String getActivo() {
+        return activo;
+    }
+
+    public void setActivo(String activo) {
+        this.activo = activo;
+    }
 
     public String getDescripcion() {
         return descripcion;
@@ -63,6 +77,14 @@ public class VtHistoriaArtefactoDTO implements Serializable {
 
     public void setEsfuerzoRestante(Integer esfuerzoRestante) {
         this.esfuerzoRestante = esfuerzoRestante;
+    }
+
+    public Long getEstaCodigo() {
+        return estaCodigo;
+    }
+
+    public void setEstaCodigo(Long estaCodigo) {
+        this.estaCodigo = estaCodigo;
     }
 
     public Date getFechaCreacion() {
@@ -97,6 +119,22 @@ public class VtHistoriaArtefactoDTO implements Serializable {
         this.origen = origen;
     }
 
+    public Long getPilaCodigo() {
+        return pilaCodigo;
+    }
+
+    public void setPilaCodigo(Long pilaCodigo) {
+        this.pilaCodigo = pilaCodigo;
+    }
+
+    public Long getPrioCodigo() {
+        return prioCodigo;
+    }
+
+    public void setPrioCodigo(Long prioCodigo) {
+        this.prioCodigo = prioCodigo;
+    }
+
     public Integer getPuntos() {
         return puntos;
     }
@@ -105,12 +143,28 @@ public class VtHistoriaArtefactoDTO implements Serializable {
         this.puntos = puntos;
     }
 
+    public Long getSpriCodigo() {
+        return spriCodigo;
+    }
+
+    public void setSpriCodigo(Long spriCodigo) {
+        this.spriCodigo = spriCodigo;
+    }
+
     public String getTitulo() {
         return titulo;
     }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public Long getTparCodigo() {
+        return tparCodigo;
+    }
+
+    public void setTparCodigo(Long tparCodigo) {
+        this.tparCodigo = tparCodigo;
     }
 
     public Long getUsuCreador() {

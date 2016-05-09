@@ -31,7 +31,7 @@ public class VtSprintDTO implements Serializable {
     private Long spriCodigo;
     private Long usuCreador;
     private Long usuModificador;
-    private Long esspCodigo_VtEstadoSprint;
+    private Long estsprCodigo_VtEstadoSprint;
     private Long pilaCodigo_VtPilaProducto;
 
     public String getActivo() {
@@ -130,12 +130,12 @@ public class VtSprintDTO implements Serializable {
         this.usuModificador = usuModificador;
     }
 
-    public Long getEsspCodigo_VtEstadoSprint() {
-        return esspCodigo_VtEstadoSprint;
+    public Long getEstsprCodigo_VtEstadoSprint() {
+        return estsprCodigo_VtEstadoSprint;
     }
 
-    public void setEsspCodigo_VtEstadoSprint(Long esspCodigo_VtEstadoSprint) {
-        this.esspCodigo_VtEstadoSprint = esspCodigo_VtEstadoSprint;
+    public void setEstsprCodigo_VtEstadoSprint(Long estsprCodigo_VtEstadoSprint) {
+        this.estsprCodigo_VtEstadoSprint = estsprCodigo_VtEstadoSprint;
     }
 
     public Long getPilaCodigo_VtPilaProducto() {

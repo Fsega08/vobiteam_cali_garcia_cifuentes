@@ -236,6 +236,13 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			vtHistoriaArtefacto.setVtArtefacto(entity);
 			vtHistoriaArtefacto.setFechaCreacion(new Date());
 			vtHistoriaArtefacto.setFechaModificacion(new Date());
+			//Nuevo del artefacto
+			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
+			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
+			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
+			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
+			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
+			vtHistoriaArtefacto.setActivo(entity.getActivo());
 			
 			vtHistoriaArtefactoLogic.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
 		
@@ -413,6 +420,13 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			vtHistoriaArtefacto.setVtArtefacto(entity);
 			vtHistoriaArtefacto.setFechaCreacion(new Date());
 			vtHistoriaArtefacto.setFechaModificacion(new Date());
+			//Nuevo del artefacto
+			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
+			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
+			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
+			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
+			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
+			vtHistoriaArtefacto.setActivo(entity.getActivo());
 			
 			vtHistoriaArtefactoLogic.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
 

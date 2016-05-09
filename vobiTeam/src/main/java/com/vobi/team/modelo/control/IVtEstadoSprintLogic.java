@@ -43,7 +43,7 @@ public interface IVtEstadoSprintLogic {
          * Load an existing VtEstadoSprint entity
          *
          */
-    public VtEstadoSprint getVtEstadoSprint(Long esspCodigo)
+    public VtEstadoSprint getVtEstadoSprint(Long estsprCodigo)
         throws Exception;
 
     public List<VtEstadoSprint> findByCriteria(Object[] variables,

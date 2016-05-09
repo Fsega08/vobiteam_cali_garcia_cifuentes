@@ -1,7 +1,7 @@
 package com.vobi.team.dataaccess.dao;
 
 import com.vobi.team.dataaccess.api.HibernateDaoImpl;
-import com.vobi.team.modelo.VtSprint;
+import com.vobi.team.modelo.VtProgresoArtefacto;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -31,23 +31,24 @@ import javax.annotation.Resource;
 
 /**
  * A data access object (DAO) providing persistence and search support for
- * VtSprint entities. Transaction control of the save(), update() and
+ * VtProgresoArtefacto entities. Transaction control of the save(), update() and
  * delete() operations can directly support Spring container-managed
  * transactions or they can be augmented to handle user-managed Spring
  * transactions. Each of these methods provides additional information for how
  * to configure it for the desired type of transaction control.
  *
- * @see lidis.VtSprint
+ * @see lidis.VtProgresoArtefacto
  */
 @Scope("singleton")
-@Repository("VtSprintDAO")
-public class VtSprintDAO extends HibernateDaoImpl<VtSprint, Long>
-    implements IVtSprintDAO {
-    private static final Logger log = LoggerFactory.getLogger(VtSprintDAO.class);
+@Repository("VtProgresoArtefactoDAO")
+public class VtProgresoArtefactoDAO extends HibernateDaoImpl<VtProgresoArtefacto, Long>
+    implements IVtProgresoArtefactoDAO {
+    private static final Logger log = LoggerFactory.getLogger(VtProgresoArtefactoDAO.class);
     @Resource
     private SessionFactory sessionFactory;
 
-    public static IVtSprintDAO getFromApplicationContext(ApplicationContext ctx) {
-        return (IVtSprintDAO) ctx.getBean("VtSprintDAO");
+    public static IVtProgresoArtefactoDAO getFromApplicationContext(
+        ApplicationContext ctx) {
+        return (IVtProgresoArtefactoDAO) ctx.getBean("VtProgresoArtefactoDAO");
     }
 }

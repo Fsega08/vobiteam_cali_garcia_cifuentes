@@ -19,6 +19,7 @@ import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
+import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtRol;
@@ -36,6 +37,7 @@ import com.vobi.team.modelo.control.IVtHistoriaArtefactoLogic;
 import com.vobi.team.modelo.control.IVtInteresLogic;
 import com.vobi.team.modelo.control.IVtPilaProductoLogic;
 import com.vobi.team.modelo.control.IVtPrioridadLogic;
+import com.vobi.team.modelo.control.IVtProgresoArtefactoLogic;
 import com.vobi.team.modelo.control.IVtProyectoLogic;
 import com.vobi.team.modelo.control.IVtProyectoUsuarioLogic;
 import com.vobi.team.modelo.control.IVtRolLogic;
@@ -53,6 +55,7 @@ import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
 import com.vobi.team.modelo.dto.VtInteresDTO;
 import com.vobi.team.modelo.dto.VtPilaProductoDTO;
 import com.vobi.team.modelo.dto.VtPrioridadDTO;
+import com.vobi.team.modelo.dto.VtProgresoArtefactoDTO;
 import com.vobi.team.modelo.dto.VtProyectoDTO;
 import com.vobi.team.modelo.dto.VtProyectoUsuarioDTO;
 import com.vobi.team.modelo.dto.VtRolDTO;
@@ -128,6 +131,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	private IVtPilaProductoLogic vtPilaProductoLogic;
 	@Autowired
 	private IVtPrioridadLogic vtPrioridadLogic;
+	@Autowired
+	private IVtProgresoArtefactoLogic vtProgresoArtefacto;
 	@Autowired
 	private IVtProyectoLogic vtProyectoLogic;
 	@Autowired
@@ -1172,6 +1177,53 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtEstadoSprintDTO> getDataVtEstadoSprint()
 			throws Exception {
 		return vtEstadoSprintLogic.getDataVtEstadoSprint();
+	}
+
+	@Override
+	public List<VtProgresoArtefacto> getVtProgresoArtefacto() throws Exception {
+		return vtProgresoArtefacto.getVtProgresoArtefacto();
+	}
+
+	@Override
+	public void saveVtProgresoArtefacto(VtProgresoArtefacto entity) throws Exception {
+		vtProgresoArtefacto.saveVtProgresoArtefacto(entity);
+	}
+
+	@Override
+	public void deleteVtProgresoArtefacto(VtProgresoArtefacto entity) throws Exception {
+		vtProgresoArtefacto.deleteVtProgresoArtefacto(entity);		
+	}
+
+	@Override
+	public void updateVtProgresoArtefacto(VtProgresoArtefacto entity) throws Exception {
+		vtProgresoArtefacto.updateVtProgresoArtefacto(entity);
+	}
+
+	@Override
+	public VtProgresoArtefacto getVtProgresoArtefacto(Long proartCodigo) throws Exception {
+		return vtProgresoArtefacto.getVtProgresoArtefacto(proartCodigo);
+	}
+
+	@Override
+	public List<VtProgresoArtefacto> findByCriteriaInVtProgresoArtefacto(Object[] variables, Object[] variablesBetween,
+			Object[] variablesBetweenDates) throws Exception {
+		return vtProgresoArtefacto.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	}
+
+	@Override
+	public List<VtProgresoArtefacto> findPageVtProgresoArtefacto(String sortColumnName, boolean sortAscending,
+			int startRow, int maxResults) throws Exception {
+		return vtProgresoArtefacto.findPageVtProgresoArtefacto(sortColumnName, sortAscending, startRow, maxResults);
+	}
+
+	@Override
+	public Long findTotalNumberVtProgresoArtefacto() throws Exception {
+		return vtProgresoArtefacto.findTotalNumberVtProgresoArtefacto();
+	}
+
+	@Override
+	public List<VtProgresoArtefactoDTO> getDataVtProgresoArtefacto() throws Exception {
+		return vtProgresoArtefacto.getDataVtProgresoArtefacto();
 	}
 
 

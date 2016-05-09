@@ -16,27 +16,21 @@ import java.util.Date;
 * www.zathuracode.org
 *
 */
-public class VtArtefactoDTO implements Serializable {
+public class VtProgresoArtefactoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Logger log = LoggerFactory.getLogger(VtArtefactoDTO.class);
+    private static final Logger log = LoggerFactory.getLogger(VtProgresoArtefactoDTO.class);
     private String activo;
-    private Long arteCodigo;
     private String descripcion;
-    private Integer esfuerzoEstimado;
     private Integer esfuerzoReal;
     private Integer esfuerzoRestante;
     private Date fechaCreacion;
     private Date fechaModificacion;
-    private String origen;
+    private Long proartCodigo;
     private Integer puntos;
-    private String titulo;
+    private Integer tiempoDedicado;
     private Long usuCreador;
     private Long usuModificador;
-    private Long estaCodigo_VtEstado;
-    private Long pilaCodigo_VtPilaProducto;
-    private Long prioCodigo_VtPrioridad;
-    private Long spriCodigo_VtSprint;
-    private Long tparCodigo_VtTipoArtefacto;
+    private Long arteCodigo_VtArtefacto;
 
     public String getActivo() {
         return activo;
@@ -46,28 +40,12 @@ public class VtArtefactoDTO implements Serializable {
         this.activo = activo;
     }
 
-    public Long getArteCodigo() {
-        return arteCodigo;
-    }
-
-    public void setArteCodigo(Long arteCodigo) {
-        this.arteCodigo = arteCodigo;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Integer getEsfuerzoEstimado() {
-        return esfuerzoEstimado;
-    }
-
-    public void setEsfuerzoEstimado(Integer esfuerzoEstimado) {
-        this.esfuerzoEstimado = esfuerzoEstimado;
     }
 
     public Integer getEsfuerzoReal() {
@@ -102,12 +80,12 @@ public class VtArtefactoDTO implements Serializable {
         this.fechaModificacion = fechaModificacion;
     }
 
-    public String getOrigen() {
-        return origen;
+    public Long getProartCodigo() {
+        return proartCodigo;
     }
 
-    public void setOrigen(String origen) {
-        this.origen = origen;
+    public void setProartCodigo(Long proartCodigo) {
+        this.proartCodigo = proartCodigo;
     }
 
     public Integer getPuntos() {
@@ -118,12 +96,12 @@ public class VtArtefactoDTO implements Serializable {
         this.puntos = puntos;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public Integer getTiempoDedicado() {
+        return tiempoDedicado;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTiempoDedicado(Integer tiempoDedicado) {
+        this.tiempoDedicado = tiempoDedicado;
     }
 
     public Long getUsuCreador() {
@@ -142,43 +120,11 @@ public class VtArtefactoDTO implements Serializable {
         this.usuModificador = usuModificador;
     }
 
-    public Long getEstaCodigo_VtEstado() {
-        return estaCodigo_VtEstado;
+    public Long getArteCodigo_VtArtefacto() {
+        return arteCodigo_VtArtefacto;
     }
 
-    public void setEstaCodigo_VtEstado(Long estaCodigo_VtEstado) {
-        this.estaCodigo_VtEstado = estaCodigo_VtEstado;
-    }
-
-    public Long getPilaCodigo_VtPilaProducto() {
-        return pilaCodigo_VtPilaProducto;
-    }
-
-    public void setPilaCodigo_VtPilaProducto(Long pilaCodigo_VtPilaProducto) {
-        this.pilaCodigo_VtPilaProducto = pilaCodigo_VtPilaProducto;
-    }
-
-    public Long getPrioCodigo_VtPrioridad() {
-        return prioCodigo_VtPrioridad;
-    }
-
-    public void setPrioCodigo_VtPrioridad(Long prioCodigo_VtPrioridad) {
-        this.prioCodigo_VtPrioridad = prioCodigo_VtPrioridad;
-    }
-
-    public Long getSpriCodigo_VtSprint() {
-        return spriCodigo_VtSprint;
-    }
-
-    public void setSpriCodigo_VtSprint(Long spriCodigo_VtSprint) {
-        this.spriCodigo_VtSprint = spriCodigo_VtSprint;
-    }
-
-    public Long getTparCodigo_VtTipoArtefacto() {
-        return tparCodigo_VtTipoArtefacto;
-    }
-
-    public void setTparCodigo_VtTipoArtefacto(Long tparCodigo_VtTipoArtefacto) {
-        this.tparCodigo_VtTipoArtefacto = tparCodigo_VtTipoArtefacto;
+    public void setArteCodigo_VtArtefacto(Long arteCodigo_VtArtefacto) {
+        this.arteCodigo_VtArtefacto = arteCodigo_VtArtefacto;
     }
 }

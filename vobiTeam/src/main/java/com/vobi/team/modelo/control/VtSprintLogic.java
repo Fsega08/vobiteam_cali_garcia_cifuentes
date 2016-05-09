@@ -27,14 +27,14 @@ import java.util.Set;
 
 
 /**
- * @author Zathura Code Generator http://zathuracode.org/
- * www.zathuracode.org
- *
- */
+* @author Zathura Code Generator http://zathuracode.org
+* www.zathuracode.org
+*
+*/
 @Scope("singleton")
 @Service("VtSprintLogic")
 public class VtSprintLogic implements IVtSprintLogic {
-	private static final Logger log = LoggerFactory.getLogger(VtSprintLogic.class);
+    private static final Logger log = LoggerFactory.getLogger(VtSprintLogic.class);
 
     /**
      * DAO injected by Spring that manages VtSprint entities
@@ -51,11 +51,18 @@ public class VtSprintLogic implements IVtSprintLogic {
     private IVtArtefactoDAO vtArtefactoDAO;
 
     /**
+    * Logic injected by Spring that manages VtEstadoSprint entities
+    *
+    */
+    @Autowired
+    IVtEstadoSprintLogic logicVtEstadoSprint1;
+
+    /**
     * Logic injected by Spring that manages VtPilaProducto entities
     *
     */
     @Autowired
-    IVtPilaProductoLogic logicVtPilaProducto1;
+    IVtPilaProductoLogic logicVtPilaProducto2;
 
     @Transactional(readOnly = true)
     public List<VtSprint> getVtSprint() throws Exception {
@@ -80,115 +87,8 @@ public class VtSprintLogic implements IVtSprintLogic {
         log.debug("saving VtSprint instance");
 
         try {
-            if (entity.getVtPilaProducto() == null) {
-                throw new ZMessManager().new ForeignException("vtPilaProducto");
-            }
-
-            if (entity.getActivo() == null) {
-                throw new ZMessManager().new EmptyFieldException("activo");
-            }
-
-            if ((entity.getActivo() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(entity.getActivo(), 1) == false)) {
-                throw new ZMessManager().new NotValidFormatException("activo");
-            }
-
-            if (entity.getFechaCreacion() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "fechaCreacion");
-            }
-
-            if (entity.getNombre() == null) {
-                throw new ZMessManager().new EmptyFieldException("nombre");
-            }
-
-            if ((entity.getNombre() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(entity.getNombre(),
-                        255) == false)) {
-                throw new ZMessManager().new NotValidFormatException("nombre");
-            }
-
-            if ((entity.getObjetivo() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getObjetivo(), 255) == false)) {
-                throw new ZMessManager().new NotValidFormatException("objetivo");
-            }
-
-//            if (entity.getSpriCodigo() == null) {
-//                throw new ZMessManager().new EmptyFieldException("spriCodigo");
-//            }
-
-            if (entity.getUsuCreador() == null) {
-                throw new ZMessManager().new EmptyFieldException("usuCreador");
-            }
-
-            if (entity.getVtPilaProducto().getPilaCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "pilaCodigo_VtPilaProducto");
-            }
-            
-            if (entity.getVtEstadoSprint().getEsspCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "esspCodigo_VtEstadoSprint");
-            }
-
-//            if (getVtSprint(entity.getSpriCodigo()) != null) {
-//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-//            }
-            
-            if(entity.getFechaFin().before(entity.getFechaInicio())){
-				throw new Exception("La fecha de Fin no puede ser menor a la fecha de Inicio");
-			}
-
-            vtSprintDAO.save(entity);
-
-            log.debug("save VtSprint successful");
-        } catch (Exception e) {
-            log.error("save VtSprint failed", e);
-            throw e;
-        } finally {
-        }
-    }
-
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void deleteVtSprint(VtSprint entity) throws Exception {
-        log.debug("deleting VtSprint instance");
-
-        if (entity == null) {
-            throw new ZMessManager().new NullEntityExcepcion("VtSprint");
-        }
-
-        if (entity.getSpriCodigo() == null) {
-            throw new ZMessManager().new EmptyFieldException("spriCodigo");
-        }
-
-        List<VtArtefacto> vtArtefactos = null;
-
-        try {
-            vtArtefactos = vtArtefactoDAO.findByProperty("vtSprint.spriCodigo",
-                    entity.getSpriCodigo());
-
-            if (Utilities.validationsList(vtArtefactos) == true) {
-                throw new ZMessManager().new DeletingException("vtArtefactos");
-            }
-            entity.setActivo("N");
-            vtSprintDAO.update(entity);
-
-            log.debug("delete VtSprint successful");
-        } catch (Exception e) {
-            log.error("delete VtSprint failed", e);
-            throw e;
-        } finally {
-        }
-    }
-
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void updateVtSprint(VtSprint entity) throws Exception {
-        log.debug("updating VtSprint instance");
-
-        try {
-            if (entity == null) {
-                throw new ZMessManager().new NullEntityExcepcion("VtSprint");
+            if (entity.getVtEstadoSprint() == null) {
+                throw new ZMessManager().new ForeignException("vtEstadoSprint");
             }
 
             if (entity.getVtPilaProducto() == null) {
@@ -233,20 +133,127 @@ public class VtSprintLogic implements IVtSprintLogic {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");
             }
 
+            if (entity.getVtEstadoSprint().getEstsprCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "estsprCodigo_VtEstadoSprint");
+            }
+
             if (entity.getVtPilaProducto().getPilaCodigo() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "pilaCodigo_VtPilaProducto");
             }
-            
-            if (entity.getVtEstadoSprint().getEsspCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "esspCodigo_VtEstadoSprint");
+
+            if (getVtSprint(entity.getSpriCodigo()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
-            
-            if(entity.getFechaFin().before(entity.getFechaInicio())){
-				throw new Exception("La fecha de Fin no puede ser menor a la fecha de Inicio");
-			}
-            
+
+            vtSprintDAO.save(entity);
+
+            log.debug("save VtSprint successful");
+        } catch (Exception e) {
+            log.error("save VtSprint failed", e);
+            throw e;
+        } finally {
+        }
+    }
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void deleteVtSprint(VtSprint entity) throws Exception {
+        log.debug("deleting VtSprint instance");
+
+        if (entity == null) {
+            throw new ZMessManager().new NullEntityExcepcion("VtSprint");
+        }
+
+        if (entity.getSpriCodigo() == null) {
+            throw new ZMessManager().new EmptyFieldException("spriCodigo");
+        }
+
+        List<VtArtefacto> vtArtefactos = null;
+
+        try {
+            vtArtefactos = vtArtefactoDAO.findByProperty("vtSprint.spriCodigo",
+                    entity.getSpriCodigo());
+
+            if (Utilities.validationsList(vtArtefactos) == true) {
+                throw new ZMessManager().new DeletingException("vtArtefactos");
+            }
+
+            vtSprintDAO.delete(entity);
+
+            log.debug("delete VtSprint successful");
+        } catch (Exception e) {
+            log.error("delete VtSprint failed", e);
+            throw e;
+        } finally {
+        }
+    }
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void updateVtSprint(VtSprint entity) throws Exception {
+        log.debug("updating VtSprint instance");
+
+        try {
+            if (entity == null) {
+                throw new ZMessManager().new NullEntityExcepcion("VtSprint");
+            }
+
+            if (entity.getVtEstadoSprint() == null) {
+                throw new ZMessManager().new ForeignException("vtEstadoSprint");
+            }
+
+            if (entity.getVtPilaProducto() == null) {
+                throw new ZMessManager().new ForeignException("vtPilaProducto");
+            }
+
+            if (entity.getActivo() == null) {
+                throw new ZMessManager().new EmptyFieldException("activo");
+            }
+
+            if ((entity.getActivo() != null) &&
+                    (Utilities.checkWordAndCheckWithlength(entity.getActivo(), 1) == false)) {
+                throw new ZMessManager().new NotValidFormatException("activo");
+            }
+
+            if (entity.getFechaCreacion() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "fechaCreacion");
+            }
+
+            if (entity.getNombre() == null) {
+                throw new ZMessManager().new EmptyFieldException("nombre");
+            }
+
+            if ((entity.getNombre() != null) &&
+                    (Utilities.checkWordAndCheckWithlength(entity.getNombre(),
+                        255) == false)) {
+                throw new ZMessManager().new NotValidFormatException("nombre");
+            }
+
+            if ((entity.getObjetivo() != null) &&
+                    (Utilities.checkWordAndCheckWithlength(
+                        entity.getObjetivo(), 255) == false)) {
+                throw new ZMessManager().new NotValidFormatException("objetivo");
+            }
+
+            if (entity.getSpriCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException("spriCodigo");
+            }
+
+            if (entity.getUsuCreador() == null) {
+                throw new ZMessManager().new EmptyFieldException("usuCreador");
+            }
+
+            if (entity.getVtEstadoSprint().getEstsprCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "estsprCodigo_VtEstadoSprint");
+            }
+
+            if (entity.getVtPilaProducto().getPilaCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "pilaCodigo_VtPilaProducto");
+            }
+
             vtSprintDAO.update(entity);
 
             log.debug("update VtSprint successful");
@@ -286,9 +293,9 @@ public class VtSprintLogic implements IVtSprintLogic {
                     ? vtSprintTmp.getUsuCreador() : null);
                 vtSprintDTO2.setUsuModificador((vtSprintTmp.getUsuModificador() != null)
                     ? vtSprintTmp.getUsuModificador() : null);
-                vtSprintDTO2.setEsspCodigo_VtEstadoSprint((vtSprintTmp.getVtEstadoSprint()
-                                                                      .getEsspCodigo() != null)
-                    ? vtSprintTmp.getVtEstadoSprint().getEsspCodigo() : null);
+                vtSprintDTO2.setEstsprCodigo_VtEstadoSprint((vtSprintTmp.getVtEstadoSprint()
+                                                                        .getEstsprCodigo() != null)
+                    ? vtSprintTmp.getVtEstadoSprint().getEstsprCodigo() : null);
                 vtSprintDTO2.setPilaCodigo_VtPilaProducto((vtSprintTmp.getVtPilaProducto()
                                                                       .getPilaCodigo() != null)
                     ? vtSprintTmp.getVtPilaProducto().getPilaCodigo() : null);
@@ -298,7 +305,7 @@ public class VtSprintLogic implements IVtSprintLogic {
             return vtSprintDTO;
         } catch (Exception e) {
             throw e;
-        }
+        } 
     }
 
     @Transactional(readOnly = true)
@@ -536,5 +543,4 @@ public class VtSprintLogic implements IVtSprintLogic {
 		return (vtSprints != null && !vtSprints.isEmpty()
 				? vtSprints : null);
 	}
-
 }

@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 30/04/2016 10:41:45 PM by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 7/05/2016 11:16:36 PM by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="com.vobi.team.modelo.VtSprint" table="vt_sprint" schema="public" optimistic-lock="version">
         <id name="spriCodigo" type="java.lang.Long">
             <column name="spri_codigo" />
-            <generator class="identity" />
+            <generator class="assigned" />
         </id>
-        <many-to-one name="vtEstadoSprint" class="com.vobi.team.modelo.VtEstadoSprint" fetch="select" lazy="false">
-            <column name="essp_codigo" not-null="true" />
+        <many-to-one name="vtEstadoSprint" class="com.vobi.team.modelo.VtEstadoSprint" fetch="select">
+            <column name="estspr_codigo" />
         </many-to-one>
-        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select" lazy="false">
+        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select">
             <column name="pila_codigo" not-null="true" />
         </many-to-one>
         <property name="nombre" type="java.lang.String">
@@ -47,7 +47,7 @@
         <property name="activo" type="java.lang.String">
             <column name="activo" length="1" not-null="true" />
         </property>
-        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="false" fetch="select">
+        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="spri_codigo" />
             </key>

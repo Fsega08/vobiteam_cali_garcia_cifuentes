@@ -138,17 +138,24 @@ public class DashboardView {
 	}
 	
 	public String sprintAction(){
-		for (VtRol vtRol : usuarioRol) {
-			if (vtRol.getRolCodigo()==1L) {
-				return "/XHTML/TreeTable.xhtml";
+		try {
+			usuarioRol = businessDelegatorView.getRolesAsignados(usuSesion);
+			for (VtRol vtRol : usuarioRol) {
+				if (vtRol.getRolCodigo()==1L) {
+					return "/XHTML/TreeTable.xhtml";
+				}
+				// Aqui se colocara mostrar artefactos del desarrollador para
+				// que juegue
+				if (vtRol.getRolCodigo()==2L) {
+					return "/dashboard.xhtml";
+				}
 			}
-			// Aqui se colocara mostrar artefactos del desarrollador para
-			// que juegue
-			if (vtRol.getRolCodigo()==2L) {
-				return "/dashboard.xhtml";
-			}
+			
+			return "";
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return "";
 		}
-		
-		return "";
+
 	}
 }

@@ -13,6 +13,7 @@ import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
+import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtRol;
@@ -30,6 +31,7 @@ import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
 import com.vobi.team.modelo.dto.VtInteresDTO;
 import com.vobi.team.modelo.dto.VtPilaProductoDTO;
 import com.vobi.team.modelo.dto.VtPrioridadDTO;
+import com.vobi.team.modelo.dto.VtProgresoArtefactoDTO;
 import com.vobi.team.modelo.dto.VtProyectoDTO;
 import com.vobi.team.modelo.dto.VtProyectoUsuarioDTO;
 import com.vobi.team.modelo.dto.VtRolDTO;
@@ -46,9 +48,9 @@ import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
  *
  */
 public interface IBusinessDelegatorView {
-	
+
 	public List<VtUsuario> getVtUsuarioAsignados(VtProyecto proyecto) throws Exception;
-	
+
 	public void recuperarContrasena(VtUsuario vtUsuario) throws Exception;
 
 	public List<VtArchivo> getVtArchivo() throws Exception;
@@ -245,6 +247,34 @@ public interface IBusinessDelegatorView {
 	public Long findTotalNumberVtPrioridad() throws Exception;
 
 	public List<VtPrioridadDTO> getDataVtPrioridad() throws Exception;
+
+	public List<VtProgresoArtefacto> getVtProgresoArtefacto()
+			throws Exception;
+
+	public void saveVtProgresoArtefacto(VtProgresoArtefacto entity)
+			throws Exception;
+
+	public void deleteVtProgresoArtefacto(VtProgresoArtefacto entity)
+			throws Exception;
+
+	public void updateVtProgresoArtefacto(VtProgresoArtefacto entity)
+			throws Exception;
+
+	public VtProgresoArtefacto getVtProgresoArtefacto(Long proartCodigo)
+			throws Exception;
+
+	public List<VtProgresoArtefacto> findByCriteriaInVtProgresoArtefacto(
+			Object[] variables, Object[] variablesBetween,
+			Object[] variablesBetweenDates) throws Exception;
+
+	public List<VtProgresoArtefacto> findPageVtProgresoArtefacto(
+			String sortColumnName, boolean sortAscending, int startRow,
+			int maxResults) throws Exception;
+
+	public Long findTotalNumberVtProgresoArtefacto() throws Exception;
+
+	public List<VtProgresoArtefactoDTO> getDataVtProgresoArtefacto()
+			throws Exception;
 
 	public List<VtProyecto> getVtProyecto() throws Exception;
 
@@ -472,49 +502,49 @@ public interface IBusinessDelegatorView {
 	public List<VtRol> getRolesAsignados(VtUsuario usuario) throws Exception;
 
 	public List<VtRol> getRolesNoAsignados(VtUsuario usuario) throws Exception;
-	
+
 	public List<VtUsuarioRol> findUsuarioRolbyRol(VtRol rol)throws Exception;
-	
+
 	public List<VtUsuario> getVtUsuarioDesarrolladores() throws Exception;
-	
+
 	public void nuevoUsuario(VtUsuario vtUsuario) throws Exception;
-	
+
 	public VtUsuarioArtefacto findUsuarioArtefactoByUsuarioArtefactoInteres(Long usuarioCodigo, Long arteCodigo, Long inteCodigo) throws Exception;
 
 	public VtUsuarioArtefacto findUsuarioArtefactoByArtefacto(VtArtefacto artefacto) throws Exception;
-	
+
 	public boolean verificarContraseña(VtUsuario vtUsuario, String passActual ,String password1, String password2);
-	
+
 	public void send(String para, String asunto, String cuerpo) throws MessagingException;
-	
+
 	public List<VtUsuarioArtefacto> findUsuarioArtefactoByUsuarios(VtUsuario vtUsuario) throws Exception;
-	
+
 	//---
 
 	public List<VtEstadoSprint> getVtEstadoSprint() throws Exception;
 
-    public void saveVtEstadoSprint(VtEstadoSprint entity)
-        throws Exception;
+	public void saveVtEstadoSprint(VtEstadoSprint entity)
+			throws Exception;
 
-    public void deleteVtEstadoSprint(VtEstadoSprint entity)
-        throws Exception;
+	public void deleteVtEstadoSprint(VtEstadoSprint entity)
+			throws Exception;
 
-    public void updateVtEstadoSprint(VtEstadoSprint entity)
-        throws Exception;
+	public void updateVtEstadoSprint(VtEstadoSprint entity)
+			throws Exception;
 
-    public VtEstadoSprint getVtEstadoSprint(Long esspCodigo)
-        throws Exception;
+	public VtEstadoSprint getVtEstadoSprint(Long esspCodigo)
+			throws Exception;
 
-    public List<VtEstadoSprint> findByCriteriaInVtEstadoSprint(
-        Object[] variables, Object[] variablesBetween,
-        Object[] variablesBetweenDates) throws Exception;
+	public List<VtEstadoSprint> findByCriteriaInVtEstadoSprint(
+			Object[] variables, Object[] variablesBetween,
+			Object[] variablesBetweenDates) throws Exception;
 
-    public List<VtEstadoSprint> findPageVtEstadoSprint(String sortColumnName,
-        boolean sortAscending, int startRow, int maxResults)
-        throws Exception;
+	public List<VtEstadoSprint> findPageVtEstadoSprint(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
+					throws Exception;
 
-    public Long findTotalNumberVtEstadoSprint() throws Exception;
+	public Long findTotalNumberVtEstadoSprint() throws Exception;
 
-    public List<VtEstadoSprintDTO> getDataVtEstadoSprint()
-        throws Exception;
+	public List<VtEstadoSprintDTO> getDataVtEstadoSprint()
+			throws Exception;
 }

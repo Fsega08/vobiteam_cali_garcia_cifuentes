@@ -13,12 +13,12 @@ import java.util.Set;
 
 
 /**
-* @author Zathura Code Generator http://zathuracode.org/
+* @author Zathura Code Generator http://zathuracode.org
 * www.zathuracode.org
 *
 */
 public interface IVtSprintLogic {
-	public List<VtSprint> getVtSprint() throws Exception;
+    public List<VtSprint> getVtSprint() throws Exception;
 
     /**
          * Save an new VtSprint entity

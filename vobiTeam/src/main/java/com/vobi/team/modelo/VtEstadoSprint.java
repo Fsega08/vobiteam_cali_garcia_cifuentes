@@ -1,5 +1,5 @@
 package com.vobi.team.modelo;
-// Generated 30/04/2016 10:41:44 PM by Hibernate Tools 4.3.1.Final
+// Generated 7/05/2016 11:16:36 PM by Hibernate Tools 4.3.1.Final
 
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class VtEstadoSprint  implements java.io.Serializable {
 
 
-     private Long esspCodigo;
+     private Long estsprCodigo;
      private String nombre;
      private Date fechaCreacion;
      private Date fechaModificacion;
@@ -25,15 +25,15 @@ public class VtEstadoSprint  implements java.io.Serializable {
     }
 
 	
-    public VtEstadoSprint(Long esspCodigo, String nombre, Date fechaCreacion, Long usuCreador, String activo) {
-        this.esspCodigo = esspCodigo;
+    public VtEstadoSprint(Long estsprCodigo, String nombre, Date fechaCreacion, Long usuCreador, String activo) {
+        this.estsprCodigo = estsprCodigo;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.usuCreador = usuCreador;
         this.activo = activo;
     }
-    public VtEstadoSprint(Long esspCodigo, String nombre, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador, String activo, Set<VtSprint> vtSprints) {
-       this.esspCodigo = esspCodigo;
+    public VtEstadoSprint(Long estsprCodigo, String nombre, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador, String activo, Set<VtSprint> vtSprints) {
+       this.estsprCodigo = estsprCodigo;
        this.nombre = nombre;
        this.fechaCreacion = fechaCreacion;
        this.fechaModificacion = fechaModificacion;
@@ -43,12 +43,12 @@ public class VtEstadoSprint  implements java.io.Serializable {
        this.vtSprints = vtSprints;
     }
    
-    public Long getEsspCodigo() {
-        return this.esspCodigo;
+    public Long getEstsprCodigo() {
+        return this.estsprCodigo;
     }
     
-    public void setEsspCodigo(Long esspCodigo) {
-        this.esspCodigo = esspCodigo;
+    public void setEstsprCodigo(Long estsprCodigo) {
+        this.estsprCodigo = estsprCodigo;
     }
     public String getNombre() {
         return this.nombre;

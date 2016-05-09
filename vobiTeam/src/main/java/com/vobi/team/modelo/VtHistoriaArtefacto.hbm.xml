@@ -1,16 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 7/05/2016 11:16:36 PM by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="com.vobi.team.modelo.VtHistoriaArtefacto" table="vt_historia_artefacto" schema="public" optimistic-lock="version">
         <id name="historiaCodigo" type="java.lang.Long">
             <column name="historia_codigo" />
-            <generator class="identity" />
+            <generator class="assigned" />
         </id>
-        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select" lazy="false">
+        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select">
             <column name="arte_codigo" not-null="true" />
         </many-to-one>
+        <property name="estaCodigo" type="java.lang.Long">
+            <column name="esta_codigo" not-null="true" />
+        </property>
         <property name="titulo" type="java.lang.String">
             <column name="titulo" not-null="true" />
         </property>
@@ -31,6 +34,21 @@
         </property>
         <property name="origen" type="java.lang.String">
             <column name="origen" />
+        </property>
+        <property name="activo" type="java.lang.String">
+            <column name="activo" length="1" not-null="true" />
+        </property>
+        <property name="tparCodigo" type="java.lang.Long">
+            <column name="tpar_codigo" not-null="true" />
+        </property>
+        <property name="prioCodigo" type="java.lang.Long">
+            <column name="prio_codigo" not-null="true" />
+        </property>
+        <property name="pilaCodigo" type="java.lang.Long">
+            <column name="pila_codigo" not-null="true" />
+        </property>
+        <property name="spriCodigo" type="java.lang.Long">
+            <column name="spri_codigo" not-null="true" />
         </property>
         <property name="fechaCreacion" type="java.util.Date">
             <column name="fecha_creacion" length="29" not-null="true" />

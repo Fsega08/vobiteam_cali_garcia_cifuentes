@@ -1,5 +1,5 @@
 package com.vobi.team.modelo;
-// Generated 30/04/2016 10:41:44 PM by Hibernate Tools 4.3.1.Final
+// Generated 7/05/2016 11:16:36 PM by Hibernate Tools 4.3.1.Final
 
 
 import java.util.Date;
@@ -32,9 +32,8 @@ public class VtSprint  implements java.io.Serializable {
     }
 
 	
-    public VtSprint(Long spriCodigo, VtEstadoSprint vtEstadoSprint, VtPilaProducto vtPilaProducto, String nombre, Date fechaCreacion, Long usuCreador, String activo) {
+    public VtSprint(Long spriCodigo, VtPilaProducto vtPilaProducto, String nombre, Date fechaCreacion, Long usuCreador, String activo) {
         this.spriCodigo = spriCodigo;
-        this.vtEstadoSprint = vtEstadoSprint;
         this.vtPilaProducto = vtPilaProducto;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;

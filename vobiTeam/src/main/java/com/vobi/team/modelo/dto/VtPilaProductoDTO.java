@@ -12,7 +12,7 @@ import java.util.Date;
 
 /**
 *
-* @author Zathura Code Generator http://zathuracode.org/
+* @author Zathura Code Generator http://zathuracode.org
 * www.zathuracode.org
 *
 */

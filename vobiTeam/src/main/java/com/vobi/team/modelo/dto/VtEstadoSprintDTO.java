@@ -20,7 +20,7 @@ public class VtEstadoSprintDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(VtEstadoSprintDTO.class);
     private String activo;
-    private Long esspCodigo;
+    private Long estsprCodigo;
     private Date fechaCreacion;
     private Date fechaModificacion;
     private String nombre;
@@ -35,12 +35,12 @@ public class VtEstadoSprintDTO implements Serializable {
         this.activo = activo;
     }
 
-    public Long getEsspCodigo() {
-        return esspCodigo;
+    public Long getEstsprCodigo() {
+        return estsprCodigo;
     }
 
-    public void setEsspCodigo(Long esspCodigo) {
-        this.esspCodigo = esspCodigo;
+    public void setEstsprCodigo(Long estsprCodigo) {
+        this.estsprCodigo = estsprCodigo;
     }
 
     public Date getFechaCreacion() {

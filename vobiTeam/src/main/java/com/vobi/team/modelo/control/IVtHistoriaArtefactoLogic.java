@@ -13,7 +13,7 @@ import java.util.Set;
 
 
 /**
-* @author Zathura Code Generator http://zathuracode.org/
+* @author Zathura Code Generator http://zathuracode.org
 * www.zathuracode.org
 *
 */

@@ -751,26 +751,36 @@ public class VtSprintView {
 
 
 	public void onTransfer(TransferEvent event) throws Exception {
-		StringBuilder builder = new StringBuilder();
+		try {
+			if (sprintSeleccionado!=null) {
+				if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo()==3L) {
+					throw new Exception("El sprint se encuentra terminado");
+				}
+			}
+			StringBuilder builder = new StringBuilder();
 
-		for(Object item : event.getItems()) {
-			VtArtefacto vtArtefacto=(VtArtefacto) item;
+			for(Object item : event.getItems()) {
+				VtArtefacto vtArtefacto=(VtArtefacto) item;
 
-			builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
+				builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
 
-			//true si paso de izquierda a derecha
-			if(event.isAdd()){
-				asignarArtefactoASprint(vtArtefacto, sprintSeleccionado);
+				//true si paso de izquierda a derecha
+				if(event.isAdd()){
+					asignarArtefactoASprint(vtArtefacto, sprintSeleccionado);
+
+				}
+				if(event.isRemove()){
+					removerArtefacto(vtArtefacto, sprintSeleccionado);
+				}
+
 
 			}
-			if(event.isRemove()){
-				removerArtefacto(vtArtefacto, sprintSeleccionado);
-			}
-
-
+			actualizarChartAction();
+			FacesUtils.addInfoMessage("Artefacto(s) Transferidos");
+		} catch (Exception e) {
+			pickListAsignarArtefactoAction();
+			log.error(e.getMessage());
 		}
-		actualizarChartAction();
-		FacesUtils.addInfoMessage("Artefacto(s) Transferidos");
 
 	}
 
@@ -940,12 +950,15 @@ public class VtSprintView {
 	
 	public String iniciarSprintAction(){
 		try {
-			if (sprintSeleccionado.getVtEstadoSprint().getEsspCodigo() == 1L) {
+			if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 1L) {
 				RequestContext.getCurrentInstance().execute("PF('cdSprint').show();");
-			}else if (sprintSeleccionado.getVtEstadoSprint().getEsspCodigo() == 2L) {
+			}else if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 2L) {
 				FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
 				return "/XHTML/iniciarSprint.xhtml";
+			}else {
+				throw new Exception("El sprint se encuentra terminado.");
 			} 
+			
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}

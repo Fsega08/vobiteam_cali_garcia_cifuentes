@@ -1,24 +1,29 @@
 package com.vobi.team.modelo.control;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.vobi.team.dataaccess.dao.*;
+import com.vobi.team.exceptions.*;
+import com.vobi.team.modelo.*;
+import com.vobi.team.modelo.dto.VtEstadoSprintDTO;
+import com.vobi.team.utilities.Utilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Scope;
+
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vobi.team.dataaccess.dao.IVtEstadoSprintDAO;
-import com.vobi.team.dataaccess.dao.IVtSprintDAO;
-import com.vobi.team.exceptions.ZMessManager;
-import com.vobi.team.modelo.VtEstadoSprint;
-import com.vobi.team.modelo.VtSprint;
-import com.vobi.team.modelo.dto.VtEstadoSprintDTO;
-import com.vobi.team.utilities.Utilities;
+import java.math.BigDecimal;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -78,8 +83,8 @@ public class VtEstadoSprintLogic implements IVtEstadoSprintLogic {
                 throw new ZMessManager().new NotValidFormatException("activo");
             }
 
-//            if (entity.getEsspCodigo() == null) {
-//                throw new ZMessManager().new EmptyFieldException("esspCodigo");
+//            if (entity.getEstsprCodigo() == null) {
+//                throw new ZMessManager().new EmptyFieldException("estsprCodigo");
 //            }
 
             if (entity.getFechaCreacion() == null) {
@@ -101,7 +106,7 @@ public class VtEstadoSprintLogic implements IVtEstadoSprintLogic {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");
             }
 
-//            if (getVtEstadoSprint(entity.getEsspCodigo()) != null) {
+//            if (getVtEstadoSprint(entity.getEstsprCodigo()) != null) {
 //                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
 //            }
 
@@ -124,15 +129,15 @@ public class VtEstadoSprintLogic implements IVtEstadoSprintLogic {
             throw new ZMessManager().new NullEntityExcepcion("VtEstadoSprint");
         }
 
-        if (entity.getEsspCodigo() == null) {
-            throw new ZMessManager().new EmptyFieldException("esspCodigo");
+        if (entity.getEstsprCodigo() == null) {
+            throw new ZMessManager().new EmptyFieldException("estsprCodigo");
         }
 
         List<VtSprint> vtSprints = null;
 
         try {
-            vtSprints = vtSprintDAO.findByProperty("vtEstadoSprint.esspCodigo",
-                    entity.getEsspCodigo());
+            vtSprints = vtSprintDAO.findByProperty("vtEstadoSprint.estsprCodigo",
+                    entity.getEstsprCodigo());
 
             if (Utilities.validationsList(vtSprints) == true) {
                 throw new ZMessManager().new DeletingException("vtSprints");
@@ -168,8 +173,8 @@ public class VtEstadoSprintLogic implements IVtEstadoSprintLogic {
                 throw new ZMessManager().new NotValidFormatException("activo");
             }
 
-            if (entity.getEsspCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException("esspCodigo");
+            if (entity.getEstsprCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException("estsprCodigo");
             }
 
             if (entity.getFechaCreacion() == null) {
@@ -212,7 +217,7 @@ public class VtEstadoSprintLogic implements IVtEstadoSprintLogic {
             for (VtEstadoSprint vtEstadoSprintTmp : vtEstadoSprint) {
                 VtEstadoSprintDTO vtEstadoSprintDTO2 = new VtEstadoSprintDTO();
 
-                vtEstadoSprintDTO2.setEsspCodigo(vtEstadoSprintTmp.getEsspCodigo());
+                vtEstadoSprintDTO2.setEstsprCodigo(vtEstadoSprintTmp.getEstsprCodigo());
                 vtEstadoSprintDTO2.setActivo((vtEstadoSprintTmp.getActivo() != null)
                     ? vtEstadoSprintTmp.getActivo() : null);
                 vtEstadoSprintDTO2.setFechaCreacion(vtEstadoSprintTmp.getFechaCreacion());
@@ -233,14 +238,14 @@ public class VtEstadoSprintLogic implements IVtEstadoSprintLogic {
     }
 
     @Transactional(readOnly = true)
-    public VtEstadoSprint getVtEstadoSprint(Long esspCodigo)
+    public VtEstadoSprint getVtEstadoSprint(Long estsprCodigo)
         throws Exception {
         log.debug("getting VtEstadoSprint instance");
 
         VtEstadoSprint entity = null;
 
         try {
-            entity = vtEstadoSprintDAO.findById(esspCodigo);
+            entity = vtEstadoSprintDAO.findById(estsprCodigo);
         } catch (Exception e) {
             log.error("get VtEstadoSprint failed", e);
             throw new ZMessManager().new FindingException("VtEstadoSprint");
