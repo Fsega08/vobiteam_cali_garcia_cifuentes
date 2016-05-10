@@ -829,15 +829,11 @@ public class VtSprintView {
 	}
 
 	public String modificarSprintAction() throws Exception{
-		if (sprintSeleccionado.getActivo().equals("S")) {
-			FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
-			actualizarChartAction();
-			return "/XHTML/modificarSprint.xhtml";
-		}
-		else{
-			FacesUtils.addErrorMessage("El sprint esta inactivo");
-			return "";
-		}
+
+		FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+		actualizarChartAction();
+		return "/XHTML/modificarSprint.xhtml";
+		
 	}
 
 	public void pickListAsignarArtefactoAction() throws Exception {
