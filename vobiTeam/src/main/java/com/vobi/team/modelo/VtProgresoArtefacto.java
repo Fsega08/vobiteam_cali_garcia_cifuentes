@@ -126,7 +126,7 @@ public class VtProgresoArtefacto  implements java.io.Serializable {
     public Long getUsuModificador() {
         return this.usuModificador;
     }
-    
+     
     public void setUsuModificador(Long usuModificador) {
         this.usuModificador = usuModificador;
     }

@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+<!--..............................................Form............................................... -->
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<p:panel id="pnlTreeTable" header="Informacion">
+				<p:panel id="panelBotones">
+					<div align="center">
+						<p:commandButton id="btnCrearEmpresaStatic" value="Crear Empresa"
+							icon="fa fa-plus white" onclick="PF('dlgCrearEmpresa').show();" />
+					</div>
+				</p:panel>
+
+<!--...............................contextmenu Proyecto....................... -->
+				<p:contextMenu for="TreeTable" nodeType="Proyecto"
+					event="contextmenu">
+					<p:menuitem value="Modificar" update="pnlTreeTable"
+						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
+						action="#{vtEmpresaThreeView.modificarProyectoListener}" />
+					<p:menuitem value="Crear Backlog" update="pnlTreeTable"
+						icon="fa fa-plus " oncomplete="PF('dlgCrearBacklog').show()"
+						 />
+					<p:menuitem value="Asignar usuarios a este proyecto"
+						icon="fa fa-user" oncomplete="PF('dlgPicklist').show()"
+						action="#{vtEmpresaThreeView.asignarProyectoAction}"
+						update="pickList" />					
+				</p:contextMenu>
+<!--...............................contextmenu Proyecto....................... -->
+
+<!--...............................TreeTable................................... -->
+				<p:treeTable value="#{vtEmpresaThreeView.root}" var="empresa"
+					selectionMode="single" id="TreeTable"
+					selection="#{vtEmpresaThreeView.selectedNode}">
+
+					<p:column headerText="Nombre">
+						<h:outputText value="#{empresa.nombre}" />
+					</p:column>
+					<p:column headerText="Fecha De Creación">
+						<h:outputText value="#{empresa.fechaCreacion}">
+							<f:convertDateTime dateStyle="full" type="date" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Estado">
+						<h:outputText value="#{empresa.activo}" />
+					</p:column>
+
+				</p:treeTable>
+<!--...............................TreeTable................................... -->
+		
+		</h:form>
+<!--..............................................Form............................................... -->
+	</ui:define>
+
+</ui:composition>

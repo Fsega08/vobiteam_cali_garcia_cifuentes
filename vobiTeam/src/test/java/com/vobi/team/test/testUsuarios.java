@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
@@ -224,13 +225,33 @@ public class testUsuarios {
 		//		log.info("permisos= " + permisos);
 	}
 
-	@Test
+//	@Test
 	public void testL() throws Exception{
-		VtSprint sprint = vtSprintLogic.getVtSprint(2L);
-
-		for (VtArtefacto artefacto : sprint.getVtArtefactos()) {
-			log.info(""+artefacto.getTitulo());
+//		VtSprint sprint = vtSprintLogic.getVtSprint(2L);
+//
+//		for (VtArtefacto artefacto : sprint.getVtArtefactos()) {
+//			log.info(""+artefacto.getTitulo());
+//		}
+	}
+	
+	@Test
+	public void testM() throws Exception{
+		VtUsuario usuario = vtUsuarioLogic.getVtUsuario(4L);
+		
+		log.info("Nombre: "+ usuario.getNombre()+"\n");
+		
+		for (VtUsuarioRol usuarioRol : usuario.getVtUsuarioRols()) {
+			log.info("Rol: "+usuarioRol.getVtRol().getRolNombre()+"\n");
 		}
+		
+		for (VtProyectoUsuario proyectoUsuario : usuario.getVtProyectoUsuarios()) {
+			log.info("Proyecto: "+proyectoUsuario.getVtProyecto().getNombre()+"\n");
+		}
+		
+		for (VtUsuarioArtefacto usuarioArtefacto : usuario.getVtUsuarioArtefactos()) {
+			log.info(""+usuarioArtefacto.getVtArtefacto().getTitulo());
+		}
+		
 	}
 
 }

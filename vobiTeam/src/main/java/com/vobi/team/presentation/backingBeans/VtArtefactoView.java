@@ -1162,21 +1162,16 @@ public class VtArtefactoView {
 	
 	public String modificarArtefactoAction() throws Exception{
 		
-		usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
+		usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);		
 		
-		if (artefactoSeleccionado.getActivo().equals("S")) {
-			FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
-			FacesUtils.putinSession("usuarioArtefacto", usuarioArtefacto);
-			return "/XHTML/modificarArtefactos.xhtml";
-		}
-		else{
-			FacesUtils.addErrorMessage("El artefacto esta inactivo");
-			return "";
-		}
+		FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
+		FacesUtils.putinSession("usuarioArtefacto", usuarioArtefacto);
+		return "/XHTML/modificarArtefactos.xhtml";	
 		
 	}
 	
 	public String volverArtefactoAction(){
+		FacesUtils.putinSession("artefactoSeleccionado", null);
 		return "/XHTML/listarArtefactos.xhtml";
 	}	
 
