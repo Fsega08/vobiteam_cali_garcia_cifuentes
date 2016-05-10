@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+<!--..............................................Form............................................... -->
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<p:panel id="pnlProgreso" header="Progreso">
+				<h:panelGrid columns="2" id="progresoArt">
+						<h:outputText value="Tiempo Dedicado" />
+						<p:inputText id="txtTiempo"
+							placeholder="Tiempo Dedicado"
+							binding="#{vtProgresoArtefactoView.txtTiempoEstimado}"
+							/>
+				</h:panelGrid>
+				<h:panelGrid columns="1" >
+						<h:outputText value="Descripción del Progreso" />
+							<p:inputTextarea id="txtAreaDescripcion" cols="148"
+								placeholder="Descripción" maxlength="100000000"
+								binding="#{vtProgresoArtefactoView.txtDescripcion}"
+								/>
+		
+				</h:panelGrid>
+				
+				<p:commandButton id="btnCrearProgreso" icon="fa fa-plus white"
+							action="#{vtProgresoArtefactoView.crearAction}" value="Crear"
+							update="men, pnlProgreso" />
+							
+				<p:commandButton id="btnLimpiarProgreso" icon="fa fa-erase white"
+							action="#{vtProgresoArtefactoView.limpiarAction}" value="Limpiar"
+							update="men, pnlProgreso" />
+		 	</p:panel>
+		</h:form>
+<!--..............................................Form............................................... -->
+	</ui:define>
+
+</ui:composition>
