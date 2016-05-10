@@ -343,9 +343,9 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				throw new ZMessManager().new NotValidFormatException("activo");
 			}
 
-			if (entity.getArteCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException("arteCodigo");
-			}
+//			if (entity.getArteCodigo() == null) {
+//				throw new ZMessManager().new EmptyFieldException("arteCodigo");
+//			}
 
 			if ((entity.getDescripcion() != null) &&
 					(Utilities.checkWordAndCheckWithlength(
@@ -425,7 +425,12 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
 			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
 			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
-			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
+			if (entity.getVtSprint() != null) {
+				vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
+			}else {
+				vtHistoriaArtefacto.setSpriCodigo(0L);
+			}
+			
 			vtHistoriaArtefacto.setActivo(entity.getActivo());
 			
 			vtHistoriaArtefactoLogic.saveVtHistoriaArtefacto(vtHistoriaArtefacto);

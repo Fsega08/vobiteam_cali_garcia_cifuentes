@@ -6,7 +6,7 @@
     <class name="com.vobi.team.modelo.VtSprint" table="vt_sprint" schema="public" optimistic-lock="version">
         <id name="spriCodigo" type="java.lang.Long">
             <column name="spri_codigo" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="vtEstadoSprint" class="com.vobi.team.modelo.VtEstadoSprint" fetch="select">
             <column name="estspr_codigo" />
@@ -47,7 +47,7 @@
         <property name="activo" type="java.lang.String">
             <column name="activo" length="1" not-null="true" />
         </property>
-        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="spri_codigo" />
             </key>

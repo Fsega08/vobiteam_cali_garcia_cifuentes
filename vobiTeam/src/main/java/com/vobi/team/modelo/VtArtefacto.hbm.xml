@@ -17,7 +17,7 @@
         <many-to-one name="vtPrioridad" lazy="false" class="com.vobi.team.modelo.VtPrioridad" fetch="select">
             <column name="prio_codigo" not-null="true" />
         </many-to-one>
-        <many-to-one name="vtSprint" class="com.vobi.team.modelo.VtSprint" fetch="select">
+        <many-to-one name="vtSprint" lazy="false" class="com.vobi.team.modelo.VtSprint" fetch="select">
             <column name="spri_codigo" />
         </many-to-one>
         <many-to-one name="vtTipoArtefacto" lazy="false" class="com.vobi.team.modelo.VtTipoArtefacto" fetch="select">

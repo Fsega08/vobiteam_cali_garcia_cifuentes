@@ -779,7 +779,7 @@ public class VtSprintView {
 			FacesUtils.addInfoMessage("Artefacto(s) Transferidos");
 		} catch (Exception e) {
 			pickListAsignarArtefactoAction();
-			log.error(e.getMessage());
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
 	}
@@ -956,7 +956,7 @@ public class VtSprintView {
 				FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
 				return "/XHTML/iniciarSprint.xhtml";
 			}else {
-				throw new Exception("El sprint se encuentra terminado.");
+				FacesUtils.addErrorMessage("El sprint se encuentra terminado.");
 			} 
 			
 		} catch (Exception e) {

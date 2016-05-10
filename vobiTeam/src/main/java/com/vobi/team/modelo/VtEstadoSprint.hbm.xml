@@ -6,7 +6,7 @@
     <class name="com.vobi.team.modelo.VtEstadoSprint" table="vt_estado_sprint" schema="public" optimistic-lock="version">
         <id name="estsprCodigo" type="java.lang.Long">
             <column name="estspr_codigo" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="nombre" type="java.lang.String">
             <column name="nombre" not-null="true" />
