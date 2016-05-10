@@ -33,13 +33,13 @@
         <property name="activo" type="java.lang.String">
             <column name="activo" length="1" not-null="true" />
         </property>
-        <set name="vtSprints" table="vt_sprint" inverse="true" lazy="true" fetch="select">
+        <set name="vtSprints" table="vt_sprint" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="pila_codigo" not-null="true" />
             </key>
             <one-to-many class="com.vobi.team.modelo.VtSprint" />
         </set>
-        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="pila_codigo" not-null="true" />
             </key>

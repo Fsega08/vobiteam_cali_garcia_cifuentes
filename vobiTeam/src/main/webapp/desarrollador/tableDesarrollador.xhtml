@@ -23,55 +23,57 @@
 				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
 		</p:dialog>
 
-<!--..............................................Form............................................... -->
+		<!--..............................................Form............................................... -->
 		<h:form id="formDialog">
 			<p:growl id="men" />
-			<p:panel id="pnlTreeTable" header="Informacion">
-				<p:panel id="panelBotones">
-					<div align="center">
-						<p:commandButton id="btnCrearEmpresaStatic" value="Crear Empresa"
-							icon="fa fa-plus white" onclick="PF('dlgCrearEmpresa').show();" />
-					</div>
+			<p:panel id="pnlContainer" header="Informacion">
+				<p:panel id="panelSom">
+					<p:selectOneMenu id="somProyecto" binding="#{vtDesarrolladorTreeView.somProyectos}">
+						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItems value="#{vtDesarrolladorTreeView.losProyectos}" />
+						<p:ajax listener="#{vtDesarrolladorTreeView.proyectoListener}"
+							update="dtArtefactos" />
+					</p:selectOneMenu>
 				</p:panel>
 
-<!--...............................contextmenu Proyecto....................... -->
-				<p:contextMenu for="TreeTable" nodeType="Proyecto"
-					event="contextmenu">
-					<p:menuitem value="Modificar" update="pnlTreeTable"
-						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
-						action="#{vtEmpresaThreeView.modificarProyectoListener}" />
-					<p:menuitem value="Crear Backlog" update="pnlTreeTable"
-						icon="fa fa-plus " oncomplete="PF('dlgCrearBacklog').show()"
-						 />
-					<p:menuitem value="Asignar usuarios a este proyecto"
-						icon="fa fa-user" oncomplete="PF('dlgPicklist').show()"
-						action="#{vtEmpresaThreeView.asignarProyectoAction}"
-						update="pickList" />					
-				</p:contextMenu>
-<!--...............................contextmenu Proyecto....................... -->
+				<p:panel id="panelDt">
+					<p:dataTable id="dtArtefactos"
+						value="#{vtDesarrolladorTreeView.losArtefactos }" var="artefacto"
+						paginator="true" rows="10"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10, 15" rowKey="#{artefacto.arteCodigo}"
+						emptyMessage="No se encontraron los artefactos"
+						selection="#{vtDesarrolladorTreeView.artefactoSeleccionado}" selectionMode="single"
+						paginatorPosition="bottom">
+						
+						<p:column headerText="Nombre Artefacto"
+							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+							filterMatchMode="contains">
+							<h:outputText value="#{artefacto.titulo}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
 
-<!--...............................TreeTable................................... -->
-				<p:treeTable value="#{vtEmpresaThreeView.root}" var="empresa"
-					selectionMode="single" id="TreeTable"
-					selection="#{vtEmpresaThreeView.selectedNode}">
+						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}"
+							sortBy="#{artefacto.usuCreador}">
+							<h:outputText value="#{artefacto.usuCreador}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
 
-					<p:column headerText="Nombre">
-						<h:outputText value="#{empresa.nombre}" />
-					</p:column>
-					<p:column headerText="Fecha De Creación">
-						<h:outputText value="#{empresa.fechaCreacion}">
-							<f:convertDateTime dateStyle="full" type="date" />
-						</h:outputText>
-					</p:column>
-					<p:column headerText="Estado">
-						<h:outputText value="#{empresa.activo}" />
-					</p:column>
 
-				</p:treeTable>
-<!--...............................TreeTable................................... -->
-		
+						<p:column headerText="Estado de los Artefactos"
+							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}">
+							<h:outputText value="#{artefacto.activo}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+
+
+
+
+			</p:panel>
 		</h:form>
-<!--..............................................Form............................................... -->
+		<!--..............................................Form............................................... -->
 	</ui:define>
 
 </ui:composition>

@@ -11,7 +11,7 @@
         <many-to-one name="vtEstado" lazy="false" class="com.vobi.team.modelo.VtEstado" fetch="select">
             <column name="esta_codigo" not-null="true" />
         </many-to-one>
-        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select">
+        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select" lazy="false">
             <column name="pila_codigo" not-null="true" />
         </many-to-one>
         <many-to-one name="vtPrioridad" lazy="false" class="com.vobi.team.modelo.VtPrioridad" fetch="select">
@@ -71,7 +71,7 @@
             </key>
             <one-to-many class="com.vobi.team.modelo.VtHistoriaArtefacto" />
         </set>
-        <set name="vtUsuarioArtefactos" table="vt_usuario_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtUsuarioArtefactos" table="vt_usuario_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="arte_codigo" not-null="true" />
             </key>

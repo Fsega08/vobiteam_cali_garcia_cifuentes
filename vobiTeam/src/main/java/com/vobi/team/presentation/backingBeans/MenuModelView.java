@@ -76,25 +76,17 @@ public class MenuModelView {
 		return businessDelegatorView;
 	}
 
-
-
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
 	}
-
-
 
 	public MenuModel getMenuModel() {
 		return menuModel;
 	}
 
-
-
 	public void setMenuModel(MenuModel menuModel) {
 		this.menuModel = menuModel;
 	}
-
-
 
 	private void menuCliente() {
 		// TODO Auto-generated method stub
@@ -102,12 +94,15 @@ public class MenuModelView {
 	}
 
 	private void menuDesarrollador() {
-		DefaultMenuItem menuDashboard = new DefaultMenuItem("Dashboard");
-		menuDashboard.setOutcome("dashboard.xhtml");
-		menuDashboard.setIcon("icon-home");
-		menuDashboard.setId("sm_Dashboard");
-		menuModel.addElement(menuDashboard);
 
+		
+		//Proyectos Desarrollor 
+		DefaultMenuItem menuProyectos = new DefaultMenuItem("Ver Proyectos");
+		menuProyectos.setOutcome("/desarrollador/tableDesarrollador.xhtml");
+		menuProyectos.setId("sm_Proyectos");
+		menuProyectos.setIcon("icon-indent-right");
+		menuModel.addElement(menuProyectos);
+		
 		DefaultSubMenu orientacion = new DefaultSubMenu("Orientación del menu");		
 
 		DefaultMenuItem derechaItem = new DefaultMenuItem("Derecha");
