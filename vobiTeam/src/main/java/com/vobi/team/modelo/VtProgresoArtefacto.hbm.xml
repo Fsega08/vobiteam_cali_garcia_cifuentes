@@ -8,7 +8,7 @@
             <column name="proart_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select">
+        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select" lazy="false">
             <column name="arte_codigo" />
         </many-to-one>
         <property name="esfuerzoRestante" type="java.lang.Integer">
