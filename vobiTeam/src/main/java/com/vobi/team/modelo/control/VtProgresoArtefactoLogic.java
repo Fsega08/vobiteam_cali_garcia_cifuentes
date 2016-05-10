@@ -515,4 +515,21 @@ public class VtProgresoArtefactoLogic implements IVtProgresoArtefactoLogic {
 
         return list;
     }
+    
+	@Transactional(readOnly=true)
+	public List<VtProgresoArtefacto> findProgresoArtefactosPorArtefactos(VtArtefacto vtArtefacto) throws Exception{
+
+		List<VtProgresoArtefacto> losProgresosArtefactos = new ArrayList<VtProgresoArtefacto>();
+
+		try {
+			Object[] variables = {"vtSprint.vtArtefacto.arteCodigo", false, vtArtefacto.getArteCodigo(),"="};
+
+			losProgresosArtefactos = findByCriteria(variables, null, null);
+		} catch (Exception e) {
+			throw new Exception("No se encontro artefactos por el Id del sprint");
+		}
+
+		return (losProgresosArtefactos != null && !losProgresosArtefactos.isEmpty()
+				? losProgresosArtefactos : null);
+	}
 }

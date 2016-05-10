@@ -550,7 +550,7 @@ public class VtSprintView {
 			sprint.setVtEstadoSprint(estadoSprint);
 
 			businessDelegatorView.saveVtSprint(sprint);
-
+			
 			if (losArtefactosParaAsignar != null) {
 				for (VtArtefacto vtArtefacto : losArtefactosParaAsignar) {
 					vtArtefacto.setVtSprint(sprint);
@@ -560,6 +560,7 @@ public class VtSprintView {
 			
 			FacesUtils.addInfoMessage("El sprint se ha creado con exito");		
 			losSprint = businessDelegatorView.findSprintByBacklog(backlogSeleccionado);
+			pickListAsignarArtefactoAction();
 			limpiarAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

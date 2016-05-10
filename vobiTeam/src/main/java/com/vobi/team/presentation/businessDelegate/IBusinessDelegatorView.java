@@ -547,4 +547,6 @@ public interface IBusinessDelegatorView {
 
 	public List<VtEstadoSprintDTO> getDataVtEstadoSprint()
 			throws Exception;
+	
+	public List<VtProgresoArtefacto> findProgresoArtefactosPorArtefactos(VtArtefacto vtArtefacto) throws Exception;
 }

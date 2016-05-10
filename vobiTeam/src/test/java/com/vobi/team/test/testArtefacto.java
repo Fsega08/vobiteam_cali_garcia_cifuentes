@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -47,7 +48,10 @@ public class testArtefacto {
 	 private IVtSprintLogic sprintLogic;
 	 
 	 @Autowired
-	private IVtUsuarioLogic vtUsuarioLogic;  
+	private IVtUsuarioLogic vtUsuarioLogic;
+	 
+	 @Autowired
+	 private IVtSprintLogic vtSprintLogic;
 	 
 	@Test
 	public void testA() throws Exception {
@@ -86,7 +90,14 @@ public class testArtefacto {
 	}	
 	
 	
-
+	
+	@Test
+	public void testC() throws Exception {
+		
+	
+		
+	}	
+	
 	    
 	
 

@@ -734,7 +734,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 		}
 
 		return (losArtefactos != null && !losArtefactos.isEmpty()
-				? losArtefactos : losArtefactos);
+				? losArtefactos : null);
 	}
 
 	@Transactional(readOnly=true)

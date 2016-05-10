@@ -1,5 +1,6 @@
 package com.vobi.team.modelo.control;
 
+import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.dto.VtProgresoArtefactoDTO;
 
@@ -59,4 +60,6 @@ public interface IVtProgresoArtefactoLogic {
 
     public List<VtProgresoArtefactoDTO> getDataVtProgresoArtefacto()
         throws Exception;
+    
+    public List<VtProgresoArtefacto> findProgresoArtefactosPorArtefactos(VtArtefacto vtArtefacto) throws Exception;
 }

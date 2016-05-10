@@ -1226,5 +1226,10 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtProgresoArtefacto.getDataVtProgresoArtefacto();
 	}
 
+	@Override
+	public List<VtProgresoArtefacto> findProgresoArtefactosPorArtefactos(VtArtefacto vtArtefacto) throws Exception {
+		return vtProgresoArtefacto.findProgresoArtefactosPorArtefactos(vtArtefacto);
+	}
+
 
 }

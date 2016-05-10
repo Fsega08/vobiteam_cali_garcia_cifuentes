@@ -3,6 +3,7 @@ package com.vobi.team.presentation.backingBeans;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -11,6 +12,11 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtEstadoSprint;
+import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
@@ -47,11 +54,13 @@ public class IniciarSprintView {
 	private VtArtefacto vtArtefactoFinalizado;
 	private VtArtefacto artefactoSeleccionado;
 	
+	
 	private int totalArtefactos;
 	
 	///Dialog Horas Trabajadas
 	private InputText txtEsfuerzo;
 	
+	private CartesianChartModel burndownChart;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 	
@@ -354,6 +363,37 @@ public class IniciarSprintView {
 			return "";
 		}
 
+	}
+	
+	private void iniciarBurndown() throws Exception{
+		int totalArtefactos = 0;
+		int tiempoTotalEstimado = 0;
+		Integer[] horasReales = new Integer[sprintSeleccionado.getVtArtefactos().size()];
+		Long totalDias = (sprintSeleccionado.getFechaFin().getTime() - sprintSeleccionado.getFechaInicio().getTime());
+		
+		totalDias = TimeUnit.MILLISECONDS.toDays(totalDias);
+		burndownChart = new BarChartModel();
+		
+		for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
+			tiempoTotalEstimado = tiempoTotalEstimado + vtArtefacto.getEsfuerzoEstimado();
+			List<VtProgresoArtefacto> vtProgresoArtefacto = businessDelegatorView.findProgresoArtefactosPorArtefactos(vtArtefacto);
+//			for (VtProgresoArtefacto vtProgresoArtefacto2 : vtProgresoArtefacto) {
+//				horasReales[totalArtefactos] = horasReales[totalArtefactos] + vtProgresoArtefacto2.getEs
+//			}
+		}
+		
+		
+		
+		for (int i = 0; i < totalDias; i++) {
+		
+		}
+		
+		
+		
+		
+		Axis yAxis = burndownChart.getAxis(AxisType.Y);
+        yAxis.setMin(0);     
+        yAxis.setMax(tiempoTotalEstimado);
 	}
 
 }
