@@ -125,9 +125,9 @@ public class VtSprintLogic implements IVtSprintLogic {
                 throw new ZMessManager().new NotValidFormatException("objetivo");
             }
 
-            if (entity.getSpriCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException("spriCodigo");
-            }
+//            if (entity.getSpriCodigo() == null) {
+//                throw new ZMessManager().new EmptyFieldException("spriCodigo");
+//            }
 
             if (entity.getUsuCreador() == null) {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");
@@ -143,9 +143,9 @@ public class VtSprintLogic implements IVtSprintLogic {
                     "pilaCodigo_VtPilaProducto");
             }
 
-            if (getVtSprint(entity.getSpriCodigo()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+//            if (getVtSprint(entity.getSpriCodigo()) != null) {
+//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+//            }
 
             vtSprintDAO.save(entity);
 
@@ -165,9 +165,9 @@ public class VtSprintLogic implements IVtSprintLogic {
             throw new ZMessManager().new NullEntityExcepcion("VtSprint");
         }
 
-        if (entity.getSpriCodigo() == null) {
-            throw new ZMessManager().new EmptyFieldException("spriCodigo");
-        }
+//        if (entity.getSpriCodigo() == null) {
+//            throw new ZMessManager().new EmptyFieldException("spriCodigo");
+//        }
 
         List<VtArtefacto> vtArtefactos = null;
 
@@ -236,9 +236,9 @@ public class VtSprintLogic implements IVtSprintLogic {
                 throw new ZMessManager().new NotValidFormatException("objetivo");
             }
 
-            if (entity.getSpriCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException("spriCodigo");
-            }
+//            if (entity.getSpriCodigo() == null) {
+//                throw new ZMessManager().new EmptyFieldException("spriCodigo");
+//            }
 
             if (entity.getUsuCreador() == null) {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");

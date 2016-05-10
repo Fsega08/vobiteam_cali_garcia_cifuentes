@@ -778,7 +778,7 @@ public class VtSprintView {
 			actualizarChartAction();
 			FacesUtils.addInfoMessage("Artefacto(s) Transferidos");
 		} catch (Exception e) {
-			pickListAsignarArtefactoAction();
+			asignarArtefactoAction();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 

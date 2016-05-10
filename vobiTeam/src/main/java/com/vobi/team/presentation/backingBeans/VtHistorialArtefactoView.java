@@ -17,7 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
+import com.vobi.team.modelo.VtPilaProducto;
+import com.vobi.team.modelo.VtPrioridad;
+import com.vobi.team.modelo.VtSprint;
+import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
@@ -41,6 +46,15 @@ public class VtHistorialArtefactoView {
 	private InputText txtHistorialEsfuerzoRestante;
 	private InputText txtHistorialPuntos;
 	private InputText txtHistorialOrigen;	
+	
+	//Nuevo historial Artefacto
+	private InputText txtHistorialEstado;
+	private InputText txtHistorialActivo;
+	private InputText txtHistorialTipo;
+	private InputText txtHistorialPrio;
+	private InputText txtHistorialSprint;
+	private InputText txtHistorialPila;
+	
 	
 	private CommandButton btnAsignar;
 
@@ -86,6 +100,65 @@ public class VtHistorialArtefactoView {
 		this.historialArtefactoSeleccionado = historialArtefactoSeleccionado;
 	}
 	
+	public InputText getTxtHistorialEstado() {
+		return txtHistorialEstado;
+	}
+
+
+	public InputText getTxtHistorialPila() {
+		return txtHistorialPila;
+	}
+
+
+	public void setTxtHistorialPila(InputText txtHistorialPila) {
+		this.txtHistorialPila = txtHistorialPila;
+	}
+
+
+	public void setTxtHistorialEstado(InputText txtHistorialEstado) {
+		this.txtHistorialEstado = txtHistorialEstado;
+	}
+
+
+	public InputText getTxtHistorialActivo() {
+		return txtHistorialActivo;
+	}
+
+
+	public void setTxtHistorialActivo(InputText txtHistorialActivo) {
+		this.txtHistorialActivo = txtHistorialActivo;
+	}
+
+
+	public InputText getTxtHistorialTipo() {
+		return txtHistorialTipo;
+	}
+
+
+	public void setTxtHistorialTipo(InputText txtHistorialTipo) {
+		this.txtHistorialTipo = txtHistorialTipo;
+	}
+
+
+	public InputText getTxtHistorialPrio() {
+		return txtHistorialPrio;
+	}
+
+
+	public void setTxtHistorialPrio(InputText txtHistorialPrio) {
+		this.txtHistorialPrio = txtHistorialPrio;
+	}
+
+
+	public InputText getTxtHistorialSprint() {
+		return txtHistorialSprint;
+	}
+
+
+	public void setTxtHistorialSprint(InputText txtHistorialSprint) {
+		this.txtHistorialSprint = txtHistorialSprint;
+	}
+
 
 	public List<VtHistoriaArtefacto> getElHistorialArtefacto() {
 		try {
@@ -186,7 +259,7 @@ public class VtHistorialArtefactoView {
 	
 	
 	
-	public void hidratarArtefactoMod() {
+	public void hidratarArtefactoMod() throws Exception {
 		log.info("Historia Artefacto= " + historialArtefactoSeleccionado.getHistoriaCodigo());
 		if (historialArtefactoSeleccionado != null) {
 
@@ -197,6 +270,34 @@ public class VtHistorialArtefactoView {
 			txtHistorialEsfuerzoReal.setValue(""+historialArtefactoSeleccionado.getEsfuerzoReal());
 			txtHistorialPuntos.setValue(""+historialArtefactoSeleccionado.getPuntos());
 			txtHistorialOrigen.setValue(historialArtefactoSeleccionado.getOrigen());
+			
+			//Nuevo
+			txtHistorialActivo.setValue(historialArtefactoSeleccionado.getActivo());
+			
+			VtEstado vtEstado = businessDelegatorView.getVtEstado(historialArtefactoSeleccionado.getEstaCodigo());
+			
+			txtHistorialEstado.setValue(vtEstado.getNombre());
+			
+			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(historialArtefactoSeleccionado.getTparCodigo());
+			
+			txtHistorialTipo.setValue(vtTipoArtefacto.getNombre());
+			
+			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(historialArtefactoSeleccionado.getPrioCodigo());
+			
+			txtHistorialPrio.setValue(vtPrioridad.getNombre());
+			
+			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(historialArtefactoSeleccionado.getPilaCodigo());
+			
+			txtHistorialPila.setValue(vtPilaProducto.getNombre());
+			
+			if (historialArtefactoSeleccionado.getSpriCodigo()!=null) {
+				VtSprint vtSprint = businessDelegatorView.getVtSprint(historialArtefactoSeleccionado.getSpriCodigo());
+			
+				txtHistorialSprint.setValue(vtSprint.getNombre());
+			}else {
+				txtHistorialSprint.setValue(" ");;
+			}
+			
 			
 		}else {
 			log.info("No se ha seleccionado ningúna historia");
@@ -217,6 +318,36 @@ public class VtHistorialArtefactoView {
         	artefactoSeleccionado.setOrigen(historialArtefactoSeleccionado.getOrigen());
         	artefactoSeleccionado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
         	artefactoSeleccionado.setFechaModificacion(new Date());
+        	artefactoSeleccionado.setActivo(historialArtefactoSeleccionado.getActivo());
+        	
+        	
+			VtEstado vtEstado = businessDelegatorView.getVtEstado(historialArtefactoSeleccionado.getEstaCodigo());
+			
+			artefactoSeleccionado.setVtEstado(vtEstado);
+			
+			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(historialArtefactoSeleccionado.getTparCodigo());
+			
+			artefactoSeleccionado.setVtTipoArtefacto(vtTipoArtefacto);
+			
+			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(historialArtefactoSeleccionado.getPrioCodigo());
+			
+			artefactoSeleccionado.setVtPrioridad(vtPrioridad);
+			
+			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(historialArtefactoSeleccionado.getPilaCodigo());
+			
+			artefactoSeleccionado.setVtPilaProducto(vtPilaProducto);
+			
+			if (historialArtefactoSeleccionado.getSpriCodigo()!=null) {
+				VtSprint vtSprint = businessDelegatorView.getVtSprint(historialArtefactoSeleccionado.getSpriCodigo());
+				
+				if (vtSprint.getVtEstadoSprint().getEstsprCodigo() == 3L) {
+					throw new Exception("El sprint se encuentra terminado");
+				}
+				
+				artefactoSeleccionado.setVtSprint(vtSprint);
+
+			}
+
         	
         	businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
     		
