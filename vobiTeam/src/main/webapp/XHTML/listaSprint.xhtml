@@ -121,7 +121,7 @@
 				<h:panelGrid columns="1">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
 						action="#{vtSprintView.regresarAction}"
-						value="Regresar a Lista de Backlog" update="formDialog" />
+						value="Regresar a Empresas" update="formDialog" />
 
 					<p:commandButton id="btnArtefactos" icon="fa fa-arrow-right white"
 						action="#{vtSprintView.artefactosAction}"
@@ -167,11 +167,11 @@
 
 			<p:dialog header="Confirmation" widgetVar="cdSprint"
 				resizable="false" id="dlConfirmSprint" draggable="true"
-				responsive="true" modal="true" width="500">
+				responsive="true" modal="true" width="300">
 				<p:panelGrid >
-					<h:outputText value="¿Esta seguro de iniciar  este Sprint?" />
-					<br />
+					<h:outputText class="red" value="¿Esta seguro de iniciar  este Sprint?" />
 					</p:panelGrid>
+					<br />
 					<p:commandButton value="Comenzar Sprint"
 						action="#{vtSprintView.cambioEstadoSprint}" update="formDialog" />
 			</p:dialog>

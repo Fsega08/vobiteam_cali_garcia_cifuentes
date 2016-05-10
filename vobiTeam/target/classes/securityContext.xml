@@ -11,6 +11,9 @@
         
         <intercept-url pattern="/dashboard.*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
         
+        <intercept-url pattern="/desarrollador/*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
+        
+        
       	<intercept-url pattern="/login.xhtml" access="permitAll" />
         
         <form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?authfailed=true" default-target-url="/XHTML/initialMenu.xhtml" always-use-default-target="false"  />

@@ -106,7 +106,7 @@
 				<h:panelGrid columns="1" id="panelGrid2">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
 						action="#{vtArtefactoView.regresarAction}"
-						value="Regresar a Lista de Backlog" update="formDialog" />
+						value="Regresar a Empresas" update="formDialog" />
 
 					<p:commandButton id="btnSprint" icon="fa fa-arrow-right white"
 						action="#{vtArtefactoView.sprintAction}"
@@ -289,6 +289,7 @@
 			<p:dialog header="Subir archivos a este Artefacto"
 				widgetVar="dlgArchivosArtefacto" modal="true"
 				id="dlArchivosArtefacto">
+				
 				<h:panelGrid columns="1" id="panelArchivos">
 					<p:fileUpload sequential="true"
 						fileUploadListener="#{vtArtefactoView.handleFileUpload}"

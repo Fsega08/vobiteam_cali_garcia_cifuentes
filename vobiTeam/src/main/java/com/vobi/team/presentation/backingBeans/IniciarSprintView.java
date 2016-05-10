@@ -32,6 +32,8 @@ import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 import com.vobi.team.utilities.Utilities;
 
+import hirondelle.date4j.DateTime;
+
 @ManagedBean
 @ViewScoped
 public class IniciarSprintView {
@@ -77,9 +79,17 @@ public class IniciarSprintView {
 
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
 
-			getLosArtefactosPorHacer();
-			getLosArtefactosEnCurso();
-			getLosArtefactosFinalizados();
+			for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
+				if (vtArtefacto.getVtEstado().getEstaCodigo() == 1L) {
+					losArtefactosPorHacer.add(vtArtefacto);
+				}
+				if (vtArtefacto.getVtEstado().getEstaCodigo() == 2L) {
+					losArtefactosEnCurso.add(vtArtefacto);
+				}
+				if (vtArtefacto.getVtEstado().getEstaCodigo() == 3L) {
+					losArtefactosFinalizados.add(vtArtefacto);
+				}
+			}
 			
 			totalArtefactos = losArtefactosPorHacer.size() + losArtefactosEnCurso.size();
 
@@ -367,26 +377,31 @@ public class IniciarSprintView {
 	
 	private void iniciarBurndown() throws Exception{
 		int totalArtefactos = 0;
-		int tiempoTotalEstimado = 0;
-		Integer[] horasReales = new Integer[sprintSeleccionado.getVtArtefactos().size()];
-		Long totalDias = (sprintSeleccionado.getFechaFin().getTime() - sprintSeleccionado.getFechaInicio().getTime());
+		Integer[] horasRealesArtefacto = new Integer[sprintSeleccionado.getVtArtefactos().size()];
+		Integer[] horasEstimadasArtefacto = new Integer[sprintSeleccionado.getVtArtefactos().size()];
 		
+		Long totalDias = (sprintSeleccionado.getFechaFin().getTime() - sprintSeleccionado.getFechaInicio().getTime());
 		totalDias = TimeUnit.MILLISECONDS.toDays(totalDias);
-		burndownChart = new BarChartModel();
+		int tiempoTotalEstimado = 0;
+		
+		Integer[] totalHorasPorDia = new Integer[Integer.parseInt(""+totalDias)];
+		
+		DateTime diaInicio = new DateTime(""+sprintSeleccionado.getFechaInicio());
+		
+		DateTime diaAnterior = diaInicio.minusDays(1);
+		
+		DateTime diaSiguiente = diaInicio.plusDays(1);
 		
 		for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
 			tiempoTotalEstimado = tiempoTotalEstimado + vtArtefacto.getEsfuerzoEstimado();
-			List<VtProgresoArtefacto> vtProgresoArtefacto = businessDelegatorView.findProgresoArtefactosPorArtefactos(vtArtefacto);
-//			for (VtProgresoArtefacto vtProgresoArtefacto2 : vtProgresoArtefacto) {
-//				horasReales[totalArtefactos] = horasReales[totalArtefactos] + vtProgresoArtefacto2.getEs
-//			}
+			horasRealesArtefacto[totalArtefactos] = vtArtefacto.getEsfuerzoReal();
+			horasEstimadasArtefacto[totalArtefactos] = vtArtefacto.getEsfuerzoEstimado();
+			totalArtefactos += 1;		
 		}
 		
 		
 		
-		for (int i = 0; i < totalDias; i++) {
-		
-		}
+		burndownChart = new BarChartModel();
 		
 		
 		

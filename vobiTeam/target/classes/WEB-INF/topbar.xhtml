@@ -6,14 +6,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     
     <div id="layout-header" class="Unselectable fontRegular">
-        <a href="http://localhost:8080/vobiTeam/dashboard.jsf" id="layout-logo">
+        <a href="/vobiTeam/dashboard.jsf" id="layout-logo">
             <h:graphicImage name="images/LOGO.svg" styleClass="Fleft" library="sentinel-layout"/>
             <span class="Fs19 FontTitilliumSemiBoldItalic Fleft"><span class="softblue">VOBI</span><span class="hardblue">Team</span></span>
         </a>
     	<ul id="sm-topmenu" class="layout-header-widgets white Fs14">
     		<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-user-male"></i>
     			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
-    				<li class="Animated05"><a class="white" href="/vobiTeam/dashboard.xhtml"><i class="icon-user-male Fs30"></i><h:outputText class="white Fs15" value="#{dashboardView.usuSesion.nombre}" /></a></li>
+    				<li class="Animated05"><a class="white" href="/vobiTeam/dashboard.jsf"><i class="icon-user-male Fs30"></i><h:outputText class="white Fs15" value="#{dashboardView.usuSesion.nombre}" /></a></li>
     				<li class="Animated05"><a href="/vobiTeam/perfil.xhtml" class="white Unselectable"><i class="icon-sliders"></i>Ver perfil</a></li>
     			</ul>
     		</li>

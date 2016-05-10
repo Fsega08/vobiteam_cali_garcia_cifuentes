@@ -28,7 +28,8 @@
 			<p:growl id="men" />
 			<p:panel id="pnlContainer" header="Informacion">
 				<p:panel id="panelSom">
-					<p:selectOneMenu id="somProyecto" binding="#{vtDesarrolladorTreeView.somProyectos}">
+					<p:selectOneMenu id="somProyecto"
+						binding="#{vtDesarrolladorTreeView.somProyectos}">
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
 						<f:selectItems value="#{vtDesarrolladorTreeView.losProyectos}" />
 						<p:ajax listener="#{vtDesarrolladorTreeView.proyectoListener}"
@@ -37,15 +38,21 @@
 				</p:panel>
 
 				<p:panel id="panelDt">
+					<p:contextMenu for="dtArtefactos" event="click contextmenu">
+						<p:menuitem value="Progreso de este artefacto" update="panelDt"
+							icon="fa fa-history "
+							oncomplete="PF('dlgProgresArtefacto').show()" />
+					</p:contextMenu>
+				
 					<p:dataTable id="dtArtefactos"
-						value="#{vtDesarrolladorTreeView.losArtefactos }" var="artefacto"
+						value="#{vtDesarrolladorTreeView.losArtefactos}" var="artefacto"
 						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="10, 15" rowKey="#{artefacto.arteCodigo}"
 						emptyMessage="No se encontraron los artefactos"
-						selection="#{vtDesarrolladorTreeView.artefactoSeleccionado}" selectionMode="single"
-						paginatorPosition="bottom">
-						
+						selection="#{vtProgresoArtefactoView.artefactoSeleccionado}"
+						selectionMode="single" paginatorPosition="bottom">
+
 						<p:column headerText="Nombre Artefacto"
 							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
 							filterMatchMode="contains">
@@ -68,7 +75,31 @@
 					</p:dataTable>
 				</p:panel>
 
+				<p:dialog header="Progreso del Artefacto"
+					widgetVar="dlgProgresArtefacto" modal="true" id="dlProsArtefacto" width="700">
+					<p:panel id="pnlProgreso" header="Progreso" >
+						<h:panelGrid columns="2" id="progresoArt">
+							<h:outputText value="Tiempo Dedicado" />
+							<p:inputText id="txtTiempo" placeholder="Tiempo Dedicado"
+								binding="#{vtProgresoArtefactoView.txtTiempoEstimado}" />
+						</h:panelGrid>
+						<h:panelGrid columns="1">
+							<h:outputText value="Descripción del Progreso" />
+							<p:inputTextarea id="txtAreaDescripcion" cols="85"
+								placeholder="Descripción" maxlength="100000000"
+								binding="#{vtProgresoArtefactoView.txtDescripcion}" />
 
+						</h:panelGrid>
+							<br/>
+						<p:commandButton id="btnCrearProgreso" icon="fa fa-plus white"
+							action="#{vtProgresoArtefactoView.crearAction}" value="Crear"
+							update="men, pnlProgreso" />
+
+						<p:commandButton id="btnLimpiarProgreso" icon="fa fa-eraser white"
+							action="#{vtProgresoArtefactoView.limpiarAction}" value="Limpiar"
+							update="men, pnlProgreso" />
+					</p:panel>
+				</p:dialog>
 
 
 			</p:panel>

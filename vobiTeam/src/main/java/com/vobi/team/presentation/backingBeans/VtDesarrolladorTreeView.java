@@ -44,7 +44,7 @@ public class VtDesarrolladorTreeView {
 	private IBusinessDelegatorView businessDelegatorView;
 
 	private VtProyecto proyectoSeleccionado;
-	private VtArtefacto artefactoSeleccionado;
+
 	
 	private SelectOneMenu somProyectos;
 	private List<SelectItem> losProyectos;
@@ -91,14 +91,6 @@ public class VtDesarrolladorTreeView {
 
 	public void setProyectoSeleccionado(VtProyecto proyectoSeleccionado) {
 		this.proyectoSeleccionado = proyectoSeleccionado;
-	}
-
-	public VtArtefacto getArtefactoSeleccionado() {
-		return artefactoSeleccionado;
-	}
-
-	public void setArtefactoSeleccionado(VtArtefacto artefactoSeleccionado) {
-		this.artefactoSeleccionado = artefactoSeleccionado;
 	}
 
 	public SelectOneMenu getSomProyectos() {

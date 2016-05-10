@@ -36,9 +36,9 @@ import com.vobi.team.utilities.Utilities;
 
 @ManagedBean
 @ViewScoped
-public class vtProgresoArtefactoView {
+public class VtProgresoArtefactoView {
 
-	public final static Logger log=LoggerFactory.getLogger(vtProgresoArtefactoView.class);
+	public final static Logger log=LoggerFactory.getLogger(VtProgresoArtefactoView.class);
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;	
@@ -48,7 +48,8 @@ public class vtProgresoArtefactoView {
 	
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
-
+	private VtArtefacto artefactoSeleccionado;
+	
 	@PostConstruct
 	public void init(){
 		try {
@@ -61,6 +62,16 @@ public class vtProgresoArtefactoView {
 
 	}
 	
+	
+	public VtArtefacto getArtefactoSeleccionado() {
+		return artefactoSeleccionado;
+	}
+
+
+	public void setArtefactoSeleccionado(VtArtefacto artefactoSeleccionado) {
+		this.artefactoSeleccionado = artefactoSeleccionado;
+	}
+
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
@@ -103,17 +114,15 @@ public class vtProgresoArtefactoView {
 			
 			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			
-			VtProgresoArtefacto vtProgresoArtefacto =  new VtProgresoArtefacto();
-			
-			VtArtefacto vtArtefacto = businessDelegatorView.getVtArtefacto(1L);
+			VtProgresoArtefacto vtProgresoArtefacto =  new VtProgresoArtefacto();		
 			
 			vtProgresoArtefacto.setTiempoDedicado(Integer.parseInt(txtTiempoEstimado.getValue().toString().trim()));
 			
-			vtProgresoArtefacto.setEsfuerzoRestante(vtArtefacto.getEsfuerzoRestante() - (Integer.parseInt(txtTiempoEstimado.getValue().toString().trim())));
+			vtProgresoArtefacto.setEsfuerzoRestante(artefactoSeleccionado.getEsfuerzoRestante() - (Integer.parseInt(txtTiempoEstimado.getValue().toString().trim())));
 			
-			vtProgresoArtefacto.setPuntos(vtArtefacto.getPuntos());
+			vtProgresoArtefacto.setPuntos(artefactoSeleccionado.getPuntos());
 			
-			vtProgresoArtefacto.setEsfuerzoReal(vtArtefacto.getEsfuerzoReal()+ vtProgresoArtefacto.getTiempoDedicado());
+			vtProgresoArtefacto.setEsfuerzoReal(artefactoSeleccionado.getEsfuerzoReal()+ vtProgresoArtefacto.getTiempoDedicado());
 			
 			vtProgresoArtefacto.setDescripcion(txtDescripcion.getValue().toString());
 			
@@ -127,15 +136,15 @@ public class vtProgresoArtefactoView {
 			
 			vtProgresoArtefacto.setActivo("S");
 			
-			vtProgresoArtefacto.setVtArtefacto(vtArtefacto);
+			vtProgresoArtefacto.setVtArtefacto(artefactoSeleccionado);
 			
-			vtArtefacto.setEsfuerzoRestante(vtProgresoArtefacto.getEsfuerzoRestante());
+			artefactoSeleccionado.setEsfuerzoRestante(vtProgresoArtefacto.getEsfuerzoRestante());
 			
-			vtArtefacto.setEsfuerzoReal(vtProgresoArtefacto.getEsfuerzoReal());
+			artefactoSeleccionado.setEsfuerzoReal(vtProgresoArtefacto.getEsfuerzoReal());
 			
 			businessDelegatorView.saveVtProgresoArtefacto(vtProgresoArtefacto);
 			
-			businessDelegatorView.updateVtArtefacto(vtArtefacto);
+			businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
 
 			FacesUtils.addInfoMessage("El progreso fue agregado con exito");
 			limpiarAction();
