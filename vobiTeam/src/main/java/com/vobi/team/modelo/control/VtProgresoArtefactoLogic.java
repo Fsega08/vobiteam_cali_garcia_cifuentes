@@ -522,7 +522,7 @@ public class VtProgresoArtefactoLogic implements IVtProgresoArtefactoLogic {
 		List<VtProgresoArtefacto> losProgresosArtefactos = new ArrayList<VtProgresoArtefacto>();
 
 		try {
-			Object[] variables = {"vtSprint.vtArtefacto.arteCodigo", false, vtArtefacto.getArteCodigo(),"="};
+			Object[] variables = {"vtArtefacto.arteCodigo", false, vtArtefacto.getArteCodigo(),"="};
 
 			losProgresosArtefactos = findByCriteria(variables, null, null);
 		} catch (Exception e) {
@@ -530,6 +530,6 @@ public class VtProgresoArtefactoLogic implements IVtProgresoArtefactoLogic {
 		}
 
 		return (losProgresosArtefactos != null && !losProgresosArtefactos.isEmpty()
-				? losProgresosArtefactos : null);
+				? losProgresosArtefactos : losProgresosArtefactos);
 	}
 }

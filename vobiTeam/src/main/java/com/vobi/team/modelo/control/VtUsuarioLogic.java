@@ -584,9 +584,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		List<VtUsuario> vtUsuarios= new ArrayList<VtUsuario>();
 
 		try {
-			Object[] variables = {"login", true, login, "="};
-			
-			
+			Object[] variables = {"login", true, login, "="};			
 
 			vtUsuarios = findByCriteria(variables, null, null);
 

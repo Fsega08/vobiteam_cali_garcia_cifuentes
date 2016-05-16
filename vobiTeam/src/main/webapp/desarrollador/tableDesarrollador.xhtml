@@ -28,6 +28,7 @@
 			<p:growl id="men" />
 			<p:panel id="pnlContainer" header="Informacion">
 				<p:panel id="panelSom">
+
 					<p:selectOneMenu id="somProyecto"
 						binding="#{vtDesarrolladorTreeView.somProyectos}">
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
@@ -40,17 +41,23 @@
 				<p:panel id="panelDt">
 					<p:contextMenu for="dtArtefactos" event="click contextmenu">
 						<p:menuitem value="Progreso de este artefacto" update="panelDt"
-							icon="fa fa-history "
+							icon="fa fa-clock-o "
+							action="#{vtDesarrolladorTreeView.artefactoSeleccionadoAction}"
 							oncomplete="PF('dlgProgresArtefacto').show()" />
+
+						<p:menuitem value="Historia de este artefacto" update="panelDt"
+							icon="fa fa-history "
+							action="#{vtDesarrolladorTreeView.historiaProgresoAction}"
+							oncomplete="PF('dlgHistoriaArtefacto').show()" />
 					</p:contextMenu>
-				
+
 					<p:dataTable id="dtArtefactos"
 						value="#{vtDesarrolladorTreeView.losArtefactos}" var="artefacto"
 						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="10, 15" rowKey="#{artefacto.arteCodigo}"
 						emptyMessage="No se encontraron los artefactos"
-						selection="#{vtProgresoArtefactoView.artefactoSeleccionado}"
+						selection="#{vtDesarrolladorTreeView.artefactoSeleccionado}"
 						selectionMode="single" paginatorPosition="bottom">
 
 						<p:column headerText="Nombre Artefacto"
@@ -60,7 +67,7 @@
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
-						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}"
+						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}" filterMatchMode="contains"
 							sortBy="#{artefacto.usuCreador}">
 							<h:outputText value="#{artefacto.usuCreador}"
 								title="Presiona click derecho para ver las opciones" />
@@ -68,38 +75,102 @@
 
 
 						<p:column headerText="Estado de los Artefactos"
-							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}">
+							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}" filterMatchMode="contains">
 							<h:outputText value="#{artefacto.activo}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
+
+						<p:column headerText="Sprint"
+							filterBy="#{artefacto.vtSprint.spriCodigo}" filterMatchMode="contains"
+							sortBy="#{artefacto.vtSprint.spriCodigo}">
+							<h:outputText value="#{artefacto.vtSprint.nombre}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
 					</p:dataTable>
+
+					<!-- ...................................................... Dialog............................................................ -->
+					<p:dialog header="Progreso del Artefacto"
+						widgetVar="dlgProgresArtefacto" modal="true" id="dlProsArtefacto"
+						width="700">
+						<p:panel id="pnlProgreso" header="Progreso">
+							<h:panelGrid columns="2" id="progresoArt">
+
+								<h:outputText value="Puntos" />
+								<p:inputText id="txtPuntos"
+									binding="#{vtDesarrolladorTreeView.txtPuntos}" disabled="true" />
+
+								<h:outputText value="Esfuerzo Restante" />
+								<p:inputText id="txtEsfuerzoRestante"
+									binding="#{vtDesarrolladorTreeView.txtEsfuerzoRestante}"
+									disabled="true" />
+
+								<h:outputText value="Esfuerzo Real" />
+								<p:inputText id="txtEsfuerzoReal"
+									binding="#{vtDesarrolladorTreeView.txtEsfuerzoReal}"
+									disabled="true" />
+
+								<h:outputText value="Tiempo Dedicado" />
+								<p:inputText id="txtTiempo" placeholder="Tiempo Dedicado"
+									binding="#{vtDesarrolladorTreeView.txtTiempoEstimado}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<h:outputText value="Descripción del Progreso" />
+								<p:inputTextarea id="txtAreaDescripcion" cols="85"
+									placeholder="Descripción" maxlength="100000000"
+									binding="#{vtDesarrolladorTreeView.txtDescripcion}" />
+
+							</h:panelGrid>
+							<br />
+							<p:commandButton id="btnCrearProgreso" icon="fa fa-plus white"
+								action="#{vtDesarrolladorTreeView.crearAction}" value="Crear"
+								update="men, pnlProgreso" />
+
+							<p:commandButton id="btnLimpiarProgreso"
+								icon="fa fa-eraser white"
+								action="#{vtDesarrolladorTreeView.limpiarAction}"
+								value="Limpiar" update="men, pnlProgreso" />
+						</p:panel>
+					</p:dialog>
+
+
+
+					<p:dialog header="Progresos en el Artefacto"
+						widgetVar="dlgHistoriaArtefacto" modal="true"
+						id="dlHistoriaArtefacto" width="700">
+						<p:panel id="pnlHistorial" header="Historia">
+							<p:dataTable id="dtHistoriaProgreso"
+								value="#{vtDesarrolladorTreeView.losProgresos}" var="progreso"
+								paginator="true" rows="10"
+								paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10, 15" rowKey="#{artefacto.arteCodigo}"
+								emptyMessage="No se encontraron Progresos al Artefacto"
+								paginatorPosition="bottom">
+
+								<p:column headerText="Tiempo Dedicado"
+									filterBy="#{progreso.tiempoDedicado}"
+									sortBy="#{progreso.tiempoDedicado}" filterMatchMode="contains">
+									<h:outputText value="#{progreso.tiempoDedicado}" />
+								</p:column>
+
+								<p:column headerText="Descripción"
+									filterBy="#{progreso.descripcion}"
+									sortBy="#{progreso.descripcion}" filterMatchMode="contains">
+									<h:outputText value="#{progreso.descripcion}" />
+								</p:column>
+
+								<p:column headerText="Fecha"
+									filterBy="#{progreso.fechaCreacion}"
+									sortBy="#{progreso.fechaCreacion}" filterMatchMode="contains">
+									<h:outputText value="#{progreso.fechaCreacion}" >
+										<f:convertDateTime dateStyle="full" type="date" />
+									</h:outputText>
+								</p:column>
+
+							</p:dataTable>
+						</p:panel>
+					</p:dialog>
+					<!-- ................................................Dialog.................................................. -->
 				</p:panel>
-
-				<p:dialog header="Progreso del Artefacto"
-					widgetVar="dlgProgresArtefacto" modal="true" id="dlProsArtefacto" width="700">
-					<p:panel id="pnlProgreso" header="Progreso" >
-						<h:panelGrid columns="2" id="progresoArt">
-							<h:outputText value="Tiempo Dedicado" />
-							<p:inputText id="txtTiempo" placeholder="Tiempo Dedicado"
-								binding="#{vtProgresoArtefactoView.txtTiempoEstimado}" />
-						</h:panelGrid>
-						<h:panelGrid columns="1">
-							<h:outputText value="Descripción del Progreso" />
-							<p:inputTextarea id="txtAreaDescripcion" cols="85"
-								placeholder="Descripción" maxlength="100000000"
-								binding="#{vtProgresoArtefactoView.txtDescripcion}" />
-
-						</h:panelGrid>
-							<br/>
-						<p:commandButton id="btnCrearProgreso" icon="fa fa-plus white"
-							action="#{vtProgresoArtefactoView.crearAction}" value="Crear"
-							update="men, pnlProgreso" />
-
-						<p:commandButton id="btnLimpiarProgreso" icon="fa fa-eraser white"
-							action="#{vtProgresoArtefactoView.limpiarAction}" value="Limpiar"
-							update="men, pnlProgreso" />
-					</p:panel>
-				</p:dialog>
 
 
 			</p:panel>
