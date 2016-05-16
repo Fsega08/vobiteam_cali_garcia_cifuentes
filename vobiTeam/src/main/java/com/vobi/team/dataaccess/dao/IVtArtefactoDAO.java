@@ -13,4 +13,8 @@ import com.vobi.team.modelo.VtArtefacto;
 public interface IVtArtefactoDAO extends Dao<VtArtefacto, Long> {
 
 	List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId);
+
+	List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo);
+
+	Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo);
 }

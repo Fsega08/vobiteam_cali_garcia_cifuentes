@@ -29,13 +29,16 @@
 				<p:growl id="men" />
 				<p:panel id="pnlInicarSprint" header="Sprint en Curso"
 					styleClass="Responsive100 ">
-
+					
 					<p:commandButton id="terminar" value="Terminar Sprint"
 						styleClass="Fright" action="#{iniciarSprintView.calculoArtefactos}" 
 						onclick="PF('cdSprint').show()" />
-
-
-
+					
+					<br />
+					<br />
+					<p:chart type="line" model="#{iniciarSprintView.burndownChart}" />
+					
+					
 					<div class="EmptyBox10"></div>
 
 					<p:accordionPanel multiple="true" id="acordArtefacto">

@@ -4,6 +4,8 @@ import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.dto.VtProgresoArtefactoDTO;
 
+import hirondelle.date4j.DateTime;
+
 import java.math.BigDecimal;
 
 import java.util.*;
@@ -62,4 +64,6 @@ public interface IVtProgresoArtefactoLogic {
         throws Exception;
     
     public List<VtProgresoArtefacto> findProgresoArtefactosPorArtefactos(VtArtefacto vtArtefacto) throws Exception;
+
+    public Long sumatoriaTiempoDedicadoPorSprintFecha(Long spriCodigo, DateTime fecha);
 }

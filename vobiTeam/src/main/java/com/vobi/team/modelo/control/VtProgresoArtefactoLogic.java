@@ -6,6 +6,8 @@ import com.vobi.team.modelo.*;
 import com.vobi.team.modelo.dto.VtProgresoArtefactoDTO;
 import com.vobi.team.utilities.Utilities;
 
+import hirondelle.date4j.DateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -531,5 +533,15 @@ public class VtProgresoArtefactoLogic implements IVtProgresoArtefactoLogic {
 
 		return (losProgresosArtefactos != null && !losProgresosArtefactos.isEmpty()
 				? losProgresosArtefactos : null);
+	}
+
+	@Transactional(readOnly=true)
+	public Long sumatoriaTiempoDedicadoPorSprintFecha(Long spriCodigo, DateTime fecha) {
+		
+		Long suma = vtProgresoArtefactoDAO.sumatoriaTiempoDedicadoPorSprintFecha(spriCodigo, fecha.toString().trim());
+
+		
+		return (suma != null && suma != 0
+				? suma : 0L);
 	}
 }

@@ -66,6 +66,8 @@ import com.vobi.team.modelo.dto.VtUsuarioDTO;
 import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
 import com.vobi.team.service.mail.IMailService;
 
+import hirondelle.date4j.DateTime;
+
 
 /**
  * Use a Business Delegate to reduce coupling between presentation-tier clients and business services.
@@ -1229,6 +1231,23 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Override
 	public List<VtProgresoArtefacto> findProgresoArtefactosPorArtefactos(VtArtefacto vtArtefacto) throws Exception {
 		return vtProgresoArtefacto.findProgresoArtefactosPorArtefactos(vtArtefacto);
+	}
+
+	@Override
+	public List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo) {
+		return vtArtefactoLogic.findArtefactosBySprintAndEstado(spriCodigo, estaCodigo);
+	}
+
+	@Override
+	public Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo) {
+		return vtArtefactoLogic.totalEsfuerzoEstimadoArtefactoPorSprint(spriCodigo);
+	}
+
+	@Override
+	public Long sumatoriaTiempoDedicadoPorSprintFecha(Long spriCodigo, DateTime fecha) {
+		
+		return vtProgresoArtefacto.sumatoriaTiempoDedicadoPorSprintFecha(spriCodigo, fecha);
+		
 	}
 
 

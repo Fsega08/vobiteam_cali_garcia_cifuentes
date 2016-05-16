@@ -58,4 +58,7 @@ public interface IVtArtefactoLogic {
     
     public List<VtArtefactoDTO> getDataVtArtefacto() throws Exception;
     public List<VtArtefacto> findArtefactosBySpring(VtSprint vtSprint) throws Exception;
+    
+	List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo);
+	public Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo);
 }

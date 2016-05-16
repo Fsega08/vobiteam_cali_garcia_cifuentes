@@ -24,5 +24,27 @@
 	   		Select usuArt from VtUsuarioArtefacto usuArt where usuArt.vtUsuario.usuaCodigo=:usuaCodigo and usuArt.vtInteres.inteCodigo=:inteCodigo and usuArt.vtArtefacto.arteCodigo=:arteCodigo
 	   	]]>
 	</query>
+	
+	<query name="consultarArtefactosPorSprintYEstado">
+	   	<![CDATA[
+	   		Select art from VtArtefacto art where art.vtSprint.spriCodigo=:spriCodigo and art.vtEstado.estaCodigo=:estaCodigo
+	   	]]>
+	</query>
+	
+	<query name="sumatoriaEsfuerzoEstimadoDeArtefactoPorSprint">
+	   	<![CDATA[
+	   		Select sum(art.esfuerzoEstimado) as esfuerzo from VtArtefacto art where art.vtSprint.spriCodigo=:spriCodigo and art.activo = 'S'
+	   	]]>
+	</query>
+	
+	<query name="sumatoriaArtefactoPorTiempoDedicadoEnUnaFechaYSprintEspecifico">
+	   	<![CDATA[
+	   		Select sum(proAr.tiempoDedicado) from VtProgresoArtefacto as proAr, 
+	   		VtArtefacto as art where str(proAr.fechaCreacion) LIKE :fecha 
+	   		and proAr.vtArtefacto.arteCodigo = art.arteCodigo and art.vtSprint.spriCodigo=:spriCodigo
+	   		
+	   	]]>
+	</query>
+	
 
 </hibernate-mapping>

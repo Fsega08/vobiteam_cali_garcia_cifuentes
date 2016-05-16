@@ -15,7 +15,10 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.BarChartSeries;
 import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.CategoryAxis;
+import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +65,7 @@ public class IniciarSprintView {
 	///Dialog Horas Trabajadas
 	private InputText txtEsfuerzo;
 	
-	private CartesianChartModel burndownChart;
+	private LineChartModel burndownChart;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 	
@@ -79,33 +82,35 @@ public class IniciarSprintView {
 
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
 
-			for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
-				if (vtArtefacto.getVtEstado().getEstaCodigo() == 1L) {
-					losArtefactosPorHacer.add(vtArtefacto);
-				}
-				if (vtArtefacto.getVtEstado().getEstaCodigo() == 2L) {
-					losArtefactosEnCurso.add(vtArtefacto);
-				}
-				if (vtArtefacto.getVtEstado().getEstaCodigo() == 3L) {
-					losArtefactosFinalizados.add(vtArtefacto);
-				}
-			}
+			losArtefactosPorHacer = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 1L);
+			losArtefactosEnCurso = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 2L);
+			losArtefactosFinalizados = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 3L);
 			
 			totalArtefactos = losArtefactosPorHacer.size() + losArtefactosEnCurso.size();
-
+			
+			iniciarBurndown();
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
 
 	}	
 	//............................................................................................
-
+	
+	
 	
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
 
+
+	public LineChartModel getBurndownChart() {
+		return burndownChart;
+	}
+
+	public void setBurndownChart(LineChartModel burndownChart) {
+		this.burndownChart = burndownChart;
+	}
 
 	public int getTotalArtefactos() {
 		return totalArtefactos;
@@ -173,11 +178,7 @@ public class IniciarSprintView {
 		try {
 			if (sprintSeleccionado!=null) {
 				losArtefactosPorHacer = new ArrayList<>();
-				for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
-					if (vtArtefacto.getVtEstado().getEstaCodigo() == 1L) {
-						losArtefactosPorHacer.add(vtArtefacto);
-					}
-				}
+				losArtefactosPorHacer = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 1L);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -193,11 +194,9 @@ public class IniciarSprintView {
 		try {
 			if (sprintSeleccionado!=null) {
 				losArtefactosEnCurso = new ArrayList<>();
-				for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
-					if (vtArtefacto.getVtEstado().getEstaCodigo() == 2L) {
-						losArtefactosEnCurso.add(vtArtefacto);
-					}
-				}
+				losArtefactosEnCurso = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 2L);
+				
+				
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -213,11 +212,7 @@ public class IniciarSprintView {
 		try {
 			if (sprintSeleccionado!=null) {
 				losArtefactosFinalizados = new ArrayList<>();
-				for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
-					if (vtArtefacto.getVtEstado().getEstaCodigo() == 3L) {
-						losArtefactosFinalizados.add(vtArtefacto);
-					}
-				}
+				losArtefactosFinalizados = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 3L);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -376,39 +371,62 @@ public class IniciarSprintView {
 	}
 	
 	private void iniciarBurndown() throws Exception{
-		int totalArtefactos = 0;
-		Integer[] horasRealesArtefacto = new Integer[sprintSeleccionado.getVtArtefactos().size()];
-		Integer[] horasEstimadasArtefacto = new Integer[sprintSeleccionado.getVtArtefactos().size()];
+		
+		Long tiempoTotalEstimado = businessDelegatorView.totalEsfuerzoEstimadoArtefactoPorSprint(sprintSeleccionado.getSpriCodigo());
 		
 		Long totalDias = (sprintSeleccionado.getFechaFin().getTime() - sprintSeleccionado.getFechaInicio().getTime());
 		totalDias = TimeUnit.MILLISECONDS.toDays(totalDias);
-		int tiempoTotalEstimado = 0;
-		
-		Integer[] totalHorasPorDia = new Integer[Integer.parseInt(""+totalDias)];
 		
 		DateTime diaInicio = new DateTime(""+sprintSeleccionado.getFechaInicio());
+		diaInicio = DateTime.forDateOnly(diaInicio.getYear(), diaInicio.getMonth(), diaInicio.getDay());
 		
-		DateTime diaAnterior = diaInicio.minusDays(1);
+		burndownChart = new LineChartModel();
 		
-		DateTime diaSiguiente = diaInicio.plusDays(1);
+		LineChartSeries blueLine = new LineChartSeries();
+		blueLine.setLabel("Esfuerzo Real");
 		
-		for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
-			tiempoTotalEstimado = tiempoTotalEstimado + vtArtefacto.getEsfuerzoEstimado();
-			horasRealesArtefacto[totalArtefactos] = vtArtefacto.getEsfuerzoReal();
-			horasEstimadasArtefacto[totalArtefactos] = vtArtefacto.getEsfuerzoEstimado();
-			totalArtefactos += 1;		
+		LineChartSeries grayLine = new LineChartSeries();
+		grayLine.setLabel("Esfuerzo Estimado");
+		
+		BarChartSeries barras = new BarChartSeries();
+		
+		
+		blueLine.set("Estimado", tiempoTotalEstimado);
+		grayLine.set("Estimado", tiempoTotalEstimado);
+		barras.set("Estimado", tiempoTotalEstimado);
+		
+		Long tiempoDedicadoDia = businessDelegatorView.sumatoriaTiempoDedicadoPorSprintFecha(sprintSeleccionado.getSpriCodigo(), diaInicio);
+		Long tiempoEstimadoDia = tiempoDedicadoDia;
+		
+		
+		for (int i = 0; i <= totalDias; i++) {
+			
+			if (i < 1) {
+				tiempoDedicadoDia = tiempoTotalEstimado - tiempoDedicadoDia; 
+				tiempoEstimadoDia = tiempoTotalEstimado - (tiempoTotalEstimado/(totalDias+1));
+			}else {
+				tiempoDedicadoDia = tiempoDedicadoDia - businessDelegatorView.sumatoriaTiempoDedicadoPorSprintFecha(sprintSeleccionado.getSpriCodigo(), diaInicio.plusDays(i));
+				tiempoEstimadoDia = tiempoEstimadoDia - (tiempoTotalEstimado/(totalDias+1));
+			}
+			
+			barras.set(""+diaInicio.plusDays(i), tiempoDedicadoDia);
+			blueLine.set(""+diaInicio.plusDays(i), tiempoDedicadoDia);
+			grayLine.set(""+diaInicio.plusDays(i), tiempoEstimadoDia);
 		}
 		
+		burndownChart.addSeries(barras);
+		burndownChart.addSeries(blueLine);
+		burndownChart.addSeries(grayLine);
 		
 		
-		burndownChart = new BarChartModel();
+		burndownChart.setTitle("Burndown Chart");
+		burndownChart.setMouseoverHighlight(false);
 		
-		
-		
+		burndownChart.getAxes().put(AxisType.X, new CategoryAxis("Dias"));
 		
 		Axis yAxis = burndownChart.getAxis(AxisType.Y);
         yAxis.setMin(0);     
-        yAxis.setMax(tiempoTotalEstimado);
+        yAxis.setMax(tiempoTotalEstimado+100);
 	}
 
 }

@@ -3,6 +3,8 @@ package com.vobi.team.dataaccess.dao;
 import com.vobi.team.dataaccess.api.HibernateDaoImpl;
 import com.vobi.team.modelo.VtProgresoArtefacto;
 
+import hirondelle.date4j.DateTime;
+
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
@@ -51,4 +53,17 @@ public class VtProgresoArtefactoDAO extends HibernateDaoImpl<VtProgresoArtefacto
         ApplicationContext ctx) {
         return (IVtProgresoArtefactoDAO) ctx.getBean("VtProgresoArtefactoDAO");
     }
+    
+    @Override
+  	public Long sumatoriaTiempoDedicadoPorSprintFecha(Long spriCodigo, String fecha) {
+    	Query query = getSession().getNamedQuery("sumatoriaArtefactoPorTiempoDedicadoEnUnaFechaYSprintEspecifico");
+  		query.setParameter("fecha", fecha + "%");
+  		query.setParameter("spriCodigo", spriCodigo);
+  		
+  		
+  		Long suma = (Long) query.uniqueResult();
+  		
+  		return suma;
+
+  	}
 }

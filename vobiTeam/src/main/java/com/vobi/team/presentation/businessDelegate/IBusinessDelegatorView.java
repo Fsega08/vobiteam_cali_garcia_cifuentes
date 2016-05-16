@@ -41,6 +41,8 @@ import com.vobi.team.modelo.dto.VtUsuarioArtefactoDTO;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
 import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
 
+import hirondelle.date4j.DateTime;
+
 
 /**
  * @author Zathura Code Generator http://zathuracode.org/
@@ -549,4 +551,10 @@ public interface IBusinessDelegatorView {
 			throws Exception;
 	
 	public List<VtProgresoArtefacto> findProgresoArtefactosPorArtefactos(VtArtefacto vtArtefacto) throws Exception;
+	
+	public List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo);
+
+	public Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo);
+	
+	public Long sumatoriaTiempoDedicadoPorSprintFecha(Long spriCodigo, DateTime fecha);
 }

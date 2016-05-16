@@ -18,16 +18,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
-
+import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
 import com.vobi.team.modelo.control.IVtPilaProductoLogic;
-
+import com.vobi.team.modelo.control.IVtProgresoArtefactoLogic;
 import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 
 import hirondelle.date4j.DateTime;
+import hirondelle.date4j.DateTime.DayOverflow;
 
 
 
@@ -54,6 +55,9 @@ public class testArtefacto {
 	 
 	 @Autowired
 	 private IVtSprintLogic vtSprintLogic;
+	 
+	 @Autowired
+	 private IVtProgresoArtefactoLogic vtProgresoArtefactoLogic;
 	 
 	@Test
 	public void testA() throws Exception {
@@ -95,38 +99,35 @@ public class testArtefacto {
 	
 	@Test
 	public void testC() throws Exception {
-		VtSprint sprintSeleccionado = sprintLogic.getVtSprint(2L);
-	
-		int totalArtefactos = 0;
-		Integer[] horasRealesArtefacto = new Integer[sprintSeleccionado.getVtArtefactos().size()];
-		Integer[] horasEstimadasArtefacto = new Integer[sprintSeleccionado.getVtArtefactos().size()];
+		VtSprint sprintSeleccionado = sprintLogic.getVtSprint(1L);
+//		List<VtArtefacto> losArtefactos = vtArtefactoLogic.findArtefactosBySpring(sprintSeleccionado);
+		
+		Long totalEsfuerzo = vtArtefactoLogic.totalEsfuerzoEstimadoArtefactoPorSprint(sprintSeleccionado.getSpriCodigo());
 		
 		Long totalDias = (sprintSeleccionado.getFechaFin().getTime() - sprintSeleccionado.getFechaInicio().getTime());
 		totalDias = TimeUnit.MILLISECONDS.toDays(totalDias);
-		int tiempoTotalEstimado = 0;
-		
-		Integer[] totalHorasPorDia = new Integer[Integer.parseInt(""+totalDias)];
 		
 		DateTime diaInicio = new DateTime(""+sprintSeleccionado.getFechaInicio());
 		
-		DateTime diaAnterior = diaInicio.minusDays(1);
-		
-		DateTime diaSiguiente = diaInicio.plusDays(1);
-		
-		
-		for (VtArtefacto vtArtefacto : sprintSeleccionado.getVtArtefactos()) {
-			tiempoTotalEstimado = tiempoTotalEstimado + vtArtefacto.getEsfuerzoEstimado();
-			horasRealesArtefacto[totalArtefactos] = vtArtefacto.getEsfuerzoReal();
-			horasEstimadasArtefacto[totalArtefactos] = vtArtefacto.getEsfuerzoEstimado();
+		diaInicio = DateTime.forDateOnly(diaInicio.getYear(), diaInicio.getMonth(), diaInicio.getDay());
+				
+		log.info("esf= " + totalEsfuerzo);
+	
+		for (int i = 0; i <= totalDias; i++) {
+			Long tiempoDedicadoDia = vtProgresoArtefactoLogic.sumatoriaTiempoDedicadoPorSprintFecha(sprintSeleccionado.getSpriCodigo(), diaInicio.plusDays(i));
+
+//			if (i==1) {
+//				tiempoDedicadoDia = totalEsfuerzo - tiempoDedicadoDia; 
+//			}else {
+//				tiempoDedicadoDia = vtProgresoArtefactoLogic.sumatoriaTiempoDedicadoPorSprintFecha(sprintSeleccionado.getSpriCodigo(), diaInicio.plusDays(i-1)) - tiempoDedicadoDia;
+//			}
 			
-			log.info("tEstimado" + tiempoTotalEstimado);
-			log.info("horasR" + horasRealesArtefacto[totalArtefactos]);
-			log.info("horasE" + horasEstimadasArtefacto[totalArtefactos]);
 			
-			totalArtefactos += 1;	
+			
+			log.info("fecha= " + diaInicio.plusDays(i));
+			log.info("tiempoDia= " + tiempoDedicadoDia);
 		}
 		
-		log.info(""+diaInicio);
 	}	
 	
 	    

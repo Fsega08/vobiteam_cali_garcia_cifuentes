@@ -63,4 +63,27 @@ public class VtArtefactoDAO extends HibernateDaoImpl<VtArtefacto, Long>
 		return artefactos;
 	}
     
+    @Override
+	public List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo) {
+		Query query = getSession().getNamedQuery("consultarArtefactosPorSprintYEstado");
+		query.setParameter("spriCodigo", spriCodigo);
+		query.setParameter("estaCodigo", estaCodigo);
+
+		List<VtArtefacto> artefactos = (List<VtArtefacto>) query.list();
+		return artefactos;
+	}
+    
+    @Override
+  	public Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo) {
+  		Query query = getSession().getNamedQuery("sumatoriaEsfuerzoEstimadoDeArtefactoPorSprint");
+  		query.setParameter("spriCodigo", spriCodigo);
+  		
+  		Object esfuerzo = query.uniqueResult();
+  		
+  		Long suma = (Long) esfuerzo;
+  		
+  		return suma;
+
+  	}
+    
 }
