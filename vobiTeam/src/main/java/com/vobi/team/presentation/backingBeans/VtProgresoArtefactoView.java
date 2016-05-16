@@ -43,6 +43,10 @@ public class VtProgresoArtefactoView {
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;	
 	
+	private InputText txtEsfuerzoRestante;
+	private InputText txtEsfuerzoReal;
+	private InputText txtPuntos;	
+	
 	private InputText txtTiempoEstimado;
 	private InputTextarea txtDescripcion;
 	
@@ -67,11 +71,9 @@ public class VtProgresoArtefactoView {
 		return artefactoSeleccionado;
 	}
 
-
 	public void setArtefactoSeleccionado(VtArtefacto artefactoSeleccionado) {
 		this.artefactoSeleccionado = artefactoSeleccionado;
 	}
-
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
@@ -81,26 +83,48 @@ public class VtProgresoArtefactoView {
 		this.businessDelegatorView = businessDelegatorView;
 	}
 
-
 	public InputText getTxtTiempoEstimado() {
 		return txtTiempoEstimado;
 	}
-
 
 	public void setTxtTiempoEstimado(InputText txtTiempoEstimado) {
 		this.txtTiempoEstimado = txtTiempoEstimado;
 	}
 
-
 	public InputTextarea getTxtDescripcion() {
 		return txtDescripcion;
 	}
 
-
 	public void setTxtDescripcion(InputTextarea txtDescripcion) {
 		this.txtDescripcion = txtDescripcion;
-	}
+	}	
 	
+	public InputText getTxtEsfuerzoRestante() {
+		return txtEsfuerzoRestante;
+	}
+
+	public void setTxtEsfuerzoRestante(InputText txtEsfuerzoRestante) {
+		this.txtEsfuerzoRestante = txtEsfuerzoRestante;
+	}
+
+	public InputText getTxtEsfuerzoReal() {
+		return txtEsfuerzoReal;
+	}
+
+	public void setTxtEsfuerzoReal(InputText txtEsfuerzoReal) {
+		this.txtEsfuerzoReal = txtEsfuerzoReal;
+	}
+
+	public InputText getTxtPuntos() {
+		return txtPuntos;
+	}
+
+	public void setTxtPuntos(InputText txtPuntos) {
+		this.txtPuntos = txtPuntos;
+	}
+
+
+	//--------------------------------------------------------------------------------------------
 	public void crearAction() {
 		
 		try {
@@ -116,49 +140,40 @@ public class VtProgresoArtefactoView {
 			
 			VtProgresoArtefacto vtProgresoArtefacto =  new VtProgresoArtefacto();		
 			
-			vtProgresoArtefacto.setTiempoDedicado(Integer.parseInt(txtTiempoEstimado.getValue().toString().trim()));
-			
-			vtProgresoArtefacto.setEsfuerzoRestante(artefactoSeleccionado.getEsfuerzoRestante() - (Integer.parseInt(txtTiempoEstimado.getValue().toString().trim())));
-			
-			vtProgresoArtefacto.setPuntos(artefactoSeleccionado.getPuntos());
-			
-			vtProgresoArtefacto.setEsfuerzoReal(artefactoSeleccionado.getEsfuerzoReal()+ vtProgresoArtefacto.getTiempoDedicado());
-			
-			vtProgresoArtefacto.setDescripcion(txtDescripcion.getValue().toString());
-			
-			vtProgresoArtefacto.setFechaCreacion(new Date());
-			
-			vtProgresoArtefacto.setFechaModificacion(new Date());
-			
-			vtProgresoArtefacto.setUsuCreador(vtUsuario.getUsuaCodigo());
-			
-			vtProgresoArtefacto.setUsuModificador(vtUsuario.getUsuaCodigo());
-			
-			vtProgresoArtefacto.setActivo("S");
-			
+			vtProgresoArtefacto.setTiempoDedicado(Integer.parseInt(txtTiempoEstimado.getValue().toString().trim()));			
+			vtProgresoArtefacto.setEsfuerzoRestante(artefactoSeleccionado.getEsfuerzoRestante() - (Integer.parseInt(txtTiempoEstimado.getValue().toString().trim())));			
+			vtProgresoArtefacto.setPuntos(artefactoSeleccionado.getPuntos());			
+			vtProgresoArtefacto.setEsfuerzoReal(artefactoSeleccionado.getEsfuerzoReal()+ vtProgresoArtefacto.getTiempoDedicado());			
+			vtProgresoArtefacto.setDescripcion(txtDescripcion.getValue().toString());			
+			vtProgresoArtefacto.setFechaCreacion(new Date());			
+			vtProgresoArtefacto.setFechaModificacion(new Date());			
+			vtProgresoArtefacto.setUsuCreador(vtUsuario.getUsuaCodigo());			
+			vtProgresoArtefacto.setUsuModificador(vtUsuario.getUsuaCodigo());			
+			vtProgresoArtefacto.setActivo("S");			
 			vtProgresoArtefacto.setVtArtefacto(artefactoSeleccionado);
 			
-			artefactoSeleccionado.setEsfuerzoRestante(vtProgresoArtefacto.getEsfuerzoRestante());
-			
+			artefactoSeleccionado.setEsfuerzoRestante(vtProgresoArtefacto.getEsfuerzoRestante());			
 			artefactoSeleccionado.setEsfuerzoReal(vtProgresoArtefacto.getEsfuerzoReal());
 			
-			businessDelegatorView.saveVtProgresoArtefacto(vtProgresoArtefacto);
-			
+			businessDelegatorView.saveVtProgresoArtefacto(vtProgresoArtefacto);			
 			businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
 
 			FacesUtils.addInfoMessage("El progreso fue agregado con exito");
-			limpiarAction();
+			
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		
-
-		
 	}
-	
 	
 	public void limpiarAction() {
 		txtDescripcion.resetValue();
 		txtTiempoEstimado.resetValue();
+	}
+	
+	public void artefactoSeleccionadoAction(){
+		txtEsfuerzoReal.setValue(artefactoSeleccionado.getEsfuerzoReal());
+		txtEsfuerzoRestante.setValue(artefactoSeleccionado.getEsfuerzoRestante());
+		txtPuntos.setValue(artefactoSeleccionado.getPuntos());
 	}
 }
