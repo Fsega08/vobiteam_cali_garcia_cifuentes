@@ -30,42 +30,57 @@
 				<p:panel id="panelSom">
 
 					<p:selectOneMenu id="somProyecto"
-						binding="#{vtDesarrolladorTreeView.somProyectos}">
+						binding="#{vtDesarrolladorView.somProyectos}">
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
-						<f:selectItems value="#{vtDesarrolladorTreeView.losProyectos}" />
-						<p:ajax listener="#{vtDesarrolladorTreeView.proyectoListener}"
+						<f:selectItems value="#{vtDesarrolladorView.losProyectos}" />
+						<p:ajax listener="#{vtDesarrolladorView.proyectoListener}"
+							update="somBacklogs" />
+					</p:selectOneMenu>
+					
+					<p:selectOneMenu id="somBacklogs"
+						binding="#{vtDesarrolladorView.somBacklogs}">
+						<f:selectItem itemValue="-1" itemLabel="Backlog" />
+						<f:selectItems value="#{vtDesarrolladorView.losBacklogs}" />
+						<p:ajax listener="#{vtDesarrolladorView.backlogListener}"
 							update="dtArtefactos" />
 					</p:selectOneMenu>
+					
+					<div align="center">
+							<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
+								value="Crear Artefacto"
+								update="men, pnlContainer"
+								action="#{vtDesarrolladorView.crearArtefactoAction}" />
+						</div>
 				</p:panel>
 
 				<p:panel id="panelDt">
 					<p:contextMenu for="dtArtefactos" event="click contextmenu">
 						<p:menuitem value="Progreso de este artefacto" update="panelDt"
 							icon="fa fa-clock-o "
-							action="#{vtDesarrolladorTreeView.artefactoSeleccionadoAction}"
+							action="#{vtDesarrolladorView.artefactoSeleccionadoAction}"
 							oncomplete="PF('dlgProgresArtefacto').show()" />
 
 						<p:menuitem value="Historial de Progreso del artefacto" update="panelDt"
 							icon="fa fa-history "
-							action="#{vtDesarrolladorTreeView.historiaProgresoAction}"
+							action="#{vtDesarrolladorView.historiaProgresoAction}"
 							oncomplete="PF('dlgHistoriaArtefacto').show()" />
 							
 						
 						<p:menuitem value="Historial del artefacto" update="panelHistorial"
 							icon="fa fa-history "
 							oncomplete="PF('dlgHistorialArtefacto').show()"
-							action="#{vtDesarrolladorTreeView.artefactoSesionAction}" />
+							action="#{vtDesarrolladorView.artefactoSesionAction}" />
 							
 							
 					</p:contextMenu>
 
 					<p:dataTable id="dtArtefactos"
-						value="#{vtDesarrolladorTreeView.losArtefactos}" var="artefacto"
+						value="#{vtDesarrolladorView.losArtefactos}" var="artefacto"
 						paginator="true" rows="10"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="10, 15" rowKey="#{artefacto.arteCodigo}"
 						emptyMessage="No se encontraron los artefactos"
-						selection="#{vtDesarrolladorTreeView.artefactoSeleccionado}"
+						selection="#{vtDesarrolladorView.artefactoSeleccionado}"
 						selectionMode="single" paginatorPosition="bottom">
 
 						<p:column headerText="Nombre Artefacto"
@@ -107,37 +122,37 @@
 
 								<h:outputText value="Puntos" />
 								<p:inputText id="txtPuntos"
-									binding="#{vtDesarrolladorTreeView.txtPuntos}" disabled="true" />
+									binding="#{vtDesarrolladorView.txtPuntos}" disabled="true" />
 
 								<h:outputText value="Esfuerzo Restante" />
 								<p:inputText id="txtEsfuerzoRestante"
-									binding="#{vtDesarrolladorTreeView.txtEsfuerzoRestante}"
+									binding="#{vtDesarrolladorView.txtEsfuerzoRestante}"
 									disabled="true" />
 
 								<h:outputText value="Esfuerzo Real" />
 								<p:inputText id="txtEsfuerzoReal"
-									binding="#{vtDesarrolladorTreeView.txtEsfuerzoReal}"
+									binding="#{vtDesarrolladorView.txtEsfuerzoReal}"
 									disabled="true" />
 
 								<h:outputText value="Tiempo Dedicado" />
 								<p:inputText id="txtTiempo" placeholder="Tiempo Dedicado"
-									binding="#{vtDesarrolladorTreeView.txtTiempoEstimado}" />
+									binding="#{vtDesarrolladorView.txtTiempoEstimado}" />
 							</h:panelGrid>
 							<h:panelGrid columns="1">
 								<h:outputText value="Descripción del Progreso" />
 								<p:inputTextarea id="txtAreaDescripcion" cols="85"
 									placeholder="Descripción" maxlength="100000000"
-									binding="#{vtDesarrolladorTreeView.txtDescripcion}" />
+									binding="#{vtDesarrolladorView.txtDescripcion}" />
 
 							</h:panelGrid>
 							<br />
 							<p:commandButton id="btnCrearProgreso" icon="fa fa-plus white"
-								action="#{vtDesarrolladorTreeView.crearAction}" value="Crear"
+								action="#{vtDesarrolladorView.crearAction}" value="Crear"
 								update="men, pnlProgreso" />
 
 							<p:commandButton id="btnLimpiarProgreso"
 								icon="fa fa-eraser white"
-								action="#{vtDesarrolladorTreeView.limpiarAction}"
+								action="#{vtDesarrolladorView.limpiarAction}"
 								value="Limpiar" update="men, pnlProgreso" />
 						</p:panel>
 					</p:dialog>
@@ -147,7 +162,7 @@
 						id="dlHistoriaArtefacto" width="700">
 						<p:panel id="pnlHistorial" header="Historia">
 							<p:dataTable id="dtHistoriaProgreso"
-								value="#{vtDesarrolladorTreeView.losProgresos}" var="progreso"
+								value="#{vtDesarrolladorView.losProgresos}" var="progreso"
 								paginator="true" rows="10"
 								paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="10, 15" rowKey="#{artefacto.arteCodigo}"

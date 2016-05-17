@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
@@ -30,8 +31,8 @@ import com.vobi.team.utilities.Utilities;
 
 @ManagedBean
 @ViewScoped
-public class VtDesarrolladorTreeView {
-	public final static Logger log=LoggerFactory.getLogger(VtDesarrolladorTreeView.class);
+public class VtDesarrolladorView {
+	public final static Logger log=LoggerFactory.getLogger(VtDesarrolladorView.class);
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -41,6 +42,9 @@ public class VtDesarrolladorTreeView {
 
 	private SelectOneMenu somProyectos;
 	private List<SelectItem> losProyectos;
+	
+	private SelectOneMenu somBacklogs;
+	private List<SelectItem> losBacklogs;
 
 	private List<VtArtefacto> losArtefactos;
 
@@ -57,6 +61,10 @@ public class VtDesarrolladorTreeView {
 	//.......................................................
 	
 	private List<VtProgresoArtefacto> losProgresos;
+	
+	//.......................................................
+	
+	
 
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();	
@@ -137,6 +145,33 @@ public class VtDesarrolladorTreeView {
 
 	public void setLosArtefactos(List<VtArtefacto> losArtefactos) {
 		this.losArtefactos = losArtefactos;
+	}	
+	
+
+	public SelectOneMenu getSomBacklogs() {
+		return somBacklogs;
+	}
+
+	public void setSomBacklogs(SelectOneMenu somBacklogs) {
+		this.somBacklogs = somBacklogs;
+	}
+
+	public List<SelectItem> getLosBacklogs() {
+		
+		try {
+			if(losBacklogs == null){
+				losBacklogs = new ArrayList<SelectItem>();	
+				
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+		return losBacklogs;
+	}
+
+	public void setLosBacklogs(List<SelectItem> losBacklogs) {
+		this.losBacklogs = losBacklogs;
 	}
 
 	public VtUsuario getDesarrollador() {
@@ -230,10 +265,27 @@ public class VtDesarrolladorTreeView {
 		VtProyecto proyecto = businessDelegatorView.getVtProyecto(Long.parseLong(codigoProyecto));
 
 		if(!codigoProyecto.equals("-1") ){			
+			
+			List<VtPilaProducto> vtPilaProductos =  businessDelegatorView.findBacklogByProyecto(proyecto);
+			
+			for (VtPilaProducto vtPilaProducto : vtPilaProductos) {
+				losBacklogs.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
+			}
+			
+			
+		}
+	}
+	
+	public void backlogListener() throws Exception{
+		String codigoBacklog = somBacklogs.getValue().toString().trim();
+
+		VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(Long.parseLong(codigoBacklog));
+
+		if(!codigoBacklog.equals("-1") ){			
 
 			for (VtUsuarioArtefacto usuarioArtefacto : desarrollador.getVtUsuarioArtefactos()) {				
 
-				if(proyecto.getProyCodigo() == usuarioArtefacto.getVtArtefacto().getVtPilaProducto().getVtProyecto().getProyCodigo()){
+				if(vtPilaProducto.getPilaCodigo() == usuarioArtefacto.getVtArtefacto().getVtPilaProducto().getPilaCodigo()){
 					losArtefactos.add(usuarioArtefacto.getVtArtefacto());
 				}
 			}
@@ -297,7 +349,28 @@ public class VtDesarrolladorTreeView {
 		txtDescripcion.resetValue();
 		txtTiempoEstimado.resetValue();
 	}
+	// Crear Artefacto //
+	
+	public String crearArtefactoAction() throws NumberFormatException, Exception{
+		
+		String codigoProyecto = somProyectos.getValue().toString().trim();		
+		String codigoBacklog = somBacklogs.getValue().toString().trim();
+		
+		if(!codigoProyecto.equals("-1") &&  !codigoBacklog.equals("-1")){
 
+			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(Long.parseLong(codigoBacklog));
+			
+
+			FacesUtils.putinSession("backlogSeleccionado", vtPilaProducto);
+			
+			return "/desarrollador/CrearArtefactosDesarrollador.xhtml";
+		}else{
+			FacesUtils.addErrorMessage("No se ha especificado un proyecto o una pila de productos validos");
+		}
+		
+		
+		return "";
+	}
 	
 	// HISTORIAL DEL ARTEFACTO //
 
