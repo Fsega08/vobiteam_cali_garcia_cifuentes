@@ -11,7 +11,7 @@
         
         <intercept-url pattern="/dashboard.*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
         
-        <intercept-url pattern="/desarrollador/*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
+        <intercept-url pattern="/desarrollador/*" access="hasRole('ROLE_DESARROLLADOR')"/>
         
         
       	<intercept-url pattern="/login.xhtml" access="permitAll" />

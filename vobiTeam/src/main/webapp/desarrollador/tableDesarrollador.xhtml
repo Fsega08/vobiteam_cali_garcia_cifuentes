@@ -45,10 +45,18 @@
 							action="#{vtDesarrolladorTreeView.artefactoSeleccionadoAction}"
 							oncomplete="PF('dlgProgresArtefacto').show()" />
 
-						<p:menuitem value="Historia de este artefacto" update="panelDt"
+						<p:menuitem value="Historial de Progreso del artefacto" update="panelDt"
 							icon="fa fa-history "
 							action="#{vtDesarrolladorTreeView.historiaProgresoAction}"
 							oncomplete="PF('dlgHistoriaArtefacto').show()" />
+							
+						
+						<p:menuitem value="Historial del artefacto" update="panelHistorial"
+							icon="fa fa-history "
+							oncomplete="PF('dlgHistorialArtefacto').show()"
+							action="#{vtDesarrolladorTreeView.artefactoSesionAction}" />
+							
+							
 					</p:contextMenu>
 
 					<p:dataTable id="dtArtefactos"
@@ -67,21 +75,23 @@
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
-						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}" filterMatchMode="contains"
-							sortBy="#{artefacto.usuCreador}">
+						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}"
+							filterMatchMode="contains" sortBy="#{artefacto.usuCreador}">
 							<h:outputText value="#{artefacto.usuCreador}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 
 						<p:column headerText="Estado de los Artefactos"
-							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}" filterMatchMode="contains">
+							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}"
+							filterMatchMode="contains">
 							<h:outputText value="#{artefacto.activo}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
 						<p:column headerText="Sprint"
-							filterBy="#{artefacto.vtSprint.spriCodigo}" filterMatchMode="contains"
+							filterBy="#{artefacto.vtSprint.spriCodigo}"
+							filterMatchMode="contains"
 							sortBy="#{artefacto.vtSprint.spriCodigo}">
 							<h:outputText value="#{artefacto.vtSprint.nombre}"
 								title="Presiona click derecho para ver las opciones" />
@@ -132,8 +142,6 @@
 						</p:panel>
 					</p:dialog>
 
-
-
 					<p:dialog header="Progresos en el Artefacto"
 						widgetVar="dlgHistoriaArtefacto" modal="true"
 						id="dlHistoriaArtefacto" width="700">
@@ -161,7 +169,7 @@
 								<p:column headerText="Fecha"
 									filterBy="#{progreso.fechaCreacion}"
 									sortBy="#{progreso.fechaCreacion}" filterMatchMode="contains">
-									<h:outputText value="#{progreso.fechaCreacion}" >
+									<h:outputText value="#{progreso.fechaCreacion}">
 										<f:convertDateTime dateStyle="full" type="date" />
 									</h:outputText>
 								</p:column>
@@ -169,6 +177,178 @@
 							</p:dataTable>
 						</p:panel>
 					</p:dialog>
+					
+					
+					<p:dialog header="Historial Artefacto"
+						widgetVar="dlgHistorialArtefacto" modal="true"
+						id="dlHistorialArtefacto" width="1200">
+						<h:panelGrid columns="1" id="panelHistorial">
+							<p:contextMenu for="dtHistorialArtefactos"
+								event="click contextmenu">
+								<p:menuitem value="Ver Historia"
+									update="panelHistorial, pnlModificarHistoriaArtefacto"
+									icon="fa fa-eye" oncomplete="PF('dlHistDet').show()"
+									action="#{vtHistorialArtefactoView.hidratarArtefactoMod}" />
+
+							</p:contextMenu>
+
+							<p:dataTable id="dtHistorialArtefactos"
+								value="#{vtHistorialArtefactoView.elHistorialArtefacto}"
+								var="historialArtefacto" paginator="true" rows="5"
+								rowKey="#{historialArtefacto.historiaCodigo}"
+								selection="#{vtHistorialArtefactoView.historialArtefactoSeleccionado}"
+								selectionMode="single" rendered="true"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
+								emptyMessage="No se encontraron historias de este artefacto.">
+
+								<p:column headerText="Codigo Historial"
+									filterBy="#{historialArtefacto.historiaCodigo}"
+									sortBy="#{historialArtefacto.historiaCodigo}">
+									<h:outputText value="#{historialArtefacto.historiaCodigo}" />
+								</p:column>
+
+								<p:column headerText="Nombre Artefacto"
+									filterBy="#{historialArtefacto.titulo}"
+									sortBy="#{historialArtefacto.titulo}">
+									<h:outputText value="#{historialArtefacto.titulo}" />
+								</p:column>
+
+								<p:column headerText="Fecha Creación"
+									filterBy="#{historialArtefacto.fechaCreacion}"
+									sortBy="#{historialArtefacto.fechaCreacion}">
+									<h:outputText value="#{historialArtefacto.fechaCreacion}">
+										<f:convertDateTime dateStyle="full" type="date" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Usuario Creador"
+									filterBy="#{historialArtefacto.usuCreador}"
+									sortBy="#{historialArtefacto.usuCreador}">
+									<h:outputText value="#{historialArtefacto.usuCreador}" />
+								</p:column>
+
+								<p:column headerText="Usuario Modificador"
+									filterBy="#{historialArtefacto.usuModificador}"
+									sortBy="#{historialArtefacto.usuModificador}">
+									<h:outputText value="#{historialArtefacto.usuModificador}" />
+								</p:column>
+
+							</p:dataTable>
+						</h:panelGrid>
+					</p:dialog>
+
+					<p:dialog header="Historia Detallada del Artefacto"
+						widgetVar="dlHistDet" modal="true" id="modHistArt" width="800"
+						resizable="false">
+
+						<p:panel header="Historia Detallada del Artefacto"
+							id="pnlModificarHistoriaArtefacto">
+							<div class="ui-fluid">
+
+								<h:panelGrid columns="5" layout="grid">
+									<h:outputText value="Titulo del artefacto" />
+									<p:inputText id="txtHMNombre" placeholder="Título"
+										binding="#{vtHistorialArtefactoView.txtHistorialNombre}"
+										disabled="true" />
+
+									<p:spacer width="100" height="10" />
+
+									<h:outputText value="Origen del artefacto" />
+									<p:inputText id="txtHMOrigen" placeholder="Origen"
+										binding="#{vtHistorialArtefactoView.txtHistorialOrigen}"
+										disabled="true" />
+								</h:panelGrid>
+
+								<h:panelGrid columns="1" layout="grid">
+
+									<h:outputText value="Descripción del artefacto" />
+									<p:inputTextarea id="txtAreaHMDescripcion" cols="148"
+										placeholder="Descripción" maxlength="100000000"
+										binding="#{vtHistorialArtefactoView.txtHtistorialDescripcion}"
+										disabled="true" />
+								</h:panelGrid>
+
+								<h:panelGrid columns="5" id="panelHMGrid">
+
+									<h:outputText value="Esfuerzo Estimado" />
+									<p:inputText id="txtHMEsfuerzoEstimado"
+										placeholder="Esfuerzo Estimado"
+										binding="#{vtHistorialArtefactoView.txtHistorialEsfuerzoEstimado}"
+										disabled="true" />
+
+
+									<p:spacer width="100" height="10" />
+
+									<h:outputText value="Esfuerzo Restante" />
+									<p:inputText id="txtHMEsfuerzoRestante"
+										placeholder="Esfuerzo Restante"
+										binding="#{vtHistorialArtefactoView.txtHistorialEsfuerzoRestante}"
+										disabled="true" />
+
+									<h:outputText value="Esfuerzo Real" />
+									<p:inputText id="txtHMEsfuerzoReal" placeholder="Esfuerzo Real"
+										binding="#{vtHistorialArtefactoView.txtHistorialEsfuerzoReal}"
+										disabled="true" />
+
+									<p:spacer width="100" height="10" />
+
+									<h:outputText value="Puntos del artefacto" />
+									<p:inputText id="txtHMPuntos" placeholder="Puntos"
+										binding="#{vtHistorialArtefactoView.txtHistorialPuntos}"
+										disabled="true" />
+
+									<h:outputText value="Artefacto Activo?" />
+									<p:inputText id="txtHActivo" placeholder="Artefacto Activo"
+										binding="#{vtHistorialArtefactoView.txtHistorialActivo}"
+										disabled="true" />
+
+									<p:spacer width="100" height="10" />
+
+									<h:outputText value="Estado del artefacto" />
+									<p:inputText id="txtHMEsta" placeholder="Estado"
+										binding="#{vtHistorialArtefactoView.txtHistorialEstado}"
+										disabled="true" />
+
+									<h:outputText value="Tipo Artefacto" />
+									<p:inputText id="txtHTipo" placeholder="Tipo Artefacto"
+										binding="#{vtHistorialArtefactoView.txtHistorialTipo}"
+										disabled="true" />
+
+									<p:spacer width="100" height="10" />
+
+									<h:outputText value="Prioridad del artefacto" />
+									<p:inputText id="txtHMPrioridad" placeholder="Prioridad"
+										binding="#{vtHistorialArtefactoView.txtHistorialPrio}"
+										disabled="true" />
+
+									<h:outputText value="Pila Producto" />
+									<p:inputText id="txtHPila" placeholder="Pila Artefacto"
+										binding="#{vtHistorialArtefactoView.txtHistorialPila}"
+										disabled="true" />
+
+									<p:spacer width="100" height="10" />
+
+									<h:outputText value="Sprint del artefacto" />
+									<p:inputText id="txtHMSprint" placeholder="Sprint"
+										binding="#{vtHistorialArtefactoView.txtHistorialSprint}"
+										disabled="true" />
+
+									<br />
+								</h:panelGrid>
+							</div>
+
+							<div align="center">
+								<br />
+								<p:commandButton id="btnVolverAEstado"
+									binding="#{vtHistorialArtefactoView.btnAsignar}"
+									icon="fa fa-pencil white" value="Restaurar artefacto"
+									action="#{vtHistorialArtefactoView.asignarArtefactoAction}"
+									update="panelHistorial, dtArtefactos" />
+							</div>
+						</p:panel>
+					</p:dialog>
+
 					<!-- ................................................Dialog.................................................. -->
 				</p:panel>
 

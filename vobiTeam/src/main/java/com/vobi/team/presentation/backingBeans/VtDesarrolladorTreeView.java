@@ -299,8 +299,11 @@ public class VtDesarrolladorTreeView {
 	}
 
 	
+	// HISTORIAL DEL ARTEFACTO //
 
-
+	public void artefactoSesionAction() throws Exception {
+		FacesUtils.putinSession("artefactoSeleccionado",artefactoSeleccionado);
+	}
 
 
 }
