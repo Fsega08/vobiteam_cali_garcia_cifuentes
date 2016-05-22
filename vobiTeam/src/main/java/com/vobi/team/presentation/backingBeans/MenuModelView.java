@@ -1,12 +1,9 @@
 package com.vobi.team.presentation.backingBeans;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-
 
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
@@ -16,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vobi.team.modelo.VtUsuario;
-import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -33,6 +28,7 @@ public class MenuModelView {
 
 	private MenuModel menuModel;
 
+	@SuppressWarnings("unused")
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 	
 	private Long permisos;
@@ -75,8 +71,30 @@ public class MenuModelView {
 	}
 
 	private void menuCliente() {
-		// TODO Auto-generated method stub
+		
+		DefaultMenuItem menuProyectos = new DefaultMenuItem("Ver Proyectos");
+		menuProyectos.setOutcome("/cliente/TreeTableCliente.xhtml");
+		menuProyectos.setId("sm_TreeCliente");
+		menuProyectos.setIcon("icon-indent-right");
+		menuModel.addElement(menuProyectos);
+		
+		DefaultSubMenu orientacion = new DefaultSubMenu("Orientación del menu");
 
+		DefaultMenuItem izquierdaItem = new DefaultMenuItem("Izquierda");
+		izquierdaItem.setIcon("icon-align-left");
+		izquierdaItem.setId("sm_ltr");
+		izquierdaItem.setOnclick("$('body').removeClass('ui-sentinel-rtl');return false;");
+		
+		DefaultMenuItem derechaItem = new DefaultMenuItem("Derecha");
+		derechaItem.setIcon("icon-align-right");
+		derechaItem.setId("sm_rtl");
+		derechaItem.setOnclick("$('body').addClass('ui-sentinel-rtl');return false;");
+
+		orientacion.setId("sm_orientation");
+		orientacion.setIcon("icon-align-right");
+		orientacion.addElement(derechaItem);
+		orientacion.addElement(izquierdaItem);
+		menuModel.addElement(orientacion);
 	}
 
 	private void menuDesarrollador() {

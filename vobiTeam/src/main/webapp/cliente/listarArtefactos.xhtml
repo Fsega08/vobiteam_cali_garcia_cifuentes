@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="formDialog">
+			<p:growl id="men" />
+
+			<p:panel header="Artefactos Sin Asignar a Sprints" id="pnlDashboard">
+				<h:panelGrid columns="1" id="panelArtAll">
+
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
+								value="Reportar"
+								binding="#{vtArtefactoView.btnCArtefacto}"
+								action="#{vtArtefactoView.crearArtefactoAction}" />
+						</div>
+					</p:panel>					
+
+
+
+					<p:dataTable id="dtArtefactos"
+						value="#{vtArtefactoView.losArtefactos}" var="artefacto"
+						paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10,15" rendered="true"
+						rowKey="#{artefacto.arteCodigo}"
+						selection="#{vtArtefactoView.artefactoSeleccionado}"
+						emptyMessage="No se encontraron artefactos en esta pila de producto, puedes crear uno."
+						selectionMode="single" paginatorPosition="bottom">
+
+						<p:column headerText="Nombre Artefacto"
+							filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+							filterMatchMode="contains">
+							<h:outputText value="#{artefacto.titulo}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
+
+						<p:column headerText="Usuario" filterBy="#{artefacto.usuCreador}"
+							sortBy="#{artefacto.usuCreador}">
+							<h:outputText value="#{artefacto.usuCreador}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
+
+						<p:column headerText="Puntos" filterBy="#{artefacto.puntos}"
+							sortBy="#{artefacto.puntos}">
+							<h:outputText value="#{artefacto.puntos}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
+
+						<p:column headerText="Estado de los Artefactos"
+							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}">
+							<h:outputText value="#{artefacto.activo}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
+
+
+					</p:dataTable>
+				</h:panelGrid>
+			</p:panel>
+
+			<p:panel>
+				<h:panelGrid columns="1" id="panelGrid2">
+					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
+						action="#{vtTreeClienteView.regresarAction}"
+						value="Regresar a Empresas" update="formDialog" />
+
+					<p:commandButton id="btnSprint" icon="fa fa-arrow-right white"
+						action="#{vtTreeClienteView.sprintAction}"
+						value="Ir a la lista de Sprints" update="formDialog" />
+				</h:panelGrid>
+			</p:panel>	
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
