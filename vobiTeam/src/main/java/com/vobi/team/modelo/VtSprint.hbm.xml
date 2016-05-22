@@ -8,10 +8,10 @@
             <column name="spri_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtEstadoSprint" class="com.vobi.team.modelo.VtEstadoSprint" fetch="select">
+        <many-to-one name="vtEstadoSprint" class="com.vobi.team.modelo.VtEstadoSprint" fetch="select" lazy="false">
             <column name="estspr_codigo" />
         </many-to-one>
-        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select">
+        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select" lazy="false">
             <column name="pila_codigo" not-null="true" />
         </many-to-one>
         <property name="nombre" type="java.lang.String">
