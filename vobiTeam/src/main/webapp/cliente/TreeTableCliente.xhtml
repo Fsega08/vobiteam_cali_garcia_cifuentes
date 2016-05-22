@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+<!--..............................................Form............................................... -->
+		<h:form id="formDialog">
+			<p:growl id="men" />
+			<p:panel id="pnlTreeTable" header="Informacion de las Empresas">
+				<p:panel id="panelBotones">
+					<div align="center">
+						<p:commandButton id="btnCrearEmpresaStatic" value="Crear Empresa"
+							icon="fa fa-plus white" onclick="PF('dlgCrearEmpresa').show();" />
+					</div> 
+				</p:panel>
+<!--...............................contextmenu Backlog....................... -->
+				<p:contextMenu for="TreeTable" nodeType="Backlog"
+					event="contextmenu">					
+					<p:menuitem value="Ver lista de artefactos sin asignar"
+						update="formDialog" icon="fa fa-list "
+						action="#{vtEmpresaThreeView.artefactoListener}" />
+
+					<p:menuitem value="Ver lista Sprint" update="formDialog"
+						icon="fa fa-list " action="#{vtEmpresaThreeView.sprintListener}" />
+				</p:contextMenu>
+<!--...............................contextmenu Backlog....................... -->
+
+<!--...............................TreeTable................................... -->
+				<p:treeTable value="#{vtEmpresaThreeView.root}" var="empresa"
+					selectionMode="single" id="TreeTable"
+					selection="#{vtEmpresaThreeView.selectedNode}">
+
+					<p:column headerText="Nombre">
+						<h:outputText value="#{empresa.nombre}" />
+					</p:column>
+					<p:column headerText="Fecha De Creación">
+						<h:outputText value="#{empresa.fechaCreacion}">
+							<f:convertDateTime dateStyle="full" type="date" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Estado">
+						<h:outputText value="#{empresa.activo}" />
+					</p:column>
+
+				</p:treeTable>
+<!--...............................TreeTable................................... -->
+<!--..............................................Crear Empresa................................................... -->
+			<p:dialog header="Crear Empresa" widgetVar="dlgCrearEmpresa"
+				modal="true" width="500" resizable="false">
+				<div align="center">
+					<p:panel id="panelCrearEmpresa" header="Crear Empresa">
+						<h:panelGrid columns="2">
+
+							<h:outputText value="Identificacion de la empresa" />
+							<p:inputText id="txtEmpresaCIdentificacion"
+								placeholder="Identificación (NIT)"
+								binding="#{vtEmpresaThreeView.txtEmpresaCIdentificacion}"
+								maxlength="50" />
+
+							<h:outputText value="Nombre de la Empresa" />
+							<p:inputText id="txtEmpresaCNombre" placeholder="Nombre"
+								binding="#{vtEmpresaThreeView.txtEmpresaCNombre}" maxlength="60" />
+
+
+						</h:panelGrid>
+						<br />
+						<p:commandButton id="btnCrearEmpresa"
+							binding="#{vtEmpresaThreeView.btnEmpresaCCrear}"
+							icon="fa fa-plus white"
+							action="#{vtEmpresaThreeView.crearEmpresaAction}" value="Crear"
+							update="panelCrearEmpresa,pnlTreeTable,men" />
+					
+						<p:commandButton id="btnClearEmpresa" icon="fa fa-eraser white"
+							action="#{vtEmpresaThreeView.limpiarCrearEmpresaAction}"
+							value="Limpiar" update="panelCrearEmpresa" />
+					</p:panel>
+
+				</div>
+			</p:dialog>
+<!--..............................................Crear Empresa............................................... -->
+			</p:panel>
+		</h:form>
+<!--..............................................Form............................................... -->
+	</ui:define>
+
+</ui:composition>
