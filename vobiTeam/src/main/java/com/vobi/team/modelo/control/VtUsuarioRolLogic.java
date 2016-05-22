@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vobi.team.dataaccess.dao.IVtUsuarioRolDAO;
 import com.vobi.team.exceptions.ZMessManager;
+import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
@@ -504,5 +505,20 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
     	
     	return (usuariosRol != null && !usuariosRol.isEmpty()
     			? usuariosRol : null);
+	}
+
+    @Transactional(readOnly = true)
+	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario) {
+    	
+    	Long permisos = vtUsuarioRolDAO.rolMasBajoPorUsuario(vtUsuario);
+    	
+    	return (permisos != null && permisos != 0
+				? permisos : 0L);	
+	}
+
+    @Transactional(readOnly = true)
+	public List<VtUsuarioRol> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa) {
+		
+		return vtUsuarioRolDAO.ListaDesarrolladoresVortexYClientesDeOtraEmpresa(vtEmpresa);
 	}
 }

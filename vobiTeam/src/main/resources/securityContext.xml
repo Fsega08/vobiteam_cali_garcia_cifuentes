@@ -9,10 +9,11 @@
     <http auto-config="true" >
         <intercept-url pattern="/XHTML/*" access="hasRole('ROLE_ADMINISTRADOR')" />
         
-        <intercept-url pattern="/dashboard.*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
+        <intercept-url pattern="/perfil.*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
         
         <intercept-url pattern="/desarrollador/*" access="hasRole('ROLE_DESARROLLADOR')"/>
         
+        <intercept-url pattern="/cliente/*" access="hasRole('ROLE_CLIENTE')"/>
         
       	<intercept-url pattern="/login.xhtml" access="permitAll" />
         

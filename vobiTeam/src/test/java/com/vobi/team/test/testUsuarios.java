@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtSprint;
@@ -23,6 +24,7 @@ import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
+import com.vobi.team.modelo.control.IVtEmpresaLogic;
 import com.vobi.team.modelo.control.IVtInteresLogic;
 import com.vobi.team.modelo.control.IVtProyectoLogic;
 import com.vobi.team.modelo.control.IVtProyectoUsuarioLogic;
@@ -65,7 +67,10 @@ public class testUsuarios {
 
 	@Autowired
 	private IVtArtefactoLogic vtArtefactoLogic;
-
+	
+	@Autowired
+	private IVtEmpresaLogic vtEmpresaLogic;
+	
 	//@Test
 	public void testA() throws Exception {
 
@@ -236,22 +241,23 @@ public class testUsuarios {
 	
 	@Test
 	public void testM() throws Exception{
-		VtUsuario usuario = vtUsuarioLogic.getVtUsuario(4L);
+//		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
+//		
+//		log.info("Permiso= "+ vtUsuarioRolLogic.rolMasBajoPorUsuario(vtUsuario));
+//		
+	}
+	
+	@Test
+	public void testN() throws Exception{
+		VtEmpresa vtEmpresa = vtEmpresaLogic.getVtEmpresa(2L);
 		
-		log.info("Nombre: "+ usuario.getNombre()+"\n");
+		List<VtUsuarioRol> losUsuRoles = vtUsuarioRolLogic.ListaDesarrolladoresVortexYClientesDeOtraEmpresa(vtEmpresa);
 		
-		for (VtUsuarioRol usuarioRol : usuario.getVtUsuarioRols()) {
-			log.info("Rol: "+usuarioRol.getVtRol().getRolNombre()+"\n");
+		for (VtUsuarioRol vtUsuarioRol : losUsuRoles) {
+			log.info(""+vtUsuarioRol.getVtUsuario().getNombre());
+			log.info(""+vtUsuarioRol.getVtUsuario().getVtEmpresa().getNombre());
+			log.info(""+vtUsuarioRol.getVtRol().getRolNombre());
 		}
-		
-		for (VtProyectoUsuario proyectoUsuario : usuario.getVtProyectoUsuarios()) {
-			log.info("Proyecto: "+proyectoUsuario.getVtProyecto().getNombre()+"\n");
-		}
-		
-		for (VtUsuarioArtefacto usuarioArtefacto : usuario.getVtUsuarioArtefactos()) {
-			log.info(""+usuarioArtefacto.getVtArtefacto().getTitulo());
-		}
-		
 	}
 
 }

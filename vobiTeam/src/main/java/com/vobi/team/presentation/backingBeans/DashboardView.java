@@ -41,12 +41,12 @@ public class DashboardView {
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;	
 	private List<VtRol> usuarioRol;
-	
+
 	private List<VtUsuarioArtefacto> usuarioArtefactos;
 	private int cantidadArtefactos;
 	private int empresas;
 	private int proyectos;
-	
+
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
 	private VtUsuario usuSesion;
@@ -61,16 +61,16 @@ public class DashboardView {
 
 			empresas = businessDelegatorView.getVtEmpresa().size();
 			proyectos = businessDelegatorView.getVtProyecto().size();
-			
-			
-			
+
+
+
 		} catch (Exception e) {
 			//log.error(e.getMessage());
 		}
 
 
 	}
-	
+
 	public VtUsuario getUsuSesion() {
 		return usuSesion;
 	}
@@ -82,7 +82,7 @@ public class DashboardView {
 	public void setCantidadArtefactos(int cantidadArtefactos) {
 		this.cantidadArtefactos = cantidadArtefactos;
 	}
-	
+
 	public int getEmpresas() {
 		return empresas;
 	}
@@ -98,7 +98,7 @@ public class DashboardView {
 	public void setProyectos(int proyectos) {
 		this.proyectos = proyectos;
 	}
-	
+
 	public void setUsuSesion(VtUsuario usuSesion) {
 		this.usuSesion = usuSesion;
 	}
@@ -114,11 +114,11 @@ public class DashboardView {
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
-	
+
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
 	}
-	
+
 	public List<VtRol> getUsuarioRol() {
 
 		try {
@@ -127,7 +127,7 @@ public class DashboardView {
 			}
 
 		} catch (Exception e) {
-	//		log.error(e.getMessage());
+			//		log.error(e.getMessage());
 		}
 
 		return usuarioRol;
@@ -136,7 +136,7 @@ public class DashboardView {
 	public void setUsuarioRol(List<VtRol> usuarioRol) {
 		this.usuarioRol = usuarioRol;
 	}
-	
+
 	public String sprintAction(){
 		try {
 			usuarioRol = businessDelegatorView.getRolesAsignados(usuSesion);
@@ -150,12 +150,26 @@ public class DashboardView {
 					return "/dashboard.xhtml";
 				}
 			}
-			
+
 			return "";
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			return "";
 		}
 
+	}
+
+	public String retornarDashboard() {
+		Long permisos = (Long) FacesUtils.getfromSession("permisos");
+
+		if (permisos == 1L) {
+			return "/XHTML/dashboard.xhtml";
+		}else if (permisos == 2L) {
+			return "/desarrollador/dashboard.xhtml";
+		}else if (permisos == 3L) {
+			return "/cliente/dashboard.xhtml";
+		}else {
+			return "";
+		}
 	}
 }

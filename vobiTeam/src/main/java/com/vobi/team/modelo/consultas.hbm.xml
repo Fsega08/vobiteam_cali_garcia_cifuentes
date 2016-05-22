@@ -46,5 +46,19 @@
 	   	]]>
 	</query>
 	
+	<query name="rolActivoMasBajoPorUsuario">
+	   	<![CDATA[
+	   		select min(usuR.vtRol.rolCodigo) from VtUsuarioRol as usuR where usuR.vtUsuario.usuaCodigo =:usuaCodigo and usuR.activo = 'S'
+	   	]]>
+	</query>
+	
+	<query name="ListaDesarrolladoresVortexYClientesDeOtraEmpresa">
+	   	<![CDATA[
+	   		select usuR from VtUsuario as usu,VtUsuarioRol as usuR where 
+	   		(usu.vtEmpresa.emprCodigo = 1 and usuR.vtRol.rolCodigo = 2 and usu.usuaCodigo = usuR.vtUsuario.usuaCodigo and usu.activo = 'S' and usuR.activo = 'S') 
+	   		or (usu.vtEmpresa.emprCodigo =:emprCodigo and usuR.vtRol.rolCodigo = 3 and usu.usuaCodigo = usuR.vtUsuario.usuaCodigo and usu.activo = 'S' and usuR.activo = 'S')
+	   	]]>
+	</query>
+	
 
 </hibernate-mapping>

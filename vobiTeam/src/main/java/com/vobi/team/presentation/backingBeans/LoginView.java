@@ -78,7 +78,7 @@ public class LoginView {
         this.userId = userId;
     }
 
-    public String login() {
+    public String login() throws Exception {
         try {
             Authentication request = new UsernamePasswordAuthenticationToken(this.getUserId(),
                     this.getPassword());
@@ -88,12 +88,30 @@ public class LoginView {
 
             FacesUtils.getHttpSession(true)
                       .setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+            
+            
+            VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(userId);
+            Long permisos = businessDelegatorView.rolMasBajoPorUsuario(vtUsuario);
+            
+            FacesUtils.putinSession("permisos", permisos);
+            
+            if (permisos == 0L) {
+				throw new Exception("No tiene permisos?!");
+			}else if (permisos == 1L) {
+				return "/XHTML/dashboard.xhtml";
+			}else if (permisos == 2L) {
+				return "/desarrollador/dashboard.xhtml";
+			}else if (permisos == 3L) {
+				return "/cliente/dashboard.xhtml";
+			}else{
+				throw new Exception();
+			}
+            
         } catch (AuthenticationException e) {          
-
+        	FacesUtils.putinSession("permisos", 0L);
             return "/login.xhtml";
         }
-
-        return "/dashboard.xhtml";
+        
     }
     
     

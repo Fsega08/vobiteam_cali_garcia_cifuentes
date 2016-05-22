@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#9fadb5'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #9fadb5;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="EmptyBox20"></div>
+
+                <div class="Container30 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                            <i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>
+                            <div class="Fs24 Fright MarTop10 leaden Wid70"><h:outputText class="hardblue" value="#{dashboardView.usuSesion.nombre}" />, Bienvenido</div>
+                            <div class="Fs12 Fright leaden Wid70">Tienes <span class="red"><h:outputText class="red" value="#{dashboardView.cantidadArtefactos}" /> tareas asignadas</span> !</div>
+                            <div class="EmptyBox10"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+                            <div class="EmptyBox10"></div>
+                            <div class="Fs16 Fright">
+                                <a href="#" class="DispInlBlock Wid100 Fleft Fs16 MarRight20"><i class="icon-briefcase hardblue"> Tareas (<h:outputText class="hardblue" value="#{dashboardView.cantidadArtefactos}" />)</i></a>
+                                
+                                <a href="/vobiTeam/perfil.xhtml" class="DispInlBlock Fleft Fs16 Wid100 MarRight20"><i class="icon-sliders hardblue"> Ir a perfil</i></a>
+                             
+                                <p:commandLink class="icon-list DispInlBlock Fleft Fs16 Wid100 MarRight20" action="#{dashboardView.sprintAction}" value="Ir a Empresas" />
+                            </div>
+                         
+
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container30 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                            <div class="Container">
+                                <i class=" icon-data-science-inv Fs50 Fleft Wid25 orange TexAlCenter"></i>
+                                <div class="Fs24 Fright MarTop10 leaden Wid70">Datos Generales</div>
+                                
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Empresas Registradas<br/><span class="Fs24 orange"><h:outputText value="#{dashboardView.empresas}" /></span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Proyectos Registrados<br/><span class="Fs24 red"><h:outputText value="#{dashboardView.proyectos}" /></span></div>
+                                <div class="Fs12 Fright leaden Wid100 TexAlCenter">Artefactos Asignados<br/><span class="Fs24 hardblue"><h:outputText class="hardblue" value="#{dashboardView.cantidadArtefactos}" /></span></div>
+                                <div class="EmptyBox10"></div>
+                                
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container30 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height:300px">
+                            <div class="Fs24 MarTop10 leaden Wid100 TexAlCenter">Customer Report</div>
+                            <p:chart type="pie" model="#{chartView.pieModel}" style="height:200px" responsive="true"/>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="EmptyBox10"></div>
+            </div>
+        </div>
+
+        
+
+      
+    </ui:define>
+
+</ui:composition>

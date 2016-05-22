@@ -1250,5 +1250,10 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		
 	}
 
+	@Override
+	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario) {
+		return vtUsuarioRolLogic.rolMasBajoPorUsuario(vtUsuario);
+	}
+
 
 }

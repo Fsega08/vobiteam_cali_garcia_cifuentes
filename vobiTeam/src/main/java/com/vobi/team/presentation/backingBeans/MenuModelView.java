@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
+import com.vobi.team.utilities.FacesUtils;
 
 
 
@@ -33,31 +34,16 @@ public class MenuModelView {
 	private MenuModel menuModel;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-
+	
+	private Long permisos;
+	
 	@PostConstruct
 	public void init() {
 		try {
 			menuModel = new DefaultMenuModel();
-			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			List<VtUsuarioRol> vtUsuarioRoles = businessDelegatorView.findUsuarioRolbyUsuario(vtUsuario);
-			int permisos = businessDelegatorView.getVtRol().size();
-
-			for (VtUsuarioRol vtUsuarioRol : vtUsuarioRoles) {
-				if (vtUsuarioRol.getVtRol().getRolCodigo() == 3L) {
-					if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
-						permisos = 3;
-					}
-				}else if (vtUsuarioRol.getVtRol().getRolCodigo() == 2L) {
-					if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
-						permisos = 2;
-					}
-				}else if (vtUsuarioRol.getVtRol().getRolCodigo() == 1L) {
-					if (permisos > vtUsuarioRol.getVtRol().getRolCodigo()) {
-						permisos = 1;
-					}
-				}
-			}
-
+			
+			permisos = (Long) FacesUtils.getfromSession("permisos");
+			
 			if (permisos == 1) {
 				menuAdministrador();
 			}else if (permisos == 2) {

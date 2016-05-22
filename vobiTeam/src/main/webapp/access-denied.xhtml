@@ -15,7 +15,7 @@
 </h:head>
 
 <h:body class="fontRegular red-back">
-    
+    <h:form id="form">
     <div class="Container100 Top20Percent PosAbsolute MarAuto OvHidden">
         <div class="Wid50 MarAuto OvHidden TexAlCenter">
             <h:graphicImage name="images/access-denied.svg" library="sentinel-layout" style="width: 140px;"/>
@@ -25,11 +25,11 @@
             <span class="white Wid100 DispBlock Fs12">Sorry, but you have no access to this page.<br/>
             </span>
             <div class="EmptyBox20"></div>
-            <p:button value="Back to Dashboard" styleClass="Fs24" href="http://localhost:8080/vobiTeam/dashboard.jsf"></p:button>
+            <p:commandButton value="Back to Dashboard" styleClass="Fs24" action="#{dashboardView.retornarDashboard}" update="form" />
             <div class="EmptyBox50"></div>
         </div>
     </div>
-    
+    </h:form>
 </h:body>
 
 </html>

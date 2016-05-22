@@ -1,5 +1,6 @@
 package com.vobi.team.modelo.control;
 
+import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
@@ -66,4 +67,8 @@ public interface IVtUsuarioRolLogic {
     
     public VtUsuarioRol findUsuarioRolByUsuarioAndRol(Long usuarioCodigo, Long rolCodigo);
 	
+    public Long rolMasBajoPorUsuario(VtUsuario vtUsuario);
+
+	public List<VtUsuarioRol> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa);
+
 }

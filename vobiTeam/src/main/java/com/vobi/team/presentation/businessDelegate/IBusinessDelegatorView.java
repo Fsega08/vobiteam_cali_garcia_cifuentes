@@ -557,4 +557,6 @@ public interface IBusinessDelegatorView {
 	public Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo);
 	
 	public Long sumatoriaTiempoDedicadoPorSprintFecha(Long spriCodigo, DateTime fecha);
+	
+	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario);
 }

@@ -1,6 +1,8 @@
 package com.vobi.team.dataaccess.dao;
 
 import com.vobi.team.dataaccess.api.HibernateDaoImpl;
+import com.vobi.team.modelo.VtEmpresa;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
 
 import org.hibernate.Query;
@@ -60,5 +62,25 @@ public class VtUsuarioRolDAO extends HibernateDaoImpl<VtUsuarioRol, Long>
 		
 		VtUsuarioRol usuarioRol = (VtUsuarioRol) query.uniqueResult();
 		return usuarioRol;
+	}
+	
+	@Override
+  	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario) {
+  		Query query = getSession().getNamedQuery("rolActivoMasBajoPorUsuario");
+  		query.setParameter("usuaCodigo", vtUsuario.getUsuaCodigo());
+  		
+  		Object permiso = query.uniqueResult();
+  		
+  		return (Long) permiso;
+  	}
+	
+	@Override
+	public List<VtUsuarioRol> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa){
+		Query query = getSession().getNamedQuery("ListaDesarrolladoresVortexYClientesDeOtraEmpresa");
+  		query.setParameter("emprCodigo", vtEmpresa.getEmprCodigo());
+		
+		List<VtUsuarioRol> losUsuariosRoles= query.list();
+		
+		return losUsuariosRoles;
 	}
 }

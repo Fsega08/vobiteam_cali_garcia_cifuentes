@@ -385,6 +385,7 @@ public class IniciarSprintView {
 		LineChartSeries blueLine = new LineChartSeries();
 		blueLine.setLabel("Esfuerzo Real");
 		
+		
 		LineChartSeries grayLine = new LineChartSeries();
 		grayLine.setLabel("Esfuerzo Estimado");
 		
