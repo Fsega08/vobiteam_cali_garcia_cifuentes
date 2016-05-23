@@ -14,8 +14,8 @@
     <h:outputStylesheet name="css/core-layout.css" library="sentinel-layout" />
 </h:head>
 
-<h:body class="fontRegular red-back">
-    
+<h:body  class="fontRegular red-back">
+    <h:form id="form">
     <div class="Container100 Top20Percent PosAbsolute MarAuto OvHidden">
         <div class="Wid50 MarAuto OvHidden TexAlCenter">
             <h:graphicImage name="images/error-face.svg" library="sentinel-layout" style="width: 100px;"/>
@@ -25,11 +25,11 @@
             <span class="white Wid100 DispBlock Fs12">Sorry, but the resource you are looking for has not been found.<br/>
             </span>
             <div class="EmptyBox20"></div>
-            <p:button value="Back to Dashboard" styleClass="Fs24" href="#{dashboardView.retornarDashboard}"></p:button>
+            <p:commandButton value="Back to Dashboard" styleClass="Fs24" action="#{dashboardView.retornarDashboard}" update="form" />
             <div class="EmptyBox50"></div>
         </div>
     </div>
-    
+    </h:form>
 </h:body>
 
 </html>

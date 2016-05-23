@@ -32,12 +32,18 @@
 
 					<p:panel id="panelBotones">
 						<div align="center">
-							<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
-								value="Reportar"
-								binding="#{vtArtefactoView.btnCArtefacto}"
-								action="#{vtArtefactoView.crearArtefactoAction}" />
+							<p:commandButton id="btnReporteBug" icon="fa fa-plus white"
+								value="Control de Cambio"
+								action="#{vtArtefactoView.crearReportarControlCambioCliente}"
+								onclick="PF('dlgReport').show();" update="pnlCrearArtefacto" />
+
+							<p:commandButton id="btnReporteNoConformidad"
+								icon="fa fa-plus white"
+								value="Reportar No Conformidad o Errores"
+								action="#{vtArtefactoView.crearReportarNoConformidadCliente}"
+								onclick="PF('dlgReport').show();" update="pnlCrearArtefacto" />
 						</div>
-					</p:panel>					
+					</p:panel>
 
 
 
@@ -81,6 +87,80 @@
 				</h:panelGrid>
 			</p:panel>
 
+			<p:dialog header="Reporte" widgetVar="dlgReport" modal="true"
+				width="700" resizable="false" id="dlgA">
+				<div align="center">
+					<div class="ui-fluid">
+						<p:panel header="Crear Artefacto" id="pnlCrearArtefacto">
+							<h:panelGrid columns="1" layout="grid" id="pnlgTit">
+
+								<h:outputText value="Titulo del artefacto" />
+								<p:inputText id="txtCrearNombre" placeholder="Título"
+									binding="#{vtArtefactoView.txtCrearNombre}" size="148" />
+								<h:outputText value="Descripción del artefacto" />
+								<p:inputTextarea id="txtAreaCrearDescripcion"
+									placeholder="Descripcion"
+									binding="#{vtArtefactoView.txtCrearDescripcion}" cols="148" />
+
+								<p:separator />
+							</h:panelGrid>
+
+							<h:panelGrid columns="5" layout="grid" id="pnlgDemas">
+
+								<h:outputText value="Nivel de prioridad" />
+								<p:selectOneMenu id="somCrearPrioridades"
+									binding="#{vtArtefactoView.somCrearPrioridadesArtefacto}">
+									<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+									<f:selectItems
+										value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
+								</p:selectOneMenu>
+
+								<p:spacer width="100" height="10" />
+
+								<h:outputText value="Tipo Artefacto" />
+								<p:selectOneMenu id="somCrearTiposDeArtefactos" disabled="true"
+									binding="#{vtArtefactoView.somCrearTipoArtefacto}">
+									<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+									<f:selectItems
+										value="#{vtArtefactoView.losCrearTiposArtefactos}" />
+								</p:selectOneMenu>
+								
+								<p:spacer width="100" height="10" />
+								
+								<h:outputText value="Subir Archivos" />
+								<p:fileUpload sequential="true"
+									fileUploadListener="#{vtArtefactoView.createHandleFileUpload}"
+									mode="advanced" multiple="true" auto="true"
+									dragDropSupport="true" update="men" label="Seleccionar" />
+								
+								<p:spacer width="100" height="10" />
+								
+							</h:panelGrid>
+						</p:panel>
+
+					
+					</div>
+
+					<p:panel>
+						<div align="center">
+							<p:commandButton id="btnCrearArtefacto"
+								binding="#{vtArtefactoView.btnCrear}" icon="fa fa-plus white"
+								value="Crear"
+								action="#{vtArtefactoView.crearReporteClienteAction}"
+								update="pnlCrearArtefacto, men" />
+
+							<p:commandButton id="btnClear" icon="fa fa-eraser white"
+								value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"
+								action="#{vtArtefactoView.limpiarCrearClienteAction}"
+								update="pnlCrearArtefacto" />
+
+						</div>
+					</p:panel>
+
+				</div>
+			</p:dialog>
+
+
 			<p:panel>
 				<h:panelGrid columns="1" id="panelGrid2">
 					<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
@@ -91,8 +171,7 @@
 						action="#{vtTreeClienteView.sprintAction}"
 						value="Ir a la lista de Sprints" update="formDialog" />
 				</h:panelGrid>
-			</p:panel>	
-
+			</p:panel>
 
 		</h:form>
 

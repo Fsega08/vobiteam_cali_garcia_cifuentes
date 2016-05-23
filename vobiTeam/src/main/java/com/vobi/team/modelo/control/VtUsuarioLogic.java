@@ -17,6 +17,7 @@ import com.vobi.team.dataaccess.dao.IVtUsuarioArtefactoDAO;
 import com.vobi.team.dataaccess.dao.IVtUsuarioDAO;
 import com.vobi.team.dataaccess.dao.IVtUsuarioRolDAO;
 import com.vobi.team.exceptions.ZMessManager;
+import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtRol;
@@ -635,7 +636,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuarioNoAsignados(VtProyecto proyecto) throws Exception {
 
-		List<VtUsuario> usuariosSource = getVtUsuarioDesarrolladores();		
+		List<VtUsuario> usuariosSource = ListaDesarrolladoresVortexYClientesDeOtraEmpresa(proyecto.getVtEmpresa());		
 		List<VtProyectoUsuario> proyectosUsuarios = proyectoUsuarioLogic.findProyectoUsuarioPorProyecto(proyecto);
 
 		if (proyectosUsuarios != null) {
@@ -654,7 +655,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	@Transactional(readOnly = true)
 	public List<VtUsuario> getVtUsuarioAsignados(VtProyecto proyecto) throws Exception {
 
-		List<VtUsuario> usuariosSource = getVtUsuarioDesarrolladores();
+		List<VtUsuario> usuariosSource =ListaDesarrolladoresVortexYClientesDeOtraEmpresa(proyecto.getVtEmpresa());	
 
 		List<VtProyectoUsuario> proyectosUsuarios = proyectoUsuarioLogic.findProyectoUsuarioPorProyecto(proyecto);
 		List<VtUsuario> usuariosTarget= new ArrayList<>();
@@ -745,6 +746,12 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		}
 		
 				
+	}
+
+	@Transactional(readOnly=true)
+	public List<VtUsuario> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa) {
+		
+		return vtUsuarioDAO.ListaDesarrolladoresVortexYClientesDeOtraEmpresa(vtEmpresa);
 	}
 	
 }

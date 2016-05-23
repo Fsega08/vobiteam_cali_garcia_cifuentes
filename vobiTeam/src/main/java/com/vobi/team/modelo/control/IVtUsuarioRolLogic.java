@@ -69,6 +69,4 @@ public interface IVtUsuarioRolLogic {
 	
     public Long rolMasBajoPorUsuario(VtUsuario vtUsuario);
 
-	public List<VtUsuarioRol> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa);
-
 }

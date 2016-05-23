@@ -249,15 +249,15 @@ public class testUsuarios {
 	
 	@Test
 	public void testN() throws Exception{
-		VtEmpresa vtEmpresa = vtEmpresaLogic.getVtEmpresa(2L);
-		
-		List<VtUsuarioRol> losUsuRoles = vtUsuarioRolLogic.ListaDesarrolladoresVortexYClientesDeOtraEmpresa(vtEmpresa);
-		
-		for (VtUsuarioRol vtUsuarioRol : losUsuRoles) {
-			log.info(""+vtUsuarioRol.getVtUsuario().getNombre());
-			log.info(""+vtUsuarioRol.getVtUsuario().getVtEmpresa().getNombre());
-			log.info(""+vtUsuarioRol.getVtRol().getRolNombre());
-		}
+//		VtEmpresa vtEmpresa = vtEmpresaLogic.getVtEmpresa(2L);
+//		
+//		List<VtUsuarioRol> losUsuRoles = vtUsuarioRolLogic.ListaDesarrolladoresVortexYClientesDeOtraEmpresa(vtEmpresa);
+//		
+//		for (VtUsuarioRol vtUsuarioRol : losUsuRoles) {
+//			log.info(""+vtUsuarioRol.getVtUsuario().getNombre());
+//			log.info(""+vtUsuarioRol.getVtUsuario().getVtEmpresa().getNombre());
+//			log.info(""+vtUsuarioRol.getVtRol().getRolNombre());
+//		}
 	}
 
 }

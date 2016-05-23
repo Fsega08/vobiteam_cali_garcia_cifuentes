@@ -1205,4 +1205,76 @@ public class VtArtefactoView {
 		}
 
 	}
+	
+	public void crearReportarNoConformidadCliente() {
+		somCrearTipoArtefacto.setValue("3");
+	}
+	
+	public void crearReportarControlCambioCliente() {
+		somCrearTipoArtefacto.setValue("2");
+	}
+	
+	public void crearReporteClienteAction() {
+
+		try {
+			if (txtCrearNombre.getValue().toString().trim().equals("") == true || txtCrearNombre.getValue() == null) {
+				throw new Exception("Por favor ingrese el nombre");
+			}
+			if (txtCrearDescripcion.getValue().toString().trim().equals("") == true || txtCrearDescripcion.getValue() == null) {
+				throw new Exception("Por favor ingrese la descripción");
+			}
+		
+			if (somCrearPrioridadesArtefacto.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione una prioridad para el artefacto");
+			}
+			if (somCrearTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un tipo de artefacto");
+			}
+
+			VtArtefacto vtArtefacto = new VtArtefacto();
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			vtArtefacto.setTitulo(txtCrearNombre.getValue().toString());
+			vtArtefacto.setDescripcion(txtCrearDescripcion.getValue().toString());
+			vtArtefacto.setEsfuerzoEstimado(0);
+			vtArtefacto.setEsfuerzoRestante(0);
+			vtArtefacto.setEsfuerzoReal(0);
+			vtArtefacto.setOrigen(vtUsuarioActual.getNombre());
+			vtArtefacto.setPuntos(0);
+			vtArtefacto.setActivo("S");
+			vtArtefacto.setFechaCreacion(new Date());
+			vtArtefacto.setFechaModificacion(new Date());
+			vtArtefacto.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
+			vtArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
+
+			VtEstado vtEstado = businessDelegatorView.getVtEstado(1L);
+			vtArtefacto.setVtEstado(vtEstado);
+
+			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somCrearTipoArtefacto.getValue().toString().trim()));
+			vtArtefacto.setVtTipoArtefacto(vtTipoArtefacto);
+
+			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somCrearPrioridadesArtefacto.getValue().toString().trim()));
+			vtArtefacto.setVtPrioridad(vtPrioridad);
+
+			vtArtefacto.setVtPilaProducto(backlogSeleccionado);
+			
+			businessDelegatorView.saveVtArtefacto(vtArtefacto);				
+			subirArchivos(vtArtefacto);
+			
+			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
+			
+			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
+	
+			limpiarCrearClienteAction();
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+	}
+	
+	public void limpiarCrearClienteAction() {
+		txtCrearDescripcion.resetValue();
+		txtCrearNombre.resetValue();
+		somCrearPrioridadesArtefacto.setValue("-1");
+	}
+	
 }

@@ -516,9 +516,5 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
 				? permisos : 0L);	
 	}
 
-    @Transactional(readOnly = true)
-	public List<VtUsuarioRol> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa) {
-		
-		return vtUsuarioRolDAO.ListaDesarrolladoresVortexYClientesDeOtraEmpresa(vtEmpresa);
-	}
+    
 }

@@ -74,13 +74,5 @@ public class VtUsuarioRolDAO extends HibernateDaoImpl<VtUsuarioRol, Long>
   		return (Long) permiso;
   	}
 	
-	@Override
-	public List<VtUsuarioRol> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa){
-		Query query = getSession().getNamedQuery("ListaDesarrolladoresVortexYClientesDeOtraEmpresa");
-  		query.setParameter("emprCodigo", vtEmpresa.getEmprCodigo());
-		
-		List<VtUsuarioRol> losUsuariosRoles= query.list();
-		
-		return losUsuariosRoles;
-	}
+
 }

@@ -18,5 +18,4 @@ public interface IVtUsuarioRolDAO extends Dao<VtUsuarioRol, Long> {
 
 	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario);
 
-	public List<VtUsuarioRol> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa);
 }

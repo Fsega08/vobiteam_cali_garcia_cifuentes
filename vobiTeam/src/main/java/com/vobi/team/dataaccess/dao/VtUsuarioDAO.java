@@ -1,7 +1,9 @@
 package com.vobi.team.dataaccess.dao;
 
 import com.vobi.team.dataaccess.api.HibernateDaoImpl;
+import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -51,4 +53,14 @@ public class VtUsuarioDAO extends HibernateDaoImpl<VtUsuario, Long>
         ApplicationContext ctx) {
         return (IVtUsuarioDAO) ctx.getBean("VtUsuarioDAO");
     }
+    
+	@Override
+	public List<VtUsuario> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa){
+		Query query = getSession().getNamedQuery("ListaDesarrolladoresVortexYClientesDeOtraEmpresa");
+  		query.setParameter("emprCodigo", vtEmpresa.getEmprCodigo());
+		
+		List<VtUsuario> losUsuarios= query.list();
+		
+		return losUsuarios;
+	}
 }
