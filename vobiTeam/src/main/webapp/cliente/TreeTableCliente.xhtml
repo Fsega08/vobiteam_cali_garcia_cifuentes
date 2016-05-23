@@ -23,19 +23,26 @@
 				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
 		</p:dialog>
 
-<!--..............................................Form............................................... -->
+		<!--..............................................Form............................................... -->
 		<h:form id="formDialog">
 			<p:growl id="men" />
 			<p:panel id="pnlTreeTable" header="Informacion de las Empresas">
 				<p:panel id="panelBotones">
 					<div align="center">
-						<p:commandButton id="btnCrearEmpresaStatic" value="Reportar"
-							icon="fa fa-plus white" onclick="PF('dlgCrearEmpresa').show();" />
-					</div> 
+						<p:commandButton id="btnReporteBug" icon="fa fa-plus white"
+							value="Control de Cambio"
+							action="#{vtTreeClienteView.crearReportarControlCambioCliente}"
+							onclick="PF('dlgReport').show();" update="pnlCrearArtefacto" />
+
+						<p:commandButton id="btnReporteNoConformidad"
+							icon="fa fa-plus white" value="Reportar No Conformidad o Errores"
+							action="#{vtTreeClienteView.crearReportarNoConformidadCliente}"
+							onclick="PF('dlgReport').show();" update="pnlCrearArtefacto" />
+					</div>
 				</p:panel>
-<!--...............................contextmenu Backlog....................... -->
+				<!--...............................contextmenu Backlog....................... -->
 				<p:contextMenu for="TreeTable" nodeType="Backlog"
-					event="contextmenu">					
+					event="contextmenu">
 					<p:menuitem value="Ver lista de artefactos sin asignar"
 						update="formDialog" icon="fa fa-list "
 						action="#{vtTreeClienteView.artefactoListener}" />
@@ -43,9 +50,9 @@
 					<p:menuitem value="Ver lista Sprint" update="formDialog"
 						icon="fa fa-list " action="#{vtTreeClienteView.sprintListener}" />
 				</p:contextMenu>
-<!--...............................contextmenu Backlog....................... -->
+				<!--...............................contextmenu Backlog....................... -->
 
-<!--...............................TreeTable................................... -->
+				<!--...............................TreeTable................................... -->
 				<p:treeTable value="#{vtTreeClienteView.root}" var="empresa"
 					selectionMode="single" id="TreeTable"
 					selection="#{vtTreeClienteView.selectedNode}">
@@ -63,19 +70,106 @@
 					</p:column>
 
 				</p:treeTable>
-<!--...............................TreeTable................................... -->
-<!--..............................................Crear Empresa................................................... -->
-			<p:dialog header="Crear Empresa" widgetVar="dlgCrearEmpresa"
-				modal="true" width="500" resizable="false">
-				<div align="center">
-					
+				<!--...............................TreeTable................................... -->
+				<!--..............................................Crear Empresa................................................... -->
+				<p:dialog header="Reporte" widgetVar="dlgReport" modal="true"
+					width="700" resizable="false" id="dlgA">
+					<div align="center">
+						<div class="ui-fluid">
+							<p:panel header="Crear Artefacto" id="pnlCrearArtefacto">
+							
+							<h:panelGrid columns="3" layout="grid">
 
-				</div>
-			</p:dialog>
-<!--..............................................Crear Empresa............................................... -->
+									<p:selectOneMenu id="somProyecto" 
+										binding="#{vtTreeClienteView.somProyectos}">
+										<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+										<f:selectItems value="#{vtTreeClienteView.losProyectosSOM}" />
+										<p:ajax listener="#{vtTreeClienteView.proyectoListener}"
+											update="somBacklogs" />
+									</p:selectOneMenu>
+									
+									<p:spacer width="200" height="10" />
+									
+									<p:selectOneMenu id="somBacklogs"
+										binding="#{vtTreeClienteView.somBacklogs}">
+										<f:selectItem itemValue="-1" itemLabel="Backlog" />
+										<f:selectItems value="#{vtTreeClienteView.losBacklogsSOM}" />
+									</p:selectOneMenu>
+								</h:panelGrid>
+							
+								<h:panelGrid columns="1" layout="grid" id="pnlgTit">
+									<p:separator />
+									
+									<h:outputText value="Titulo del artefacto" />
+									<p:inputText id="txtCrearNombre" placeholder="Título"
+										binding="#{vtTreeClienteView.txtCrearNombre}" size="148" />
+									<h:outputText value="Descripción del artefacto" />
+									<p:inputTextarea id="txtAreaCrearDescripcion"
+										placeholder="Descripcion"
+										binding="#{vtTreeClienteView.txtCrearDescripcion}" cols="148" />
+
+									<p:separator />
+								</h:panelGrid>
+
+								
+								<h:panelGrid columns="5" layout="grid" id="pnlgDemas">
+								
+									<h:outputText value="Nivel de prioridad" />
+									<p:selectOneMenu id="somCrearPrioridades"
+										binding="#{vtTreeClienteView.somCrearPrioridadesArtefacto}">
+										<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+										<f:selectItems
+											value="#{vtTreeClienteView.lasCrearPrioridadesArtefactos}" />
+									</p:selectOneMenu>
+
+									<p:spacer width="100" height="10" />
+
+									<h:outputText value="Tipo Artefacto" />
+									<p:selectOneMenu id="somCrearTiposDeArtefactos" disabled="true"
+										binding="#{vtTreeClienteView.somCrearTipoArtefacto}">
+										<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+										<f:selectItems
+											value="#{vtTreeClienteView.losCrearTiposArtefactos}" />
+									</p:selectOneMenu>
+
+
+								</h:panelGrid>
+								<h:panelGrid columns="2" layout="grid">
+								
+								<h:outputText value="Subir Archivos" />
+									<p:fileUpload sequential="true"
+										fileUploadListener="#{vtTreeClienteView.createHandleFileUpload}"
+										mode="advanced" multiple="true" auto="true"
+										dragDropSupport="true" update="men" label="Seleccionar" />
+								
+								
+								</h:panelGrid>
+							</p:panel>
+
+
+						</div>
+
+						<p:panel>
+							<div align="center">
+								<p:commandButton id="btnCrearArtefacto" icon="fa fa-plus white"
+									value="Crear"
+									action="#{vtTreeClienteView.crearReporteClienteAction}"
+									update="pnlCrearArtefacto, men" />
+
+								<p:commandButton id="btnClear" icon="fa fa-eraser white"
+									value="Limpiar"
+									action="#{vtTreeClienteView.limpiarCrearClienteAction}"
+									update="pnlCrearArtefacto" />
+
+							</div>
+						</p:panel>
+
+					</div>
+				</p:dialog>
+				<!--..............................................Crear Empresa............................................... -->
 			</p:panel>
 		</h:form>
-<!--..............................................Form............................................... -->
+		<!--..............................................Form............................................... -->
 	</ui:define>
 
 </ui:composition>
