@@ -30,6 +30,7 @@ import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
@@ -98,8 +99,7 @@ public class VtArtefactoView {
 	private CommandButton btnModificar;
 
 	private CommandButton btnLimpiar;
-
-	//////////////////////////////////////////////////////////////
+	
 
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
@@ -137,6 +137,8 @@ public class VtArtefactoView {
 		
 	}	
 
+
+	
 	public String getUsuarioActual() {
 		return usuarioActual;
 	}
