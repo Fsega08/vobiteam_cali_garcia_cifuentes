@@ -27,15 +27,19 @@
 		<h:form id="formDialog">
 			<p:growl id="msg" />
 			<p:panel header="Sprints" id="pnlDashboard">
-
-				<p:panel>
-					<div align="center">
-							<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
-								value="Reportar"
-								action="#{vtArtefactoView.crearArtefactoAction}" />
-						</div>
-				</p:panel>
-
+				
+				<br />
+				<br />
+				
+				<p:contextMenu for="dtSprint" event="click contextmenu">
+					<p:menuitem icon="fa icon-eye" update="msg, dtSprint"
+						value="Ver Sprint"
+						action="#{vtSprintView.verSprintClienteAction}" />
+						
+					<p:menuitem value="Ver artefactos asignados al sprint"
+						update="dtArtefactos" icon="fa fa-list "
+						oncomplete="PF('dlgArtefacto').show()" />
+				</p:contextMenu>
 				
 				<p:dataTable id="dtSprint" value="#{vtSprintView.losSprint}"
 					var="sprint" paginator="true" rows="10"
@@ -110,6 +114,43 @@
 				</h:panelGrid>
 			</p:panel>
 			
+			<p:dialog header="Confirmation" widgetVar="cdSprint"
+				resizable="false" id="dlConfirmSprint" draggable="true"
+				responsive="true" modal="true" width="300">
+				<p:panelGrid >
+					<h:outputText class="red" value="Lo siento, no puede verlo hasta que no haya iniciado el sprint " />
+				</p:panelGrid>
+				
+				<br />
+			</p:dialog>
+			
+			<p:dialog header="Lista de artefactos del sprint"
+				widgetVar="dlgArtefacto" resizable="false" id="dlArtefactosAsig"
+				draggable="true" responsive="true" modal="true" width="800">
+				<p:dataTable id="dtArtefactos"
+					value="#{vtSprintView.losArtefactosAsignados}" var="artefacto"
+					paginator="true" rows="10" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10,15" rendered="true"
+					emptyMessage="Este sprint no tiene artefactos">
+
+					<p:column headerText="Nombre Artefacto"
+						filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}">
+						<h:outputText value="#{artefacto.titulo}" />
+					</p:column>
+
+					<p:column headerText="Puntos" filterBy="#{artefacto.puntos}"
+						sortBy="#{artefacto.puntos}">
+						<h:outputText value="#{artefacto.puntos}" />
+					</p:column>
+
+					<p:column headerText="Activo" filterBy="#{artefacto.activo}"
+						sortBy="#{artefacto.activo}">
+						<h:outputText value="#{artefacto.activo}" />
+					</p:column>
+
+				</p:dataTable>
+			</p:dialog>
 
 		</h:form>
 

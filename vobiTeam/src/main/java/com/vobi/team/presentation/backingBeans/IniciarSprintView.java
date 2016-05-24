@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.Axis;
@@ -59,6 +60,10 @@ public class IniciarSprintView {
 	private VtArtefacto vtArtefactoFinalizado;
 	private VtArtefacto artefactoSeleccionado;
 	
+	private CommandButton terminarSprint;
+	
+	
+	private String estadoT = "";
 	
 	private int totalArtefactos;
 	
@@ -89,6 +94,8 @@ public class IniciarSprintView {
 			totalArtefactos = losArtefactosPorHacer.size() + losArtefactosEnCurso.size();
 			
 			iniciarBurndown();
+			
+			verificarEstadoSprin();
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
@@ -96,13 +103,39 @@ public class IniciarSprintView {
 	}	
 	//............................................................................................
 	
-	
+	public void verificarEstadoSprin() {
+		if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 3L) {
+			estadoT = "Ya se encuentra terminado!!";
+			terminarSprint.setDisabled(true);
+		}else {
+			estadoT = "";
+			terminarSprint.setDisabled(false);
+		}
+	}
 	
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
 
+
+	public CommandButton getTerminarSprint() {
+		return terminarSprint;
+	}
+
+	public void setTerminarSprint(CommandButton terminarSprint) {
+		this.terminarSprint = terminarSprint;
+	}
+
+
+
+	public String getEstadoT() {
+		return estadoT;
+	}
+
+	public void setEstadoT(String estadoT) {
+		this.estadoT = estadoT;
+	}
 
 	public LineChartModel getBurndownChart() {
 		return burndownChart;
@@ -243,76 +276,60 @@ public class IniciarSprintView {
 
 
 	public String sprintAction(){
-
 		return "/XHTML/listaSprint.xhtml";
 	}
 	
-	public void esfuerzoRealAction() throws Exception{
+	public String sprintClienteAction(){
+		return "/cliente/listaSprint.xhtml";
+	}
+	
+	public void moverArtefacto() throws Exception{
 		try {
 			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			if (vtArtefactoPorHacer!=null) {
-				
-				if (txtEsfuerzo.getValue().toString().trim().equals("") == true || txtEsfuerzo.getValue() == null || !Utilities.isNumeric(txtEsfuerzo.getValue().toString().trim())) {
-					throw new Exception("Por favor ingrese el esfuerzo real, recuerde que este campo es de valor numerico");
-				}
-				
-				int esfuerzo = Integer.parseInt(txtEsfuerzo.getValue().toString().trim());
-				esfuerzo = esfuerzo + vtArtefactoPorHacer.getEsfuerzoReal();
-				vtArtefactoPorHacer.setEsfuerzoReal(esfuerzo);
 				VtEstado vtEstado = businessDelegatorView.getVtEstado(2L);
-				
 				vtArtefactoPorHacer.setVtEstado(vtEstado);
 				vtArtefactoPorHacer.setUsuModificador(vtUsuario.getUsuaCodigo());
 				vtArtefactoPorHacer.setFechaModificacion(new Date());
 				businessDelegatorView.updateVtArtefacto(vtArtefactoPorHacer);
 				
-				limpiarAction();
 			}else if (vtArtefactoEnCurso != null) {
-				if (txtEsfuerzo.getValue().toString().trim().equals("") == true || txtEsfuerzo.getValue() == null || !Utilities.isNumeric(txtEsfuerzo.getValue().toString().trim())) {
-					throw new Exception("Por favor ingrese el esfuerzo real, recuerde que este campo es de valor numerico");
-				}
-				int esfuerzo = Integer.parseInt(txtEsfuerzo.getValue().toString().trim());
-				esfuerzo = esfuerzo + vtArtefactoEnCurso.getEsfuerzoReal();
-				vtArtefactoEnCurso.setEsfuerzoReal(esfuerzo);
-				VtEstado vtEstado = businessDelegatorView.getVtEstado(3L);
 				
+				VtEstado vtEstado = businessDelegatorView.getVtEstado(3L);			
 				vtArtefactoEnCurso.setVtEstado(vtEstado);
 				vtArtefactoEnCurso.setUsuModificador(vtUsuario.getUsuaCodigo());
 				vtArtefactoEnCurso.setFechaModificacion(new Date());
 				businessDelegatorView.updateVtArtefacto(vtArtefactoEnCurso);
-				limpiarAction();
+
+			}else if (vtArtefactoFinalizado != null) {
+				
+				VtEstado vtEstado = businessDelegatorView.getVtEstado(2L);			
+				vtArtefactoFinalizado.setVtEstado(vtEstado);
+				vtArtefactoFinalizado.setUsuModificador(vtUsuario.getUsuaCodigo());
+				vtArtefactoFinalizado.setFechaModificacion(new Date());
+				businessDelegatorView.updateVtArtefacto(vtArtefactoFinalizado);
+
 			}
+			calculoArtefactos();
+			FacesUtils.addInfoMessage("El artefacto se movio con exito.");
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-		
 	}
 	
-
 	public void artefactoDetallado() throws Exception{
-		
 		if (vtArtefactoPorHacer!=null) {
 			artefactoSeleccionado = vtArtefactoPorHacer;
 		}else if (vtArtefactoEnCurso!=null) {
 			artefactoSeleccionado = vtArtefactoEnCurso;
 		}else if (vtArtefactoFinalizado!=null) {
 			artefactoSeleccionado = vtArtefactoFinalizado;
-		}
-		
+		}	
 		FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
-
 		usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
-	
 		FacesUtils.putinSession("usuarioArtefacto", usuarioArtefacto);
 		RequestContext.getCurrentInstance().execute("PF('dlgDetaArtefacto').show();");
-
 	}
-	
-
-	public void limpiarAction() {
-		txtEsfuerzo.resetValue();
-	}
-	
 	
 	public void calculoArtefactos() {
 		if (losArtefactosEnCurso!=null || losArtefactosPorHacer != null) {

@@ -949,11 +949,9 @@ public class VtSprintView {
 		try {
 			if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 1L) {
 				RequestContext.getCurrentInstance().execute("PF('cdSprint').show();");
-			}else if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 2L) {
+			}else {
 				FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
 				return "/XHTML/iniciarSprint.xhtml";
-			}else {
-				FacesUtils.addErrorMessage("El sprint se encuentra terminado.");
 			} 
 			
 		} catch (Exception e) {
@@ -962,6 +960,20 @@ public class VtSprintView {
 		return "";
 	}
 	
+	public String verSprintClienteAction(){
+		try {
+			if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 1L) {
+				FacesUtils.addErrorMessage("El sprint se no se ha iniciado.");
+			}else {
+				FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
+				return "/cliente/iniciarSprint.xhtml";
+			} 
+			
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+		return "";
+	}
 	
 	public String cambioEstadoSprint() throws Exception {
  		VtEstadoSprint estadoSprint = businessDelegatorView.getVtEstadoSprint(2L);		

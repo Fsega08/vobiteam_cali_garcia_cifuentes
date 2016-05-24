@@ -25,62 +25,6 @@
 
 	<navigation-rule>
          <from-view-id>/*</from-view-id>
-         <navigation-case>
-             <from-outcome>dashboard</from-outcome>
-             <to-view-id>/dashboard.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>promotion-page</from-outcome>
-             <to-view-id>/promotion-page.xhtml</to-view-id>               
-         </navigation-case>
-         <navigation-case>
-             <from-outcome>sample</from-outcome>
-             <to-view-id>/sample.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>forms</from-outcome>
-             <to-view-id>/forms.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>data</from-outcome>
-             <to-view-id>/data.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>datatable</from-outcome>
-             <to-view-id>/datatable.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>panel</from-outcome>
-             <to-view-id>/panel.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>overlay</from-outcome>
-             <to-view-id>/overlay.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>menu</from-outcome>
-             <to-view-id>/menu.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>messages</from-outcome>
-             <to-view-id>/messages.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>charts</from-outcome>
-             <to-view-id>/charts.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>file</from-outcome>
-             <to-view-id>/file.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>misc</from-outcome>
-             <to-view-id>/misc.xhtml</to-view-id>               
-         </navigation-case>
-          <navigation-case>
-             <from-outcome>empty-page</from-outcome>
-             <to-view-id>/empty-page.xhtml</to-view-id>               
-         </navigation-case>
           <navigation-case>
              <from-outcome>login</from-outcome>
              <to-view-id>/login.xhtml</to-view-id>               
@@ -97,31 +41,7 @@
              <from-outcome>access-denied</from-outcome>
              <to-view-id>/access-denied.xhtml</to-view-id>               
          </navigation-case>         
-         <navigation-case>
-             <from-outcome>font-icons.xhtml</from-outcome>
-             <to-view-id>/font-icons.xhtml</to-view-id>               
-         </navigation-case>  
-          <navigation-case>
-             <from-outcome>documentation</from-outcome>
-             <to-view-id>/documentation.xhtml</to-view-id>               
-         </navigation-case>
-         
-         <navigation-case>
-             <from-outcome>vtEmpresa</from-outcome>
-             <to-view-id>/XHTML/vtEmpresa.xhtml</to-view-id>               
-         </navigation-case>
-         
-         <navigation-case>
-             <from-outcome>vtEmpresaListDataTable</from-outcome>
-             <to-view-id>/XHTML/vtEmpresaListDataTable.xhtml</to-view-id>               
-         </navigation-case>
-         
-         <navigation-case>
-             <from-outcome>vtEmpresaListDataTableEditable</from-outcome>
-             <to-view-id>/XHTML/vtEmpresaListDataTableEditable.xhtml</to-view-id>               
-         </navigation-case>
-         
-         
+        
          
          
          

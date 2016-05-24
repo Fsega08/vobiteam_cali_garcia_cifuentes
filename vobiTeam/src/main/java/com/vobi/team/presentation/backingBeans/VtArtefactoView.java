@@ -1079,7 +1079,14 @@ public class VtArtefactoView {
 		try {
 			VtArchivo vtArchivo = new VtArchivo();
 			VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-
+			Long permisos = (Long) FacesUtils.getfromSession("permisos");
+			
+			if (permisos == 3L) {
+				VtUsuario cliente = businessDelegatorView.getVtUsuario(artefactoSeleccionado.getUsuCreador());
+				if ((vtUsuario.getLogin().equals(cliente.getLogin())) == false ) {
+					throw new Exception("No tiene los permisos para realizar esta acción");
+				}
+			}
 
 			vtArchivo.setNombre(event.getFile().getFileName());
 			vtArchivo.setFechaCreacion(new Date());
@@ -1093,8 +1100,7 @@ public class VtArtefactoView {
 			businessDelegatorView.saveVtArchivo(vtArchivo);
 			FacesUtils.addInfoMessage("Se subio el archivo " + event.getFile().getFileName());
 		} catch (Exception e) {
-			log.info(e.getMessage());
-			FacesUtils.addInfoMessage(e.getMessage());
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 
