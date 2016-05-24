@@ -30,12 +30,6 @@
 				<p:panel id="pnlInicarSprint" header="Sprint en Curso"
 					styleClass="Responsive100 ">
 					
-					<h:outputText class="red Fleft Fs30" value="#{iniciarSprintView.estadoT}" />
-					
-					<p:commandButton id="terminar" value="Terminar Sprint"
-						styleClass="Fright" binding="#{iniciarSprintView.terminarSprint}" action="#{iniciarSprintView.calculoArtefactos}" 
-						onclick="PF('cdSprint').show()" disabled="true"  />
-					
 					<br />
 					<br />
 					<p:chart type="line" model="#{iniciarSprintView.burndownChart}" responsive="true"/>
@@ -46,10 +40,6 @@
 					<p:accordionPanel multiple="true" id="acordArtefacto">
 
 						<p:tab title="Artefactos Por Hacer">
-							<p:contextMenu for="dtPorHacer" event="click contextmenu">
-								<p:menuitem value="Mover a En curso" icon="fa icon-login"
-								action="#{iniciarSprintView.moverArtefacto}" update="acordArtefacto" />
-							</p:contextMenu>
 
 							<p:dataTable id="dtPorHacer" styleClass="Container100"
 								value="#{iniciarSprintView.losArtefactosPorHacer}"
@@ -84,10 +74,6 @@
 							</p:dataTable>
 						</p:tab>
 						<p:tab title="Artefactos En Curso">
-							<p:contextMenu for="dtEnCurso" event="click contextmenu">
-								<p:menuitem value="Mover a Finalizado" icon="fa icon-login"
-									action="#{iniciarSprintView.moverArtefacto}" update="acordArtefacto" />
-							</p:contextMenu>
 
 							<p:dataTable id="dtEnCurso" styleClass="Container100"
 								value="#{iniciarSprintView.losArtefactosEnCurso}"
@@ -122,11 +108,6 @@
 							</p:dataTable>
 						</p:tab>
 						<p:tab title="Artefactos Finalizados">
-							<p:contextMenu for="dtFinalizado" event="click contextmenu">
-								<p:menuitem value="Devolver a En curso" icon="fa icon-login"
-									action="#{iniciarSprintView.moverArtefacto}" update="acordArtefacto" />
-							</p:contextMenu>
-						
 							<p:dataTable id="dtFinalizado" styleClass="Container100"
 								value="#{iniciarSprintView.losArtefactosFinalizados}"
 								var="artefacto" paginator="true" rows="10"
@@ -266,29 +247,11 @@
 
 					</p:accordionPanel>
 				</p:panel>
-
-				<p:dialog header="Confirmation" widgetVar="cdSprint"
-					resizable="false" id="dlConfirmSprint" draggable="true"
-					responsive="true" modal="true" width="400">
-					<p:panelGrid >
-						<h:outputText class="red" value="¿Esta seguro de terminar  este Sprint? " />
-						<p:spacer />
-						<h:outputText class="red" value=" Se encuentran " />
-						<h:outputText value="#{iniciarSprintView.totalArtefactos}" />
-						<h:outputText class="red" value=" Artefactos sin terminar" />
-					</p:panelGrid>
-					<br />
-						<p:commandButton value="Terminar Sprint"
-							action="#{iniciarSprintView.terminarSprintAction}" update="formDialog" />
-						
-					
-				</p:dialog>
-
-
+				
 				<p:panel>
 					<h:panelGrid columns="1">
 						<p:commandButton id="btnRegresar" icon="fa fa-arrow-left  white"
-							action="#{iniciarSprintView.sprintAction}"
+							action="#{iniciarSprintView.sprintClienteAction}"
 							value="Regresar a Lista de Sprint" update="formDialog" />
 					</h:panelGrid>
 				</p:panel>

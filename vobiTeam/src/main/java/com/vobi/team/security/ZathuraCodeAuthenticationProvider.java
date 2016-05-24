@@ -57,9 +57,11 @@ public class ZathuraCodeAuthenticationProvider implements AuthenticationProvider
 				List<VtUsuarioRol> usuarioRol = buisnessDelegator.findUsuarioRolbyUsuario(vtUsuario);
 				
 				for (VtUsuarioRol vtUsuarioRol : usuarioRol) {
-					String rol = vtUsuarioRol.getVtRol().getRolNombre();
-					
-					grantedAuths.add(new SimpleGrantedAuthority("ROLE_" + rol));
+					if (vtUsuarioRol.getActivo().equals("S")) {
+						String rol = vtUsuarioRol.getVtRol().getRolNombre();
+						
+						grantedAuths.add(new SimpleGrantedAuthority("ROLE_" + rol));	
+					}
 				}
 			} catch (Exception e) {
 				FacesUtils.addErrorMessage(e.getMessage());
