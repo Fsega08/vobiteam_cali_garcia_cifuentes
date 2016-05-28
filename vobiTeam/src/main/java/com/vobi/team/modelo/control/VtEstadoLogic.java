@@ -446,4 +446,9 @@ public class VtEstadoLogic implements IVtEstadoLogic {
 
         return list;
     }
+
+    @Transactional(readOnly = true)
+	public List<VtEstado> consultarEstadosParaDesarrollador() {
+		return vtEstadoDAO.consultarEstadosParaDesarrollador();
+	}
 }

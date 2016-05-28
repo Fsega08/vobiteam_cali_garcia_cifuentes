@@ -559,4 +559,6 @@ public interface IBusinessDelegatorView {
 	public Long sumatoriaTiempoDedicadoPorSprintFecha(Long spriCodigo, DateTime fecha);
 	
 	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario);
+	
+	public List<VtEstado> consultarEstadosParaDesarrollador();
 }

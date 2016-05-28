@@ -50,4 +50,17 @@ public class VtEstadoDAO extends HibernateDaoImpl<VtEstado, Long>
     public static IVtEstadoDAO getFromApplicationContext(ApplicationContext ctx) {
         return (IVtEstadoDAO) ctx.getBean("VtEstadoDAO");
     }
+    
+    
+    @Override
+  	public List<VtEstado> consultarEstadosParaDesarrollador() {
+    	Query query = getSession().getNamedQuery("consultarEstadosArtParaDesarrollador");		
+  		
+  		List<VtEstado> losEstados = query.list();
+  		
+  		return losEstados;
+
+  	}
+    
+    
 }
