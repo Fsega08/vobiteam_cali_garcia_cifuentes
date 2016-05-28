@@ -426,6 +426,15 @@ public class VtTreeClienteView {
 	public void crearReporteClienteAction() {
 
 		try {
+			
+			if (somProyectos.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un proyecto para el artefacto");
+			}
+			
+			if (somBacklogs.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione una pila de producto para el artefacto");
+			}
+			
 			if (txtCrearNombre.getValue().toString().trim().equals("") == true || txtCrearNombre.getValue() == null) {
 				throw new Exception("Por favor ingrese el nombre");
 			}

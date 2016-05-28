@@ -1,5 +1,7 @@
 package com.vobi.team.presentation.backingBeans;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,15 +15,22 @@ import javax.faces.model.SelectItem;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.vobi.team.modelo.VtArchivo;
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtEstado;
+import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
+import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
@@ -47,16 +56,53 @@ public class VtDesarrolladorView {
 	private List<SelectItem> losBacklogs;
 
 	private List<VtArtefacto> losArtefactos;
-
+	
+	private StreamedContent file;
+	private VtArchivo archivoSeleccionado;
+	private List<VtArchivo> losArchivos;
 
 	//.......................Dialog Progreso..................
 
+	public VtArchivo getArchivoSeleccionado() {
+		return archivoSeleccionado;
+	}
+
+	public void setArchivoSeleccionado(VtArchivo archivoSeleccionado) {
+		this.archivoSeleccionado = archivoSeleccionado;
+	}
+
+	public List<VtArchivo> getLosArchivos() throws Exception {
+		if (artefactoSeleccionado!=null) {
+
+			losArchivos = businessDelegatorView.findArchivosByArtefactos(artefactoSeleccionado);
+
+		}
+		return losArchivos;
+	}
+
+	public void setLosArchivos(List<VtArchivo> losArchivos) {
+		this.losArchivos = losArchivos;
+	}
+
+	public StreamedContent getFile() {
+		return file;
+	}
+
+	public void setFile(StreamedContent file) {
+		this.file = file;
+	}
+
+	private InputText txtNombreArtefacto;
+	
 	private InputText txtEsfuerzoRestante;
 	private InputText txtEsfuerzoReal;
 	private InputText txtPuntos;	
 
 	private InputText txtTiempoEstimado;
 	private InputTextarea txtDescripcion;
+	
+	private SelectOneMenu somEstadoArtefacto;
+	private List<SelectItem> losEstadosArtefactos;
 
 	//.......................................................
 	
@@ -91,6 +137,14 @@ public class VtDesarrolladorView {
 
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
+	}
+
+	public InputText getTxtNombreArtefacto() {
+		return txtNombreArtefacto;
+	}
+
+	public void setTxtNombreArtefacto(InputText txtNombreArtefacto) {
+		this.txtNombreArtefacto = txtNombreArtefacto;
 	}
 
 	public String getUsuarioActual() {
@@ -256,6 +310,36 @@ public class VtDesarrolladorView {
 	public void setTxtPuntos(InputText txtPuntos) {
 		this.txtPuntos = txtPuntos;
 	}
+	
+	public List<SelectItem> getLosEstadosArtefactos() {
+		try {
+			if (losEstadosArtefactos==null) {
+				List<VtEstado> listaEstadosArtefactos = businessDelegatorView.consultarEstadosParaDesarrollador();
+				losEstadosArtefactos = new ArrayList<SelectItem>();
+				for (VtEstado vtEstado : listaEstadosArtefactos) {
+					losEstadosArtefactos.add(new SelectItem(vtEstado.getEstaCodigo(), vtEstado.getNombre()));
+				}
+				if (artefactoSeleccionado.getVtEstado().getEstaCodigo() != 2L || artefactoSeleccionado.getVtEstado().getEstaCodigo() != 3L) {
+					losEstadosArtefactos.add(new SelectItem(artefactoSeleccionado.getVtEstado().getEstaCodigo(), artefactoSeleccionado.getVtEstado().getNombre()));
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return losEstadosArtefactos;
+	}
+
+	public void setLosEstadosArtefactos(List<SelectItem> losEstadosArtefactos) {
+		this.losEstadosArtefactos = losEstadosArtefactos;
+	}
+
+	public SelectOneMenu getSomEstadoArtefacto() {
+		return somEstadoArtefacto;
+	}
+
+	public void setSomEstadoArtefacto(SelectOneMenu somEstadoArtefacto) {
+		this.somEstadoArtefacto = somEstadoArtefacto;
+	}
 
 	//---------------------------------Fin de los Gets y Sets--------------------------------------------------------
 
@@ -293,9 +377,42 @@ public class VtDesarrolladorView {
 	}
 	
 	public void artefactoSeleccionadoAction(){
-		txtEsfuerzoReal.setValue(artefactoSeleccionado.getEsfuerzoReal());
-		txtEsfuerzoRestante.setValue(artefactoSeleccionado.getEsfuerzoRestante());
-		txtPuntos.setValue(artefactoSeleccionado.getPuntos());
+		try {
+			VtSprint vtSprint = new VtSprint();
+						
+			if (artefactoSeleccionado.getVtSprint() == null) {
+				throw new Exception("El artefacto no se encuentra en un sprint");
+			}else {
+				vtSprint = businessDelegatorView.getVtSprint(artefactoSeleccionado.getVtSprint().getSpriCodigo());
+				
+			}
+			
+			if (vtSprint.getVtEstadoSprint().getEstsprCodigo() == 1L ) {
+				throw new Exception("El sprint todavia no ha iniciado");
+			}else if (vtSprint.getVtEstadoSprint().getEstsprCodigo() == 3L) {
+				throw new Exception("El sprint ya ha terminado");
+			}else if(artefactoSeleccionado.getActivo().equals("N")) {
+				throw new Exception("El artefacto esta inactivo");
+			}
+			
+			
+			if (vtSprint.getVtEstadoSprint().getEstsprCodigo() == 2L && artefactoSeleccionado.getActivo().equals("S")) {
+				
+				somEstadoArtefacto.setValue(artefactoSeleccionado.getVtEstado().getEstaCodigo());
+				txtNombreArtefacto.setValue(artefactoSeleccionado.getTitulo());
+				txtEsfuerzoReal.setValue(artefactoSeleccionado.getEsfuerzoReal());
+				txtEsfuerzoRestante.setValue(artefactoSeleccionado.getEsfuerzoRestante());
+				txtPuntos.setValue(artefactoSeleccionado.getPuntos());
+				
+				RequestContext.getCurrentInstance().execute("PF('dlgProgresArtefacto').show();");
+			}
+			
+			
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		
+		
 	}
 	
 	public void historiaProgresoAction(){
@@ -305,6 +422,10 @@ public class VtDesarrolladorView {
 	public void crearAction() {
 
 		try {
+			if (somEstadoArtefacto.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un estado para el artefacto");
+			}
+			
 			if (txtDescripcion.getValue().toString().trim().equals("") == true || txtDescripcion.getValue() == null) {
 				throw new Exception("Por favor ingrese la descripción");
 			}
@@ -331,7 +452,10 @@ public class VtDesarrolladorView {
 
 			artefactoSeleccionado.setEsfuerzoRestante(vtProgresoArtefacto.getEsfuerzoRestante());			
 			artefactoSeleccionado.setEsfuerzoReal(vtProgresoArtefacto.getEsfuerzoReal());
-
+			
+			VtEstado vtEstado = businessDelegatorView.getVtEstado((Long) somEstadoArtefacto.getValue());
+			artefactoSeleccionado.setVtEstado(vtEstado);
+			
 			businessDelegatorView.saveVtProgresoArtefacto(vtProgresoArtefacto);			
 			businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
 
@@ -377,6 +501,24 @@ public class VtDesarrolladorView {
 	public void artefactoSesionAction() throws Exception {
 		FacesUtils.putinSession("artefactoSeleccionado",artefactoSeleccionado);
 	}
+	
+	public void FileDownloadView() {        
 
+		try {
+			VtArchivo vtArchivo = archivoSeleccionado;
+			log.info("el archivo es= " + vtArchivo.getNombre());
+
+			byte[] archivo = vtArchivo.getArchivo();
+
+			InputStream stream = new ByteArrayInputStream(archivo);
+
+			file = new DefaultStreamedContent(stream, null, vtArchivo.getNombre());
+
+			FacesUtils.addInfoMessage("Disfrute su archivo");
+		} catch (Exception e) {
+			FacesUtils.addInfoMessage("Lo siento no se pudo descargar");
+		}
+
+	}
 
 }

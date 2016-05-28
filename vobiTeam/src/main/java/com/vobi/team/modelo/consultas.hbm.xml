@@ -11,7 +11,7 @@
 
 	<query name="consultarArtefactosPorPilaProductoSinSprintAsignado">
 	   	<![CDATA[
-	   		Select vtArt from VtArtefacto vtArt where vtArt.vtPilaProducto.pilaCodigo=:pilaCodigo and vtArt.vtSprint.spriCodigo IS null
+	   		Select vtArt from VtArtefacto vtArt where vtArt.vtPilaProducto.pilaCodigo=:pilaCodigo and vtArt.vtSprint.spriCodigo IS null and vtArt.vtEstado.estaCodigo != 3 and vtArt.vtEstado.estaCodigo != 5
 	   	]]>
 	</query>
 	<query name="consultarUsuarioRolPorUsuarioYRol">
@@ -60,5 +60,10 @@
 	   	]]>
 	</query>
 	
+	<query name="consultarEstadosArtParaDesarrollador">
+	   	<![CDATA[
+	   		Select esta from VtEstado esta where esta.estaCodigo = 2 or esta.estaCodigo = 3
+	   	]]>
+	</query>
 
 </hibernate-mapping>

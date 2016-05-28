@@ -757,6 +757,9 @@ public class VtSprintView {
 				if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo()==3L) {
 					throw new Exception("El sprint se encuentra terminado");
 				}
+				if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo()==2L) {
+					throw new Exception("El sprint esta en curso");
+				}
 			}
 			StringBuilder builder = new StringBuilder();
 

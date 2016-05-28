@@ -153,6 +153,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	private IVtUsuarioRolLogic vtUsuarioRolLogic;
 	@Autowired
     private IVtEstadoSprintLogic vtEstadoSprintLogic;
+	
 
 	public List<VtArchivo> getVtArchivo() throws Exception {
 		return vtArchivoLogic.getVtArchivo();
@@ -1253,6 +1254,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Override
 	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario) {
 		return vtUsuarioRolLogic.rolMasBajoPorUsuario(vtUsuario);
+	}
+
+	@Override
+	public List<VtEstado> consultarEstadosParaDesarrollador() {
+		return vtEstadoLogic.consultarEstadosParaDesarrollador();
 	}
 
 

@@ -171,6 +171,9 @@ public class VtEstadoSprintView {
 			
 			FacesUtils.addInfoMessage("Se creó el Estado-Sprint con éxito");
 			losEstadosSprint = businessDelegatorView.getVtEstadoSprint();
+			
+			
+			limpiarAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 			losEstadosSprint = businessDelegatorView.getVtEstadoSprint();

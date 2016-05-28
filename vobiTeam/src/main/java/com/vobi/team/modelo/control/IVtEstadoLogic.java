@@ -53,4 +53,6 @@ public interface IVtEstadoLogic {
     public Long findTotalNumberVtEstado() throws Exception;
 
     public List<VtEstadoDTO> getDataVtEstado() throws Exception;
+    
+	public List<VtEstado> consultarEstadosParaDesarrollador();
 }

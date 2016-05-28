@@ -31,47 +31,48 @@
 
 					<p:selectOneMenu id="somProyecto"
 						binding="#{vtDesarrolladorView.somProyectos}">
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="-Proyecto-" />
 						<f:selectItems value="#{vtDesarrolladorView.losProyectos}" />
 						<p:ajax listener="#{vtDesarrolladorView.proyectoListener}"
 							update="somBacklogs" />
 					</p:selectOneMenu>
-					
+
 					<p:selectOneMenu id="somBacklogs"
 						binding="#{vtDesarrolladorView.somBacklogs}">
-						<f:selectItem itemValue="-1" itemLabel="Backlog" />
+						<f:selectItem itemValue="-1" itemLabel="-Pila producto-" />
 						<f:selectItems value="#{vtDesarrolladorView.losBacklogs}" />
 						<p:ajax listener="#{vtDesarrolladorView.backlogListener}"
 							update="dtArtefactos" />
 					</p:selectOneMenu>
-					
+
 					<div align="center">
-							<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
-								value="Crear Artefacto"
-								update="men, pnlContainer"
-								action="#{vtDesarrolladorView.crearArtefactoAction}" />
-						</div>
+						<p:commandButton id="btnCrearArt" icon="fa fa-plus white"
+							value="Crear Artefacto" update="men, pnlContainer"
+							action="#{vtDesarrolladorView.crearArtefactoAction}" />
+					</div>
 				</p:panel>
 
 				<p:panel id="panelDt">
 					<p:contextMenu for="dtArtefactos" event="click contextmenu">
-						<p:menuitem value="Progreso de este artefacto" update="panelDt"
-							icon="fa fa-clock-o "
-							action="#{vtDesarrolladorView.artefactoSeleccionadoAction}"
-							oncomplete="PF('dlgProgresArtefacto').show()" />
+						<p:menuitem value="Progreso de este artefacto"
+							update="men, pnlProgreso" icon="fa fa-wrench"
+							action="#{vtDesarrolladorView.artefactoSeleccionadoAction}" />
 
-						<p:menuitem value="Historial de Progreso del artefacto" update="panelDt"
-							icon="fa fa-history "
+						<p:menuitem value="Historial de Progreso del artefacto"
+							update="panelDt" icon="fa fa-history "
 							action="#{vtDesarrolladorView.historiaProgresoAction}"
 							oncomplete="PF('dlgHistoriaArtefacto').show()" />
-							
-						
-						<p:menuitem value="Historial del artefacto" update="panelHistorial"
-							icon="fa fa-history "
+
+						<p:menuitem value="Ver Archivos" icon="fa fa-list"
+							oncomplete="PF('dlgArchivosDescArtefacto').show()"
+							update="dtDescArtefactos" />
+
+						<p:menuitem value="Historial del artefacto"
+							update="panelHistorial" icon="fa fa-history "
 							oncomplete="PF('dlgHistorialArtefacto').show()"
 							action="#{vtDesarrolladorView.artefactoSesionAction}" />
-							
-							
+
+
 					</p:contextMenu>
 
 					<p:dataTable id="dtArtefactos"
@@ -97,10 +98,17 @@
 						</p:column>
 
 
-						<p:column headerText="Estado de los Artefactos"
+						<p:column headerText="Actividad del Artefacto"
 							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}"
 							filterMatchMode="contains">
 							<h:outputText value="#{artefacto.activo}"
+								title="Presiona click derecho para ver las opciones" />
+						</p:column>
+
+						<p:column headerText="Estado del Artefacto"
+							filterBy="#{artefacto.vtEstado.nombre}"
+							sortBy="#{artefacto.vtEstado.nombre}" filterMatchMode="contains">
+							<h:outputText value="#{artefacto.vtEstado.nombre}"
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
@@ -118,11 +126,30 @@
 						widgetVar="dlgProgresArtefacto" modal="true" id="dlProsArtefacto"
 						width="700">
 						<p:panel id="pnlProgreso" header="Progreso">
-							<h:panelGrid columns="2" id="progresoArt">
+							<h:panelGrid columns="2">
+
+								<h:outputText value="Titulo del artefacto" />
+								<p:inputText id="txtNombre" placeholder="Título"
+									binding="#{vtDesarrolladorView.txtNombreArtefacto}"
+									disabled="true" />
+
+								<h:outputText value="Estado Artefacto" />
+								<p:selectOneMenu id="somCrearEstados"
+									binding="#{vtDesarrolladorView.somEstadoArtefacto}">
+									<f:selectItem itemValue="-1" itemLabel="-Estados-" />
+									<f:selectItems
+										value="#{vtDesarrolladorView.losEstadosArtefactos}" />
+								</p:selectOneMenu>
+
+							</h:panelGrid>
+
+							<h:panelGrid columns="5" id="progresoArt">
 
 								<h:outputText value="Puntos" />
 								<p:inputText id="txtPuntos"
 									binding="#{vtDesarrolladorView.txtPuntos}" disabled="true" />
+
+								<p:spacer width="100" height="10" />
 
 								<h:outputText value="Esfuerzo Restante" />
 								<p:inputText id="txtEsfuerzoRestante"
@@ -133,6 +160,8 @@
 								<p:inputText id="txtEsfuerzoReal"
 									binding="#{vtDesarrolladorView.txtEsfuerzoReal}"
 									disabled="true" />
+
+								<p:spacer width="100" height="10" />
 
 								<h:outputText value="Tiempo Dedicado" />
 								<p:inputText id="txtTiempo" placeholder="Tiempo Dedicado"
@@ -152,8 +181,8 @@
 
 							<p:commandButton id="btnLimpiarProgreso"
 								icon="fa fa-eraser white"
-								action="#{vtDesarrolladorView.limpiarAction}"
-								value="Limpiar" update="men, pnlProgreso" />
+								action="#{vtDesarrolladorView.limpiarAction}" value="Limpiar"
+								update="men, pnlProgreso" />
 						</p:panel>
 					</p:dialog>
 
@@ -192,8 +221,8 @@
 							</p:dataTable>
 						</p:panel>
 					</p:dialog>
-					
-					
+
+
 					<p:dialog header="Historial Artefacto"
 						widgetVar="dlgHistorialArtefacto" modal="true"
 						id="dlHistorialArtefacto" width="1200">
@@ -362,6 +391,42 @@
 									update="panelHistorial, dtArtefactos" />
 							</div>
 						</p:panel>
+					</p:dialog>
+
+
+					<p:dialog header="Ver Archivos del Artefacto"
+						widgetVar="dlgArchivosDescArtefacto" modal="true"
+						id="dlArchivosDescArtefacto" width="500">
+
+						<p:contextMenu for="dtDescArtefactos" event="click contextmenu">
+
+							<p:menuitem value="Descargar Archivo" icon="fa fa-cloud-download"
+								actionListener="#{vtDesarrolladorView.FileDownloadView}"
+								ajax="false">
+
+								<p:fileDownload value="#{vtDesarrolladorView.file}" />
+
+							</p:menuitem>
+						</p:contextMenu>
+
+
+						<p:dataTable id="dtDescArtefactos"
+							value="#{vtDesarrolladorView.losArchivos}" var="archivo"
+							paginator="true" rows="5"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,15" rendered="true"
+							rowKey="#{archivo.archCodigo}"
+							selection="#{vtDesarrolladorView.archivoSeleccionado}"
+							emptyMessage="Lo siento, este artefacto no tiene archivos."
+							selectionMode="single" paginatorPosition="bottom">
+
+							<p:column headerText="Nombre Archivo"
+								filterBy="#{archivo.nombre}" sortBy="#{archivo.nombre}">
+								<h:outputText value="#{archivo.nombre}"
+									title="Presiona click derecho para ver las opciones" />
+							</p:column>
+
+						</p:dataTable>
 					</p:dialog>
 
 					<!-- ................................................Dialog.................................................. -->

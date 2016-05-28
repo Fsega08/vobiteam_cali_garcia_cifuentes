@@ -30,12 +30,12 @@
 				<p:panel id="pnlInicarSprint" header="Sprint en Curso"
 					styleClass="Responsive100 ">
 					
-					<h:outputText class="red Fleft Fs30" value="#{iniciarSprintView.estadoT}" />
-					
+		
 					<p:commandButton id="terminar" value="Terminar Sprint"
-						styleClass="Fright" binding="#{iniciarSprintView.terminarSprint}" action="#{iniciarSprintView.calculoArtefactos}" 
-						onclick="PF('cdSprint').show()" disabled="true"  />
+						styleClass="Fright" 
+						onclick="PF('cdSprint').show()" binding="#{iniciarSprintView.terminarSprint}" />
 					
+	
 					<br />
 					<br />
 					<p:chart type="line" model="#{iniciarSprintView.burndownChart}" responsive="true"/>
@@ -83,6 +83,47 @@
 
 							</p:dataTable>
 						</p:tab>
+						
+						<p:tab title="Artefactos En Espera">
+							<p:contextMenu for="dtEspera" event="click contextmenu">
+								<p:menuitem value="Mover a En curso" icon="fa icon-login"
+								action="#{iniciarSprintView.moverArtefacto}" update="acordArtefacto" />
+							</p:contextMenu>
+
+							<p:dataTable id="dtEspera" styleClass="Container100"
+								value="#{iniciarSprintView.losArtefactosEspera}"
+								var="artefacto" paginator="true" rows="10"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,15" rowKey="#{artefacto.arteCodigo}"
+								emptyMessage="No hay artefactos en espera."
+								selectionMode="single"
+								selection="#{iniciarSprintView.vtArtefactoEspera}"
+								paginatorPosition="bottom">
+
+								<p:column headerText="Nombre Artefacto"
+									filterBy="#{artefacto.titulo}" sortBy="#{artefacto.titulo}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.titulo}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+								<p:column headerText="Esfuerzo Estimado"
+									filterBy="#{artefacto.esfuerzoEstimado}"
+									sortBy="#{artefacto.esfuerzoEstimado}"
+									filterMatchMode="contains">
+									<h:outputText value="#{artefacto.esfuerzoEstimado}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+								<p:column headerText="Esfuerzo Real"
+									filterBy="#{artefacto.esfuerzoReal}"
+									sortBy="#{artefacto.esfuerzoReal}" filterMatchMode="contains">
+									<h:outputText value="#{artefacto.esfuerzoReal}"
+										title="Presiona click derecho para ver las opciones" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+						
+						
 						<p:tab title="Artefactos En Curso">
 							<p:contextMenu for="dtEnCurso" event="click contextmenu">
 								<p:menuitem value="Mover a Finalizado" icon="fa icon-login"
@@ -261,27 +302,20 @@
 								</p:panel>
 							</div>
 						</p:dialog>
-
-
-
 					</p:accordionPanel>
+					
+					
 				</p:panel>
 
 				<p:dialog header="Confirmation" widgetVar="cdSprint"
 					resizable="false" id="dlConfirmSprint" draggable="true"
 					responsive="true" modal="true" width="400">
 					<p:panelGrid >
-						<h:outputText class="red" value="¿Esta seguro de terminar  este Sprint? " />
-						<p:spacer />
-						<h:outputText class="red" value=" Se encuentran " />
-						<h:outputText value="#{iniciarSprintView.totalArtefactos}" />
-						<h:outputText class="red" value=" Artefactos sin terminar" />
+						<h:outputText value="#{iniciarSprintView.msg}" />
 					</p:panelGrid>
 					<br />
 						<p:commandButton value="Terminar Sprint"
-							action="#{iniciarSprintView.terminarSprintAction}" update="formDialog" />
-						
-					
+							action="#{iniciarSprintView.terminarSprintAction}" update="formDialog" />				
 				</p:dialog>
 
 
