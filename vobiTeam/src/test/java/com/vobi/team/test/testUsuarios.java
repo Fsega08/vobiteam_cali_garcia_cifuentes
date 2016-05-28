@@ -33,6 +33,7 @@ import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
+import com.vobi.team.service.mail.IMailService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -70,6 +71,9 @@ public class testUsuarios {
 	
 	@Autowired
 	private IVtEmpresaLogic vtEmpresaLogic;
+	
+	@Autowired
+	private IMailService mail;
 	
 	//@Test
 	public void testA() throws Exception {
@@ -258,6 +262,31 @@ public class testUsuarios {
 //			log.info(""+vtUsuarioRol.getVtUsuario().getVtEmpresa().getNombre());
 //			log.info(""+vtUsuarioRol.getVtRol().getRolNombre());
 //		}
+	}
+	
+	
+	@Test
+	// TEST PARA QUE VALENCIA COMA DAMIER
+	public void testO() throws Exception{
+		for (int i = 0; i < 5; i++) { 
+
+			String asunto = "Bienvenido a VobiTeam";
+			
+			String cuerpo = "Sr@,Sebastián  le damos la bienvenida a VobiTeam " + '\n' 
+							+ "Esperamos que la aplicación sea de su agrado, momentaneamente su cuenta es: " + '\n' + '\n' +
+							"Usuario o Login= Sebastián"  + '\n' +
+							"Contraseña= " + 1234 + '\n' + '\n' 
+							+ "Perteneciente a la empresa= SEGA "   
+							+ '\n' + '\n'  
+							+ "Por motivos de seguridad trate de ingresar lo mas pronto posible "
+							+ "y hacer cambio de su contraseña." + '\n'
+							+ "Le deseamos un excelente día." + '\n'  + '\n' ;
+			
+			
+			mail.send("fsega08@gmail.com" , asunto, cuerpo);
+
+		}
+		
 	}
 
 }
