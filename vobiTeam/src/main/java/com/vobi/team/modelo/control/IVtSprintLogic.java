@@ -57,4 +57,6 @@ public interface IVtSprintLogic {
     
     public List<VtSprint> findSprintByBacklog(VtPilaProducto vtBacklog) 
 			throws Exception;
+    
+    public VtSprintDTO getDataVtSprintDTO(VtSprint vtSprint) throws Exception;
 }

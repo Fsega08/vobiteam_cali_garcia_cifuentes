@@ -561,4 +561,6 @@ public interface IBusinessDelegatorView {
 	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario);
 	
 	public List<VtEstado> consultarEstadosParaDesarrollador();
+	
+	 public VtSprintDTO getDataVtSprintDTO(VtSprint vtSprint) throws Exception;
 }
