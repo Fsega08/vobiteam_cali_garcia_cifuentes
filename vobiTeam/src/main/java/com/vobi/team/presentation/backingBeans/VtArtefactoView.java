@@ -738,14 +738,8 @@ public class VtArtefactoView {
 			}
 			if (somCrearTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione un tipo de artefacto");
-			}
-			
-			if (somCrearDesarrolladores.getValue().toString().trim().equals("-1") == true) {
-				throw new Exception("Seleccione un Desarrollador para el artefacto");
-			}
-			if (somCrearInteres.getValue().toString().trim().equals("-1") == true) {
-				throw new Exception("Seleccione un interés ");
-			}
+			}		
+
 
 			VtArtefacto vtArtefacto = new VtArtefacto();
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
@@ -773,11 +767,11 @@ public class VtArtefactoView {
 
 			vtArtefacto.setVtPilaProducto(backlogSeleccionado);
 			
-			VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somCrearInteres.getValue().toString().trim()));
-			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somCrearDesarrolladores.getValue().toString().trim()));
+//			VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somCrearInteres.getValue().toString().trim()));
+//			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somCrearDesarrolladores.getValue().toString().trim()));
 				
 			businessDelegatorView.saveVtArtefacto(vtArtefacto);				
-			asignarDesarrollador(vtArtefacto, vtInteres, vtUsuario);
+//			asignarDesarrollador(vtArtefacto, vtInteres, vtUsuario);
 			subirArchivos(vtArtefacto);
 			
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
@@ -902,8 +896,6 @@ public class VtArtefactoView {
 
 	public void tipoModArtefactoListener() {
 		int valorModTipoArtefacto = Integer.parseInt(somTipoArtefacto.getValue().toString().trim());
-
-		log.info("entro al metodo modificar");
 
 		if (valorModTipoArtefacto == 1 || valorModTipoArtefacto==4) {
 			txtEsfuerzoEstimado.setDisabled(false);

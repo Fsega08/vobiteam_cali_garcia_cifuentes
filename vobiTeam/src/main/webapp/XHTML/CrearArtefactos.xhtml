@@ -113,26 +113,8 @@
 						<p:fileUpload sequential="true"
 							fileUploadListener="#{vtArtefactoView.createHandleFileUpload}"
 							mode="advanced" multiple="true" auto="true"
-							dragDropSupport="true" update="men" label="Seleccionar" />				
-						
-						
-						<h:outputText value="Desarrollador" />
-						<p:selectOneMenu id="somCrearDesarrollador" 
-							binding="#{vtArtefactoView.somCrearDesarrolladores}">
-							<f:selectItem itemValue="-1" itemLabel="Desarrollador" />
-							<f:selectItems value="#{vtArtefactoView.losCrearDesarrolladores}" />
-						</p:selectOneMenu>
-
-						<p:spacer width="100" height="10" />
-
-						<h:outputText value="Interés" />
-						<p:selectOneMenu id="somCrearInteres" 
-							binding="#{vtArtefactoView.somCrearInteres}">
-							<f:selectItem itemValue="-1" itemLabel="Interés" />
-							<f:selectItems value="#{vtArtefactoView.losCrearInteres}" />
-						</p:selectOneMenu>
-					</h:panelGrid>					
-
+							dragDropSupport="true" update="men" label="Seleccionar" />												
+					</h:panelGrid>
 				</p:panel>
 			</div>
 
@@ -147,7 +129,7 @@
 						value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"
 						action="#{vtArtefactoView.limpiarCrearAction}"
 						update="pnlCrearArtefacto" />
-
+s
 				</div>
 
 				<h:panelGrid columns="1" id="panelGrid2">

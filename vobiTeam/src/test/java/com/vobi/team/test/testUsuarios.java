@@ -33,6 +33,7 @@ import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
+import com.vobi.team.modelo.dto.VtArtefactoDTO;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -259,5 +260,16 @@ public class testUsuarios {
 //			log.info(""+vtUsuarioRol.getVtRol().getRolNombre());
 //		}
 	}
+	
+	@Test
+	public void testO() throws Exception{
+		VtArtefacto artefacto  = vtArtefactoLogic.getVtArtefacto(2L);
+		VtArtefactoDTO artefactoDTO = vtArtefactoLogic.getVtArtefactoDTO(artefacto);
+				
+		log.info("T: "+artefactoDTO.getTitulo());
+		
+		
+	}
+	
 
 }
