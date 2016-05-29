@@ -26,6 +26,7 @@ import com.vobi.team.modelo.control.IVtPilaProductoLogic;
 import com.vobi.team.modelo.control.IVtProgresoArtefactoLogic;
 import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
+import com.vobi.team.modelo.dto.VtSprintDTO;
 
 import hirondelle.date4j.DateTime;
 import hirondelle.date4j.DateTime.DayOverflow;
@@ -130,7 +131,16 @@ public class testArtefacto {
 		
 	}	
 	
-	    
-	
+	@Test    
+	public void testD() throws Exception {
+		
+		VtSprint vtSprint = vtSprintLogic.getVtSprint(2L);
+		
+		VtSprintDTO vtSprintDTO = vtSprintLogic.getDataVtSprintDTO(vtSprint);
+		
+		log.info("Nombre= " + vtSprintDTO.getNombre());
+		log.info("Estado= " + vtSprintDTO.getEstsprCodigo_VtEstadoSprint());
+		log.info("Usuario creador= " + vtSprintDTO.getUsuCreador());
+	}	
 
 }

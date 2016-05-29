@@ -449,8 +449,9 @@ public class IniciarSprintView {
 		totalDias = TimeUnit.MILLISECONDS.toDays(totalDias);
 
 		DateTime diaInicio = new DateTime(""+sprintSeleccionado.getFechaInicio());
+		
 		diaInicio = DateTime.forDateOnly(diaInicio.getYear(), diaInicio.getMonth(), diaInicio.getDay());
-
+		
 		burndownChart = new LineChartModel();
 
 		LineChartSeries blueLine = new LineChartSeries();

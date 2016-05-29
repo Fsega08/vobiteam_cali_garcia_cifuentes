@@ -307,7 +307,45 @@ public class VtSprintLogic implements IVtSprintLogic {
             throw e;
         } 
     }
+    
+    @Transactional(readOnly = true)
+    public VtSprintDTO getDataVtSprintDTO(VtSprint vtSprint) throws Exception {
+        try {
 
+           VtSprintDTO vtSprintDTO = new VtSprintDTO();
+
+           vtSprintDTO.setSpriCodigo(vtSprint.getSpriCodigo());
+           vtSprintDTO.setActivo((vtSprint.getActivo() != null)
+                    ? vtSprint.getActivo() : null);
+                vtSprintDTO.setCapacidadEstimada((vtSprint.getCapacidadEstimada() != null)
+                    ? vtSprint.getCapacidadEstimada() : null);
+                vtSprintDTO.setCapacidadReal((vtSprint.getCapacidadReal() != null)
+                    ? vtSprint.getCapacidadReal() : null);
+                vtSprintDTO.setFechaCreacion(vtSprint.getFechaCreacion());
+                vtSprintDTO.setFechaFin(vtSprint.getFechaFin());
+                vtSprintDTO.setFechaInicio(vtSprint.getFechaInicio());
+                vtSprintDTO.setFechaModificacion(vtSprint.getFechaModificacion());
+                vtSprintDTO.setNombre((vtSprint.getNombre() != null)
+                    ? vtSprint.getNombre() : null);
+                vtSprintDTO.setObjetivo((vtSprint.getObjetivo() != null)
+                    ? vtSprint.getObjetivo() : null);
+                vtSprintDTO.setUsuCreador((vtSprint.getUsuCreador() != null)
+                    ? vtSprint.getUsuCreador() : null);
+                vtSprintDTO.setUsuModificador((vtSprint.getUsuModificador() != null)
+                    ? vtSprint.getUsuModificador() : null);
+                vtSprintDTO.setEstsprCodigo_VtEstadoSprint((vtSprint.getVtEstadoSprint()
+                                                                        .getEstsprCodigo() != null)
+                    ? vtSprint.getVtEstadoSprint().getEstsprCodigo() : null);
+                vtSprintDTO.setPilaCodigo_VtPilaProducto((vtSprint.getVtPilaProducto()
+                                                                      .getPilaCodigo() != null)
+                    ? vtSprint.getVtPilaProducto().getPilaCodigo() : null);
+
+            return vtSprintDTO;
+        } catch (Exception e) {
+            throw e;
+        } 
+    }
+    
     @Transactional(readOnly = true)
     public VtSprint getVtSprint(Long spriCodigo) throws Exception {
         log.debug("getting VtSprint instance");
