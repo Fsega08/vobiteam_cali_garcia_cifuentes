@@ -76,33 +76,26 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Esfuerzo Estimado" />
-						<p:inputText id="txtCrearEsfuerzoEstimado"
-							placeholder="Esfuerzo Estimado" disabled="true"
-							binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}">
+						<p:calendar id="clndEsfuerzoEstimado" value="#{vtArtefactoView.esfuerzoEstimado}" pattern="HH:mm" timeOnly="true" binding="#{vtArtefactoView.clndEsfuerzoEstimado}" >
 							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
-								event="blur" update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />
-						</p:inputText>
+								event="dateSelect" update="clndEsfuerzoRestante, clndEsfuerzoReal, clndPuntos" />							
+						</p:calendar>
+						
+						
 						
 						<p:spacer width="100" height="10" />
 						
 						<h:outputText value="Esfuerzo Restante" />
-						<p:inputText id="txtCrearEsfuerzoRestante"
-							placeholder="Esfuerzo Restante"
-							binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}"
-							disabled="true" />						
+						<p:calendar id="clndEsfuerzoRestante" value="#{vtArtefactoView.esfuerzoRestante}" pattern="HH:mm" timeOnly="true"  binding="#{vtArtefactoView.clndEsfuerzoRestante}"/>						
 
 						<h:outputText value="Esfuerzo Real" />
-						<p:inputText id="txtCrearEsfuerzoReal" placeholder="Esfuerzo Real"
-							binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" disabled="true" />
+						<p:calendar id="clndEsfuerzoReal" value="#{vtArtefactoView.esfuerzoReal}" pattern="HH:mm" timeOnly="true" binding="#{vtArtefactoView.clndEsfuerzoReal}" />						
 						
 						<p:spacer width="100" height="10" />
 										
 						<h:outputText value="Puntos del artefacto" />
-						<p:inputText id="txtCrearPuntos" placeholder="Puntos"
-							binding="#{vtArtefactoView.txtCrearPuntos}" disabled="true" />
-						
-						
-						
+						<p:calendar id="clndPuntos" value="#{vtArtefactoView.puntos}" pattern="HH:mm" timeOnly="true" binding="#{vtArtefactoView.clndPuntos}" />					
+												
 						<h:outputText value="Origen del artefacto" />
 						<p:inputText id="txtCrearOrigen" placeholder="Origen"
 							binding="#{vtArtefactoView.txtCrearOrigen}" />
@@ -129,7 +122,7 @@
 						value="Limpiar" binding="#{vtArtefactoView.btnCrearLimpiar}"
 						action="#{vtArtefactoView.limpiarCrearAction}"
 						update="pnlCrearArtefacto" />
-s
+
 				</div>
 
 				<h:panelGrid columns="1" id="panelGrid2">

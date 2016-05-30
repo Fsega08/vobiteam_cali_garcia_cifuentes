@@ -563,4 +563,6 @@ public interface IBusinessDelegatorView {
 	public List<VtEstado> consultarEstadosParaDesarrollador();
 	
 	 public VtSprintDTO getDataVtSprintDTO(VtSprint vtSprint) throws Exception;
+	 
+	 public VtArtefactoDTO getVtArtefactoDTO(VtArtefacto vtArtefacto) throws Exception;
 }

@@ -1265,6 +1265,12 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public VtSprintDTO getDataVtSprintDTO(VtSprint vtSprint) throws Exception {
 		return vtSprintLogic.getDataVtSprintDTO(vtSprint);
 	}
+	
+	@Override
+	public VtArtefactoDTO getVtArtefactoDTO(VtArtefacto vtArtefacto) throws Exception{
+		return vtArtefactoLogic.getVtArtefactoDTO(vtArtefacto);
+	}
+	
 
 
 }

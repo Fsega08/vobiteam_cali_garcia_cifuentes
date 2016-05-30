@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
@@ -39,6 +40,8 @@ import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 import com.vobi.team.utilities.Utilities;
 
+import hirondelle.date4j.DateTime;
+
 
 
 @ManagedBean
@@ -53,11 +56,11 @@ public class VtArtefactoView {
 
 	private InputText txtCrearNombre;
 	private InputTextarea txtCrearDescripcion;
-	private InputText txtCrearEsfuerzoEstimado;
-	private InputText txtCrearEsfuerzoReal;
-	private InputText txtCrearEsfuerzoRestante;
-	private InputText txtCrearPuntos;
 	private InputText txtCrearOrigen;
+	private Calendar clndEsfuerzoEstimado;
+	private Calendar clndEsfuerzoReal;
+	private Calendar clndEsfuerzoRestante;
+	private Calendar clndPuntos;
 	private List<SelectItem> losCrearTiposArtefactos;
 	private SelectOneMenu somCrearTipoArtefacto;
 	private List<SelectItem> lasCrearPrioridadesArtefactos;
@@ -72,18 +75,23 @@ public class VtArtefactoView {
 	private CommandButton btnCrear;
 	private CommandButton btnCArtefacto;
 	private CommandButton btnCrearLimpiar;
-
+	
+	private Date esfuerzoEstimado;
+	private Date esfuerzoReal;
+	private Date esfuerzoRestante;
+	private Date puntos;
+	
 
 	/////////////////////////////////////////////////////////777
 
 	//////////////////////MODIFICAR ARTEFACTO////////////////////////7
 	private InputText txtNombre;
 	private InputTextarea txtDescripcion;
-	private InputText txtEsfuerzoEstimado;
-	private InputText txtEsfuerzoReal;
-	private InputText txtEsfuerzoRestante;
-	private InputText txtPuntos;
 	private InputText txtOrigen;
+	private Calendar clndEsfuerzoMEstimado;
+	private Calendar clndEsfuerzoMReal;
+	private Calendar clndEsfuerzoMRestante;
+	private Calendar clndPuntosM;
 	private SelectOneMenu somArtefactoActivo;
 	private List<SelectItem> losTiposArtefactos;
 	private SelectOneMenu somTipoArtefacto;
@@ -97,9 +105,12 @@ public class VtArtefactoView {
 	private SelectOneMenu somInteres;
 	
 	private CommandButton btnModificar;
-
-	private CommandButton btnLimpiar;
+	private CommandButton btnLimpiar;	
 	
+	private DateTime esfuerzoMEstimado;
+	private DateTime esfuerzoMReal;
+	private DateTime esfuerzoMRestante;
+	private DateTime puntosM;
 
 
 	@ManagedProperty(value="#{BusinessDelegatorView}")
@@ -136,9 +147,71 @@ public class VtArtefactoView {
 		
 		
 	}	
-
-
 	
+	public Calendar getClndEsfuerzoEstimado() {
+		return clndEsfuerzoEstimado;
+	}
+
+	public void setClndEsfuerzoEstimado(Calendar clndEsfuerzoEstimado) {
+		this.clndEsfuerzoEstimado = clndEsfuerzoEstimado;
+	}
+
+	public Calendar getClndEsfuerzoReal() {
+		return clndEsfuerzoReal;
+	}
+
+	public void setClndEsfuerzoReal(Calendar clndEsfuerzoReal) {
+		this.clndEsfuerzoReal = clndEsfuerzoReal;
+	}
+
+	public Calendar getClndEsfuerzoRestante() {
+		return clndEsfuerzoRestante;
+	}
+
+	public void setClndEsfuerzoRestante(Calendar clndEsfuerzoRestante) {
+		this.clndEsfuerzoRestante = clndEsfuerzoRestante;
+	}
+
+	public Calendar getClndPuntos() {
+		return clndPuntos;
+	}
+
+	public void setClndPuntos(Calendar clndPuntos) {
+		this.clndPuntos = clndPuntos;
+	}
+
+	public Calendar getClndEsfuerzoMEstimado() {
+		return clndEsfuerzoMEstimado;
+	}
+
+	public void setClndEsfuerzoMEstimado(Calendar clndEsfuerzoMEstimado) {
+		this.clndEsfuerzoMEstimado = clndEsfuerzoMEstimado;
+	}
+
+	public Calendar getClndEsfuerzoMReal() {
+		return clndEsfuerzoMReal;
+	}
+
+	public void setClndEsfuerzoMReal(Calendar clndEsfuerzoMReal) {
+		this.clndEsfuerzoMReal = clndEsfuerzoMReal;
+	}
+
+	public Calendar getClndEsfuerzoMRestante() {
+		return clndEsfuerzoMRestante;
+	}
+
+	public void setClndEsfuerzoMRestante(Calendar clndEsfuerzoMRestante) {
+		this.clndEsfuerzoMRestante = clndEsfuerzoMRestante;
+	}
+
+	public Calendar getClndPuntosM() {
+		return clndPuntosM;
+	}
+
+	public void setClndPuntosM(Calendar clndPuntosM) {
+		this.clndPuntosM = clndPuntosM;
+	}
+
 	public String getUsuarioActual() {
 		return usuarioActual;
 	}
@@ -169,38 +242,38 @@ public class VtArtefactoView {
 
 	public void setTxtDescripcion(InputTextarea txtDescripcion) {
 		this.txtDescripcion = txtDescripcion;
+	}	
+	
+	public DateTime getEsfuerzoMEstimado() {
+		return esfuerzoMEstimado;
 	}
 	
-	public InputText getTxtEsfuerzoEstimado() {
-		return txtEsfuerzoEstimado;
-	}
-
-	public void setTxtEsfuerzoEstimado(InputText txtEsfuerzoEstimado) {
-		this.txtEsfuerzoEstimado = txtEsfuerzoEstimado;
+	public void setEsfuerzoMEstimado(DateTime esfuerzoMEstimado) {
+		this.esfuerzoMEstimado = esfuerzoMEstimado;
 	}
 	
-	public InputText getTxtEsfuerzoReal() {
-		return txtEsfuerzoReal;
+	public DateTime getEsfuerzoMReal() {
+		return esfuerzoMReal;
+	}
+	
+	public void setEsfuerzoMReal(DateTime esfuerzoMReal) {
+		this.esfuerzoMReal = esfuerzoMReal;
 	}
 
-	public void setTxtEsfuerzoReal(InputText txtEsfuerzoReal) {
-		this.txtEsfuerzoReal = txtEsfuerzoReal;
+	public DateTime getEsfuerzoMRestante() {
+		return esfuerzoMRestante;
 	}
 
-	public InputText getTxtEsfuerzoRestante() {
-		return txtEsfuerzoRestante;
+	public void setEsfuerzoMRestante(DateTime esfuerzoMRestante) {
+		this.esfuerzoMRestante = esfuerzoMRestante;
 	}
 
-	public void setTxtEsfuerzoRestante(InputText txtEsfuerzoRestante) {
-		this.txtEsfuerzoRestante = txtEsfuerzoRestante;
+	public DateTime getPuntosM() {
+		return puntosM;
 	}
 
-	public InputText getTxtPuntos() {
-		return txtPuntos;
-	}
-
-	public void setTxtPuntos(InputText txtPuntos) {
-		this.txtPuntos = txtPuntos;
+	public void setPuntosM(DateTime puntosM) {
+		this.puntosM = puntosM;
 	}
 
 	public InputText getTxtOrigen() {
@@ -356,15 +429,7 @@ public class VtArtefactoView {
 
 	public void setTxtCrearDescripcion(InputTextarea txtCrearDescripcion) {
 		this.txtCrearDescripcion = txtCrearDescripcion;
-	}
-
-	public InputText getTxtCrearEsfuerzoEstimado() {
-		return txtCrearEsfuerzoEstimado;
-	}
-
-	public void setTxtCrearEsfuerzoEstimado(InputText txtCrearEsfuerzoEstimado) {
-		this.txtCrearEsfuerzoEstimado = txtCrearEsfuerzoEstimado;
-	}
+	}	
 
 	public List<VtArchivo> getSubirArchivos() {
 		return subirArchivos;
@@ -372,30 +437,38 @@ public class VtArtefactoView {
 
 	public void setSubirArchivos(List<VtArchivo> subirArchivos) {
 		this.subirArchivos = subirArchivos;
+	}	
+
+	public Date getEsfuerzoEstimado() {
+		return esfuerzoEstimado;
 	}
 
-	public InputText getTxtCrearEsfuerzoReal() {
-		return txtCrearEsfuerzoReal;
+	public void setEsfuerzoEstimado(Date esfuerzoEstimado) {
+		this.esfuerzoEstimado = esfuerzoEstimado;
 	}
 
-	public void setTxtCrearEsfuerzoReal(InputText txtCrearEsfuerzoReal) {
-		this.txtCrearEsfuerzoReal = txtCrearEsfuerzoReal;
+	public Date getEsfuerzoReal() {
+		return esfuerzoReal;
 	}
 
-	public InputText getTxtCrearEsfuerzoRestante() {
-		return txtCrearEsfuerzoRestante;
+	public void setEsfuerzoReal(Date esfuerzoReal) {
+		this.esfuerzoReal = esfuerzoReal;
 	}
 
-	public void setTxtCrearEsfuerzoRestante(InputText txtCrearEsfuerzoRestante) {
-		this.txtCrearEsfuerzoRestante = txtCrearEsfuerzoRestante;
+	public Date getEsfuerzoRestante() {
+		return esfuerzoRestante;
 	}
 
-	public InputText getTxtCrearPuntos() {
-		return txtCrearPuntos;
+	public void setEsfuerzoRestante(Date esfuerzoRestante) {
+		this.esfuerzoRestante = esfuerzoRestante;
 	}
 
-	public void setTxtCrearPuntos(InputText txtCrearPuntos) {
-		this.txtCrearPuntos = txtCrearPuntos;
+	public Date getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(Date puntos) {
+		this.puntos = puntos;
 	}
 
 	public InputText getTxtCrearOrigen() {
@@ -717,16 +790,17 @@ public class VtArtefactoView {
 			if (txtCrearOrigen.getValue().toString().trim().equals("") == true || txtCrearOrigen.getValue() == null) {
 				throw new Exception("Por favor ingrese el origen del artefacto");
 			}
-			if (txtCrearPuntos.getValue().toString().trim().equals("") == true || txtCrearPuntos.getValue() == null || !Utilities.isNumeric(txtCrearPuntos.getValue().toString().trim())) {
-				throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta numeros");
+			
+			if (puntos.equals("") == true || puntos == null) {
+				throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta tiempo");
 			}
-			if (txtCrearEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoEstimado.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoEstimado.getValue().toString().trim())) {
+			if (esfuerzoEstimado.equals("") == true || esfuerzoEstimado == null) {
 				throw new Exception("Por favor ingrese el esfuerzo estimado, recuerde este campo solo acepta numeros");
 			}
-			if (txtCrearEsfuerzoReal.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoReal.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoReal.getValue().toString().trim()) ) {
+			if (esfuerzoReal.equals("") == true || esfuerzoReal == null) {
 				throw new Exception("Por favor ingrese el esfuerzo real, recuerde este campo solo acepta numeros");
 			}
-			if (txtCrearEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoRestante.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoRestante.getValue().toString().trim())) {
+			if (esfuerzoRestante.equals("") == true || esfuerzoRestante == null) {
 				throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo solo acepta numeros");
 			}
 
@@ -745,11 +819,21 @@ public class VtArtefactoView {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			vtArtefacto.setTitulo(txtCrearNombre.getValue().toString());
 			vtArtefacto.setDescripcion(txtCrearDescripcion.getValue().toString());
-			vtArtefacto.setEsfuerzoEstimado(Integer.parseInt(txtCrearEsfuerzoEstimado.getValue().toString().trim() ));
-			vtArtefacto.setEsfuerzoRestante(Integer.parseInt(txtCrearEsfuerzoRestante.getValue().toString().trim() ));
-			vtArtefacto.setEsfuerzoReal(Integer.parseInt(txtCrearEsfuerzoReal.getValue().toString().trim() ));
+			
+			vtArtefacto.setEsfuerzoEstimado(
+					null
+					);
+			vtArtefacto.setEsfuerzoRestante(
+					null
+					);
+			vtArtefacto.setEsfuerzoReal(
+					null
+					);
+			
+			vtArtefacto.setPuntos(
+					null
+					);
 			vtArtefacto.setOrigen(txtCrearOrigen.getValue().toString());
-			vtArtefacto.setPuntos(Integer.parseInt(txtCrearPuntos.getValue().toString().trim()));
 			vtArtefacto.setActivo("S");
 			vtArtefacto.setFechaCreacion(new Date());
 			vtArtefacto.setFechaModificacion(new Date());
@@ -839,14 +923,17 @@ public class VtArtefactoView {
 	public void limpiarCrearAction() {
 		txtCrearDescripcion.resetValue();
 		txtCrearNombre.resetValue();
-		txtCrearEsfuerzoEstimado.resetValue();
-		txtCrearEsfuerzoRestante.resetValue();
-		txtCrearEsfuerzoReal.resetValue();
 		txtCrearOrigen.resetValue();
-		txtCrearPuntos.resetValue();
-		txtCrearEsfuerzoReal.setDisabled(true);
-		txtCrearEsfuerzoRestante.setDisabled(true);
-		txtCrearPuntos.setDisabled(true);
+		
+		esfuerzoEstimado = null;
+		esfuerzoReal = null;
+		esfuerzoRestante = null;
+		puntos = null;		
+		
+		clndEsfuerzoReal.setDisabled(true);
+		clndEsfuerzoRestante.setDisabled(true);
+		clndPuntos.setDisabled(true);
+		
 		somCrearEstadoArtefacto.setValue("-1");
 		somCrearPrioridadesArtefacto.setValue("-1");
 		somCrearTipoArtefacto.setValue("-1");
@@ -856,22 +943,25 @@ public class VtArtefactoView {
 	}
 
 	public void limpiarAction() {
-		artefactoSeleccionado.setTitulo("");
-		artefactoSeleccionado.setDescripcion("");
-		artefactoSeleccionado.setEsfuerzoEstimado(0);
-		artefactoSeleccionado.setEsfuerzoRestante(0);
-		artefactoSeleccionado.setEsfuerzoReal(0);
-		artefactoSeleccionado.setOrigen("");
-		artefactoSeleccionado.setPuntos(0);
-		txtEsfuerzoReal.setDisabled(true);
-		txtEsfuerzoRestante.setDisabled(true);
-		txtPuntos.setDisabled(true);
-		somEstadoArtefacto.setValue("-1");
-		somPrioridadesArtefacto.setValue("-1");
-		somTipoArtefacto.setValue("-1");
-		somDesarrolladores.setValue("-1");
-		somInteres.setValue("-1");
-		somArtefactoActivo.setValue("-1");
+//		artefactoSeleccionado.setTitulo("");
+//		artefactoSeleccionado.setDescripcion("");
+//		artefactoSeleccionado.setOrigen("");
+//		
+//		artefactoSeleccionado.setEsfuerzoEstimado(0);
+//		artefactoSeleccionado.setEsfuerzoRestante(0);
+//		artefactoSeleccionado.setEsfuerzoReal(0);		
+//		artefactoSeleccionado.setPuntos(0);
+//		
+//		txtEsfuerzoReal.setDisabled(true);
+//		txtEsfuerzoRestante.setDisabled(true);
+//		txtPuntos.setDisabled(true);
+//		
+//		somEstadoArtefacto.setValue("-1");
+//		somPrioridadesArtefacto.setValue("-1");
+//		somTipoArtefacto.setValue("-1");
+//		somDesarrolladores.setValue("-1");
+//		somInteres.setValue("-1");
+//		somArtefactoActivo.setValue("-1");
 	}
 
 
@@ -879,18 +969,18 @@ public class VtArtefactoView {
 		int valorTipoArtefacto = Integer.parseInt(somCrearTipoArtefacto.getValue().toString().trim());
 
 		if (valorTipoArtefacto == 1 || valorTipoArtefacto==4) {
-			txtCrearEsfuerzoEstimado.setDisabled(false);
+			clndEsfuerzoEstimado.setDisabled(false);
 
 		}else if (valorTipoArtefacto == 2 || valorTipoArtefacto==3) {
-			txtCrearEsfuerzoEstimado.setDisabled(true);
-			txtCrearEsfuerzoReal.setDisabled(true);
-			txtCrearEsfuerzoRestante.setDisabled(true);
-			txtCrearPuntos.setDisabled(true);
+			clndEsfuerzoEstimado.setDisabled(true);
+			clndEsfuerzoReal.setDisabled(true);
+			clndEsfuerzoRestante.setDisabled(true);
+			clndPuntos.setDisabled(true);
 
-			txtCrearEsfuerzoEstimado.setValue(0);
-			txtCrearEsfuerzoReal.setValue(0);
-			txtCrearEsfuerzoRestante.setValue(0);
-			txtCrearPuntos.setValue(0);
+			esfuerzoEstimado = null;
+			esfuerzoReal = null;
+			esfuerzoRestante = null;
+			puntos = null;
 		}
 	}
 
@@ -898,86 +988,49 @@ public class VtArtefactoView {
 		int valorModTipoArtefacto = Integer.parseInt(somTipoArtefacto.getValue().toString().trim());
 
 		if (valorModTipoArtefacto == 1 || valorModTipoArtefacto==4) {
-			txtEsfuerzoEstimado.setDisabled(false);
-			txtEsfuerzoReal.setDisabled(false);
-			txtEsfuerzoRestante.setDisabled(false);
-			txtPuntos.setDisabled(false);
-
+			clndEsfuerzoMEstimado.setDisabled(false);
+			clndEsfuerzoMReal.setDisabled(false);
+			clndEsfuerzoMRestante.setDisabled(false);
+			clndPuntosM.setDisabled(false);
 
 		}else if (valorModTipoArtefacto == 2 || valorModTipoArtefacto ==3) {
-			txtEsfuerzoEstimado.setDisabled(true);
-			txtEsfuerzoReal.setDisabled(true);
-			txtEsfuerzoRestante.setDisabled(true);
-			txtPuntos.setDisabled(true);
+			clndEsfuerzoMEstimado.setDisabled(true);
+			clndEsfuerzoMReal.setDisabled(true);
+			clndEsfuerzoMRestante.setDisabled(true);
+			clndPuntosM.setDisabled(true);
 
-			txtEsfuerzoEstimado.setValue(0);
-			txtEsfuerzoReal.setValue(0);
-			txtEsfuerzoRestante.setValue(0);
-			txtPuntos.setValue(0);
+			esfuerzoMEstimado = null;
+			esfuerzoMReal = null;
+			esfuerzoMRestante = null;
+			puntosM= null;
 
 
 		}
 	}
 
 	public void esfuerzoListener() {
-		int valor = Integer.parseInt(txtCrearEsfuerzoEstimado.getValue().toString().trim());
 
-		txtCrearEsfuerzoReal.setDisabled(false);
-		txtCrearEsfuerzoRestante.setDisabled(false);
-		txtCrearPuntos.setDisabled(false);
-
-		txtCrearEsfuerzoReal.setValue(valor);
-		txtCrearEsfuerzoRestante.setValue(valor);
-		txtCrearPuntos.setValue(valor);
-
+		clndEsfuerzoReal.setDisabled(false);
+		clndEsfuerzoRestante.setDisabled(false);
+		clndPuntos.setDisabled(false);		
+		
+		esfuerzoReal = esfuerzoEstimado;
+		esfuerzoRestante = esfuerzoEstimado;
+		puntos= esfuerzoEstimado;
 	}
 
 	public void esfuerzoModListener() {
-		int valor = Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim());
-
-		txtEsfuerzoReal.setDisabled(false);
-		txtEsfuerzoRestante.setDisabled(false);
-		txtPuntos.setDisabled(false);
-
-		txtEsfuerzoReal.setValue(valor);
-		txtEsfuerzoRestante.setValue(valor);
-		txtPuntos.setValue(valor);
+		
+		clndEsfuerzoMReal.setDisabled(false);
+		clndEsfuerzoMRestante.setDisabled(false);
+		clndPuntosM.setDisabled(false);	
+		
+		esfuerzoMReal = esfuerzoMEstimado;
+		esfuerzoMRestante = esfuerzoMEstimado;
+		puntosM= esfuerzoMEstimado;
 	}
 
-	public void hidratarArtefactoMod() throws Exception {		
-		
-		log.info("Artefacto= " + artefactoSeleccionado.getTitulo());
-		if (artefactoSeleccionado != null) {
-			txtNombre.setValue(artefactoSeleccionado.getTitulo());
-			txtDescripcion.setValue(artefactoSeleccionado.getDescripcion());
-			txtEsfuerzoEstimado.setValue(""+artefactoSeleccionado.getEsfuerzoEstimado());
-			txtEsfuerzoRestante.setValue(""+artefactoSeleccionado.getEsfuerzoRestante());
-			txtEsfuerzoReal.setValue(""+artefactoSeleccionado.getEsfuerzoReal());
-			txtPuntos.setValue(""+artefactoSeleccionado.getPuntos());
-			txtOrigen.setValue(""+artefactoSeleccionado.getOrigen());
-			somArtefactoActivo.setValue(artefactoSeleccionado.getActivo());
-			somEstadoArtefacto.setValue(artefactoSeleccionado.getVtEstado().getEstaCodigo());
-			somPrioridadesArtefacto.setValue(artefactoSeleccionado.getVtPrioridad().getPrioCodigo());
-			somTipoArtefacto.setValue(artefactoSeleccionado.getVtTipoArtefacto().getTparCodigo());
-			
-			
-			usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
-			
-			if(usuarioArtefacto == null ){
-				somDesarrolladores.setValue("-1");
-				somInteres.setValue("-1");
-			}else{
-				somDesarrolladores.setValue(usuarioArtefacto.getVtUsuario().getUsuaCodigo());
-				somInteres.setValue(usuarioArtefacto.getVtInteres().getInteCodigo());
-			}		
-			
-			//tipoModArtefactoListener();
-		}else {
-			log.info("No se ha seleccionado ningún artefacto");
-		}
-		
-
-	}
+	
 	
 
 
@@ -993,17 +1046,17 @@ public class VtArtefactoView {
 			if (txtOrigen.getValue().toString().trim().equals("") == true || txtOrigen.getValue() == null) {
 				throw new Exception("Por favor ingrese el origen del artefacto");
 			}
-			if (txtPuntos.getValue().toString().trim().equals("") == true || txtPuntos.getValue() == null || !Utilities.isNumeric(txtPuntos.getValue().toString().trim())) {
-				throw new Exception("Por favor ingrese los puntos, recuerde que este campo es de valor numerico");
+			if (puntosM.equals("") == true || puntos == null) {
+				throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta tiempo");
 			}
-			if (txtEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtEsfuerzoEstimado.getValue() == null || !Utilities.isNumeric(txtEsfuerzoEstimado.getValue().toString().trim())) {
-				throw new Exception("Por favor ingrese el esfuerzo estimado, recuerde que este campo es de valor numerico");
+			if (esfuerzoMEstimado.equals("") == true || esfuerzoEstimado == null) {
+				throw new Exception("Por favor ingrese el esfuerzo estimado, recuerde este campo solo acepta numeros");
 			}
-			if (txtEsfuerzoReal.getValue().toString().trim().equals("") == true || txtEsfuerzoReal.getValue() == null || !Utilities.isNumeric(txtEsfuerzoReal.getValue().toString().trim())) {
-				throw new Exception("Por favor ingrese el esfuerzo real, recuerde que este campo es de valor numerico");
+			if (esfuerzoMReal.equals("") == true || esfuerzoReal == null) {
+				throw new Exception("Por favor ingrese el esfuerzo real, recuerde este campo solo acepta numeros");
 			}
-			if (txtEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtEsfuerzoRestante.getValue() == null || !Utilities.isNumeric(txtEsfuerzoRestante.getValue().toString().trim())) {
-				throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo es de valor numerico");
+			if (esfuerzoMRestante.equals("") == true || esfuerzoRestante == null) {
+				throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo solo acepta numeros");
 			}
 
 			if (somEstadoArtefacto.getValue().toString().trim().equals("-1") == true) {
@@ -1031,11 +1084,22 @@ public class VtArtefactoView {
 
 			artefactoSeleccionado.setTitulo(txtNombre.getValue().toString());
 			artefactoSeleccionado.setDescripcion(txtDescripcion.getValue().toString());
-			artefactoSeleccionado.setEsfuerzoEstimado(Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim() ));
-			artefactoSeleccionado.setEsfuerzoRestante(Integer.parseInt(txtEsfuerzoRestante.getValue().toString().trim() ));
-			artefactoSeleccionado.setEsfuerzoReal(Integer.parseInt(txtEsfuerzoReal.getValue().toString().trim() ));
 			artefactoSeleccionado.setOrigen(txtOrigen.getValue().toString());
-			artefactoSeleccionado.setPuntos(Integer.parseInt(txtPuntos.getValue().toString().trim()));
+			
+			artefactoSeleccionado.setEsfuerzoEstimado(
+					esfuerzoMEstimado.getMinute() + (esfuerzoMEstimado.getHour()/60)
+					);
+			artefactoSeleccionado.setEsfuerzoRestante(
+					esfuerzoMRestante.getMinute() + (esfuerzoMRestante.getHour()/60)
+					);
+			artefactoSeleccionado.setEsfuerzoReal(
+					esfuerzoMReal.getMinute() + (esfuerzoMReal.getHour()/60)
+					);
+			
+			artefactoSeleccionado.setPuntos(
+					puntosM.getMinute() + (puntosM.getHour()/60)
+					);
+			
 			artefactoSeleccionado.setActivo(somArtefactoActivo.getValue().toString().trim());
 			
 			artefactoSeleccionado.setFechaModificacion(new Date());
