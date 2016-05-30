@@ -3,11 +3,14 @@ package com.vobi.team.modelo.dto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import hirondelle.date4j.DateTime;
+
 import java.io.Serializable;
 
 import java.sql.*;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -48,6 +51,7 @@ public class VtSprintDTO implements Serializable {
 
     public void setCapacidadEstimada(Integer capacidadEstimada) {
         this.capacidadEstimada = capacidadEstimada;
+
     }
 
     public Integer getCapacidadReal() {
@@ -56,6 +60,7 @@ public class VtSprintDTO implements Serializable {
 
     public void setCapacidadReal(Integer capacidadReal) {
         this.capacidadReal = capacidadReal;
+
     }
 
     public Date getFechaCreacion() {
@@ -145,4 +150,9 @@ public class VtSprintDTO implements Serializable {
     public void setPilaCodigo_VtPilaProducto(Long pilaCodigo_VtPilaProducto) {
         this.pilaCodigo_VtPilaProducto = pilaCodigo_VtPilaProducto;
     }
+
+
+	
+
+	
 }
