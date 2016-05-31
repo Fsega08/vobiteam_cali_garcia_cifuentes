@@ -138,7 +138,7 @@ public class VtSprintView {
 			createMeterGaugeModels();
 			
 			//Picklist inmediato	
-			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
+			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklogYDesarrollador(backlogSeleccionado.getPilaCodigo());
 			artefactosCSource = artefactosSource;
 			
 			if (artefactosSource== null) {
@@ -615,6 +615,7 @@ public class VtSprintView {
 		txtNombre.resetValue();
 		txtDescripcion.resetValue();
 		capacidadEstimada = "";
+		txtCapacidadEstimada.resetValue();
 		fechaFin = null;
 		fechaInicio = null;
 	}
@@ -627,6 +628,7 @@ public class VtSprintView {
 		sprintSeleccionado.setFechaInicio(null);
 		sprintSeleccionado.setFechaFin(null);
 		somSprintActivo.setValue("-1");
+		txtMCapacidadEstimada.resetValue();
 	}
 
 	public void modificarAction()throws Exception{
@@ -774,7 +776,7 @@ public class VtSprintView {
 
 		try {
 
-			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
+			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklogYDesarrollador(backlogSeleccionado.getPilaCodigo());
 			artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
 
 			
@@ -892,7 +894,7 @@ public class VtSprintView {
 
 	public void pickListAsignarArtefactoAction() throws Exception {
 		try {		
-			artefactosCSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
+			artefactosCSource = businessDelegatorView.findArtefactosVaciosPorBacklogYDesarrollador(backlogSeleccionado.getPilaCodigo());
 			artefactosCTarget = new ArrayList<VtArtefacto>();
 
 			if (artefactosCSource != null) {

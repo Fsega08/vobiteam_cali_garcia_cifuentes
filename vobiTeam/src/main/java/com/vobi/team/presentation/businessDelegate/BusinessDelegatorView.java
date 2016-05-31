@@ -1274,6 +1274,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		vtUsuarioLogic.correoReporteCliente(vtUsuario, vtArtefacto);
 	}
 	
-
+	@Override
+	public List<VtArtefacto> findArtefactosVaciosPorBacklogYDesarrollador(Long backlogId) {
+		return vtArtefactoLogic.findArtefactosVaciosPorBacklogYDesarrollador(backlogId);
+	}
 
 }

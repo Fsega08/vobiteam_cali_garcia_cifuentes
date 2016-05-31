@@ -55,6 +55,7 @@ public interface IVtArtefactoLogic {
     public Long findTotalNumberVtArtefacto() throws Exception;
     
     public List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId);
+    public List<VtArtefacto> findArtefactosVaciosPorBacklogYDesarrollador(Long backlogId);
     
     public List<VtArtefactoDTO> getDataVtArtefacto() throws Exception;
     public VtArtefactoDTO getVtArtefactoDTO(VtArtefacto vtArtefacto) throws Exception;

@@ -567,4 +567,6 @@ public interface IBusinessDelegatorView {
 	 public VtArtefactoDTO getVtArtefactoDTO(VtArtefacto vtArtefacto) throws Exception;
 
 	 public void correoReporteCliente(VtUsuario vtUsuario, VtArtefacto vtArtefacto) throws Exception;
+	 
+	 public List<VtArtefacto> findArtefactosVaciosPorBacklogYDesarrollador(Long backlogId) throws Exception;
 }

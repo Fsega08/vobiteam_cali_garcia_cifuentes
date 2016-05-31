@@ -9,11 +9,18 @@
 	   	]]>
 	</query>
 
+	<query name="consultarArtefactosPorPilaProductoSinSprintAsignadoYSinDesarrollador">
+	   	<![CDATA[
+	   		Select vtArt from VtArtefacto vtArt, VtUsuarioArtefacto usuArt where vtArt.vtPilaProducto.pilaCodigo=:pilaCodigo and usuArt.vtArtefacto.arteCodigo = vtArt.arteCodigo and vtArt.vtSprint.spriCodigo IS null and vtArt.vtEstado.estaCodigo != 3 and vtArt.vtEstado.estaCodigo != 5
+	   	]]>
+	</query>
+	
 	<query name="consultarArtefactosPorPilaProductoSinSprintAsignado">
 	   	<![CDATA[
 	   		Select vtArt from VtArtefacto vtArt where vtArt.vtPilaProducto.pilaCodigo=:pilaCodigo and vtArt.vtSprint.spriCodigo IS null and vtArt.vtEstado.estaCodigo != 3 and vtArt.vtEstado.estaCodigo != 5
 	   	]]>
 	</query>
+	
 	<query name="consultarUsuarioRolPorUsuarioYRol">
 	   	<![CDATA[
 	   		Select usuaRol from VtUsuarioRol usuaRol where usuaRol.vtUsuario.usuaCodigo=:usuaCodigo and usuaRol.vtRol.rolCodigo=:rolCodigo

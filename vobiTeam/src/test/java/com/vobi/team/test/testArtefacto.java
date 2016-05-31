@@ -165,5 +165,15 @@ public class testArtefacto {
 			log.info(""+vtUsuario.getLogin());
 		}
 	}
+	
+	@Test    
+	public void testG() throws Exception {
+		
+		List<VtArtefacto> artefactos = vtArtefactoLogic.findArtefactosVaciosPorBacklogYDesarrollador(3L);
+		
+		for (VtArtefacto vtArtefacto : artefactos) {
+			log.info(vtArtefacto.getTitulo());
+		}
+	}
 
 }

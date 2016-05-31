@@ -820,6 +820,10 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	public List<VtArtefacto> findArtefactosVaciosPorBacklog(Long backlogId) {
 		return vtArtefactoDAO.findArtefactosVaciosPorBacklog(backlogId);
 	}
+	@Transactional(readOnly=true)
+	public List<VtArtefacto> findArtefactosVaciosPorBacklogYDesarrollador(Long backlogId) {
+		return vtArtefactoDAO.findArtefactosVaciosPorBacklogYDesarrollador(backlogId);
+	}
 
 	@Transactional(readOnly=true)
 	public List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo) {	

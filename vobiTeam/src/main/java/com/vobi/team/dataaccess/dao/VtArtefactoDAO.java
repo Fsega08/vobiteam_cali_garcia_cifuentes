@@ -62,6 +62,15 @@ public class VtArtefactoDAO extends HibernateDaoImpl<VtArtefacto, Long>
 		List<VtArtefacto> artefactos = (List<VtArtefacto>) query.list();
 		return artefactos;
 	}
+	
+	@Override
+	public List<VtArtefacto> findArtefactosVaciosPorBacklogYDesarrollador(Long backlogId) {
+		Query query = getSession().getNamedQuery("consultarArtefactosPorPilaProductoSinSprintAsignadoYSinDesarrollador");
+		query.setParameter("pilaCodigo", backlogId);
+
+		List<VtArtefacto> artefactos = (List<VtArtefacto>) query.list();
+		return artefactos;
+	}
     
     @Override
 	public List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo) {
