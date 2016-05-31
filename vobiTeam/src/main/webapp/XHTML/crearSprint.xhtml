@@ -64,7 +64,11 @@
 						<h:outputText value="Capacidad Estimada del Sprint" />
 						<p:inputText id="txtCapacidadEstimada"
 							placeholder="Capacidad Estimada del Sprint" size="31"
-							value="#{vtSprintView.capacidadEstimada}">
+							binding="#{vtSprintView.txtCapacidadEstimada}">
+							
+							<p:ajax event="blur" update="panelAsignar"
+								listener="#{vtSprintView.setCapEstimadaAction}" />
+								
 							<p:ajax event="blur" update="panelAsignar"
 								listener="#{vtSprintView.actualizarCrearChartAction}" />
 						</p:inputText>

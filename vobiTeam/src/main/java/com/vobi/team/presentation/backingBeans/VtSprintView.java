@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -29,6 +30,7 @@ import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 import com.vobi.team.utilities.Utilities;
@@ -46,6 +48,7 @@ public class VtSprintView {
 
 	private List<VtSprint> losSprint;
 	private VtSprint sprintSeleccionado;
+	private VtSprintDTO sprintDTOseleccionado;
 
 	private VtPilaProducto backlogSeleccionado;
 
@@ -54,6 +57,7 @@ public class VtSprintView {
 	private InputTextarea txtDescripcion;
 	private Calendar clndFechaIncio;
 	private Calendar clndFechaFin;
+	private InputText txtCapacidadEstimada;
 
 	private CommandButton btnCrearSprint;
 
@@ -121,9 +125,14 @@ public class VtSprintView {
 
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
-
+			
+			if (sprintSeleccionado != null) {
+				sprintDTOseleccionado = businessDelegatorView.getDataVtSprintDTO(sprintSeleccionado);
+			}else {
+				sprintDTOseleccionado = new VtSprintDTO();
+			}
+			
 			losArtefactosParaAsignar = new ArrayList<VtArtefacto>();
-
 
 			iniciarMeterGaugeModelsCreate();
 			createMeterGaugeModels();
@@ -131,9 +140,21 @@ public class VtSprintView {
 			//Picklist inmediato	
 			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			artefactosCSource = artefactosSource;
+			
+			if (artefactosSource== null) {
+				artefactosSource = new ArrayList<VtArtefacto>();
+				artefactosCSource = new ArrayList<VtArtefacto>();
+			}
+			
 			if(sprintSeleccionado != null){
 				artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
 				artefactosCTarget = artefactosTarget;
+				
+				if (artefactosTarget == null) {
+					artefactosTarget = new ArrayList<VtArtefacto>();
+					artefactosCTarget = new ArrayList<VtArtefacto>();
+				}
+				
 				
 				artefactosSacadosDelSprint = new ArrayList<VtArtefacto>();
 				
@@ -150,7 +171,6 @@ public class VtSprintView {
 
 			losArtefactos = new DualListModel<>(artefactosSource, artefactosTarget);
 			losCArtefactos = new DualListModel<>(artefactosCSource, artefactosCTarget);
-
 			
 
 		} catch (Exception e) {
@@ -171,6 +191,18 @@ public class VtSprintView {
 		this.artefactosSacadosDelSprint = artefactosSacadosDelSprint;
 	}
 
+	
+
+	public InputText getTxtCapacidadEstimada() {
+		return txtCapacidadEstimada;
+	}
+
+
+
+	public void setTxtCapacidadEstimada(InputText txtCapacidadEstimada) {
+		this.txtCapacidadEstimada = txtCapacidadEstimada;
+	}
+
 
 
 	public String getCapacidadEstimada() {
@@ -188,6 +220,18 @@ public class VtSprintView {
 	public void setChartModel(MeterGaugeChartModel chartModel) {
 		this.chartModel = chartModel;
 	}
+	
+	public VtSprintDTO getSprintDTOseleccionado() {
+		return sprintDTOseleccionado;
+	}
+
+
+
+	public void setSprintDTOseleccionado(VtSprintDTO sprintDTOseleccionado) {
+		this.sprintDTOseleccionado = sprintDTOseleccionado;
+	}
+
+
 
 	public List<VtArtefacto> getLosArtefactosParaAsignar() {
 		return losArtefactosParaAsignar;
@@ -593,7 +637,7 @@ public class VtSprintView {
 
 			String nombre = txtMNombre.getValue().toString();
 			String descripcion = txtMDescripcion.getValue().toString();
-			String capacidadE = txtMCapacidadEstimada.getValue().toString();
+			String capacidadE = ""+TimeUnit.HOURS.toMinutes(Long.parseLong(txtMCapacidadEstimada.getValue().toString()));
 			fechaInicioM = sprintSeleccionado.getFechaInicio();
 			fechaFinM = sprintSeleccionado.getFechaFin();
 
@@ -733,7 +777,13 @@ public class VtSprintView {
 			artefactosSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			artefactosTarget = businessDelegatorView.findArtefactosBySpring(sprintSeleccionado);
 
-			losArtefactos.setSource(artefactosSource);
+			
+			if (artefactosSource != null) {
+				losArtefactos.setSource(artefactosSource);
+			}else {
+				List<VtArtefacto> artSrc = new ArrayList<VtArtefacto>();
+				losArtefactos.setSource(artSrc);
+			}			
 
 			if (artefactosTarget != null) {
 				losArtefactos.setTarget(artefactosTarget);
@@ -845,9 +895,16 @@ public class VtSprintView {
 			artefactosCSource = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			artefactosCTarget = new ArrayList<VtArtefacto>();
 
-			losCArtefactos.setSource(artefactosCSource);
+			if (artefactosCSource != null) {
+				losCArtefactos.setSource(artefactosCSource);
+			}else {
+				List<VtArtefacto> artSrc = new ArrayList<VtArtefacto>();
+				losCArtefactos.setSource(artSrc);
+			}			
+			
+			
 			losCArtefactos.setTarget(artefactosCTarget);
-
+			
 			if (sprintSeleccionado != null) {
 				capacidadEstimada = ""+(sprintSeleccionado.getCapacidadEstimada());
 			}
@@ -990,7 +1047,10 @@ public class VtSprintView {
 
 		try {
 			if (sprintSeleccionado != null) {
-				capacidadEstimada = ""+(sprintSeleccionado.getCapacidadEstimada());
+				capacidadEstimada = ""+(TimeUnit.HOURS.toMinutes(Long.parseLong(txtMCapacidadEstimada.getValue().toString())));
+			}
+			else {
+				capacidadEstimada = ""+(TimeUnit.HOURS.toMinutes(Long.parseLong(txtCapacidadEstimada.getValue().toString())));
 			}
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

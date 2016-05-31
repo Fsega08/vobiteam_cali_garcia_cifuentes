@@ -3,6 +3,8 @@ package com.vobi.team.modelo.dto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vobi.team.utilities.Utilities;
+
 import hirondelle.date4j.DateTime;
 
 import java.io.Serializable;
@@ -36,7 +38,12 @@ public class VtSprintDTO implements Serializable {
     private Long usuModificador;
     private Long estsprCodigo_VtEstadoSprint;
     private Long pilaCodigo_VtPilaProducto;
+    
+    private Integer horaCapacidadEstimada;
+    private Integer horaCapacidadReal;
+    
 
+    
     public String getActivo() {
         return activo;
     }
@@ -51,7 +58,7 @@ public class VtSprintDTO implements Serializable {
 
     public void setCapacidadEstimada(Integer capacidadEstimada) {
         this.capacidadEstimada = capacidadEstimada;
-
+        this.horaCapacidadEstimada = Utilities.intMinutesToHour(capacidadEstimada);
     }
 
     public Integer getCapacidadReal() {
@@ -60,7 +67,7 @@ public class VtSprintDTO implements Serializable {
 
     public void setCapacidadReal(Integer capacidadReal) {
         this.capacidadReal = capacidadReal;
-
+        this.horaCapacidadReal = Utilities.intMinutesToHour(capacidadReal);
     }
 
     public Date getFechaCreacion() {
@@ -150,5 +157,21 @@ public class VtSprintDTO implements Serializable {
     public void setPilaCodigo_VtPilaProducto(Long pilaCodigo_VtPilaProducto) {
         this.pilaCodigo_VtPilaProducto = pilaCodigo_VtPilaProducto;
     }
+
+	public Integer getHoraCapacidadEstimada() {
+		return horaCapacidadEstimada;
+	}
+
+	public void setHoraCapacidadEstimada(Integer horaCapacidadEstimada) {
+		this.horaCapacidadEstimada = horaCapacidadEstimada;
+	}
+
+	public Integer getHoraCapacidadReal() {
+		return horaCapacidadReal;
+	}
+
+	public void setHoraCapacidadReal(Integer horaCapacidadReal) {
+		this.horaCapacidadReal = horaCapacidadReal;
+	}
 	
 }

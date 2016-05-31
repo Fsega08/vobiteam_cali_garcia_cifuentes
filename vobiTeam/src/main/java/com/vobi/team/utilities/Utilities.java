@@ -424,4 +424,24 @@ public class Utilities {
     	return minutos;
 		
     }
+	
+    public static Integer intMinutesToHour(Integer minutes){
+    	
+    	try {
+    		Integer hours = 0;
+        	
+        	if (minutes == null || minutes == 0) {
+    			throw new Exception("El campo llego nulo o igual a cero");
+    		}
+        	
+        	hours = (int) TimeUnit.MINUTES.toHours(minutes);
+        	
+        	return hours;
+			
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return 0;
+		}
+    }
+	
 }
