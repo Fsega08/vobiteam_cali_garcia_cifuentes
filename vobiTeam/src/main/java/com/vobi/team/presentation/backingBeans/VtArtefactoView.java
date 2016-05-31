@@ -824,14 +824,14 @@ public class VtArtefactoView {
 	}
 
 	public void limpiarAction() {
-		artefactoSeleccionado.setTitulo("");
-		artefactoSeleccionado.setDescripcion("");
-		artefactoSeleccionado.setOrigen("");
+		artefactoSeleccionadoDTO.setTitulo("");
+		artefactoSeleccionadoDTO.setDescripcion("");
+		artefactoSeleccionadoDTO.setOrigen("");
 		
-		artefactoSeleccionado.setEsfuerzoEstimado(0);
-		artefactoSeleccionado.setEsfuerzoRestante(0);
-		artefactoSeleccionado.setEsfuerzoReal(0);		
-		artefactoSeleccionado.setPuntos(0);
+		artefactoSeleccionadoDTO.setEsfuerzoEstimado(0);
+		artefactoSeleccionadoDTO.setEsfuerzoRestante(0);
+		artefactoSeleccionadoDTO.setEsfuerzoReal(0);		
+		artefactoSeleccionadoDTO.setPuntos(0);
 		
 		txtEsfuerzoReal.setDisabled(true);
 		txtEsfuerzoRestante.setDisabled(true);
