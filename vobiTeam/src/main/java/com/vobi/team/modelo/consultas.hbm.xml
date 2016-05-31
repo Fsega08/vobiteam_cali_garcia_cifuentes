@@ -17,7 +17,7 @@
 	
 	<query name="consultarArtefactosPorPilaProductoSinSprintAsignado">
 	   	<![CDATA[
-	   		Select vtArt from VtArtefacto vtArt where vtArt.vtPilaProducto.pilaCodigo=:pilaCodigo and vtArt.vtSprint.spriCodigo IS null and vtArt.vtEstado.estaCodigo != 3 and vtArt.vtEstado.estaCodigo != 5
+	   		Select vtArt from VtArtefacto vtArt where vtArt.vtPilaProducto.pilaCodigo=:pilaCodigo and vtArt.vtSprint.spriCodigo IS null
 	   	]]>
 	</query>
 	
