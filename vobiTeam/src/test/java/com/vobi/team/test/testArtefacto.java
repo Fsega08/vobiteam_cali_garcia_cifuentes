@@ -150,7 +150,12 @@ public class testArtefacto {
 		
 		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(1L);
 		
-		vtUsuarioLogic.correoReporteCliente(vtUsuario, vtArtefacto);
+		for (int i = 0; i < 5; i++) {
+			 vtUsuarioLogic.correoReporteCliente(vtUsuario, vtArtefacto);
+			
+		}
+		
+		
 		
 	}
 	

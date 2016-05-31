@@ -72,6 +72,12 @@ public class MenuModelView {
 
 	private void menuCliente() {
 		
+		DefaultMenuItem dashboard = new DefaultMenuItem("Dashboard");
+		dashboard.setOutcome("/cliente/dashboard.xhtml");
+		dashboard.setId("sm_dashboard");
+		dashboard.setIcon("icon-home");
+		menuModel.addElement(dashboard);
+		
 		DefaultMenuItem menuProyectos = new DefaultMenuItem("Ver Proyectos");
 		menuProyectos.setOutcome("/cliente/TreeTableCliente.xhtml");
 		menuProyectos.setId("sm_TreeCliente");
@@ -79,7 +85,7 @@ public class MenuModelView {
 		menuModel.addElement(menuProyectos);
 		
 		DefaultSubMenu orientacion = new DefaultSubMenu("Orientación del menu");
-
+		
 		DefaultMenuItem izquierdaItem = new DefaultMenuItem("Izquierda");
 		izquierdaItem.setIcon("icon-align-left");
 		izquierdaItem.setId("sm_ltr");
@@ -99,6 +105,12 @@ public class MenuModelView {
 
 	private void menuDesarrollador() {
 
+		
+		DefaultMenuItem dashboard = new DefaultMenuItem("Dashboard");
+		dashboard.setOutcome("/desarrollador/dashboard.xhtml");
+		dashboard.setId("sm_dashboard");
+		dashboard.setIcon("icon-home");
+		menuModel.addElement(dashboard);
 		
 		//Proyectos Desarrollor 
 		DefaultMenuItem menuProyectos = new DefaultMenuItem("Ver Proyectos");
@@ -129,7 +141,13 @@ public class MenuModelView {
 	}
 
 	private void menuAdministrador() {
-
+		
+		DefaultMenuItem dashboard = new DefaultMenuItem("Dashboard");
+		dashboard.setOutcome("/XHTML/dashboard.xhtml");
+		dashboard.setId("sm_dashboard");
+		dashboard.setIcon("icon-home");
+		menuModel.addElement(dashboard);
+		
 		DefaultSubMenu empresaSubmenu = new DefaultSubMenu("Empresa");		
 		DefaultMenuItem empresaItem = new DefaultMenuItem("Lista de Empresas");
 
@@ -139,7 +157,7 @@ public class MenuModelView {
 		empresaItem.setContainerStyleClass("layout-menubar-active");
 
 		empresaSubmenu.setId("sm_Empresa");
-		empresaSubmenu.setIcon("icon-home");
+		empresaSubmenu.setIcon("icon-building-filled");
 		empresaSubmenu.addElement(empresaItem);
 		menuModel.addElement(empresaSubmenu);
 
