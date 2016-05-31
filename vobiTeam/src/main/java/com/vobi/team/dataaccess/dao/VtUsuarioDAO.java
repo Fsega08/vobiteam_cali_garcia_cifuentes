@@ -63,4 +63,12 @@ public class VtUsuarioDAO extends HibernateDaoImpl<VtUsuario, Long>
 		
 		return losUsuarios;
 	}
+	
+	@Override
+	public List<VtUsuario> findVortexRolAdmin() {
+		Query query = getSession().getNamedQuery("consultarUsuariosAdministradores");
+		
+		List<VtUsuario> usuarios = query.list();
+		return usuarios;
+	}
 }

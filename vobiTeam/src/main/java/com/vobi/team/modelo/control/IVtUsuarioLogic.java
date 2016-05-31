@@ -2,6 +2,7 @@ package com.vobi.team.modelo.control;
 
 import java.util.List;
 
+import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtUsuario;
@@ -68,4 +69,9 @@ public interface IVtUsuarioLogic {
 	public boolean verificarContraseña(VtUsuario vtUsuario, String passActual ,String password1, String password2);
 
 	public List<VtUsuario> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa);
+	
+	public void correoReporteCliente(VtUsuario vtUsuario, VtArtefacto vtArtefacto) throws Exception;
+	
+	public List<VtUsuario> findVortexRolAdmin();
+	
 }

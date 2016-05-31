@@ -45,7 +45,7 @@
 						</p:selectOneMenu>
 
 						<h:outputText value="Descripción del Sprint" />
-						<p:inputTextarea id="txtMDescripcion" rows="7" cols="30"
+						<p:inputTextarea id="txtMDescripcion" rows="7" cols="148"
 							placeholder="Descripcion"
 							binding="#{vtSprintView.txtMDescripcion}"
 							value="#{vtSprintView.sprintSeleccionado.objetivo}"
@@ -55,7 +55,7 @@
 					</h:panelGrid>
 					<p:separator />
 					<h:panelGrid columns="5" layout="grid" id="pnlgDemas">
-
+						
 						<h:outputText value="Inicio del Sprint" />
 						<p:calendar id="clndFechaIncio" placeholder="Fecha de Inicio"
 							binding="#{vtSprintView.clndMFechaIncio}"
@@ -63,17 +63,23 @@
 							size="31">
 							<p:ajax update="clndFechaFin" event="dateSelect" />
 						</p:calendar>
+						
 						<p:spacer width="100" height="10" />
+						
 						<h:outputText value="Final del Sprint" />
 						<p:calendar id="clndFechaFin" placeholder="Fecha de Fin"
 							binding="#{vtSprintView.clndMFechaFin}"
 							mindate="#{vtSprintView.sprintSeleccionado.fechaInicio}"
 							value="#{vtSprintView.sprintSeleccionado.fechaFin}" size="31" />
 
-						<h:outputText value="Capacidad Estimada del Sprint" />
+					</h:panelGrid>
+					<h:panelGrid columns="7" layout="grid">
+						
+						<h:outputText value="Capacidad Estimada" />
 						<p:inputText id="txtMCapacidadEstimada"
+						
 							placeholder="Capacidad Estimada del Sprint" value="#{vtSprintView.sprintSeleccionado.capacidadEstimada}"
-							binding="#{vtSprintView.txtMCapacidadEstimada}" size="31">
+							binding="#{vtSprintView.txtMCapacidadEstimada}" size="27">
 							
 							<p:ajax event="blur" update="panelAsignar"
 								listener="#{vtSprintView.setCapEstimadaAction}" />
@@ -81,17 +87,24 @@
 							<p:ajax event="blur" update="panelAsignar"
 								listener="#{vtSprintView.actualizarCrearChartAction}" />
 						</p:inputText>
+						
+						
+						<h:outputText value="horas" />
 						<p:spacer width="100" height="10" />
-						<h:outputText value="Capacidad Real del Sprint" />
+						
+						<h:outputText value="Capacidad Real" />
 						<p:inputText id="txtMCapacidadReal"
 							placeholder="Capacidad Real del Sprint" disabled="true"
 							binding="#{vtSprintView.txtMCapacidadReal}"
 							value="#{vtSprintView.sprintSeleccionado.capacidadReal}"
-							size="31" />
+							size="25" />
+							
+							
+						<h:outputText value="horas" />
 
 					</h:panelGrid>
 
-					<h:panelGrid id="panelAsignar" columns="2">
+					<h:panelGrid id="panelAsignar" columns="3">
 
 						<p:pickList id="pickList" value="#{vtSprintView.losCArtefactos}"
 							showSourceControls="true" showTargetControls="true"
@@ -112,7 +125,9 @@
 								<h:outputText value="#{artefactos.titulo}" />
 							</p:column>
 						</p:pickList>
-
+						
+						<p:spacer width="100" height="10" />
+													
 						<p:chart id="chartModel" type="metergauge"
 							model="#{vtSprintView.chartCrear}"
 							style="width:400px;height:250px" />

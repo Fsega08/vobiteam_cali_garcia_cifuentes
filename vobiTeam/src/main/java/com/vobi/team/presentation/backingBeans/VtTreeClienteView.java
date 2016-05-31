@@ -481,6 +481,8 @@ public class VtTreeClienteView {
 			
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
 			
+			businessDelegatorView.correoReporteCliente(vtUsuarioActual, vtArtefacto);
+			
 			limpiarCrearClienteAction();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

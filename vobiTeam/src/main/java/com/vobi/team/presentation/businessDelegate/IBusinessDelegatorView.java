@@ -565,4 +565,6 @@ public interface IBusinessDelegatorView {
 	 public VtSprintDTO getDataVtSprintDTO(VtSprint vtSprint) throws Exception;
 	 
 	 public VtArtefactoDTO getVtArtefactoDTO(VtArtefacto vtArtefacto) throws Exception;
+
+	 public void correoReporteCliente(VtUsuario vtUsuario, VtArtefacto vtArtefacto) throws Exception;
 }
