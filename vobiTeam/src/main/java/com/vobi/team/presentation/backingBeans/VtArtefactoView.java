@@ -775,6 +775,7 @@ public class VtArtefactoView {
 				vtUsuarioArtefacto.setActivo("S");
 				
 				businessDelegatorView.saveVtUsuarioArtefacto(vtUsuarioArtefacto);
+				FacesUtils.addInfoMessage("Se a asignado correcamente");
 			}else{
 				
 				vtUsuarioArtefacto.setVtUsuario(vtUsuario);
@@ -784,16 +785,21 @@ public class VtArtefactoView {
 				vtUsuarioArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 				
 				businessDelegatorView.updateVtUsuarioArtefacto(vtUsuarioArtefacto);
-				
+				FacesUtils.addInfoMessage("Se a re-asignado correcamente");
 			}
 			
-			
+			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 			
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		
 		
+	}
+	
+	public void limpiarDesarrolladorAction() {
+		somDesarrolladores.setValue("-1");
+		somInteres.setValue("-1");
 	}
 
 	public void limpiarCrearAction() {
@@ -879,6 +885,23 @@ public class VtArtefactoView {
 
 
 		}
+	}
+	
+	public void hidratarAsignar() throws Exception {				
+		try {
+			usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
+				
+			if(usuarioArtefacto == null ){
+				somDesarrolladores.setValue("-1");
+				somInteres.setValue("-1");
+			}else{
+				somDesarrolladores.setValue(usuarioArtefacto.getVtUsuario().getUsuaCodigo());
+				somInteres.setValue(usuarioArtefacto.getVtInteres().getInteCodigo());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}	
+		
 	}
 
 	public void esfuerzoListener() {

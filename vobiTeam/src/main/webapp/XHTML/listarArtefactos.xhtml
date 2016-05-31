@@ -40,13 +40,12 @@
 					</p:panel>
 
 					<p:contextMenu for="dtArtefactos" event="click contextmenu">
-						<p:menuitem value="Modificar"
-							icon="fa fa-pencil"	update="men"						
+						<p:menuitem value="Modificar" icon="fa fa-pencil" update="men"
 							action="#{vtArtefactoView.modificarArtefactoAction}" />
-						
-						<p:menuitem value="Asignar a un Desarrollador"
-							icon="fa fa-user"	update="men"						
-							action="#{vtArtefactoView.modificarArtefactoAction}" />
+
+						<p:menuitem value="Asignar a un Desarrollador" icon="fa fa-user"
+							update="dlAsignarDesarrollador" oncomplete="PF('dlgAsignarDesarrollador').show()"
+							action="#{vtArtefactoView.hidratarAsignar}" />
 
 						<p:menuitem value="Historial" update="panelHistorial"
 							icon="fa fa-history "
@@ -116,45 +115,44 @@
 						action="#{vtArtefactoView.sprintAction}"
 						value="Ir a la lista de Sprints" update="formDialog" />
 				</h:panelGrid>
+
+				<p:dialog header="Asignar un Desarrollador a este Artefacto"
+					widgetVar="dlgAsignarDesarrollador" modal="true"
+					id="dlAsignarDesarrollador">
+
+					<p:panel id="panelAsignar">
+						<h:panelGrid columns="2">
+							<h:outputText value="Desarrollador" />
+							<p:selectOneMenu id="somDesarrolladores"
+								binding="#{vtArtefactoView.somDesarrolladores}">
+								<f:selectItem itemValue="-1" itemLabel="-Desarrollador-" />
+								<f:selectItems value="#{vtArtefactoView.losDesarrolladores}" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Interes" />
+							<p:selectOneMenu id="somInteres"
+								binding="#{vtArtefactoView.somInteres}">
+								<f:selectItem itemValue="-1" itemLabel="-Interes-" />
+								<f:selectItems value="#{vtArtefactoView.losInteres}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:panel>
+
+					<div align="center">
+						<p:commandButton id="btnAsignar" icon="fa fa-plus white"
+							value="Asignar Desarrollador"
+							update="panelAsignar , men, dtArtefactos"
+							action="#{vtArtefactoView.asignarDesarrolladorAction}" />
+
+						<p:commandButton id="btnLimpiar" icon="fa fa-eraser white"
+							value="Limpiar" update="panelAsignar , men"
+							action="#{vtArtefactoView.limpiarDesarrolladorAction}" />
+
+					</div>
+				</p:dialog>
 			</p:panel>
-			
-			<p:dialog header="Asignar un Desarrollador a este Artefacto"
-				widgetVar="dlgAsignarDesarrollador" modal="true"
-				id="dlAsignarDesarrollador">
-				
-				<p:panel>
-					</h:panelGrid columns="2" id="panelAsignar">
-						<h:outputText value="Desarrollador" />
-						<p:selectOneMenu id="somDesarrolladores"							
-							binding="#{vtArtefactoView.somDesarrolladores}">
-							<f:selectItem itemValue="-1" itemLabel="-Desarrollador-" />
-							<f:selectItems
-								value="#{vtArtefactoView.losDesarrolladores}" />
-						</p:selectOneMenu>
-						
-						<h:outputText value="Interes" />
-						<p:selectOneMenu id="somInteres"							
-							binding="#{vtArtefactoView.somInteres}">
-							<f:selectItem itemValue="-1" itemLabel="-Interes-" />
-							<f:selectItems
-								value="#{vtArtefactoView.losInteres}" />
-						</p:selectOneMenu>				
-					</h:panelGrid>
-				</p:panel>
-				
-				<div align="center">
-					<p:commandButton id="btnAsignar" icon="fa fa-plus white"
-						value="Asignar Desarrollador"
-						binding="#{vtArtefactoView.btnCArtefacto}"
-						action="#{vtArtefactoView.crearArtefactoAction}" />
-						
-					<p:commandButton id="btnLimpiar" icon="fa fa-plus white"
-						value="Asignar Desarrollador"
-						binding="#{vtArtefactoView.btnCArtefacto}"
-						action="#{vtArtefactoView.crearArtefactoAction}" />
-						
-				</div>
-			</p:dialog>
+
+
 
 
 			<p:dialog header="Historial Artefacto"
@@ -195,7 +193,7 @@
 						<p:column headerText="Fecha Creación"
 							filterBy="#{historialArtefacto.fechaCreacion}"
 							sortBy="#{historialArtefacto.fechaCreacion}">
-							<h:outputText value="#{historialArtefacto.fechaCreacion}" >
+							<h:outputText value="#{historialArtefacto.fechaCreacion}">
 								<f:convertDateTime dateStyle="full" type="date" />
 							</h:outputText>
 						</p:column>
@@ -240,7 +238,7 @@
 
 						<h:panelGrid columns="1" layout="grid">
 
-						<h:outputText value="Descripción del artefacto" />
+							<h:outputText value="Descripción del artefacto" />
 							<p:inputTextarea id="txtAreaHMDescripcion" cols="148"
 								placeholder="Descripción" maxlength="100000000"
 								binding="#{vtHistorialArtefactoView.txtHtistorialDescripcion}"
@@ -253,8 +251,8 @@
 							<p:inputText id="txtHMEsfuerzoEstimado"
 								placeholder="Esfuerzo Estimado"
 								binding="#{vtHistorialArtefactoView.txtHistorialEsfuerzoEstimado}"
-								disabled="true"/>
-				
+								disabled="true" />
+
 
 							<p:spacer width="100" height="10" />
 
@@ -275,7 +273,7 @@
 							<p:inputText id="txtHMPuntos" placeholder="Puntos"
 								binding="#{vtHistorialArtefactoView.txtHistorialPuntos}"
 								disabled="true" />
-							
+
 							<h:outputText value="Artefacto Activo?" />
 							<p:inputText id="txtHActivo" placeholder="Artefacto Activo"
 								binding="#{vtHistorialArtefactoView.txtHistorialActivo}"
@@ -287,7 +285,7 @@
 							<p:inputText id="txtHMEsta" placeholder="Estado"
 								binding="#{vtHistorialArtefactoView.txtHistorialEstado}"
 								disabled="true" />
-								
+
 							<h:outputText value="Tipo Artefacto" />
 							<p:inputText id="txtHTipo" placeholder="Tipo Artefacto"
 								binding="#{vtHistorialArtefactoView.txtHistorialTipo}"
@@ -299,7 +297,7 @@
 							<p:inputText id="txtHMPrioridad" placeholder="Prioridad"
 								binding="#{vtHistorialArtefactoView.txtHistorialPrio}"
 								disabled="true" />
-								
+
 							<h:outputText value="Pila Producto" />
 							<p:inputText id="txtHPila" placeholder="Pila Artefacto"
 								binding="#{vtHistorialArtefactoView.txtHistorialPila}"
@@ -311,7 +309,7 @@
 							<p:inputText id="txtHMSprint" placeholder="Sprint"
 								binding="#{vtHistorialArtefactoView.txtHistorialSprint}"
 								disabled="true" />
-							
+
 							<br />
 						</h:panelGrid>
 					</div>
@@ -331,7 +329,7 @@
 			<p:dialog header="Subir archivos a este Artefacto"
 				widgetVar="dlgArchivosArtefacto" modal="true"
 				id="dlArchivosArtefacto">
-				
+
 				<h:panelGrid columns="1" id="panelArchivos">
 					<p:fileUpload sequential="true"
 						fileUploadListener="#{vtArtefactoView.handleFileUpload}"
