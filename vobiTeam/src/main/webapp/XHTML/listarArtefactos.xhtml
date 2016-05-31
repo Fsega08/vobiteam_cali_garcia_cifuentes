@@ -43,6 +43,10 @@
 						<p:menuitem value="Modificar"
 							icon="fa fa-pencil"	update="men"						
 							action="#{vtArtefactoView.modificarArtefactoAction}" />
+						
+						<p:menuitem value="Asignar a un Desarrollador"
+							icon="fa fa-user"	update="men"						
+							action="#{vtArtefactoView.modificarArtefactoAction}" />
 
 						<p:menuitem value="Historial" update="panelHistorial"
 							icon="fa fa-history "
@@ -113,6 +117,44 @@
 						value="Ir a la lista de Sprints" update="formDialog" />
 				</h:panelGrid>
 			</p:panel>
+			
+			<p:dialog header="Asignar un Desarrollador a este Artefacto"
+				widgetVar="dlgAsignarDesarrollador" modal="true"
+				id="dlAsignarDesarrollador">
+				
+				<p:panel>
+					</h:panelGrid columns="2" id="panelAsignar">
+						<h:outputText value="Desarrollador" />
+						<p:selectOneMenu id="somDesarrolladores"							
+							binding="#{vtArtefactoView.somDesarrolladores}">
+							<f:selectItem itemValue="-1" itemLabel="-Desarrollador-" />
+							<f:selectItems
+								value="#{vtArtefactoView.losDesarrolladores}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Interes" />
+						<p:selectOneMenu id="somInteres"							
+							binding="#{vtArtefactoView.somInteres}">
+							<f:selectItem itemValue="-1" itemLabel="-Interes-" />
+							<f:selectItems
+								value="#{vtArtefactoView.losInteres}" />
+						</p:selectOneMenu>				
+					</h:panelGrid>
+				</p:panel>
+				
+				<div align="center">
+					<p:commandButton id="btnAsignar" icon="fa fa-plus white"
+						value="Asignar Desarrollador"
+						binding="#{vtArtefactoView.btnCArtefacto}"
+						action="#{vtArtefactoView.crearArtefactoAction}" />
+						
+					<p:commandButton id="btnLimpiar" icon="fa fa-plus white"
+						value="Asignar Desarrollador"
+						binding="#{vtArtefactoView.btnCArtefacto}"
+						action="#{vtArtefactoView.crearArtefactoAction}" />
+						
+				</div>
+			</p:dialog>
 
 
 			<p:dialog header="Historial Artefacto"

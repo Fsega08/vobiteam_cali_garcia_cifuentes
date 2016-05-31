@@ -745,10 +745,20 @@ public class VtArtefactoView {
 		}
 	}
 	
-	private void asignarDesarrollador(VtArtefacto vtArtefacto, VtInteres vtInteres, VtUsuario vtUsuario) throws Exception{
+	public void asignarDesarrolladorAction() throws Exception{
 		try {
-			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);			
-			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(vtArtefacto);
+			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+			
+			if (somDesarrolladores.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un Desarrollador para el artefacto");
+			}
+			if (somInteres.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un interés ");
+			}
+			
+			VtInteres vtInteres = businessDelegatorView.getVtInteres(Long.parseLong(somInteres.getValue().toString().trim()));
+			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(Long.parseLong(somDesarrolladores.getValue().toString().trim()));
+			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
 			
 			if(vtUsuarioArtefacto == null){
 				
@@ -756,7 +766,7 @@ public class VtArtefactoView {
 				
 				vtUsuarioArtefacto.setVtUsuario(vtUsuario);
 				vtUsuarioArtefacto.setVtInteres(vtInteres);
-				vtUsuarioArtefacto.setVtArtefacto(vtArtefacto);
+				vtUsuarioArtefacto.setVtArtefacto(artefactoSeleccionado);
 				
 				vtUsuarioArtefacto.setFechaCreacion(new Date());
 				vtUsuarioArtefacto.setFechaModificacion(new Date());
