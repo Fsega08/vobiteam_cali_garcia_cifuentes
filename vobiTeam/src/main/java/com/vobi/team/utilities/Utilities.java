@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import hirondelle.date4j.DateTime;
+
 import org.apache.commons.validator.EmailValidator;
 
 /**
@@ -393,5 +397,31 @@ public class Utilities {
         return matcher.matches();
 	}
 	
+	public static String pasarIntAFormatoHoraMinuto(Integer minutos){
+    	long tmpH = 0;
+    	long tmpM = 0;
+    	String formato = "%02d:%02d";
+    	String formatoHora = "";
+    	
+    	tmpH= TimeUnit.MINUTES.toHours(minutos);
+    	tmpM = TimeUnit.MINUTES.toMinutes(minutos) - TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(minutos));
+    	formatoHora = String.format(formato, tmpH, tmpM);
+    	return formatoHora;
+
+    }
 	
+	public static Integer pasarFormatoHoraAInteger(String horaMinuto){
+    	
+		String h = horaMinuto.substring(0,2);
+		String m = horaMinuto.substring(3,5);
+		
+    	long tmpH = 0;
+    	long tmpM = 0;
+    	
+    	tmpH = TimeUnit.HOURS.toMinutes(Long.parseLong(h));
+    	tmpM = Long.parseLong(m) + tmpH;
+    	int minutos = (int) tmpM;
+    	return minutos;
+		
+    }
 }

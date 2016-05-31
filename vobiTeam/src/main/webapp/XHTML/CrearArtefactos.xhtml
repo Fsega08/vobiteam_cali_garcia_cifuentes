@@ -76,25 +76,25 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Esfuerzo Estimado" />
-						<p:calendar id="clndEsfuerzoEstimado" value="#{vtArtefactoView.esfuerzoEstimado}" pattern="HH:mm" timeOnly="true" binding="#{vtArtefactoView.clndEsfuerzoEstimado}" >
+						<p:inputMask id="txtCrearEsfuerzoEstimado" binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}" mask="99:99">
 							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
-								event="dateSelect" update="clndEsfuerzoRestante, clndEsfuerzoReal, clndPuntos" />							
-						</p:calendar>
+								event="blur" update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />							
+						</p:inputMask>
 						
 						
 						
 						<p:spacer width="100" height="10" />
 						
 						<h:outputText value="Esfuerzo Restante" />
-						<p:calendar id="clndEsfuerzoRestante" value="#{vtArtefactoView.esfuerzoRestante}" pattern="HH:mm" timeOnly="true"  binding="#{vtArtefactoView.clndEsfuerzoRestante}"/>						
+						<p:inputMask id="txtCrearEsfuerzoRestante" binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}" mask="99:99"/>						
 
 						<h:outputText value="Esfuerzo Real" />
-						<p:calendar id="clndEsfuerzoReal" value="#{vtArtefactoView.esfuerzoReal}" pattern="HH:mm" timeOnly="true" binding="#{vtArtefactoView.clndEsfuerzoReal}" />						
+						<p:inputMask id="txtCrearEsfuerzoReal" binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" mask="99:99"/>						
 						
 						<p:spacer width="100" height="10" />
 										
 						<h:outputText value="Puntos del artefacto" />
-						<p:calendar id="clndPuntos" value="#{vtArtefactoView.puntos}" pattern="HH:mm" timeOnly="true" binding="#{vtArtefactoView.clndPuntos}" />					
+						<p:inputMask id="txtCrearPuntos" binding="#{vtArtefactoView.txtCrearPuntos}" mask="99:99"/>					
 												
 						<h:outputText value="Origen del artefacto" />
 						<p:inputText id="txtCrearOrigen" placeholder="Origen"

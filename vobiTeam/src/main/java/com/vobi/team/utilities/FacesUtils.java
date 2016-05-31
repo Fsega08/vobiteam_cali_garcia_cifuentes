@@ -475,30 +475,5 @@ public class FacesUtils {
 	}
 	
 	
-	public String pasarIntAFormatoHoraMinuto(Integer minutos){
-    	long tmpH = 0;
-    	long tmpM = 0;
-    	String formato = "%02d:%02d";
-    	String formatoHora = "";
-    	
-    	tmpH= TimeUnit.MINUTES.toHours(minutos);
-    	tmpM = TimeUnit.MINUTES.toMinutes(minutos) - TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(minutos));
-    	formatoHora = String.format(formato, tmpH, tmpM);
-    	return formatoHora;
-
-    }
 	
-	public Integer pasarFormatoHoraAInteger(String horaMinuto){
-    	
-    	long tmpH = 0;
-    	long tmpM = 0;
-    	DateTime date = new DateTime(horaMinuto);
-    	int minutos = 0;
-    	
-    	tmpH = TimeUnit.MINUTES.toHours(date.getHour());
-    	tmpM = date.getMinute() + tmpH;
-    	minutos = (int) tmpM;
-    	return minutos;
-		
-    }
 }

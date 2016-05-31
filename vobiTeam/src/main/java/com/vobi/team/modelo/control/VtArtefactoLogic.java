@@ -496,6 +496,20 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 						.getTparCodigo() != null)
 						? vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() : null);
 				vtArtefactoDTO.add(vtArtefactoDTO2);
+				vtArtefactoDTO2.setEstaNombre_VtEstado((vtArtefactoTmp.getVtEstado()
+						.getNombre() != null)? vtArtefactoTmp.getVtEstado().getNombre() : null);
+				vtArtefactoDTO2.setPrioNombre_VtPrioridad((vtArtefactoTmp.getVtPrioridad()
+						.getNombre() != null)
+						? vtArtefactoTmp.getVtPrioridad().getNombre() : null);
+				vtArtefactoDTO2.setPilaNombre_VtPilaProducto((vtArtefactoTmp.getVtPilaProducto()
+						.getNombre() != null)
+						? vtArtefactoTmp.getVtPilaProducto().getNombre() : null);
+				vtArtefactoDTO2.setSpriNombre_VtSprint((vtArtefactoTmp.getVtSprint()
+						.getNombre() != null)
+						? vtArtefactoTmp.getVtSprint().getNombre() : null);
+				vtArtefactoDTO2.setTparNombre_VtTipoArtefacto((vtArtefactoTmp.getVtTipoArtefacto()
+						.getNombre() != null)
+						? vtArtefactoTmp.getVtTipoArtefacto().getNombre() : null);
 			}
 
 			return vtArtefactoDTO;
@@ -542,12 +556,26 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				vtArtefactoDTO.setPrioCodigo_VtPrioridad((vtArtefacto.getVtPrioridad()
 						.getPrioCodigo() != null)
 						? vtArtefacto.getVtPrioridad().getPrioCodigo() : null);
-				vtArtefactoDTO.setSpriCodigo_VtSprint((vtArtefacto.getVtSprint()
+				vtArtefactoDTO.setSpriCodigo_VtSprint((vtArtefacto.getVtSprint() != null) && (vtArtefacto.getVtSprint()
 						.getSpriCodigo() != null)
 						? vtArtefacto.getVtSprint().getSpriCodigo() : null);
 				vtArtefactoDTO.setTparCodigo_VtTipoArtefacto((vtArtefacto.getVtTipoArtefacto()
 						.getTparCodigo() != null)
 						? vtArtefacto.getVtTipoArtefacto().getTparCodigo() : null);	
+				vtArtefactoDTO.setEstaNombre_VtEstado((vtArtefacto.getVtEstado()
+						.getNombre() != null)? vtArtefacto.getVtEstado().getNombre() : null);
+				vtArtefactoDTO.setPrioNombre_VtPrioridad((vtArtefacto.getVtPrioridad()
+						.getNombre() != null)
+						? vtArtefacto.getVtPrioridad().getNombre() : null);
+				vtArtefactoDTO.setPilaNombre_VtPilaProducto((vtArtefacto.getVtPilaProducto()
+						.getNombre() != null)
+						? vtArtefacto.getVtPilaProducto().getNombre() : null);
+				vtArtefactoDTO.setSpriNombre_VtSprint((vtArtefacto.getVtSprint() != null) &&(vtArtefacto.getVtSprint()
+						.getNombre() != null)
+						? vtArtefacto.getVtSprint().getNombre() : null);
+				vtArtefactoDTO.setTparNombre_VtTipoArtefacto((vtArtefacto.getVtTipoArtefacto()
+						.getNombre() != null)
+						? vtArtefacto.getVtTipoArtefacto().getNombre() : null);
 
 			return vtArtefactoDTO;
 		} catch (Exception e) {

@@ -35,6 +35,7 @@ import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.service.mail.IMailService;
+import com.vobi.team.utilities.Utilities;
 
 import hirondelle.date4j.DateTime;
 
@@ -289,11 +290,21 @@ public class testUsuarios {
 		
 	}	
 	
-	@Test
+//	@Test
 	public void testP() throws Exception{
-		DateTime dateTime = new DateTime("00:00");	
+//		int mins = Utilities.pasarFormatoHoraAInteger("55:00");
+//		log.info(""+mins);
+//		
+//		String hours = Utilities.pasarIntAFormatoHoraMinuto(mins);
+//		log.info(hours);
+	}
+	
+	@Test
+	public void testQ() throws Exception{
+		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(27L);
+		VtArtefactoDTO artefactoDTO = vtArtefactoLogic.getVtArtefactoDTO(vtArtefacto);
 		
-		log.info(""+dateTime.getHour());
+		log.info(artefactoDTO.getEsfuerzoEstimadoConvertido());
 	}
 	
 
