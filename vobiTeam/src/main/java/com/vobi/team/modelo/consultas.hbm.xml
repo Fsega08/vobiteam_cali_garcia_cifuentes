@@ -65,5 +65,12 @@
 	   		Select esta from VtEstado esta where esta.estaCodigo = 2 or esta.estaCodigo = 3
 	   	]]>
 	</query>
+	
+	<query name="consultarUsuariosAdministradores">
+	   	<![CDATA[
+	   		Select usu from VtUsuario as usu,VtUsuarioRol as usuR where usu.usuaCodigo = usuR.vtUsuario.usuaCodigo and usu.activo = 'S' and usuR.activo = 'S' and usuR.vtRol.rolCodigo = 1 and usu.vtEmpresa.emprCodigo = 1 
+	   	]]>
+	</query>
+	
 
 </hibernate-mapping>

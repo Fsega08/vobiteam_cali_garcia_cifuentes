@@ -1326,6 +1326,8 @@ public class VtArtefactoView {
 			
 			FacesUtils.addInfoMessage("El artefacto se ha creado con exito");	
 			
+			businessDelegatorView.correoReporteCliente(vtUsuarioActual, vtArtefacto);
+			
 			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());
 	
 			limpiarCrearClienteAction();

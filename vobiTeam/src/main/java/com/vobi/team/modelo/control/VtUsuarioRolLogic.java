@@ -516,5 +516,7 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
 				? permisos : 0L);	
 	}
 
+
+
     
 }

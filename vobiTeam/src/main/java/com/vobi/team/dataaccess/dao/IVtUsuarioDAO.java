@@ -14,4 +14,6 @@ import com.vobi.team.modelo.VtUsuario;
 public interface IVtUsuarioDAO extends Dao<VtUsuario, Long> {
 
 	List<VtUsuario> ListaDesarrolladoresVortexYClientesDeOtraEmpresa(VtEmpresa vtEmpresa);
+
+	List<VtUsuario> findVortexRolAdmin();
 }

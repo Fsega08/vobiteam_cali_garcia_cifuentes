@@ -75,4 +75,5 @@ public class VtUsuarioRolDAO extends HibernateDaoImpl<VtUsuarioRol, Long>
   	}
 	
 
+
 }

@@ -142,5 +142,28 @@ public class testArtefacto {
 		log.info("Estado= " + vtSprintDTO.getEstsprCodigo_VtEstadoSprint());
 		log.info("Usuario creador= " + vtSprintDTO.getUsuCreador());
 	}	
+	
+	@Test    
+	public void testE() throws Exception {
+		
+		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
+		
+		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(1L);
+		
+		vtUsuarioLogic.correoReporteCliente(vtUsuario, vtArtefacto);
+		
+	}
+	
+	@Test    
+	public void testF() throws Exception {
+		
+		List<VtUsuario> usu= vtUsuarioLogic.findVortexRolAdmin();
+		
+		for (VtUsuario vtUsuario : usu) {
+			log.info(""+vtUsuario.getNombre());
+			log.info(""+vtUsuario.getUsuaCodigo());
+			log.info(""+vtUsuario.getLogin());
+		}
+	}
 
 }

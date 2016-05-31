@@ -150,9 +150,5 @@ public class VtSprintDTO implements Serializable {
     public void setPilaCodigo_VtPilaProducto(Long pilaCodigo_VtPilaProducto) {
         this.pilaCodigo_VtPilaProducto = pilaCodigo_VtPilaProducto;
     }
-
-
-	
-
 	
 }

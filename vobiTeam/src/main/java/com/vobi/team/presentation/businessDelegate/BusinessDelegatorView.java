@@ -1246,9 +1246,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 
 	@Override
 	public Long sumatoriaTiempoDedicadoPorSprintFecha(Long spriCodigo, DateTime fecha) {
-		
 		return vtProgresoArtefacto.sumatoriaTiempoDedicadoPorSprintFecha(spriCodigo, fecha);
-		
 	}
 
 	@Override
@@ -1269,6 +1267,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Override
 	public VtArtefactoDTO getVtArtefactoDTO(VtArtefacto vtArtefacto) throws Exception{
 		return vtArtefactoLogic.getVtArtefactoDTO(vtArtefacto);
+	}
+
+	@Override
+	public void correoReporteCliente(VtUsuario vtUsuario, VtArtefacto vtArtefacto) throws Exception {
+		vtUsuarioLogic.correoReporteCliente(vtUsuario, vtArtefacto);
 	}
 	
 

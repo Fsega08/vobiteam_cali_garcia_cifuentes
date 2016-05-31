@@ -17,6 +17,7 @@ import com.vobi.team.dataaccess.dao.IVtUsuarioArtefactoDAO;
 import com.vobi.team.dataaccess.dao.IVtUsuarioDAO;
 import com.vobi.team.dataaccess.dao.IVtUsuarioRolDAO;
 import com.vobi.team.exceptions.ZMessManager;
+import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
@@ -754,4 +755,36 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		return vtUsuarioDAO.ListaDesarrolladoresVortexYClientesDeOtraEmpresa(vtEmpresa);
 	}
 	
+	
+	
+	@Transactional(readOnly = true)
+	public void correoReporteCliente(VtUsuario vtUsuario, VtArtefacto vtArtefacto) throws Exception{
+			
+			List<VtUsuario> usuarioAdmin = vtUsuarioDAO.findVortexRolAdmin();
+		
+			for (VtUsuario usuAdmin : usuarioAdmin) {
+				
+				String asunto = "Reporte de " + vtUsuario.getNombre();
+				
+				String cuerpo = "Buenas Administrador " + usuAdmin.getNombre() + ", el presente es para informar que el Sr(@) "
+						+ vtUsuario.getNombre() + " ha realizado un reporte llamado '" + vtArtefacto.getTitulo() + "' en la pila '" +
+						vtArtefacto.getVtPilaProducto().getNombre()  + "', en el proyecto '" + vtArtefacto.getVtPilaProducto().getVtProyecto().getNombre() + "'."+'\n'+ 
+						"Detalles del artefacto: " + '\n'+ '\n' + 
+						"Codigo: " + vtArtefacto.getArteCodigo() + '\n'+ 
+						"Nombre: " + vtArtefacto.getTitulo() +  '\n' +
+						"Descripción: " + vtArtefacto.getDescripcion() + '\n'+
+						"Tipo de Artefacto: " + vtArtefacto.getVtTipoArtefacto().getNombre() + '\n'+
+						"Prioridad: " + vtArtefacto.getVtPrioridad().getNombre() + '\n'+ '\n' +  
+						"Le deseamos un excelente día.";						
+				
+				mailService.send(usuAdmin.getLogin(), asunto, cuerpo);
+			}
+
+	}
+
+	@Transactional(readOnly = true)
+	public List<VtUsuario> findVortexRolAdmin() {
+		return vtUsuarioDAO.findVortexRolAdmin();
+	}
+
 }

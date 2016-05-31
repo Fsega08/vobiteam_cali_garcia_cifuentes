@@ -18,4 +18,6 @@ public interface IVtUsuarioRolDAO extends Dao<VtUsuarioRol, Long> {
 
 	public Long rolMasBajoPorUsuario(VtUsuario vtUsuario);
 
+
+
 }
