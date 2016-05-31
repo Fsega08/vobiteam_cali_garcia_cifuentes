@@ -412,16 +412,16 @@ public class Utilities {
 	
 	public static Integer pasarFormatoHoraAInteger(String horaMinuto){
     	
+		String h = horaMinuto.substring(0,2);
+		String m = horaMinuto.substring(3,5);
+		
     	long tmpH = 0;
     	long tmpM = 0;
-    	DateTime date = new DateTime(horaMinuto);
-    	int minutos = 0;
     	
-    	tmpH = TimeUnit.MINUTES.toHours(date.getHour());
-    	tmpM = date.getMinute() + tmpH;
-    	minutos = (int) tmpM;
+    	tmpH = TimeUnit.HOURS.toMinutes(Long.parseLong(h));
+    	tmpM = Long.parseLong(m) + tmpH;
+    	int minutos = (int) tmpM;
     	return minutos;
 		
     }
-	
 }

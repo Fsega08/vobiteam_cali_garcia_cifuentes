@@ -35,7 +35,7 @@
 						<h:outputText value="Tipo Artefacto" />
 						<p:selectOneMenu id="somMTiposDeArtefactos"
 							binding="#{vtArtefactoView.somTipoArtefacto}"
-							value="#{vtArtefactoView.artefactoSeleccionado.vtTipoArtefacto.tparCodigo}">
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.tparCodigo_VtTipoArtefacto}">
 							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
 							<f:selectItems value="#{vtArtefactoView.losTiposArtefactos}" />
 							<p:ajax listener="#{vtArtefactoView.tipoModArtefactoListener}"
@@ -47,7 +47,7 @@
 						<h:outputText value="Titulo del artefacto" />
 						<p:inputText id="txtMNombre" placeholder="Título"
 							binding="#{vtArtefactoView.txtNombre}" size="75"
-							value="#{vtArtefactoView.artefactoSeleccionado.titulo}" />
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.titulo}" />
 
 					</h:panelGrid>
 
@@ -58,7 +58,7 @@
 							style="overflow:auto;" autoResize="false"
 							placeholder="Descripción" maxlength="100000000"
 							binding="#{vtArtefactoView.txtDescripcion}"
-							value="#{vtArtefactoView.artefactoSeleccionado.descripcion}" />
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.descripcion}" />
 
 						<p:separator />
 					</h:panelGrid>
@@ -68,7 +68,7 @@
 
 						<h:outputText value="Estado Artefacto" />
 						<p:selectOneMenu id="somMEstados"
-							value="#{vtArtefactoView.artefactoSeleccionado.vtEstado.estaCodigo}"
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.estaCodigo_VtEstado}"
 							binding="#{vtArtefactoView.somEstadoArtefacto}">
 							<f:selectItem itemValue="-1" itemLabel="Estado" />
 							<f:selectItems value="#{vtArtefactoView.losEstadosArtefactos}" />
@@ -78,7 +78,7 @@
 						
 						<h:outputText value="Nivel de prioridad" />
 						<p:selectOneMenu id="somMPrioridades"
-							value="#{vtArtefactoView.artefactoSeleccionado.vtPrioridad.prioCodigo}"
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.prioCodigo_VtPrioridad}"
 							binding="#{vtArtefactoView.somPrioridadesArtefacto}">
 							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
 							<f:selectItems
@@ -86,40 +86,40 @@
 						</p:selectOneMenu>
 
 						<h:outputText value="Esfuerzo Estimado" />
-						<p:inputText id="txtMEsfuerzoEstimado"
-							placeholder="Esfuerzo Estimado"
-							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoEstimado}"
+						<p:inputMask id="txtMEsfuerzoEstimado"
+							placeholder="Esfuerzo Estimado" mask="99:99"
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.esfuerzoEstimadoConvertido}"
 							binding="#{vtArtefactoView.txtEsfuerzoEstimado}" >
 							<p:ajax listener="#{vtArtefactoView.esfuerzoModListener}"
 								event="blur"
 								update="txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
-						</p:inputText>
+						</p:inputMask>
 						
 						<p:spacer width="100" height="10" />
 
 						<h:outputText value="Esfuerzo Restante" />
-						<p:inputText id="txtMEsfuerzoRestante"
+						<p:inputMask id="txtMEsfuerzoRestante"
 							placeholder="Esfuerzo Restante"
-							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoRestante}"
-							binding="#{vtArtefactoView.txtEsfuerzoRestante}"  />
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.esfuerzoRestanteConvertido}"
+							binding="#{vtArtefactoView.txtEsfuerzoRestante}" mask="99:99" />
 													
 
 						<h:outputText value="Esfuerzo Real" />
-						<p:inputText id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
-							value="#{vtArtefactoView.artefactoSeleccionado.esfuerzoReal}"
-							binding="#{vtArtefactoView.txtEsfuerzoReal}"  />
+						<p:inputMask id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.esfuerzoRealConvertido}"
+							binding="#{vtArtefactoView.txtEsfuerzoReal}" mask="99:99" />
 							
 						<p:spacer width="100" height="10" />
 
 						<h:outputText value="Puntos del artefacto" />
-						<p:inputText id="txtMPuntos" placeholder="Puntos"
-							value="#{vtArtefactoView.artefactoSeleccionado.puntos}"
-							binding="#{vtArtefactoView.txtPuntos}"  />
+						<p:inputMask id="txtMPuntos" placeholder="Puntos"
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.puntosConvertido}"
+							binding="#{vtArtefactoView.txtPuntos}" mask="99:99" />
 						
 
 						<h:outputText value="Origen del artefacto" />
 						<p:inputText id="txtMOrigen" placeholder="Origen"
-							value="#{vtArtefactoView.artefactoSeleccionado.origen}"
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.origen}"
 							binding="#{vtArtefactoView.txtOrigen}" />						
 
 
@@ -127,30 +127,13 @@
 
 						<h:outputText value="Artefacto activo?" />
 						<p:selectOneMenu id="somArtefactoActivo"
-							value="#{vtArtefactoView.artefactoSeleccionado.activo}"
+							value="#{vtArtefactoView.artefactoSeleccionadoDTO.activo}"
 							binding="#{vtArtefactoView.somArtefactoActivo}">
 							<f:selectItem itemValue="-1" itemLabel="Artefacto activo?" />
 							<f:selectItem itemValue="S" itemLabel="Si" />
 							<f:selectItem itemValue="N" itemLabel="No" />
-						</p:selectOneMenu>
+						</p:selectOneMenu>						
 						
-						<h:outputText value="Desarrollador" />
-						<p:selectOneMenu id="somDesarrollador" 
-							value="#{vtArtefactoView.usuarioArtefacto.vtUsuario.usuaCodigo}"
-							binding="#{vtArtefactoView.somDesarrolladores}">
-							<f:selectItem itemValue="-1" itemLabel="Desarrollador" />
-							<f:selectItems value="#{vtArtefactoView.losDesarrolladores}" />
-						</p:selectOneMenu>
-
-						<p:spacer width="100" height="10" />
-
-						<h:outputText value="Interés" />
-						<p:selectOneMenu id="somInteres" 
-							value="#{vtArtefactoView.usuarioArtefacto.vtInteres.inteCodigo}"
-							binding="#{vtArtefactoView.somInteres}">
-							<f:selectItem itemValue="-1" itemLabel="Interés" />
-							<f:selectItems value="#{vtArtefactoView.losInteres}" />
-						</p:selectOneMenu>
 					</h:panelGrid>
 				</p:panel>
 			</div>
