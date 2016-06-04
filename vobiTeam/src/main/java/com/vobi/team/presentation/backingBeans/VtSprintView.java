@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
 
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
@@ -28,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtPilaProducto;
+import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.dto.VtSprintDTO;
@@ -78,6 +80,9 @@ public class VtSprintView {
 	private InputText txtMCapacidadReal;
 
 	private SelectOneMenu somSprintActivo;
+	
+	private List<SelectItem> losEstadosSprint;
+	private SelectOneMenu somSprintEstado;
 
 	private CommandButton btnModificar;
 	private CommandButton btnLimpiarM;
@@ -203,7 +208,46 @@ public class VtSprintView {
 		this.txtCapacidadEstimada = txtCapacidadEstimada;
 	}
 
+	
+///////////////////////////////////////**************************/////////////////////////
 
+	public List<SelectItem> getLosEstadosSprint() {
+		try {
+			if (losEstadosSprint==null) {
+				List<VtEstadoSprint> listaEstadoSprint = businessDelegatorView.getVtEstadoSprint();
+				losEstadosSprint = new ArrayList<SelectItem>();
+				for (VtEstadoSprint vtEstadoSprint : listaEstadoSprint) {
+					losEstadosSprint.add(new SelectItem(vtEstadoSprint.getEstsprCodigo(), vtEstadoSprint.getNombre()));
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+		return losEstadosSprint;
+	}
+
+
+
+	public void setLosEstadosSprint(List<SelectItem> losEstadosSprint) {
+		this.losEstadosSprint = losEstadosSprint;
+	}
+
+
+
+	public SelectOneMenu getSomSprintEstado() {
+		return somSprintEstado;
+	}
+
+
+	
+	
+
+	public void setSomSprintEstado(SelectOneMenu somSprintEstado) {
+		this.somSprintEstado = somSprintEstado;
+	}
+
+////////////////////////////////////////////////////////////////////////////
 
 	public String getCapacidadEstimada() {
 		return capacidadEstimada;
@@ -222,6 +266,13 @@ public class VtSprintView {
 	}
 	
 	public VtSprintDTO getSprintDTOseleccionado() {
+		try {
+			if (sprintSeleccionado!=null) {
+				sprintDTOseleccionado = businessDelegatorView.getDataVtSprintDTO(sprintSeleccionado);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 		return sprintDTOseleccionado;
 	}
 
@@ -671,6 +722,12 @@ public class VtSprintView {
 			sprintSeleccionado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			sprintSeleccionado.setCapacidadEstimada(Integer.parseInt(capacidadE));
 			sprintSeleccionado.setActivo(somSprintActivo.getValue().toString().trim());
+			
+			log.info("asdfasdfadfad "+ sprintDTOseleccionado.getEstsprCodigo_VtEstadoSprint());
+			
+			VtEstadoSprint vtEstadoSprint = businessDelegatorView.getVtEstadoSprint(Long.parseLong(somSprintEstado.getValue().toString().trim()));
+			
+			sprintSeleccionado.setVtEstadoSprint(vtEstadoSprint);
 
 			businessDelegatorView.updateVtSprint(sprintSeleccionado);
 			
@@ -699,7 +756,11 @@ public class VtSprintView {
 
 
 	}
-
+	
+	public void estadoDelSprint() {
+		log.info("Codigo ssom" + somSprintEstado.getValue().toString().trim());
+	}
+	
 	public void modificarListener() {
 
 		VtSprint sprint = sprintSeleccionado;

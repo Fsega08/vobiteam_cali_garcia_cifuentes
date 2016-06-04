@@ -35,13 +35,22 @@
 							binding="#{vtSprintView.txtMNombre}"
 							value="#{vtSprintView.sprintSeleccionado.nombre}" size="31" />
 
-						<h:outputText value="Estado del Sprint" />
+						<h:outputText value="Acitividad del Sprint" />
 						<p:selectOneMenu id="somSprintActivo"
 							binding="#{vtSprintView.somSprintActivo}"
 							value="#{vtSprintView.sprintSeleccionado.activo}">
 							<f:selectItem itemValue="-1" itemLabel="Estado" />
 							<f:selectItem itemValue="S" itemLabel="Activo" />
 							<f:selectItem itemValue="N" itemLabel="Inactivo" />
+						</p:selectOneMenu>
+
+						<h:outputText value="Estado Sprint" />
+						<p:selectOneMenu id="somMEstados"
+							value="#{vtSprintView.sprintSeleccionado.vtEstadoSprint.estsprCodigo}"
+							binding="#{vtSprintView.somSprintEstado}">
+							<f:selectItem itemValue="-1" itemLabel="Estado" />
+							<f:selectItems value="#{vtSprintView.losEstadosSprint}" />
+							<p:ajax event="blur" listener="#{vtSprintView.estadoDelSprint}" />
 						</p:selectOneMenu>
 
 						<h:outputText value="Descripción del Sprint" />

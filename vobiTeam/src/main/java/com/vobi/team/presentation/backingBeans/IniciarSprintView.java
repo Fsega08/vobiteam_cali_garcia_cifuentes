@@ -95,11 +95,6 @@ public class IniciarSprintView {
 				terminarSprint.setRendered(true);
 			}
 
-			losArtefactosPorHacer = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 1L);
-			losArtefactosEnCurso = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 2L);
-			losArtefactosFinalizados = businessDelegatorView.findArtefactosBySprintAndEstado(sprintSeleccionado.getSpriCodigo(), 3L);
-
-			totalArtefactos = losArtefactosPorHacer.size() + losArtefactosEnCurso.size();
 
 			iniciarBurndown();
 
