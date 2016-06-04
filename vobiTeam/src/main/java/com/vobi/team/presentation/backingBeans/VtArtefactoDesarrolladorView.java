@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.inputmask.InputMask;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
@@ -30,15 +31,13 @@ import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtProyecto;
-import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
+import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 import com.vobi.team.utilities.Utilities;
-
-
 
 @ManagedBean
 @ViewScoped
@@ -52,10 +51,10 @@ public class VtArtefactoDesarrolladorView {
 
 	private InputText txtCrearNombre;
 	private InputTextarea txtCrearDescripcion;
-	private InputText txtCrearEsfuerzoEstimado;
-	private InputText txtCrearEsfuerzoReal;
-	private InputText txtCrearEsfuerzoRestante;
-	private InputText txtCrearPuntos;
+	private InputMask txtCrearEsfuerzoEstimado;
+	private InputMask txtCrearEsfuerzoReal;
+	private InputMask txtCrearEsfuerzoRestante;
+	private InputMask txtCrearPuntos;
 	private InputText txtCrearOrigen;
 	private List<SelectItem> losCrearTiposArtefactos;
 	private SelectOneMenu somCrearTipoArtefacto;
@@ -100,6 +99,7 @@ public class VtArtefactoDesarrolladorView {
 	private IBusinessDelegatorView businessDelegatorView;
 
 	private VtArtefacto artefactoSeleccionado;
+	private VtArtefactoDTO artefactoSeleccionadoDTO;
 	private List<VtArtefacto> losArtefactos;
 
 	private List<VtArchivo> subirArchivos;
@@ -124,12 +124,26 @@ public class VtArtefactoDesarrolladorView {
 			artefactoSeleccionado = (VtArtefacto) FacesUtils.getfromSession("artefactoSeleccionado");			
 			usuarioArtefacto = (VtUsuarioArtefacto) FacesUtils.getfromSession("usuarioArtefacto");
 			
+			if(artefactoSeleccionado != null){
+				artefactoSeleccionadoDTO = businessDelegatorView.getVtArtefactoDTO(artefactoSeleccionado);
+			}else {
+				artefactoSeleccionadoDTO = new VtArtefactoDTO();
+			}
+			
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}		
 		
 		
-	}	
+	}
+	
+	public VtArtefactoDTO getArtefactoSeleccionadoDTO() {
+		return artefactoSeleccionadoDTO;
+	}
+
+	public void setArtefactoSeleccionadoDTO(VtArtefactoDTO artefactoSeleccionadoDTO) {
+		this.artefactoSeleccionadoDTO = artefactoSeleccionadoDTO;
+	}
 
 	public String getUsuarioActual() {
 		return usuarioActual;
@@ -350,11 +364,11 @@ public class VtArtefactoDesarrolladorView {
 		this.txtCrearDescripcion = txtCrearDescripcion;
 	}
 
-	public InputText getTxtCrearEsfuerzoEstimado() {
+	public InputMask getTxtCrearEsfuerzoEstimado() {
 		return txtCrearEsfuerzoEstimado;
 	}
 
-	public void setTxtCrearEsfuerzoEstimado(InputText txtCrearEsfuerzoEstimado) {
+	public void setTxtCrearEsfuerzoEstimado(InputMask txtCrearEsfuerzoEstimado) {
 		this.txtCrearEsfuerzoEstimado = txtCrearEsfuerzoEstimado;
 	}
 
@@ -366,27 +380,27 @@ public class VtArtefactoDesarrolladorView {
 		this.subirArchivos = subirArchivos;
 	}
 
-	public InputText getTxtCrearEsfuerzoReal() {
+	public InputMask getTxtCrearEsfuerzoReal() {
 		return txtCrearEsfuerzoReal;
 	}
 
-	public void setTxtCrearEsfuerzoReal(InputText txtCrearEsfuerzoReal) {
+	public void setTxtCrearEsfuerzoReal(InputMask txtCrearEsfuerzoReal) {
 		this.txtCrearEsfuerzoReal = txtCrearEsfuerzoReal;
 	}
 
-	public InputText getTxtCrearEsfuerzoRestante() {
+	public InputMask getTxtCrearEsfuerzoRestante() {
 		return txtCrearEsfuerzoRestante;
 	}
 
-	public void setTxtCrearEsfuerzoRestante(InputText txtCrearEsfuerzoRestante) {
+	public void setTxtCrearEsfuerzoRestante(InputMask txtCrearEsfuerzoRestante) {
 		this.txtCrearEsfuerzoRestante = txtCrearEsfuerzoRestante;
 	}
 
-	public InputText getTxtCrearPuntos() {
+	public InputMask getTxtCrearPuntos() {
 		return txtCrearPuntos;
 	}
 
-	public void setTxtCrearPuntos(InputText txtCrearPuntos) {
+	public void setTxtCrearPuntos(InputMask txtCrearPuntos) {
 		this.txtCrearPuntos = txtCrearPuntos;
 	}
 
@@ -572,16 +586,16 @@ public class VtArtefactoDesarrolladorView {
 			if (txtCrearOrigen.getValue().toString().trim().equals("") == true || txtCrearOrigen.getValue() == null) {
 				throw new Exception("Por favor ingrese el origen del artefacto");
 			}
-			if (txtCrearPuntos.getValue().toString().trim().equals("") == true || txtCrearPuntos.getValue() == null || !Utilities.isNumeric(txtCrearPuntos.getValue().toString().trim())) {
-				throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta numeros");
+			if (txtCrearPuntos.getValue().toString().trim().equals("") == true || txtCrearPuntos.getValue() == null) {
+				throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta tiempo");
 			}
-			if (txtCrearEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoEstimado.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoEstimado.getValue().toString().trim())) {
+			if (txtCrearEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoEstimado.getValue() == null) {
 				throw new Exception("Por favor ingrese el esfuerzo estimado, recuerde este campo solo acepta numeros");
 			}
-			if (txtCrearEsfuerzoReal.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoReal.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoReal.getValue().toString().trim()) ) {
+			if (txtCrearEsfuerzoReal.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoReal.getValue() == null) {
 				throw new Exception("Por favor ingrese el esfuerzo real, recuerde este campo solo acepta numeros");
 			}
-			if (txtCrearEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoRestante.getValue() == null || !Utilities.isNumeric(txtCrearEsfuerzoRestante.getValue().toString().trim())) {
+			if (txtCrearEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtCrearEsfuerzoRestante.getValue() == null) {
 				throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo solo acepta numeros");
 			}
 
@@ -600,11 +614,11 @@ public class VtArtefactoDesarrolladorView {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			vtArtefacto.setTitulo(txtCrearNombre.getValue().toString());
 			vtArtefacto.setDescripcion(txtCrearDescripcion.getValue().toString());
-			vtArtefacto.setEsfuerzoEstimado(Integer.parseInt(txtCrearEsfuerzoEstimado.getValue().toString().trim() ));
-			vtArtefacto.setEsfuerzoRestante(Integer.parseInt(txtCrearEsfuerzoRestante.getValue().toString().trim() ));
-			vtArtefacto.setEsfuerzoReal(Integer.parseInt(txtCrearEsfuerzoReal.getValue().toString().trim() ));
-			vtArtefacto.setOrigen(txtCrearOrigen.getValue().toString());
-			vtArtefacto.setPuntos(Integer.parseInt(txtCrearPuntos.getValue().toString().trim()));
+			vtArtefacto.setEsfuerzoEstimado(Utilities.pasarFormatoHoraAInteger(txtCrearEsfuerzoEstimado.getValue().toString().trim()));
+			vtArtefacto.setEsfuerzoRestante(Utilities.pasarFormatoHoraAInteger(txtCrearEsfuerzoRestante.getValue().toString().trim()));
+			vtArtefacto.setEsfuerzoReal(Utilities.pasarFormatoHoraAInteger(txtCrearEsfuerzoReal.getValue().toString().trim()));			
+			vtArtefacto.setPuntos(Utilities.pasarFormatoHoraAInteger(txtCrearPuntos.getValue().toString().trim()	));
+			vtArtefacto.setOrigen(txtCrearOrigen.getValue().toString());			
 			vtArtefacto.setActivo("S");
 			vtArtefacto.setFechaCreacion(new Date());
 			vtArtefacto.setFechaModificacion(new Date());
@@ -693,14 +707,17 @@ public class VtArtefactoDesarrolladorView {
 	public void limpiarCrearAction() {
 		txtCrearDescripcion.resetValue();
 		txtCrearNombre.resetValue();
-		txtCrearEsfuerzoEstimado.resetValue();
-		txtCrearEsfuerzoRestante.resetValue();
-		txtCrearEsfuerzoReal.resetValue();
 		txtCrearOrigen.resetValue();
-		txtCrearPuntos.resetValue();
+	
+		txtCrearEsfuerzoEstimado.resetValue();
+		txtCrearEsfuerzoReal.resetValue();
+		txtCrearEsfuerzoRestante.resetValue();
+		txtCrearPuntos.resetValue();		
+
 		txtCrearEsfuerzoReal.setDisabled(true);
 		txtCrearEsfuerzoRestante.setDisabled(true);
 		txtCrearPuntos.setDisabled(true);
+		
 		somCrearEstadoArtefacto.setValue("-1");
 		somCrearPrioridadesArtefacto.setValue("-1");
 		somCrearTipoArtefacto.setValue("-1");
@@ -772,15 +789,13 @@ public class VtArtefactoDesarrolladorView {
 	}
 
 	public void esfuerzoListener() {
-		int valor = Integer.parseInt(txtCrearEsfuerzoEstimado.getValue().toString().trim());
-
 		txtCrearEsfuerzoReal.setDisabled(false);
 		txtCrearEsfuerzoRestante.setDisabled(false);
-		txtCrearPuntos.setDisabled(false);
-
-		txtCrearEsfuerzoReal.setValue(valor);
-		txtCrearEsfuerzoRestante.setValue(valor);
-		txtCrearPuntos.setValue(valor);
+		txtCrearPuntos.setDisabled(false);;		
+		
+		txtCrearEsfuerzoReal.setValue(txtCrearEsfuerzoEstimado.getValue().toString());
+		txtCrearEsfuerzoRestante.setValue(txtCrearEsfuerzoEstimado.getValue().toString());
+		txtCrearPuntos.setValue(txtCrearEsfuerzoEstimado.getValue().toString());
 
 	}
 

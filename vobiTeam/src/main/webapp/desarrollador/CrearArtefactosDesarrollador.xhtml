@@ -76,29 +76,29 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Esfuerzo Estimado" />
-						<p:inputText id="txtCrearEsfuerzoEstimado"
-							placeholder="Esfuerzo Estimado" disabled="true"
+						<p:inputMask id="txtCrearEsfuerzoEstimado"
+							 disabled="true"  mask="99:99"
 							binding="#{vtArtefactoDesarrolladorView.txtCrearEsfuerzoEstimado}">
 							<p:ajax listener="#{vtArtefactoDesarrolladorView.esfuerzoListener}"
 								event="blur" update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />
-						</p:inputText>
+						</p:inputMask>
 						
 						<p:spacer width="100" height="10" />
 						
 						<h:outputText value="Esfuerzo Restante" />
-						<p:inputText id="txtCrearEsfuerzoRestante"
-							placeholder="Esfuerzo Restante"
+						<p:inputMask id="txtCrearEsfuerzoRestante"
+							 mask="99:99"
 							binding="#{vtArtefactoDesarrolladorView.txtCrearEsfuerzoRestante}"
 							disabled="true" />						
 
 						<h:outputText value="Esfuerzo Real" />
-						<p:inputText id="txtCrearEsfuerzoReal" placeholder="Esfuerzo Real"
+						<p:inputMask id="txtCrearEsfuerzoReal"  mask="99:99"
 							binding="#{vtArtefactoDesarrolladorView.txtCrearEsfuerzoReal}" disabled="true" />
 						
 						<p:spacer width="100" height="10" />
 										
 						<h:outputText value="Puntos del artefacto" />
-						<p:inputText id="txtCrearPuntos" placeholder="Puntos"
+						<p:inputMask id="txtCrearPuntos"  mask="99:99"
 							binding="#{vtArtefactoDesarrolladorView.txtCrearPuntos}" disabled="true" />
 						
 						

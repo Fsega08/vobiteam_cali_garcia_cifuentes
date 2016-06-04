@@ -301,11 +301,19 @@ public class testUsuarios {
 	
 	@Test
 	public void testQ() throws Exception{
-		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(27L);
-		VtArtefactoDTO artefactoDTO = vtArtefactoLogic.getVtArtefactoDTO(vtArtefacto);
-		
-		log.info(artefactoDTO.getEsfuerzoEstimadoConvertido());
+//		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(27L);
+//		VtArtefactoDTO artefactoDTO = vtArtefactoLogic.getVtArtefactoDTO(vtArtefacto);
+//		
+//		log.info(artefactoDTO.getEsfuerzoEstimadoConvertido());
 	}
 	
+	
+	@Test
+	public void testR() throws Exception{
+		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(27L);
+		
+		
+		log.info(""+vtArtefacto.getVtPrioridad().getNombre());
+	}
 
 }
