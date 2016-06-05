@@ -617,6 +617,10 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 			if (usuarioEncontrado.getActivo().equals("N")){
 				throw new Exception("El Usuario especificado no se encuentra activo");
 			}
+			
+			if (usuarioEncontrado.getVtUsuarioRols()== null) {
+				throw new Exception("El Usuario especificado no tiene roles");
+			}
 
 			//Si lo encuentra pero no coincide ellogin arroja excepcion
 //			if(!usuarioEncontrado.getLogin().equals(login)){

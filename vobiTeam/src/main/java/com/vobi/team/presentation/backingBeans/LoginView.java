@@ -91,24 +91,32 @@ public class LoginView {
             
             
             VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(userId);
+            
+            if (vtUsuario.getVtUsuarioRols()== null) {
+				throw new Exception("El Usuario especificado no tiene roles");
+			}
+            
             Long permisos = businessDelegatorView.rolMasBajoPorUsuario(vtUsuario);
             
-            FacesUtils.putinSession("permisos", permisos);
+            
             
             if (permisos == 0L) {
 				throw new Exception("No tiene permisos?!");
 			}else if (permisos == 1L) {
+				FacesUtils.putinSession("permisos", permisos);
 				return "/XHTML/dashboard.xhtml";
 			}else if (permisos == 2L) {
+				FacesUtils.putinSession("permisos", permisos);
 				return "/desarrollador/dashboard.xhtml";
 			}else if (permisos == 3L) {
+				FacesUtils.putinSession("permisos", permisos);
 				return "/cliente/dashboard.xhtml";
 			}else{
 				throw new Exception();
 			}
             
-        } catch (AuthenticationException e) {          
-        	FacesUtils.putinSession("permisos", 0L);
+        } catch (AuthenticationException e) {       
+        	FacesUtils.addErrorMessage(e.getMessage());
             return "/login.xhtml";
         }
         
