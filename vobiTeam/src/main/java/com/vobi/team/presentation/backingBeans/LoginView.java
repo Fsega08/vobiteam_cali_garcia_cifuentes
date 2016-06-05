@@ -91,18 +91,11 @@ public class LoginView {
             
             
             VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(userId);
-            
-            if (vtUsuario.getVtUsuarioRols()== null) {
-				throw new Exception("El Usuario especificado no tiene roles");
-			}
-            
             Long permisos = businessDelegatorView.rolMasBajoPorUsuario(vtUsuario);
             
             
             
-            if (permisos == 0L) {
-				throw new Exception("No tiene permisos?!");
-			}else if (permisos == 1L) {
+            if (permisos == 1L) {
 				FacesUtils.putinSession("permisos", permisos);
 				return "/XHTML/dashboard.xhtml";
 			}else if (permisos == 2L) {
