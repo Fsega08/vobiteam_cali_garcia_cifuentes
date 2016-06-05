@@ -95,9 +95,7 @@ public class LoginView {
             
             FacesUtils.putinSession("permisos", permisos);
             
-            if (permisos == 0L) {
-				throw new Exception("No tiene permisos?!");
-			}else if (permisos == 1L) {
+            if (permisos == 1L) {
 				return "/XHTML/dashboard.xhtml";
 			}else if (permisos == 2L) {
 				return "/desarrollador/dashboard.xhtml";
