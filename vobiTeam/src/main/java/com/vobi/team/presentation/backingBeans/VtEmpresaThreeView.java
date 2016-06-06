@@ -635,10 +635,10 @@ public class VtEmpresaThreeView {
 
 		try {
 			if (txtProyectoCNombre.getValue().toString().trim().equals("") == true || txtProyectoCNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor digite el nombre del proyecto");
 			}
 			if (txtProyectoCDescripcion.getValue().toString().trim().equals("") == true || txtProyectoCDescripcion.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor digite la descripción del proyecto");
 			}
 			laEmpresaSeleccionada = (VtEmpresa)selectedNode.getData();
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);

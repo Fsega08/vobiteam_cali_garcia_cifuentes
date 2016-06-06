@@ -159,7 +159,7 @@ public class VtInteresView {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			if (txtNombre.getValue().toString().trim().equals("")== true || txtNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor digite el nombre");
 			}
 			
 			
@@ -190,11 +190,11 @@ public class VtInteresView {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			if (txtMNombre.getValue().toString().trim().equals("")== true || txtNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor digite el nombre");
 			}
 
 			if (somInteresActivo.getValue().equals("-1") ==true ) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor seleccione el estado");
 			}
 			
 			VtInteres vtInteres = elInteres;

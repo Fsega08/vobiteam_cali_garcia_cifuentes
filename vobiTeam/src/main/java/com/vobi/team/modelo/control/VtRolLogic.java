@@ -200,6 +200,17 @@ public class VtRolLogic implements IVtRolLogic {
             if (entity.getUsuCreador() == null) {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");
             }
+            
+            if (entity.getActivo().equals("N")) {
+            	List<VtUsuarioRol> vtUsuarioRols = vtUsuarioRolDAO.findByProperty("vtRol.rolCodigo",
+                        entity.getRolCodigo());
+
+                if (Utilities.validationsList(vtUsuarioRols) == true) {
+                    throw new ZMessManager().new DeletingException("vtUsuarioRols");
+                }
+            }   
+            
+            
 
             vtRolDAO.update(entity);
 
@@ -207,8 +218,7 @@ public class VtRolLogic implements IVtRolLogic {
         } catch (Exception e) {
             log.error("update VtRol failed", e);
             throw e;
-        } finally {
-        }
+        } 
     }
 
     @Transactional(readOnly = true)

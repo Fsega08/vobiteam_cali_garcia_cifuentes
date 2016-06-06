@@ -153,7 +153,7 @@ public class VtTipoArtefactoView {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			if (txtNombre.getValue().toString().trim().equals("")== true || txtNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor digite el nombre");
 			}
 			
 			
@@ -184,11 +184,11 @@ public class VtTipoArtefactoView {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			if (txtMNombre.getValue().toString().trim().equals("")== true || txtNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor digite el nombre");
 			}
 
 			if (somTipoArfeactoActiva.getValue().equals("-1") ==true ) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor seleccione un estado");
 			}
 			
 			VtTipoArtefacto vtTipoArtefacto = elTipoArtefacto;
