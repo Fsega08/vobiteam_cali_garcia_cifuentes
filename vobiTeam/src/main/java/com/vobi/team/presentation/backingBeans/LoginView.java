@@ -93,20 +93,23 @@ public class LoginView {
             VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(userId);
             Long permisos = businessDelegatorView.rolMasBajoPorUsuario(vtUsuario);
             
-            FacesUtils.putinSession("permisos", permisos);
+            
             
             if (permisos == 1L) {
+				FacesUtils.putinSession("permisos", permisos);
 				return "/XHTML/dashboard.xhtml";
 			}else if (permisos == 2L) {
+				FacesUtils.putinSession("permisos", permisos);
 				return "/desarrollador/dashboard.xhtml";
 			}else if (permisos == 3L) {
+				FacesUtils.putinSession("permisos", permisos);
 				return "/cliente/dashboard.xhtml";
 			}else{
 				throw new Exception();
 			}
             
-        } catch (AuthenticationException e) {          
-        	FacesUtils.putinSession("permisos", 0L);
+        } catch (AuthenticationException e) {       
+        	FacesUtils.addErrorMessage(e.getMessage());
             return "/login.xhtml";
         }
         

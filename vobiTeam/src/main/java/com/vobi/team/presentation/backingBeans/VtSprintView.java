@@ -713,6 +713,10 @@ public class VtSprintView {
 			if(capacidadE.equals("")|| capacidadE == null || !Utilities.isNumeric(capacidadE)){
 				throw new Exception("Es requerido un valor valido de Capacidad Estimada");
 			}
+			
+			if (somSprintEstado.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un estado para el sprint");
+			}
 
 			sprintSeleccionado.setNombre(nombre);
 			sprintSeleccionado.setObjetivo(descripcion);
