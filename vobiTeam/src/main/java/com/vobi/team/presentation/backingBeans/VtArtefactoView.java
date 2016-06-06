@@ -869,10 +869,10 @@ public class VtArtefactoView {
 			txtCrearEsfuerzoRestante.setDisabled(true);
 			txtCrearPuntos.setDisabled(true);
 
-			txtCrearEsfuerzoEstimado.setValue(0);
-			txtCrearEsfuerzoReal.setValue(0);
-			txtCrearEsfuerzoRestante.setValue(0);
-			txtCrearPuntos.setValue(0);
+//			txtCrearEsfuerzoEstimado.setValue(0);
+//			txtCrearEsfuerzoReal.setValue(0);
+//			txtCrearEsfuerzoRestante.setValue(0);
+//			txtCrearPuntos.setValue(0);
 		}
 	}
 
@@ -891,10 +891,10 @@ public class VtArtefactoView {
 			txtEsfuerzoRestante.setDisabled(true);
 			txtPuntos.setDisabled(true);
 
-			txtEsfuerzoEstimado.setValue(0);
-			txtEsfuerzoReal.setValue(0);
-			txtEsfuerzoRestante.setValue(0);
-			txtPuntos.setValue(0);
+//			txtEsfuerzoEstimado.setValue(0);
+//			txtEsfuerzoReal.setValue(0);
+//			txtEsfuerzoRestante.setValue(0);
+//			txtPuntos.setValue(0);
 
 
 		}
@@ -958,18 +958,7 @@ public class VtArtefactoView {
 			}		
 			
 			
-			if (txtEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtEsfuerzoEstimado.getValue() == null) {
-				throw new Exception("Por favor ingrese el esfuerzo estimado, recuerde este campo solo acepta numeros");
-			}
-			if (txtEsfuerzoReal.getValue().toString().trim().equals("") == true || txtEsfuerzoReal.getValue() == null) {
-				throw new Exception("Por favor ingrese el esfuerzo real, recuerde este campo solo acepta numeros");
-			}
-			if (txtEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtEsfuerzoRestante.getValue() == null) {
-				throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo solo acepta numeros");
-			}
-			if (txtPuntos.getValue().toString().trim().equals("") == true || txtPuntos.getValue() == null) {
-				throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta tiempo");
-			}
+
 			
 			if (txtOrigen.getValue().toString().trim().equals("") == true || txtOrigen.getValue() == null) {
 				throw new Exception("Por favor ingrese el origen del artefacto");
@@ -992,11 +981,33 @@ public class VtArtefactoView {
 			artefactoSeleccionado.setTitulo(txtNombre.getValue().toString());
 			artefactoSeleccionado.setDescripcion(txtDescripcion.getValue().toString());
 			
+			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somTipoArtefacto.getValue().toString().trim()));
+			artefactoSeleccionado.setVtTipoArtefacto(vtTipoArtefacto);
 			
-			artefactoSeleccionado.setEsfuerzoEstimado(Utilities.pasarFormatoHoraAInteger(txtEsfuerzoEstimado.getValue().toString().trim()));
-			artefactoSeleccionado.setEsfuerzoRestante(Utilities.pasarFormatoHoraAInteger(txtEsfuerzoRestante.getValue().toString().trim()));
-			artefactoSeleccionado.setEsfuerzoReal(Utilities.pasarFormatoHoraAInteger(txtEsfuerzoReal.getValue().toString().trim()));			
-			artefactoSeleccionado.setPuntos(Utilities.pasarFormatoHoraAInteger(txtPuntos.getValue().toString().trim()	));
+			if (vtTipoArtefacto.getTparCodigo() == 1L || vtTipoArtefacto.getTparCodigo() == 4L) {
+				if (txtEsfuerzoEstimado.getValue().toString().trim().equals("") == true || txtEsfuerzoEstimado.getValue() == null) {
+					throw new Exception("Por favor ingrese el esfuerzo estimado, recuerde este campo solo acepta numeros");
+				}
+				if (txtEsfuerzoReal.getValue().toString().trim().equals("") == true || txtEsfuerzoReal.getValue() == null) {
+					throw new Exception("Por favor ingrese el esfuerzo real, recuerde este campo solo acepta numeros");
+				}
+				if (txtEsfuerzoRestante.getValue().toString().trim().equals("") == true || txtEsfuerzoRestante.getValue() == null) {
+					throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo solo acepta numeros");
+				}
+				if (txtPuntos.getValue().toString().trim().equals("") == true || txtPuntos.getValue() == null) {
+					throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta tiempo");
+				}
+				artefactoSeleccionado.setEsfuerzoEstimado(Utilities.pasarFormatoHoraAInteger(txtEsfuerzoEstimado.getValue().toString().trim()));
+				artefactoSeleccionado.setEsfuerzoRestante(Utilities.pasarFormatoHoraAInteger(txtEsfuerzoRestante.getValue().toString().trim()));
+				artefactoSeleccionado.setEsfuerzoReal(Utilities.pasarFormatoHoraAInteger(txtEsfuerzoReal.getValue().toString().trim()));			
+				artefactoSeleccionado.setPuntos(Utilities.pasarFormatoHoraAInteger(txtPuntos.getValue().toString().trim()	));
+				
+			}else {
+				artefactoSeleccionado.setEsfuerzoEstimado(0000);
+				artefactoSeleccionado.setEsfuerzoRestante(0000);
+				artefactoSeleccionado.setEsfuerzoReal(0000);			
+				artefactoSeleccionado.setPuntos(0000);
+			}
 			
 			artefactoSeleccionado.setOrigen(txtOrigen.getValue().toString());
 
@@ -1008,8 +1019,7 @@ public class VtArtefactoView {
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somEstadoArtefacto.getValue().toString().trim()));
 			artefactoSeleccionado.setVtEstado(vtEstado);
 
-			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somTipoArtefacto.getValue().toString().trim()));
-			artefactoSeleccionado.setVtTipoArtefacto(vtTipoArtefacto);
+			
 
 			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somPrioridadesArtefacto.getValue().toString().trim()));
 			artefactoSeleccionado.setVtPrioridad(vtPrioridad);
