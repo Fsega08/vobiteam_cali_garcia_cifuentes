@@ -107,13 +107,13 @@
 								<h:outputText value="Empresa del Usuario" />
 								<p:selectOneMenu id="somEmpresasM" title="Empresa del Usuario"
 									binding="#{vtUsuarioView.somEmpresasM}">
-									<f:selectItem itemValue="-1" itemLabel="Empresa del Usuario" />
+									<f:selectItem itemValue="-1" itemLabel="-Empresa del Usuario-" />
 									<f:selectItems value="#{vtUsuarioView.lasEmpresasM}" />
 								</p:selectOneMenu>
 								<h:outputText value="Estado del Usuario" />
 								<p:selectOneMenu id="somEstado" title="Estado del Usuario"
 									binding="#{vtUsuarioView.somEstado}">
-									<f:selectItem itemValue="-1" itemLabel="Estado del Usuario" />
+									<f:selectItem itemValue="-1" itemLabel="-Estado del Usuario-" />
 									<f:selectItem itemValue="S" itemLabel="Activo" />
 									<f:selectItem itemValue="N" itemLabel="Inactivo" />
 								</p:selectOneMenu>
@@ -172,7 +172,7 @@
 							<h:outputText value="Empresa del Usuario" />
 							<p:selectOneMenu id="somEmpresas" title="Empresa del Usuario"
 								binding="#{vtUsuarioView.somEmpresasC}">
-								<f:selectItem itemValue="-1" itemLabel="Empresa del Usuario" />
+								<f:selectItem itemValue="-1" itemLabel="-Empresa del Usuario-" />
 								<f:selectItems value="#{vtUsuarioView.lasEmpresas}" />
 							</p:selectOneMenu>
 						</h:panelGrid>

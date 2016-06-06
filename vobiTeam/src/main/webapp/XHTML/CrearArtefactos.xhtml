@@ -33,7 +33,7 @@
 						<h:outputText value="Tipo Artefacto" />
 						<p:selectOneMenu id="somCrearTiposDeArtefactos"
 							binding="#{vtArtefactoView.somCrearTipoArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+							<f:selectItem itemValue="-1" itemLabel="-Tipo de artefacto-" />
 							<f:selectItems value="#{vtArtefactoView.losCrearTiposArtefactos}" />
 							<p:ajax listener="#{vtArtefactoView.tipoArtefactoListener}"
 								update="pnlgDemas" />
@@ -42,14 +42,14 @@
 						<p:spacer width="100" height="10" />
 
 						<h:outputText value="Titulo del artefacto" />
-						<p:inputText id="txtCrearNombre" placeholder="Título"
+						<p:inputText id="txtCrearNombre" placeholder="Título" maxlength="100"
 							binding="#{vtArtefactoView.txtCrearNombre}" size="85" />
 					</h:panelGrid>
 
 					<h:panelGrid columns="1" layout="grid" id="pnlgDesc">
 						<h:outputText value="Descripción del artefacto" />
 						<p:inputTextarea id="txtAreaCrearDescripcion"
-							placeholder="Descripcion"
+							placeholder="Descripcion" autoResize="false" style="overflow:auto;"
 							binding="#{vtArtefactoView.txtCrearDescripcion}" cols="148" />
 
 						<p:separator />
@@ -60,7 +60,7 @@
 						<h:outputText value="Estado Artefacto" />
 						<p:selectOneMenu id="somCrearEstados"
 							binding="#{vtArtefactoView.somCrearEstadoArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Estado" />
+							<f:selectItem itemValue="-1" itemLabel="-Estado-" />
 							<f:selectItems
 								value="#{vtArtefactoView.losCrearEstadosArtefactos}" />
 						</p:selectOneMenu>
@@ -70,13 +70,13 @@
 						<h:outputText value="Nivel de prioridad" />
 						<p:selectOneMenu id="somCrearPrioridades"
 							binding="#{vtArtefactoView.somCrearPrioridadesArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+							<f:selectItem itemValue="-1" itemLabel="-Prioridad- " />
 							<f:selectItems
 								value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
 						</p:selectOneMenu>
 						
 						<h:outputText value="Esfuerzo Estimado" />
-						<p:inputMask id="txtCrearEsfuerzoEstimado" binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}" mask="99:99">
+						<p:inputMask id="txtCrearEsfuerzoEstimado" binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}" mask="99:99" placeholder="Esfuerzo Estimado">
 							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
 								event="blur" update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />							
 						</p:inputMask>
@@ -86,18 +86,18 @@
 						<p:spacer width="100" height="10" />
 						
 						<h:outputText value="Esfuerzo Restante" />
-						<p:inputMask id="txtCrearEsfuerzoRestante" binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}" mask="99:99"/>						
+						<p:inputMask id="txtCrearEsfuerzoRestante" binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}" mask="99:99" placeholder="Esfuerzo Restante"/>						
 
 						<h:outputText value="Esfuerzo Real" />
-						<p:inputMask id="txtCrearEsfuerzoReal" binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" mask="99:99"/>						
+						<p:inputMask id="txtCrearEsfuerzoReal" binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" mask="99:99" placeholder="Esfuerzo Real"/>						
 						
 						<p:spacer width="100" height="10" />
 										
 						<h:outputText value="Puntos del artefacto" />
-						<p:inputMask id="txtCrearPuntos" binding="#{vtArtefactoView.txtCrearPuntos}" mask="99:99"/>					
+						<p:inputMask id="txtCrearPuntos" binding="#{vtArtefactoView.txtCrearPuntos}" mask="99:99" placeholder="Puntos"/>					
 												
 						<h:outputText value="Origen del artefacto" />
-						<p:inputText id="txtCrearOrigen" placeholder="Origen"
+						<p:inputText id="txtCrearOrigen" placeholder="Origen" maxlength="60"
 							binding="#{vtArtefactoView.txtCrearOrigen}" />
 							
 							<p:spacer width="100" height="10" />

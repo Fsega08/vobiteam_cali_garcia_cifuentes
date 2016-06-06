@@ -108,7 +108,7 @@
 								<h:outputText value="Estado de la Empresa" />
 								<p:selectOneMenu id="somEmpresaActiva"
 									binding="#{vtEmpresaThreeView.somEmpresaActiva}">
-									<f:selectItem itemValue="-1" itemLabel="Empresa Activa" />
+									<f:selectItem itemValue="-1" itemLabel="-Empresa Activa-" />
 									<f:selectItem itemValue="S" itemLabel="Activa" />
 									<f:selectItem itemValue="N" itemLabel="Inactiva" />
 								</p:selectOneMenu>
@@ -141,7 +141,7 @@
 
 							<h:outputText value="Descripcion del Proyecto" />
 							<p:inputTextarea id="txtProyectoMDescripcion" rows="7" cols="30"
-								placeholder="Descripcion"
+								placeholder="Descripcion" autoResize="false" style="overflow:auto;"
 								binding="#{vtEmpresaThreeView.txtProyectoMDescripcion}"
 								maxlength="100000000" />
 
@@ -149,7 +149,7 @@
 							<h:outputText value="Estado del Proyecto" />
 							<p:selectOneMenu id="somProyectoActivo"
 								binding="#{vtEmpresaThreeView.somProyectoActivo}">
-								<f:selectItem itemValue="-1" itemLabel="Proyecto Activo" />
+								<f:selectItem itemValue="-1" itemLabel="-Proyecto Activo-" />
 								<f:selectItem itemValue="S" itemLabel="Activo" />
 								<f:selectItem itemValue="N" itemLabel="Inactivo" />
 							</p:selectOneMenu>
@@ -157,7 +157,7 @@
 							<h:outputText value="Proyecto Público" />
 							<p:selectOneMenu id="somProyectoPublico"
 								binding="#{vtEmpresaThreeView.somProyectoPublico}">
-								<f:selectItem itemValue="-1" itemLabel="Proyecto Publico" />
+								<f:selectItem itemValue="-1" itemLabel="-Proyecto Publico-" />
 								<f:selectItem itemValue="S" itemLabel="Si" />
 								<f:selectItem itemValue="N" itemLabel="No" />
 							</p:selectOneMenu>
@@ -191,14 +191,14 @@
 
 							<h:outputText value="Descripcion de la Pila Producto" />
 							<p:inputTextarea id="txtBacklogMDescripcion" rows="7" cols="30"
-								placeholder="Descripcion"
+								placeholder="Descripcion" autoResize="false" style="overflow:auto;"
 								binding="#{vtEmpresaThreeView.txtBacklogMDescripcion}" maxlength="100000000" />
 
 
 							<h:outputText value="Estado de Pila Producto" />
 							<p:selectOneMenu id="somBacklogActivo"
 								binding="#{vtEmpresaThreeView.somBacklogActivo}">
-								<f:selectItem itemValue="-1" itemLabel="Pila Producto Activa?" />
+								<f:selectItem itemValue="-1" itemLabel="-Pila Producto Activa?-" />
 								<f:selectItem itemValue="S" itemLabel="Activo" />
 								<f:selectItem itemValue="N" itemLabel="Inactivo" />
 							</p:selectOneMenu>
@@ -267,7 +267,7 @@
 
 							<h:outputText value="Descripción del proyecto" />
 							<p:inputTextarea id="txtProyectoCDescripcion" rows="7" cols="30"
-								placeholder="Descripcion"
+								placeholder="Descripcion" autoResize="false" style="overflow:auto;"
 								binding="#{vtEmpresaThreeView.txtProyectoCDescripcion}"
 								maxlength="100000000" />
 
@@ -330,7 +330,7 @@
 
 							<h:outputText value="Descripcion de la Pila Producto" />
 							<p:inputTextarea id="txtBacklogCDescripcion" rows="7" cols="30"
-								placeholder="Descripcion"
+								placeholder="Descripcion" autoResize="false" style="overflow:auto;"
 								binding="#{vtEmpresaThreeView.txtBacklogCDescripcion}" maxlength="100000000" />
 
 						</h:panelGrid>

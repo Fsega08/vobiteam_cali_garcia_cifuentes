@@ -77,11 +77,11 @@
 									binding="#{vtPrioridadView.txtMNombre}" maxlength="60" />
 
 								<h:outputText value="Estado de prioridad" />
-								<p:selectOneMenu id="somEmpresaActiva"
+								<p:selectOneMenu id="somPrioridadActiva"
 									binding="#{vtPrioridadView.somPrioridadActiva}">
-									<f:selectItem itemValue="-1" itemLabel="Prioridad Activa?" />
-									<f:selectItem itemValue="S" itemLabel="Si" />
-									<f:selectItem itemValue="N" itemLabel="No" />
+									<f:selectItem itemValue="-1" itemLabel="-Prioridad Activa?-" />
+									<f:selectItem itemValue="S" itemLabel="Activo" />
+									<f:selectItem itemValue="N" itemLabel="Inactivo" />
 								</p:selectOneMenu>
 							</h:panelGrid>
 							<br />

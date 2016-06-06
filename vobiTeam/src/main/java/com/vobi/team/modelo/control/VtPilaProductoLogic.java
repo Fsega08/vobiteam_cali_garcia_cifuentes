@@ -89,6 +89,10 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
         log.debug("saving VtPilaProducto instance");
 
         try {
+        	
+        	if(entity.getNombre().toString().trim().equalsIgnoreCase("")){
+        		throw new Exception("El nombre de la pila de producto no puede ser vacia, digite el nombre de la pila");
+        	}
             if (entity.getVtProyecto() == null) {
                 throw new ZMessManager().new ForeignException("vtProyecto");
             }

@@ -679,17 +679,17 @@ public class VtEmpresaThreeView {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 
 			if (txtProyectoMNombre.getValue().toString().trim().equals("") == true || txtProyectoMNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor digite el nombre del Proyecto");
 			}
 			if (txtProyectoMDescripcion.getValue().toString().trim().equals("") == true || txtProyectoMDescripcion.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor digite la descripción del Proyecto");
 			}
 			if (somProyectoActivo.getValue().equals("-1") ==true ) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor seleccione el estado del Proyecto");
 			}
 
 			if (somProyectoPublico.getValue().equals("-1") ==true ) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor seleccione si el proyecto es público o privada");
 			}
 
 
@@ -836,10 +836,10 @@ public class VtEmpresaThreeView {
 		try {
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			if (txtBacklogCNombre.getValue().toString().trim().equals("") == true || txtBacklogCNombre.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor ingrese el nombre");
 			}
 			if (txtBacklogCDescripcion.getValue().toString().trim().equals("") == true || txtBacklogCDescripcion.getValue() == null) {
-				throw new Exception("Por favor llene todos los campos");
+				throw new Exception("Por favor ingrese la descripción");
 			}
 			
 			proyectoSeleccionado = (VtProyecto)selectedNode.getData();
