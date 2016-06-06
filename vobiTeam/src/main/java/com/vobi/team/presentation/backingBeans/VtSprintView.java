@@ -219,7 +219,10 @@ public class VtSprintView {
 				List<VtEstadoSprint> listaEstadoSprint = businessDelegatorView.getVtEstadoSprint();
 				losEstadosSprint = new ArrayList<SelectItem>();
 				for (VtEstadoSprint vtEstadoSprint : listaEstadoSprint) {
-					losEstadosSprint.add(new SelectItem(vtEstadoSprint.getEstsprCodigo(), vtEstadoSprint.getNombre()));
+					if (vtEstadoSprint.getActivo().equals("S")) {
+						losEstadosSprint.add(new SelectItem(vtEstadoSprint.getEstsprCodigo(), vtEstadoSprint.getNombre()));
+					}
+					
 				}
 			}
 		} catch (Exception e) {

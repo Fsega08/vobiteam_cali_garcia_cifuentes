@@ -172,7 +172,10 @@ public class VtTreeClienteView {
 				List<VtPrioridad> listaPrioridadesArtefactos = businessDelegatorView.getVtPrioridad();
 				lasCrearPrioridadesArtefactos = new ArrayList<SelectItem>();
 				for (VtPrioridad vtPrioridad : listaPrioridadesArtefactos) {
-					lasCrearPrioridadesArtefactos.add(new SelectItem(vtPrioridad.getPrioCodigo(), vtPrioridad.getNombre()));
+					if (vtPrioridad.getActivo().equals("S")) {
+						lasCrearPrioridadesArtefactos.add(new SelectItem(vtPrioridad.getPrioCodigo(), vtPrioridad.getNombre()));
+					}
+					
 				}
 			}
 		} catch (Exception e) {
@@ -200,7 +203,10 @@ public class VtTreeClienteView {
 				VtUsuario usuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 				losProyectosSOM = new ArrayList<SelectItem>();
 				for (VtProyectoUsuario proyectoUsuario : usuario.getVtProyectoUsuarios()) {
-					losProyectosSOM.add(new SelectItem(proyectoUsuario.getVtProyecto().getProyCodigo(), proyectoUsuario.getVtProyecto().getNombre()));
+					if (proyectoUsuario.getActivo().equals("S")) {
+						losProyectosSOM.add(new SelectItem(proyectoUsuario.getVtProyecto().getProyCodigo(), proyectoUsuario.getVtProyecto().getNombre()));
+					}
+					
 				}							
 			}	
 
@@ -501,10 +507,10 @@ public class VtTreeClienteView {
 			List<VtPilaProducto> vtPilaProductos =  businessDelegatorView.findBacklogByProyecto(proyecto);
 			
 			for (VtPilaProducto vtPilaProducto : vtPilaProductos) {
-				losBacklogsSOM.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
+				if (vtPilaProducto.getActivo().equals("S")) {
+					losBacklogsSOM.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
+				}
 			}
-			
-			
 		}
 	}
 	

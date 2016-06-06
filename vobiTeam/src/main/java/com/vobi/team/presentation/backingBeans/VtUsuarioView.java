@@ -237,7 +237,9 @@ public class VtUsuarioView {
 				lasEmpresas=new ArrayList<SelectItem>();
 
 				for (VtEmpresa vtEmpresa : listEmpresas) {
-					lasEmpresas.add(new SelectItem(vtEmpresa.getEmprCodigo(),vtEmpresa.getNombre()));
+					if (vtEmpresa.getActivo().equals("S")) {
+						lasEmpresas.add(new SelectItem(vtEmpresa.getEmprCodigo(),vtEmpresa.getNombre()));	
+					}
 				}
 
 			}
@@ -323,7 +325,10 @@ public class VtUsuarioView {
 				lasEmpresasM=new ArrayList<SelectItem>();
 
 				for (VtEmpresa vtEmpresa : listEmpresas) {
-					lasEmpresasM.add(new SelectItem(vtEmpresa.getEmprCodigo(),vtEmpresa.getNombre()));
+					if (vtEmpresa.getActivo().equals("S")) {
+						lasEmpresasM.add(new SelectItem(vtEmpresa.getEmprCodigo(),vtEmpresa.getNombre()));
+					}
+					
 				}
 
 			}
