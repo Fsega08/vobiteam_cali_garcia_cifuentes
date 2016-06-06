@@ -43,14 +43,14 @@
 
 						<h:outputText value="Titulo del artefacto" />
 						<p:inputText id="txtCrearNombre" placeholder="Título" maxlength="100"
-							binding="#{vtArtefactoView.txtCrearNombre}" size="85" />
+							binding="#{vtArtefactoView.txtCrearNombre}" size="75" />
 					</h:panelGrid>
 
 					<h:panelGrid columns="1" layout="grid" id="pnlgDesc">
 						<h:outputText value="Descripción del artefacto" />
 						<p:inputTextarea id="txtAreaCrearDescripcion"
 							placeholder="Descripcion" autoResize="false" style="overflow:auto;"
-							binding="#{vtArtefactoView.txtCrearDescripcion}" cols="148" />
+							binding="#{vtArtefactoView.txtCrearDescripcion}" cols="150" />
 
 						<p:separator />
 					</h:panelGrid>
@@ -76,7 +76,7 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Esfuerzo Estimado" />
-						<p:inputMask id="txtCrearEsfuerzoEstimado" binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}" mask="99:99" placeholder="Esfuerzo Estimado">
+						<p:inputMask id="txtCrearEsfuerzoEstimado" binding="#{vtArtefactoView.txtCrearEsfuerzoEstimado}" mask="99:99" placeholder="Esfuerzo Estimado" disabled="true">
 							<p:ajax listener="#{vtArtefactoView.esfuerzoListener}"
 								event="blur" update="txtCrearEsfuerzoRestante, txtCrearEsfuerzoReal, txtCrearPuntos" />							
 						</p:inputMask>
@@ -86,15 +86,15 @@
 						<p:spacer width="100" height="10" />
 						
 						<h:outputText value="Esfuerzo Restante" />
-						<p:inputMask id="txtCrearEsfuerzoRestante" binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}" mask="99:99" placeholder="Esfuerzo Restante"/>						
+						<p:inputMask id="txtCrearEsfuerzoRestante" binding="#{vtArtefactoView.txtCrearEsfuerzoRestante}" mask="99:99" placeholder="Esfuerzo Restante" disabled="true"/>						
 
 						<h:outputText value="Esfuerzo Real" />
-						<p:inputMask id="txtCrearEsfuerzoReal" binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" mask="99:99" placeholder="Esfuerzo Real"/>						
+						<p:inputMask id="txtCrearEsfuerzoReal" binding="#{vtArtefactoView.txtCrearEsfuerzoReal}" mask="99:99" placeholder="Esfuerzo Real" disabled="true"/>						
 						
 						<p:spacer width="100" height="10" />
 										
 						<h:outputText value="Puntos del artefacto" />
-						<p:inputMask id="txtCrearPuntos" binding="#{vtArtefactoView.txtCrearPuntos}" mask="99:99" placeholder="Puntos"/>					
+						<p:inputMask id="txtCrearPuntos" binding="#{vtArtefactoView.txtCrearPuntos}" mask="99:99" placeholder="Puntos" disabled="true"/>					
 												
 						<h:outputText value="Origen del artefacto" />
 						<p:inputText id="txtCrearOrigen" placeholder="Origen" maxlength="60"

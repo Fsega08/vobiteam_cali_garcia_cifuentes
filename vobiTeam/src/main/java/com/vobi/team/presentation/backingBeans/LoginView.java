@@ -109,7 +109,7 @@ public class LoginView {
 			}
             
         } catch (AuthenticationException e) {       
-        	FacesUtils.addErrorMessage(e.getMessage());
+        	
             return "/login.xhtml";
         }
         
