@@ -285,7 +285,9 @@ public class VtArtefactoView {
 				List<VtTipoArtefacto> listaTiposArtefactos = businessDelegatorView.getVtTipoArtefacto();
 				losTiposArtefactos = new ArrayList<SelectItem>();
 				for (VtTipoArtefacto vtTipoArtefacto : listaTiposArtefactos) {
-					losTiposArtefactos.add(new SelectItem(vtTipoArtefacto.getTparCodigo(), vtTipoArtefacto.getNombre()));
+					if (vtTipoArtefacto.getActivo().equals("S")) {
+						losTiposArtefactos.add(new SelectItem(vtTipoArtefacto.getTparCodigo(), vtTipoArtefacto.getNombre()));	
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -320,7 +322,10 @@ public class VtArtefactoView {
 				List<VtPrioridad> listaPrioridadesArtefactos = businessDelegatorView.getVtPrioridad();
 				lasPrioridadesArtefactos = new ArrayList<SelectItem>();
 				for (VtPrioridad vtPrioridad : listaPrioridadesArtefactos) {
-					lasPrioridadesArtefactos.add(new SelectItem(vtPrioridad.getPrioCodigo(), vtPrioridad.getNombre()));
+					if (vtPrioridad.getActivo().equals("S")) {
+						lasPrioridadesArtefactos.add(new SelectItem(vtPrioridad.getPrioCodigo(), vtPrioridad.getNombre()));
+					}
+					
 				}
 			}
 		} catch (Exception e) {
@@ -347,7 +352,10 @@ public class VtArtefactoView {
 				List<VtEstado> listaEstadosArtefactos = businessDelegatorView.getVtEstado();
 				losEstadosArtefactos = new ArrayList<SelectItem>();
 				for (VtEstado vtEstado : listaEstadosArtefactos) {
-					losEstadosArtefactos.add(new SelectItem(vtEstado.getEstaCodigo(), vtEstado.getNombre()));
+					if (vtEstado.getActivo().equals("S")) {
+						losEstadosArtefactos.add(new SelectItem(vtEstado.getEstaCodigo(), vtEstado.getNombre()));	
+					}
+					
 				}
 			}
 		} catch (Exception e) {
@@ -438,7 +446,9 @@ public class VtArtefactoView {
 				List<VtTipoArtefacto> listaTiposArtefactos = businessDelegatorView.getVtTipoArtefacto();
 				losCrearTiposArtefactos = new ArrayList<SelectItem>();
 				for (VtTipoArtefacto vtTipoArtefacto : listaTiposArtefactos) {
-					losCrearTiposArtefactos.add(new SelectItem(vtTipoArtefacto.getTparCodigo(), vtTipoArtefacto.getNombre()));
+					if (vtTipoArtefacto.getActivo().equals("S")) {
+						losCrearTiposArtefactos.add(new SelectItem(vtTipoArtefacto.getTparCodigo(), vtTipoArtefacto.getNombre()));
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -473,7 +483,9 @@ public class VtArtefactoView {
 				List<VtPrioridad> listaPrioridadesArtefactos = businessDelegatorView.getVtPrioridad();
 				lasCrearPrioridadesArtefactos = new ArrayList<SelectItem>();
 				for (VtPrioridad vtPrioridad : listaPrioridadesArtefactos) {
-					lasCrearPrioridadesArtefactos.add(new SelectItem(vtPrioridad.getPrioCodigo(), vtPrioridad.getNombre()));
+					if (vtPrioridad.getActivo().equals("S")) {
+						lasCrearPrioridadesArtefactos.add(new SelectItem(vtPrioridad.getPrioCodigo(), vtPrioridad.getNombre()));
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -500,7 +512,10 @@ public class VtArtefactoView {
 				List<VtEstado> listaEstadosArtefactos = businessDelegatorView.getVtEstado();
 				losCrearEstadosArtefactos = new ArrayList<SelectItem>();
 				for (VtEstado vtEstado : listaEstadosArtefactos) {
-					losCrearEstadosArtefactos.add(new SelectItem(vtEstado.getEstaCodigo(), vtEstado.getNombre()));
+					if (vtEstado.getActivo().equals("S")) {
+						losCrearEstadosArtefactos.add(new SelectItem(vtEstado.getEstaCodigo(), vtEstado.getNombre()));
+						
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -632,7 +647,10 @@ public class VtArtefactoView {
 				List<VtInteres> listaInteres = businessDelegatorView.getVtInteres();
 				losInteres = new ArrayList<SelectItem>();
 				for (VtInteres vtInteres : listaInteres) {
-					losInteres.add(new SelectItem(vtInteres.getInteCodigo(), vtInteres.getNombre()));
+					if (vtInteres.getActivo().equals("S")) {
+						losInteres.add(new SelectItem(vtInteres.getInteCodigo(), vtInteres.getNombre()));
+					}
+					
 				}			
 			}	
 			

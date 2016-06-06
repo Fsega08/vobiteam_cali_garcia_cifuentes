@@ -152,7 +152,10 @@ public class VtDesarrolladorView {
 				VtUsuario usuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 				losProyectos = new ArrayList<SelectItem>();
 				for (VtProyectoUsuario proyectoUsuario : usuario.getVtProyectoUsuarios()) {
-					losProyectos.add(new SelectItem(proyectoUsuario.getVtProyecto().getProyCodigo(), proyectoUsuario.getVtProyecto().getNombre()));
+					if (proyectoUsuario.getActivo().equals("S")) {
+						losProyectos.add(new SelectItem(proyectoUsuario.getVtProyecto().getProyCodigo(), proyectoUsuario.getVtProyecto().getNombre()));
+					}
+					
 				}							
 			}	
 
@@ -291,7 +294,10 @@ public class VtDesarrolladorView {
 				List<VtEstado> listaEstadosArtefactos = businessDelegatorView.consultarEstadosParaDesarrollador();
 				losEstadosArtefactos = new ArrayList<SelectItem>();
 				for (VtEstado vtEstado : listaEstadosArtefactos) {
-					losEstadosArtefactos.add(new SelectItem(vtEstado.getEstaCodigo(), vtEstado.getNombre()));
+					if (vtEstado.getActivo().equals("S")) {
+						losEstadosArtefactos.add(new SelectItem(vtEstado.getEstaCodigo(), vtEstado.getNombre()));
+					}
+					
 				}
 				if (artefactoSeleccionado.getVtEstado().getEstaCodigo() != 2L || artefactoSeleccionado.getVtEstado().getEstaCodigo() != 3L) {
 					losEstadosArtefactos.add(new SelectItem(artefactoSeleccionado.getVtEstado().getEstaCodigo(), artefactoSeleccionado.getVtEstado().getNombre()));
@@ -359,7 +365,9 @@ public class VtDesarrolladorView {
 			List<VtPilaProducto> vtPilaProductos =  businessDelegatorView.findBacklogByProyecto(proyecto);
 			
 			for (VtPilaProducto vtPilaProducto : vtPilaProductos) {
-				losBacklogs.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
+				if (vtPilaProducto.getActivo().equals("S")) {
+					losBacklogs.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
+				}
 			}
 			
 			
