@@ -36,7 +36,7 @@
 						<p:selectOneMenu id="somMTiposDeArtefactos"
 							binding="#{vtArtefactoView.somTipoArtefacto}"
 							value="#{vtArtefactoView.artefactoSeleccionadoDTO.tparCodigo_VtTipoArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+							<f:selectItem itemValue="-1" itemLabel="-Tipo de artefacto-" />
 							<f:selectItems value="#{vtArtefactoView.losTiposArtefactos}" />
 							<p:ajax listener="#{vtArtefactoView.tipoModArtefactoListener}"
 								update="txtMEsfuerzoEstimado, txtMEsfuerzoRestante, txtMEsfuerzoReal, txtMPuntos" />
@@ -70,7 +70,7 @@
 						<p:selectOneMenu id="somMEstados"
 							value="#{vtArtefactoView.artefactoSeleccionadoDTO.estaCodigo_VtEstado}"
 							binding="#{vtArtefactoView.somEstadoArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Estado" />
+							<f:selectItem itemValue="-1" itemLabel="-Estado-" />
 							<f:selectItems value="#{vtArtefactoView.losEstadosArtefactos}" />
 						</p:selectOneMenu>
 
@@ -80,7 +80,7 @@
 						<p:selectOneMenu id="somMPrioridades"
 							value="#{vtArtefactoView.artefactoSeleccionadoDTO.prioCodigo_VtPrioridad}"
 							binding="#{vtArtefactoView.somPrioridadesArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+							<f:selectItem itemValue="-1" itemLabel="-Prioridad-" />
 							<f:selectItems
 								value="#{vtArtefactoView.lasPrioridadesArtefactos}" />
 						</p:selectOneMenu>
@@ -125,13 +125,13 @@
 
 						<p:spacer width="100" height="10" />
 
-						<h:outputText value="Artefacto activo?" />
+						<h:outputText value="Actividad del Artefacto" />
 						<p:selectOneMenu id="somArtefactoActivo"
 							value="#{vtArtefactoView.artefactoSeleccionadoDTO.activo}"
 							binding="#{vtArtefactoView.somArtefactoActivo}">
-							<f:selectItem itemValue="-1" itemLabel="Artefacto activo?" />
-							<f:selectItem itemValue="S" itemLabel="Si" />
-							<f:selectItem itemValue="N" itemLabel="No" />
+							<f:selectItem itemValue="-1" itemLabel="-Artefacto activo?-" />
+							<f:selectItem itemValue="S" itemLabel="Activo" />
+							<f:selectItem itemValue="N" itemLabel="Inactivo" />
 						</p:selectOneMenu>						
 						
 					</h:panelGrid>
