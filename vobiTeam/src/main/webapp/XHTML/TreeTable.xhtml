@@ -41,8 +41,8 @@
 					<p:menuitem value="Modificar" update="pnlTreeTable"
 						icon="fa fa-pencil " oncomplete="PF('dlgModEmpresa').show()"
 						action="#{vtEmpresaThreeView.modificarListener}" />
-					<p:menuitem value="Crear Proyecto" update="pnlTreeTable"
-						icon="fa fa-plus " oncomplete="PF('dlgCrearProyecto').show()"
+					<p:menuitem value="Crear Proyecto" update="pnlTreeTable, men"
+						icon="fa fa-plus " action="#{vtEmpresaThreeView.abrirCrearProyecto}"
 						 />					
 				</p:contextMenu>
 <!--...............................contextmenu Empresa....................... -->
@@ -52,8 +52,8 @@
 					<p:menuitem value="Modificar" update="pnlTreeTable"
 						icon="fa fa-pencil " oncomplete="PF('dlgModProyecto').show()"
 						action="#{vtEmpresaThreeView.modificarProyectoListener}" />
-					<p:menuitem value="Crear Backlog" update="pnlTreeTable"
-						icon="fa fa-plus " oncomplete="PF('dlgCrearBacklog').show()"
+					<p:menuitem value="Crear Backlog" update="pnlTreeTable, men"
+						icon="fa fa-plus " action="#{vtEmpresaThreeView.abrirCrearBacklog}"
 						 />
 					<p:menuitem value="Asignar usuarios a este proyecto"
 						icon="fa fa-user" oncomplete="PF('dlgPicklist').show()"
@@ -124,7 +124,7 @@
 
 							<p:commandButton id="btnEmpresaMClear" icon="fa fa-eraser white"
 								action="#{vtEmpresaThreeView.limpiarModificarEmpresaAction}"
-								value="Limpiar" update="panelVtEmpresa" />
+								value="Limpiar" update="panelVtEmpresa, men" />
 						</p:panel>
 					</div>
 				</p:dialog>

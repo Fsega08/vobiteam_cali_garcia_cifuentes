@@ -42,6 +42,9 @@ public class VtRolLogic implements IVtRolLogic {
      */
     @Autowired
     private IVtRolDAO vtRolDAO;
+    
+    @Autowired
+    private IVtUsuarioDAO vtUsuarioDAO;
 
     /**
     * DAO injected by Spring that manages VtUsuarioRol entities

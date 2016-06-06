@@ -21,11 +21,13 @@ import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
 import com.vobi.team.modelo.control.IVtPilaProductoLogic;
 import com.vobi.team.modelo.control.IVtProgresoArtefactoLogic;
 import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
+import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 
 import hirondelle.date4j.DateTime;
@@ -53,6 +55,10 @@ public class testArtefacto {
 	 
 	 @Autowired
 	private IVtUsuarioLogic vtUsuarioLogic;
+	 
+	 
+	 @Autowired
+	private IVtUsuarioRolLogic vtUsuarioRolLogic;
 	 
 	 @Autowired
 	 private IVtSprintLogic vtSprintLogic;
@@ -181,4 +187,18 @@ public class testArtefacto {
 		}
 	}
 
+	@Test    
+	public void testH() throws Exception {
+		
+		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(1L);
+		
+		
+		for (VtUsuarioRol vtUsuarioRol :  vtUsuario.getVtUsuarioRols()) {
+			log.info(""+vtUsuarioRol.getUsroCodigo());
+		}
+		
+		
+		
+	}
+	
 }

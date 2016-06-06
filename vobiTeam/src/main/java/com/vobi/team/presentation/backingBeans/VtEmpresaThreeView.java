@@ -14,6 +14,7 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.DualListModel;
@@ -41,147 +42,147 @@ public class VtEmpresaThreeView {
 
 	private TreeNode root;	
 	private DefaultTreeNode selectedNode;
-	
+
 	private VtEmpresa laEmpresaSeleccionada;
 	private VtProyecto proyectoSeleccionado;
 	private VtPilaProducto backlogSeleccionado;
-	
+
 	private List<VtEmpresa> lasEmpresas;
 	private List<VtProyecto> losProyectos;
 	private List<VtPilaProducto> losBacklogs;
-	
+
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-	
+
 	//....................................Empresa.................................................
-	
+
 	// PARA EL CREAR
-		private InputText txtEmpresaCIdentificacion;
-		private InputText txtEmpresaCNombre;
+	private InputText txtEmpresaCIdentificacion;
+	private InputText txtEmpresaCNombre;
 
-		private CommandButton btnEmpresaCCrear;
-		private CommandButton btnEmpresaCLimpiar;
-		///////////////////////////
+	private CommandButton btnEmpresaCCrear;
+	private CommandButton btnEmpresaCLimpiar;
+	///////////////////////////
 
 
-		//PARA EL MODIFICAR
-		private InputText txtEmpresaMIdentificacion;
-		private InputText txtEmpresaMNombre;
-		private SelectOneMenu somEmpresaActiva;
+	//PARA EL MODIFICAR
+	private InputText txtEmpresaMIdentificacion;
+	private InputText txtEmpresaMNombre;
+	private SelectOneMenu somEmpresaActiva;
 
-		private CommandButton btnEmpresaModificar;
-		private CommandButton btnEmpresaMLimpiar;
-		////////////////////////////
+	private CommandButton btnEmpresaModificar;
+	private CommandButton btnEmpresaMLimpiar;
+	////////////////////////////
 
 	//...........................................................................................
-		
+
 	//..................................Proyecto.................................................
 	//..............Crear...................
-		private InputText txtProyectoCNombre;
-		private InputTextarea txtProyectoCDescripcion;
-		
-		private CommandButton btnProyectoCrear;
-		private CommandButton btnProyectoCLimpiar;
-	//.......................................
-		
-	//...............Modificar...................
-		private InputText txtProyectoMNombre;
-		private InputTextarea txtProyectoMDescripcion;
+	private InputText txtProyectoCNombre;
+	private InputTextarea txtProyectoCDescripcion;
 
-		private SelectOneMenu somProyectoActivo;
-		private SelectOneMenu somProyectoPublico;
-		
-		private	CommandButton btnProyectoModificar;
-		private CommandButton btnProyectoMLimpiar;
+	private CommandButton btnProyectoCrear;
+	private CommandButton btnProyectoCLimpiar;
+	//.......................................
+
+	//...............Modificar...................
+	private InputText txtProyectoMNombre;
+	private InputTextarea txtProyectoMDescripcion;
+
+	private SelectOneMenu somProyectoActivo;
+	private SelectOneMenu somProyectoPublico;
+
+	private	CommandButton btnProyectoModificar;
+	private CommandButton btnProyectoMLimpiar;
 	//...........................................
-		
-		private CommandButton btnCrearProyecto;	
+
+	private CommandButton btnCrearProyecto;	
 
 	//....................Picklist.....................
-		private DualListModel<VtUsuario> losUsuariosSeleccionados;
-		private List<VtUsuario> usuariosSource;
-		private List<VtUsuario> usuariosTarget;
+	private DualListModel<VtUsuario> losUsuariosSeleccionados;
+	private List<VtUsuario> usuariosSource;
+	private List<VtUsuario> usuariosTarget;
 	//................................................		
 	//...........................................................................................	
-		
+
 	//.....................................Backlog..............................................
-		//................Para el crear backlog...............
-		private InputText txtBacklogCNombre;
-		private InputTextarea txtBacklogCDescripcion;
-		
-		private CommandButton btnCrearBacklog;
-		private CommandButton btnBacklogCLimpiar;
-		//....................................................
+	//................Para el crear backlog...............
+	private InputText txtBacklogCNombre;
+	private InputTextarea txtBacklogCDescripcion;
+
+	private CommandButton btnCrearBacklog;
+	private CommandButton btnBacklogCLimpiar;
+	//....................................................
 
 
-		//.................Para modificar backlog................
-		private InputText txtBacklogMNombre;
-		private InputTextarea txtBacklogMDescripcion;
-		private SelectOneMenu somBacklogActivo;
+	//.................Para modificar backlog................
+	private InputText txtBacklogMNombre;
+	private InputTextarea txtBacklogMDescripcion;
+	private SelectOneMenu somBacklogActivo;
 
-		private CommandButton btnModificarBacklog;
-		private CommandButton btnBacklogMLimpiar;
-		//....................................................
-		
-	
+	private CommandButton btnModificarBacklog;
+	private CommandButton btnBacklogMLimpiar;
+	//....................................................
+
+
 	public VtEmpresaThreeView() throws Exception {
 		super();		
 		this.root = new DefaultTreeNode("root", null);
-			
+
 	}
-	
+
 	@PostConstruct
 	public void init(){
 		getLasEmpresas();
 		getLosProyectos();
 		getLosBacklogs();
-		
+
 		try {			
-			
+
 			for (VtEmpresa vtEmpresa : lasEmpresas) {
 				TreeNode empresa = new DefaultTreeNode("Empresa",vtEmpresa, root);
 				losProyectos = businessDelegatorView.findProyectsByEnterpriseIdentification(vtEmpresa);
-				
+
 				if(losProyectos != null){
 					for (VtProyecto vtProyecto : losProyectos) {
 						TreeNode proyecto = new DefaultTreeNode("Proyecto",vtProyecto, empresa);
 						losBacklogs = businessDelegatorView.findBacklogByProyecto(vtProyecto);
-						
+
 						if(losBacklogs != null){
 							for (VtPilaProducto vtPilaProducto : losBacklogs) {
 								TreeNode backlog = new DefaultTreeNode("Backlog",vtPilaProducto, proyecto);
 							}
 						}
-											
+
 					}
 				}
-								
+
 			}	
-			
+
 			proyectoSeleccionado = businessDelegatorView.getVtProyecto(1L);
-			
+
 			usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 			usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);
 
 			losUsuariosSeleccionados = new DualListModel<VtUsuario>(usuariosSource, usuariosTarget);
-			
+
 			FacesUtils.putinSession("proyectoSeleccionado", null);
 			FacesUtils.putinSession("empresaSeleccionada", null);
 			FacesUtils.putinSession("backogSeleccionado", null);
-			
+
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
 	}
-	
+
 	@PreDestroy
 	public void destroy(){
-		
+
 	}
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
-	
+
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
 	}
@@ -202,7 +203,7 @@ public class VtEmpresaThreeView {
 		this.laEmpresaSeleccionada = laEmpresaSeleccionada;
 	}
 
-	
+
 	public List<VtEmpresa> getLasEmpresas() {
 		try {
 			if (lasEmpresas == null) {
@@ -217,7 +218,7 @@ public class VtEmpresaThreeView {
 	public void setLasEmpresas(List<VtEmpresa> lasEmpresas) {
 		this.lasEmpresas = lasEmpresas;
 	}	
-	
+
 	public TreeNode getRoot() {
 		return root;
 	}
@@ -280,7 +281,7 @@ public class VtEmpresaThreeView {
 	public void setBacklogSeleccionado(VtPilaProducto backogSeleccionado) {
 		this.backlogSeleccionado = backogSeleccionado;
 	}	
-	
+
 	//...............................Gets y Sets de Empresa.............................
 	public InputText getTxtEmpresaCIdentificacion() {
 		return txtEmpresaCIdentificacion;
@@ -466,10 +467,10 @@ public class VtEmpresaThreeView {
 	public void setUsuariosTarget(List<VtUsuario> usuariosTarget) {
 		this.usuariosTarget = usuariosTarget;
 	}
-	
+
 	//..................................Fin de los Gets y Sets..........................................
 	//..................................Gets y Sets de Backlog.........................................
-	
+
 	public InputText getTxtBacklogCNombre() {
 		return txtBacklogCNombre;
 	}
@@ -541,7 +542,7 @@ public class VtEmpresaThreeView {
 	public void setBtnBacklogMLimpiar(CommandButton btnBacklogMLimpiar) {
 		this.btnBacklogMLimpiar = btnBacklogMLimpiar;
 	}
-	
+
 	//..................................................................................................
 	public void crearEmpresaAction() throws Exception{
 		try {
@@ -570,9 +571,9 @@ public class VtEmpresaThreeView {
 			businessDelegatorView.saveVtEmpresa(vtEmpresa);
 			limpiarCrearEmpresaAction();
 			FacesUtils.addInfoMessage("Se creó con éxito la empresa");
-			
+
 			new DefaultTreeNode("Empresa",vtEmpresa, root);
-			
+
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -582,7 +583,7 @@ public class VtEmpresaThreeView {
 		try {
 			laEmpresaSeleccionada = (VtEmpresa) selectedNode.getData();
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
-			
+
 			if (txtEmpresaMNombre.getValue().toString().trim().equals("")== true || txtEmpresaMNombre.getValue() == null) {
 				throw new Exception("Por favor digite el nombre de la Empresa");
 			}
@@ -590,7 +591,7 @@ public class VtEmpresaThreeView {
 			if (somEmpresaActiva.getValue().equals("-1") ==true ) {
 				throw new Exception("Por favor digite el estado de la Empresa");
 			}
-			
+
 			VtEmpresa vtEmpresa = laEmpresaSeleccionada;			
 
 			vtEmpresa.setNombre(txtEmpresaMNombre.getValue().toString().trim());
@@ -603,18 +604,22 @@ public class VtEmpresaThreeView {
 			selectedNode.setData(vtEmpresa);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
-			
+
 		}
 	}
 
 	public void modificarListener() throws Exception{	
-	
-		laEmpresaSeleccionada = (VtEmpresa) selectedNode.getData();
-		txtEmpresaMNombre.setValue(laEmpresaSeleccionada.getNombre());
-		somEmpresaActiva.setValue(laEmpresaSeleccionada.getActivo());
-		
+		try {
+			laEmpresaSeleccionada = (VtEmpresa) selectedNode.getData();
+			txtEmpresaMNombre.setValue(laEmpresaSeleccionada.getNombre());
+			somEmpresaActiva.setValue(laEmpresaSeleccionada.getActivo());
+
+
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}		
 	}
-	
+
 	public void limpiarCrearEmpresaAction() {
 
 		txtEmpresaCIdentificacion.resetValue();
@@ -623,7 +628,7 @@ public class VtEmpresaThreeView {
 	public void limpiarModificarEmpresaAction() {
 		txtEmpresaMNombre.resetValue();
 		somEmpresaActiva.resetValue();
-		
+
 	}
 	//........................................................................................................
 	public void crearProyectoAction() throws Exception {
@@ -653,20 +658,20 @@ public class VtEmpresaThreeView {
 			businessDelegatorView.saveVtProyecto(vtProyecto);
 
 			FacesUtils.addInfoMessage("Se ha creado el Proyecto con éxito");
-			
+
 			limpiarProyectoCAction();		
-			
+
 			TreeNode proyecto = new DefaultTreeNode("Proyecto",vtProyecto, selectedNode);
-			
+
 			List<VtPilaProducto> losBacklog = businessDelegatorView.findBacklogByProyecto(vtProyecto);
-            if(losBacklog!=null){
-            	List<TreeNode> hijos = new ArrayList<TreeNode>();
-                for (VtPilaProducto vtPilaProducto : losBacklog) {                	   				
-    				hijos.add(new DefaultTreeNode("Backlog",vtPilaProducto, proyecto));
-    			}
-            }
-			
-			
+			if(losBacklog!=null){
+				List<TreeNode> hijos = new ArrayList<TreeNode>();
+				for (VtPilaProducto vtPilaProducto : losBacklog) {                	   				
+					hijos.add(new DefaultTreeNode("Backlog",vtPilaProducto, proyecto));
+				}
+			}
+
+
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -699,35 +704,35 @@ public class VtEmpresaThreeView {
 			proyectoSeleccionado.setActivo(somProyectoActivo.getValue().toString().trim());			
 			proyectoSeleccionado.setUsuModificador(vtUsuarioActual.getUsuaCodigo());			
 			proyectoSeleccionado.setFechaModificacion(new Date());			
-			
+
 			businessDelegatorView.updateVtProyecto(proyectoSeleccionado);
-			
+
 			FacesUtils.addInfoMessage("Se ha modificado el proyecto con éxito");
 			selectedNode.setData(proyectoSeleccionado);	
-            
-            
-            List<VtPilaProducto> losBacklog = businessDelegatorView.findBacklogByProyecto(proyectoSeleccionado);
-            if(losBacklog!=null){
-            	List<TreeNode> hijos = selectedNode.getChildren();
-            	hijos.clear();
-                for (VtPilaProducto vtPilaProducto : losBacklog) {                	
-    				vtPilaProducto.setActivo(proyectoSeleccionado.getActivo());
-    				vtPilaProducto.setUsuModificador(proyectoSeleccionado.getUsuModificador());
-    				vtPilaProducto.setFechaModificacion(proyectoSeleccionado.getFechaModificacion());
-    				businessDelegatorView.updateVtPilaProducto(vtPilaProducto);
-    				
-    				hijos.add(new DefaultTreeNode("Backlog",vtPilaProducto, selectedNode));
-    			}
-            }
-            
-            
-            
+
+
+			List<VtPilaProducto> losBacklog = businessDelegatorView.findBacklogByProyecto(proyectoSeleccionado);
+			if(losBacklog!=null){
+				List<TreeNode> hijos = selectedNode.getChildren();
+				hijos.clear();
+				for (VtPilaProducto vtPilaProducto : losBacklog) {                	
+					vtPilaProducto.setActivo(proyectoSeleccionado.getActivo());
+					vtPilaProducto.setUsuModificador(proyectoSeleccionado.getUsuModificador());
+					vtPilaProducto.setFechaModificacion(proyectoSeleccionado.getFechaModificacion());
+					businessDelegatorView.updateVtPilaProducto(vtPilaProducto);
+
+					hijos.add(new DefaultTreeNode("Backlog",vtPilaProducto, selectedNode));
+				}
+			}
+
+
+
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
 	}
-	
+
 	public void limpiarProyectoCAction() {
 		txtProyectoCNombre.resetValue();
 		txtProyectoCDescripcion.resetValue();
@@ -740,21 +745,22 @@ public class VtEmpresaThreeView {
 		somProyectoActivo.setValue("-1");
 		somProyectoPublico.setValue("-1");
 	}
-	
-	public void modificarProyectoListener() {		
-		
-		proyectoSeleccionado = (VtProyecto) selectedNode.getData();	
 
+	public void modificarProyectoListener() {		
+
+		proyectoSeleccionado = (VtProyecto) selectedNode.getData();	
 		txtProyectoMNombre.setValue(proyectoSeleccionado.getNombre());
 		txtProyectoMDescripcion.setValue(proyectoSeleccionado.getDescripcion());
 		somProyectoActivo.setValue(proyectoSeleccionado.getActivo());
 		somProyectoPublico.setValue(proyectoSeleccionado.getPublico());
 
+
+
 	}
 	//............................................Picklist...............................................................
 	public void asignarProyectoAction() throws Exception {
 		proyectoSeleccionado = (VtProyecto) selectedNode.getData();
-		
+
 		usuariosSource = businessDelegatorView.getVtUsuarioNoAsignados(proyectoSeleccionado);
 		usuariosTarget = businessDelegatorView.getVtUsuarioAsignados(proyectoSeleccionado);	
 
@@ -770,7 +776,7 @@ public class VtEmpresaThreeView {
 
 		for(Object item : event.getItems()) {
 			VtUsuario vtUsuario=(VtUsuario) item;
-			
+
 			//true si paso de izquierda a derecha
 			if(event.isAdd()){
 				asignarUsuarioAction(vtUsuario, proyectoSeleccionado);
@@ -841,9 +847,9 @@ public class VtEmpresaThreeView {
 			if (txtBacklogCDescripcion.getValue().toString().trim().equals("") == true || txtBacklogCDescripcion.getValue() == null) {
 				throw new Exception("Por favor llene todos los campos");
 			}
-			
+
 			proyectoSeleccionado = (VtProyecto)selectedNode.getData();
-			
+
 			VtPilaProducto vtPilaProducto= new VtPilaProducto();
 
 			vtPilaProducto.setNombre(txtBacklogCNombre.getValue().toString());			
@@ -875,7 +881,7 @@ public class VtEmpresaThreeView {
 	}
 
 	public void modificarBacklogListener() {		
-		
+
 		backlogSeleccionado = (VtPilaProducto)selectedNode.getData();
 
 		txtBacklogMNombre.setValue(backlogSeleccionado.getNombre());
@@ -911,7 +917,7 @@ public class VtEmpresaThreeView {
 			selectedNode.setData(backlogSeleccionado);
 			limpiarBacklogMAction();
 			FacesUtils.addInfoMessage("Se ha modificado con éxito");
-			
+
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 
@@ -925,11 +931,11 @@ public class VtEmpresaThreeView {
 		somBacklogActivo.setValue("-1");
 
 	}
-	
+
 	//....................................................................................................................
 
 	public String artefactoListener(){
-		
+
 		backlogSeleccionado = (VtPilaProducto)selectedNode.getData();
 		//Guardo objeto en la sesion
 		if (backlogSeleccionado.getActivo().equals("S")) {
@@ -944,7 +950,7 @@ public class VtEmpresaThreeView {
 	}
 
 	public String sprintListener(){
-		
+
 		backlogSeleccionado = (VtPilaProducto)selectedNode.getData();
 		//Guardo objeto en la sesion
 		if (backlogSeleccionado.getActivo().equals("S")) {
@@ -960,5 +966,37 @@ public class VtEmpresaThreeView {
 
 	}
 	
-
+	
+	public void abrirCrearProyecto() {
+		
+		try {
+			
+			laEmpresaSeleccionada = (VtEmpresa) selectedNode.getData();
+			
+			if (laEmpresaSeleccionada.getActivo().equals("S")) {
+				RequestContext.getCurrentInstance().execute("PF('dlgCrearProyecto').show();");
+			}else {
+				throw new Exception("La empresa esta inactiva.");
+			}
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void abrirCrearBacklog() {
+		
+		try {
+			
+			proyectoSeleccionado = (VtProyecto) selectedNode.getData();	
+			
+			if (proyectoSeleccionado.getActivo().equals("S")) {
+				RequestContext.getCurrentInstance().execute("PF('dlgCrearProyecto').show();");
+			}else {
+				throw new Exception("El proyecto esta inactiva.");
+			}
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
 }

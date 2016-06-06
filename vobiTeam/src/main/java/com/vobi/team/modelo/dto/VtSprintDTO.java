@@ -164,6 +164,7 @@ public class VtSprintDTO implements Serializable {
 
 	public void setHoraCapacidadEstimada(Integer horaCapacidadEstimada) {
 		this.horaCapacidadEstimada = horaCapacidadEstimada;
+		this.capacidadEstimada = (int) TimeUnit.HOURS.toMinutes(horaCapacidadEstimada);
 	}
 
 	public Integer getHoraCapacidadReal() {
@@ -172,6 +173,7 @@ public class VtSprintDTO implements Serializable {
 
 	public void setHoraCapacidadReal(Integer horaCapacidadReal) {
 		this.horaCapacidadReal = horaCapacidadReal;
+		this.capacidadReal = (int) TimeUnit.HOURS.toMinutes(horaCapacidadReal);
 	}
 	
 }

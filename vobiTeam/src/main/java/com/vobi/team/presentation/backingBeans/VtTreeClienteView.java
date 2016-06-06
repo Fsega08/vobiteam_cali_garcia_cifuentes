@@ -67,7 +67,6 @@ public class VtTreeClienteView {
 	private InputTextarea txtCrearDescripcion;
 	private List<VtArchivo> subirArchivos;
 
-	private List<SelectItem> losCrearTiposArtefactos;
 	private SelectOneMenu somCrearTipoArtefacto;
 	private List<SelectItem> lasCrearPrioridadesArtefactos;
 	private SelectOneMenu somCrearPrioridadesArtefacto;
@@ -115,21 +114,7 @@ public class VtTreeClienteView {
 			log.error(e.getMessage());
 		}
 	}
-	
-	public List<SelectItem> getLosCrearTiposArtefactos() {
-		try {
-			if (losCrearTiposArtefactos==null) {
-				List<VtTipoArtefacto> listaTiposArtefactos = businessDelegatorView.getVtTipoArtefacto();
-				losCrearTiposArtefactos = new ArrayList<SelectItem>();
-				for (VtTipoArtefacto vtTipoArtefacto : listaTiposArtefactos) {
-					losCrearTiposArtefactos.add(new SelectItem(vtTipoArtefacto.getTparCodigo(), vtTipoArtefacto.getNombre()));
-				}
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-		return losCrearTiposArtefactos;
-	}
+
 	
 	public InputText getTxtCrearNombre() {
 		return txtCrearNombre;
@@ -153,10 +138,6 @@ public class VtTreeClienteView {
 
 	public void setSubirArchivos(List<VtArchivo> subirArchivos) {
 		this.subirArchivos = subirArchivos;
-	}
-
-	public void setLosCrearTiposArtefactos(List<SelectItem> losCrearTiposArtefactos) {
-		this.losCrearTiposArtefactos = losCrearTiposArtefactos;
 	}
 
 	public SelectOneMenu getSomCrearTipoArtefacto() {

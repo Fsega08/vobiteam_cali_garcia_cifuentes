@@ -629,7 +629,12 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 			//Si lo encuentra pero no coincide la clave arroja excepcion
 			if(!usuarioEncontrado.getClave().equals(password)){
 				throw new Exception("El login o contraseña son incorrectos");
-			}			
+			}
+			
+			Long permisos = vtUsuarioRolLogic.rolMasBajoPorUsuario(usuarioEncontrado);
+			if (permisos == 0L) {
+				throw new Exception("Este usuario tiene permisos");
+			}
 
 			return true;
 

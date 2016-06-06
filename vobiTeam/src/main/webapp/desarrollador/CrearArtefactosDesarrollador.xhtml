@@ -33,7 +33,7 @@
 						<h:outputText value="Tipo Artefacto" />
 						<p:selectOneMenu id="somCrearTiposDeArtefactos"
 							binding="#{vtArtefactoDesarrolladorView.somCrearTipoArtefacto}">
-							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+							<f:selectItem itemValue="-1" itemLabel="-Tipo de artefacto-" />
 							<f:selectItems value="#{vtArtefactoDesarrolladorView.losCrearTiposArtefactos}" />
 							<p:ajax listener="#{vtArtefactoDesarrolladorView.tipoArtefactoListener}"
 								update="pnlgDemas" />

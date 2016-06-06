@@ -85,12 +85,6 @@
 								title="Presiona click derecho para ver las opciones" />
 						</p:column>
 
-						<p:column headerText="Puntos" filterBy="#{artefacto.puntos}"
-							sortBy="#{artefacto.puntos}">
-							<h:outputText value="#{artefacto.puntos}"
-								title="Presiona click derecho para ver las opciones" />
-						</p:column>
-
 						<p:column headerText="Estado de los Artefactos"
 							filterBy="#{artefacto.activo}" sortBy="#{artefacto.activo}">
 							<h:outputText value="#{artefacto.activo}"
@@ -130,16 +124,6 @@
 										value="#{vtArtefactoView.lasCrearPrioridadesArtefactos}" />
 								</p:selectOneMenu>
 
-								<p:spacer width="100" height="10" />
-
-								<h:outputText value="Tipo Artefacto" />
-								<p:selectOneMenu id="somCrearTiposDeArtefactos" disabled="true"
-									binding="#{vtArtefactoView.somCrearTipoArtefacto}">
-									<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
-									<f:selectItems
-										value="#{vtArtefactoView.losCrearTiposArtefactos}" />
-								</p:selectOneMenu>
-								
 								<p:spacer width="100" height="10" />
 								
 								<h:outputText value="Subir Archivos" />

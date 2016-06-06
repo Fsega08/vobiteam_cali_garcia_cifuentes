@@ -577,15 +577,27 @@ public class VtArtefactoDesarrolladorView {
 	public void crearAction() {
 
 		try {
+			
+			if (somCrearTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un tipo de artefacto");
+			}
+			
 			if (txtCrearNombre.getValue().toString().trim().equals("") == true || txtCrearNombre.getValue() == null) {
 				throw new Exception("Por favor ingrese el nombre");
 			}
 			if (txtCrearDescripcion.getValue().toString().trim().equals("") == true || txtCrearDescripcion.getValue() == null) {
 				throw new Exception("Por favor ingrese la descripción");
 			}
+			if (somCrearEstadoArtefacto.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione un estado para el artefacto");
+			}
+			if (somCrearPrioridadesArtefacto.getValue().toString().trim().equals("-1") == true) {
+				throw new Exception("Seleccione una prioridad para el artefacto");
+			}
 			if (txtCrearOrigen.getValue().toString().trim().equals("") == true || txtCrearOrigen.getValue() == null) {
 				throw new Exception("Por favor ingrese el origen del artefacto");
 			}
+			log.info("Los puntos"+txtCrearPuntos.getValue().toString());
 			if (txtCrearPuntos.getValue().toString().trim().equals("") == true || txtCrearPuntos.getValue() == null) {
 				throw new Exception("Por favor ingrese los puntos, recuerde este campo solo acepta tiempo");
 			}
@@ -599,16 +611,7 @@ public class VtArtefactoDesarrolladorView {
 				throw new Exception("Por favor ingrese el esfuerzo restante, recuerde que este campo solo acepta numeros");
 			}
 
-			if (somCrearEstadoArtefacto.getValue().toString().trim().equals("-1") == true) {
-				throw new Exception("Seleccione un estado para el artefacto");
-			}
-			if (somCrearPrioridadesArtefacto.getValue().toString().trim().equals("-1") == true) {
-				throw new Exception("Seleccione una prioridad para el artefacto");
-			}
-			if (somCrearTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
-				throw new Exception("Seleccione un tipo de artefacto");
-			}		
-			
+				
 
 			VtArtefacto vtArtefacto = new VtArtefacto();
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);

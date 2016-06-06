@@ -116,6 +116,7 @@ public class VtSprintView {
 
 	private MeterGaugeChartModel chartModel;
 	int sumaEsfuerzoReal;
+	Integer capReal;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -127,6 +128,7 @@ public class VtSprintView {
 			sumaCrearEsfuerzoEstimado = 0;
 			sumaCrearEsfuerzoReal = 0;
 			capacidadEstimada = "";
+			capReal = 0;
 
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
@@ -637,20 +639,24 @@ public class VtSprintView {
 			sprint.setFechaCreacion(new Date());
 			sprint.setFechaModificacion(new Date());
 			sprint.setCapacidadEstimada(Integer.parseInt(capacidadEstimada));
-			sprint.setCapacidadReal(0);
 			sprint.setActivo("S");
 			sprint.setUsuCreador(vtUsuarioActual.getUsuaCodigo());
 			sprint.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 			sprint.setVtPilaProducto(backlogSeleccionado);
 			sprint.setVtEstadoSprint(estadoSprint);
+			sprint.setCapacidadReal(0);
 
 			businessDelegatorView.saveVtSprint(sprint);
 			
 			if (losArtefactosParaAsignar != null) {
+				Integer capReal = 0;
 				for (VtArtefacto vtArtefacto : losArtefactosParaAsignar) {
 					vtArtefacto.setVtSprint(sprint);
+					capReal = capReal + vtArtefacto.getEsfuerzoReal();
 					businessDelegatorView.updateVtArtefacto(vtArtefacto);
 				}
+				sprint.setCapacidadReal(capReal);
+				businessDelegatorView.updateVtSprint(sprint);
 			}
 			
 			FacesUtils.addInfoMessage("El sprint se ha creado con exito");		
@@ -690,7 +696,7 @@ public class VtSprintView {
 
 			String nombre = txtMNombre.getValue().toString();
 			String descripcion = txtMDescripcion.getValue().toString();
-			String capacidadE = ""+TimeUnit.HOURS.toMinutes(Long.parseLong(txtMCapacidadEstimada.getValue().toString()));
+			String capacidadE = ""+sprintDTOseleccionado.getCapacidadEstimada();
 			fechaInicioM = sprintSeleccionado.getFechaInicio();
 			fechaFinM = sprintSeleccionado.getFechaFin();
 
@@ -733,7 +739,6 @@ public class VtSprintView {
 			
 			sprintSeleccionado.setVtEstadoSprint(vtEstadoSprint);
 
-			businessDelegatorView.updateVtSprint(sprintSeleccionado);
 			
 			if (losArtefactosParaAsignar != null) {
 				for (VtArtefacto vtArtefacto : losArtefactosParaAsignar) {
@@ -748,6 +753,10 @@ public class VtSprintView {
 					businessDelegatorView.updateVtArtefacto(vtArtefacto);
 				}
 			}
+			
+			sprintSeleccionado.setCapacidadReal(capReal);
+			
+			businessDelegatorView.updateVtSprint(sprintSeleccionado);
 			
 			FacesUtils.addInfoMessage("Se ha actualizado el Sprint con exito");
 			losSprint = businessDelegatorView.findSprintByBacklog(backlogSeleccionado);
@@ -995,6 +1004,8 @@ public class VtSprintView {
 				if(event.isAdd()){
 					if (sprintSeleccionado!=null) {
 						artefactosSacadosDelSprint.remove(vtArtefacto);
+						sprintDTOseleccionado.setCapacidadReal(sprintDTOseleccionado.getCapacidadReal() + vtArtefacto.getEsfuerzoReal());
+						capReal = sprintDTOseleccionado.getCapacidadReal();
 					}
 
 					losArtefactosParaAsignar.add(vtArtefacto);
@@ -1003,6 +1014,8 @@ public class VtSprintView {
 				if(event.isRemove()){
 					if (sprintSeleccionado!=null) {
 						artefactosSacadosDelSprint.add(vtArtefacto);
+						sprintDTOseleccionado.setCapacidadReal(sprintDTOseleccionado.getCapacidadReal() - vtArtefacto.getEsfuerzoReal());
+						capReal = sprintDTOseleccionado.getCapacidadReal();
 					}
 					
 					losArtefactosParaAsignar.remove(vtArtefacto);
@@ -1010,6 +1023,7 @@ public class VtSprintView {
 
 			}
 			actualizarCrearChartAction();
+			log.info("CAPACIDAD REAL" + capReal);
 			FacesUtils.addInfoMessage("Artefacto(s) Listo Para Transferir");
 
 		} catch (Exception e) {
@@ -1114,10 +1128,12 @@ public class VtSprintView {
 
 		try {
 			if (sprintSeleccionado != null) {
-				capacidadEstimada = ""+(TimeUnit.HOURS.toMinutes(Long.parseLong(txtMCapacidadEstimada.getValue().toString())));
+				capacidadEstimada = ""+(sprintDTOseleccionado.getCapacidadEstimada());
+				log.info("Capacidad Estimada" + txtMCapacidadEstimada.getValue().toString());
 			}
 			else {
 				capacidadEstimada = ""+(TimeUnit.HOURS.toMinutes(Long.parseLong(txtCapacidadEstimada.getValue().toString())));
+				log.info("Capacidad Estimada" + txtMCapacidadEstimada.getValue().toString());
 			}
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
