@@ -318,6 +318,10 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 				throw new ZMessManager().new EmptyFieldException(
 						"emprCodigo_VtEmpresa");
 			}
+			
+			if (entity.getActivo() == "N"){
+				deleteVtUsuario(entity);
+			}
 
 			vtUsuarioDAO.update(entity);
 
