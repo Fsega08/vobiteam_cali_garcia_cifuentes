@@ -12,12 +12,9 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.BarChartSeries;
-import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
@@ -28,13 +25,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtEstadoSprint;
-import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
-import com.vobi.team.utilities.Utilities;
 
 import hirondelle.date4j.DateTime;
 
@@ -43,8 +38,7 @@ import hirondelle.date4j.DateTime;
 public class IniciarSprintView {
 
 	public final static Logger log=LoggerFactory.getLogger(IniciarSprintView.class);
-
-
+	
 	@ManagedProperty(value="#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;	
 
@@ -111,8 +105,6 @@ public class IniciarSprintView {
 
 	}
 
-
-
 	public String getMsg() {
 		if(sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 3L){
 			msg = "El Sprint ya se encuentra terminado.";
@@ -130,7 +122,6 @@ public class IniciarSprintView {
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
-
 
 	public CommandButton getTerminarSprint() {
 
@@ -355,20 +346,6 @@ public class IniciarSprintView {
 		}
 	}
 
-	public void artefactoDetallado() throws Exception{
-		if (vtArtefactoPorHacer!=null) {
-			artefactoSeleccionado = vtArtefactoPorHacer;
-		}else if (vtArtefactoEnCurso!=null) {
-			artefactoSeleccionado = vtArtefactoEnCurso;
-		}else if (vtArtefactoFinalizado!=null) {
-			artefactoSeleccionado = vtArtefactoFinalizado;
-		}	
-		FacesUtils.putinSession("artefactoSeleccionado", artefactoSeleccionado);
-		usuarioArtefacto = businessDelegatorView.findUsuarioArtefactoByArtefacto(artefactoSeleccionado);
-		FacesUtils.putinSession("usuarioArtefacto", usuarioArtefacto);
-		RequestContext.getCurrentInstance().execute("PF('dlgDetaArtefacto').show();");
-	}
-
 	public void calculoArtefactos() {
 		if (losArtefactosEnCurso!=null || losArtefactosPorHacer != null) {
 			totalArtefactos = losArtefactosPorHacer.size() + losArtefactosEnCurso.size();
@@ -440,9 +417,8 @@ public class IniciarSprintView {
 
 		Long tiempoTotalEstimado = businessDelegatorView.totalEsfuerzoEstimadoArtefactoPorSprint(sprintSeleccionado.getSpriCodigo());
 
-		Long totalDias = (sprintSeleccionado.getFechaFin().getTime() - sprintSeleccionado.getFechaInicio().getTime());
-		totalDias = TimeUnit.MILLISECONDS.toDays(totalDias);
-
+		Long totalDias = TimeUnit.MILLISECONDS.toDays(sprintSeleccionado.getFechaFin().getTime() - sprintSeleccionado.getFechaInicio().getTime());
+		
 		DateTime diaInicio = new DateTime(""+sprintSeleccionado.getFechaInicio());
 		
 		diaInicio = DateTime.forDateOnly(diaInicio.getYear(), diaInicio.getMonth(), diaInicio.getDay());
@@ -452,12 +428,10 @@ public class IniciarSprintView {
 		LineChartSeries blueLine = new LineChartSeries();
 		blueLine.setLabel("Esfuerzo Real");
 
-
 		LineChartSeries grayLine = new LineChartSeries();
 		grayLine.setLabel("Esfuerzo Estimado");
 
 		BarChartSeries barras = new BarChartSeries();
-
 
 		blueLine.set("Estimado", tiempoTotalEstimado);
 		grayLine.set("Estimado", tiempoTotalEstimado);
@@ -465,7 +439,6 @@ public class IniciarSprintView {
 
 		Long tiempoDedicadoDia = businessDelegatorView.sumatoriaTiempoDedicadoPorSprintFecha(sprintSeleccionado.getSpriCodigo(), diaInicio);
 		Long tiempoEstimadoDia = tiempoDedicadoDia;
-
 
 		for (int i = 0; i <= totalDias; i++) {
 			if (i < 1) {
@@ -475,7 +448,6 @@ public class IniciarSprintView {
 				tiempoDedicadoDia = tiempoDedicadoDia - businessDelegatorView.sumatoriaTiempoDedicadoPorSprintFecha(sprintSeleccionado.getSpriCodigo(), diaInicio.plusDays(i));
 				tiempoEstimadoDia = tiempoEstimadoDia - (tiempoTotalEstimado/(totalDias+1));
 			}
-
 			barras.set(""+diaInicio.plusDays(i), tiempoDedicadoDia);
 			blueLine.set(""+diaInicio.plusDays(i), tiempoDedicadoDia);
 			grayLine.set(""+diaInicio.plusDays(i), tiempoEstimadoDia);
@@ -484,7 +456,6 @@ public class IniciarSprintView {
 		burndownChart.addSeries(barras);
 		burndownChart.addSeries(blueLine);
 		burndownChart.addSeries(grayLine);
-
 
 		burndownChart.setTitle("Burndown Chart");
 		burndownChart.setMouseoverHighlight(false);

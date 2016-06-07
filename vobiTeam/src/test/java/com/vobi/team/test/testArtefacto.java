@@ -201,4 +201,15 @@ public class testArtefacto {
 		
 	}
 	
+	@Test    
+	public void testI() throws Exception {
+		
+		VtPilaProducto pilaProducto = vtPilaProductoLogic.getVtPilaProducto(1L);
+		
+		log.info(""+pilaProducto.getNombre());
+		log.info(""+vtSprintLogic.sprintActivoEnLaMismaPila(pilaProducto));
+		
+		
+	}
+	
 }

@@ -63,4 +63,5 @@ public interface IVtArtefactoLogic {
     
 	List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo);
 	public Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo);
+	public Boolean findArtefactosBySprint(Long spriCodigo);
 }

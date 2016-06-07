@@ -1091,15 +1091,26 @@ public class VtSprintView {
 	
 	public String iniciarSprintAction(){
 		try {
+			
+			Boolean sprintActivo = businessDelegatorView.sprintActivoEnLaMismaPila(backlogSeleccionado);
+			Boolean sprintVacio = businessDelegatorView.findArtefactosBySprint(sprintSeleccionado.getSpriCodigo());
+			log.info("SPRINT ACTIVO "+sprintAction());
+			
+			if (sprintActivo == true) {
+				throw new Exception("Ya hay un sprint activo en esta pila");
+			}if (sprintVacio == false) {
+				throw new Exception("El sprint no tiene artefactos");
+			}
+			
 			if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 1L) {
 				RequestContext.getCurrentInstance().execute("PF('cdSprint').show();");
-			}else {
+			} else{
 				FacesUtils.putinSession("sprintSeleccionado", sprintSeleccionado);
 				return "/XHTML/iniciarSprint.xhtml";
 			} 
 			
 		} catch (Exception e) {
-			log.info(e.getMessage());
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		return "";
 	}

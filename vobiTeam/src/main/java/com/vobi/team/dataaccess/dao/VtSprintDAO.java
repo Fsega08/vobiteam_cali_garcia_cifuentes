@@ -1,7 +1,9 @@
 package com.vobi.team.dataaccess.dao;
 
 import com.vobi.team.dataaccess.api.HibernateDaoImpl;
+import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtSprint;
+import com.vobi.team.modelo.VtUsuario;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -50,4 +52,13 @@ public class VtSprintDAO extends HibernateDaoImpl<VtSprint, Long>
     public static IVtSprintDAO getFromApplicationContext(ApplicationContext ctx) {
         return (IVtSprintDAO) ctx.getBean("VtSprintDAO");
     }
+    
+	@Override
+	public List<VtSprint> findSprintEstadoActivo(VtPilaProducto vtPilaProducto) {
+		Query query = getSession().getNamedQuery("consultarSprintsConEstadoEnCursoEnUnaPila");
+		query.setParameter("pilaCodigo", vtPilaProducto.getPilaCodigo());
+		
+		List<VtSprint> vtSprints = query.list();
+		return vtSprints;
+	}
 }

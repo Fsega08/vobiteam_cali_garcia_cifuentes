@@ -569,4 +569,9 @@ public interface IBusinessDelegatorView {
 	 public void correoReporteCliente(VtUsuario vtUsuario, VtArtefacto vtArtefacto) throws Exception;
 	 
 	 public List<VtArtefacto> findArtefactosVaciosPorBacklogYDesarrollador(Long backlogId) throws Exception;
+	 
+	 public Boolean sprintActivoEnLaMismaPila(VtPilaProducto  vtPilaProducto);
+	 
+	 public Boolean findArtefactosBySprint(Long spriCodigo);
+
 }

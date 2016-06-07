@@ -1279,4 +1279,14 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.findArtefactosVaciosPorBacklogYDesarrollador(backlogId);
 	}
 
+	@Override
+	public Boolean sprintActivoEnLaMismaPila(VtPilaProducto vtPilaProducto) {
+		return vtSprintLogic.sprintActivoEnLaMismaPila(vtPilaProducto);
+	}
+
+	@Override
+	public Boolean findArtefactosBySprint(Long spriCodigo) {
+		return vtArtefactoLogic.findArtefactosBySprint(spriCodigo);
+	}
+
 }

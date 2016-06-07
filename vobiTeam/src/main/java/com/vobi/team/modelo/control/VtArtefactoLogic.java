@@ -834,4 +834,14 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	public Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo) {
 		return vtArtefactoDAO.totalEsfuerzoEstimadoArtefactoPorSprint(spriCodigo);
 	}
+	
+	@Transactional(readOnly=true)
+	public Boolean findArtefactosBySprint(Long spriCodigo) {	
+		List<VtArtefacto> vtArtefactos = vtArtefactoDAO.findArtefactosBySprint(spriCodigo);
+    	
+    	
+    	return (vtArtefactos != null && !vtArtefactos.isEmpty()
+				? true : false);
+		 
+	}
 }

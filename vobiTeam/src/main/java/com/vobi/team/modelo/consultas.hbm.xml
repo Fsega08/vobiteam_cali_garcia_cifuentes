@@ -81,9 +81,14 @@
 	
 	<query name="consultarSprintsConEstadoEnCursoEnUnaPila">
 	   	<![CDATA[
-	  	   		Select spr from VtSprint as spr, VtEstadoSprint as vtSpr, VtPilaProducto as backlog where vtSpr.estsprCodigo = spr.vtEstadoSprint.estsprCodigo and vtSpr.estsprCodigo=2 and backlog.pilaCodigo = spr.vtPilaProducto.pilaCodigo and spr.vtPilaProducto.pilaCodigo =:pilaCodigo
+	  	   		Select spr from VtSprint as spr where spr.vtEstadoSprint.estsprCodigo = 2 and spr.vtPilaProducto.pilaCodigo =:pilaCodigo
 	  	]]>
 	</query>
 	
+	<query name="consultarArtefactosPorSprint">
+	   	<![CDATA[
+	   		Select art from VtArtefacto art where art.vtSprint.spriCodigo=:spriCodigo 
+	   	]]>
+	</query>
 
 </hibernate-mapping>

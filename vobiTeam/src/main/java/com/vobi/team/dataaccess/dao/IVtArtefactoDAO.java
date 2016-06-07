@@ -18,4 +18,5 @@ public interface IVtArtefactoDAO extends Dao<VtArtefacto, Long> {
 	List<VtArtefacto> findArtefactosBySprintAndEstado(Long spriCodigo, Long estaCodigo);
 
 	Long totalEsfuerzoEstimadoArtefactoPorSprint(Long spriCodigo);
+	List<VtArtefacto> findArtefactosBySprint(Long spriCodigo);
 }

@@ -59,4 +59,6 @@ public interface IVtSprintLogic {
 			throws Exception;
     
     public VtSprintDTO getDataVtSprintDTO(VtSprint vtSprint) throws Exception;
+    
+    public Boolean sprintActivoEnLaMismaPila(VtPilaProducto  vtPilaProducto);
 }

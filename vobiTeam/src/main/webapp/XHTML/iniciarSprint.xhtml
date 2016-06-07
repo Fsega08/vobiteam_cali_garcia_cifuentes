@@ -34,8 +34,7 @@
 					<p:commandButton id="terminar" value="Terminar Sprint"
 						styleClass="Fright" 
 						onclick="PF('cdSprint').show()" binding="#{iniciarSprintView.terminarSprint}" />
-					
-	
+
 					<br />
 					<br />
 				
@@ -58,7 +57,7 @@
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="10,15" rowKey="#{artefacto.arteCodigo}"
 								emptyMessage="No se encontraron artefactos por hacer."
-								selectionMode="single"
+								selectionMode="single" lazy="true"
 								selection="#{iniciarSprintView.vtArtefactoPorHacer}"
 								paginatorPosition="bottom">
 
@@ -97,7 +96,7 @@
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="10,15" rowKey="#{artefacto.arteCodigo}"
 								emptyMessage="No hay artefactos en espera."
-								selectionMode="single"
+								selectionMode="single" lazy="true"
 								selection="#{iniciarSprintView.vtArtefactoEspera}"
 								paginatorPosition="bottom">
 
@@ -135,10 +134,10 @@
 								value="#{iniciarSprintView.losArtefactosEnCurso}"
 								var="artefacto" paginator="true" rows="10"
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="10,15" rendered="true"
+								rowsPerPageTemplate="10,15" 
 								rowKey="#{artefacto.arteCodigo}"
 								emptyMessage="No se encontraron artefactos en curso."
-								selectionMode="single"
+								selectionMode="single" lazy="true"
 								selection="#{iniciarSprintView.vtArtefactoEnCurso}"
 								paginatorPosition="bottom">
 
@@ -173,7 +172,7 @@
 								value="#{iniciarSprintView.losArtefactosFinalizados}"
 								var="artefacto" paginator="true" rows="10"
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="10,15" rendered="true"
+								rowsPerPageTemplate="10,15" lazy="true"
 								rowKey="#{artefacto.arteCodigo}"
 								emptyMessage="No se encontraron artefactos Finalizados"
 								selectionMode="single"
@@ -201,110 +200,7 @@
 								</p:column>
 							</p:dataTable>
 						</p:tab>
-
-						<p:dialog header="Detalles del artefacto"
-							widgetvar="dlgDetaArtefacto" modal="true" id="dlDetArtefacto"
-							width="800">
-							<div class="ui-fluid">
-								<p:panel header="Detalles artefacto" id="pnlartefacto">
-									<h:panelGrid columns="5" layout="grid" id="pnlgTit">
-										<h:outputText value="Tipo Artefacto" />
-										<p:selectOneMenu id="somMTiposDeArtefactos"
-											value="#{iniciarSprintView.artefactoSeleccionado.vtTipoArtefacto.tparCodigo}"
-											disabled="true" />
-
-										<p:spacer width="170" height="10" />
-
-										<h:outputText value="Titulo del artefacto" />
-										<p:inputText id="txtMNombre" placeholder="Título" size="75"
-											value="#{iniciarSprintView.artefactoSeleccionado.titulo}"
-											disabled="true" />
-
-									</h:panelGrid>
-
-									<h:panelGrid columns="1" layout="grid" id="pnlgDesc">
-
-										<h:outputText value="Descripción del artefacto" />
-										<p:inputTextarea id="txtAreaMDescripcion" cols="148"
-											style="overflow:auto;" autoResize="false"
-											placeholder="Descripción" maxlength="100000000"
-											disabled="true"
-											value="#{iniciarSprintView.artefactoSeleccionado.descripcion}" />
-
-										<p:separator />
-									</h:panelGrid>
-
-									<h:panelGrid columns="5" layout="grid" id="pnlgDemas">
-
-
-										<h:outputText value="Estado Artefacto" />
-										<p:selectOneMenu id="somMEstados"
-											value="#{iniciarSprintView.artefactoSeleccionado.vtEstado.estaCodigo}"
-											disabled="true" />
-
-										<p:spacer width="100" height="10" />
-
-										<h:outputText value="Nivel de prioridad" />
-										<p:selectOneMenu id="somMPrioridades"
-											value="#{iniciarSprintView.artefactoSeleccionado.vtPrioridad.prioCodigo}"
-											disabled="true" />
-
-										<h:outputText value="Esfuerzo Estimado" />
-										<p:inputText id="txtMEsfuerzoEstimado"
-											placeholder="Esfuerzo Estimado"
-											value="#{iniciarSprintView.artefactoSeleccionado.esfuerzoEstimado}"
-											disabled="true">
-
-										</p:inputText>
-
-										<p:spacer width="100" height="10" />
-
-										<h:outputText value="Esfuerzo Restante" />
-										<p:inputText id="txtMEsfuerzoRestante"
-											placeholder="Esfuerzo Restante" disabled="true"
-											value="#{iniciarSprintView.artefactoSeleccionado.esfuerzoRestante}" />
-
-										<h:outputText value="Esfuerzo Real" />
-										<p:inputText id="txtMEsfuerzoReal" placeholder="Esfuerzo Real"
-											value="#{iniciarSprintView.artefactoSeleccionado.esfuerzoReal}"
-											disabled="true" />
-
-										<p:spacer width="100" height="10" />
-
-										<h:outputText value="Puntos del artefacto" />
-										<p:inputText id="txtMPuntos" placeholder="Puntos"
-											disabled="true"
-											value="#{iniciarSprintView.artefactoSeleccionado.puntos}" />
-
-
-										<h:outputText value="Origen del artefacto" />
-										<p:inputText id="txtMOrigen" placeholder="Origen"
-											disabled="true"
-											value="#{iniciarSprintView.artefactoSeleccionado.origen}" />
-
-
-										<p:spacer width="100" height="10" />
-
-										<h:outputText value="Artefacto activo?" />
-										<p:selectOneMenu id="somArtefactoActivo" disabled="true"
-											value="#{iniciarSprintView.artefactoSeleccionado.activo}" />
-
-										<h:outputText value="Desarrollador" />
-										<p:selectOneMenu id="somDesarrollador" disabled="true"
-											value="#{iniciarSprintView.usuarioArtefacto.vtUsuario.usuaCodigo}" />
-
-										<p:spacer width="100" height="10" />
-
-										<h:outputText value="Interés" />
-										<p:selectOneMenu id="somInteres" disabled="true"
-											value="#{iniciarSprintView.usuarioArtefacto.vtInteres.inteCodigo}" />
-									</h:panelGrid>
-								</p:panel>
-							</div>
-						</p:dialog>
 					</p:accordionPanel>
-					
-					
 				</p:panel>
 
 				<p:dialog header="Confirmation" widgetVar="cdSprint"

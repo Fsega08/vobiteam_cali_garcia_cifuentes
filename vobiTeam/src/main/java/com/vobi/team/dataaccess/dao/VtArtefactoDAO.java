@@ -95,4 +95,13 @@ public class VtArtefactoDAO extends HibernateDaoImpl<VtArtefacto, Long>
 
   	}
     
+    @Override
+  	public List<VtArtefacto> findArtefactosBySprint(Long spriCodigo) {
+  		Query query = getSession().getNamedQuery("consultarArtefactosPorSprint");
+  		query.setParameter("spriCodigo", spriCodigo);
+
+  		List<VtArtefacto> artefactos = (List<VtArtefacto>) query.list();
+  		return artefactos;
+  	}
+    
 }
