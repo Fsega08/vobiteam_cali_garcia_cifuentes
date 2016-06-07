@@ -55,7 +55,7 @@
 				<p:panel id="panelDt">
 					<p:contextMenu for="dtArtefactos" event="click contextmenu">
 						<p:menuitem value="Progreso de este artefacto"
-							update="men, pnlProgreso" icon="fa fa-wrench"
+							update="men, pnlProgreso, dtArtefactos" icon="fa fa-wrench"
 							action="#{vtDesarrolladorView.artefactoSeleccionadoAction}" />
 
 						<p:menuitem value="Historial de Progreso del artefacto"
@@ -176,7 +176,7 @@
 							<br />
 							<p:commandButton id="btnCrearProgreso" icon="fa fa-plus white"
 								action="#{vtDesarrolladorView.crearAction}" value="Crear"
-								update="men, pnlProgreso" />
+								update="men, pnlProgreso, dtArtefactos" />
 
 							<p:commandButton id="btnLimpiarProgreso"
 								icon="fa fa-eraser white"

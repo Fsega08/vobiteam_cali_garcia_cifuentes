@@ -1,5 +1,6 @@
 package com.vobi.team.modelo.control;
 
+import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.dto.VtSprintDTO;
@@ -57,7 +58,8 @@ public interface IVtSprintLogic {
     
     public List<VtSprint> findSprintByBacklog(VtPilaProducto vtBacklog) 
 			throws Exception;
-    
+    public List<VtSprint> findSprintEnCursoByBacklog(VtPilaProducto vtBacklog, VtEstadoSprint vtEstadoSprint) 
+			throws Exception;
     public VtSprintDTO getDataVtSprintDTO(VtSprint vtSprint) throws Exception;
     
     public Boolean sprintActivoEnLaMismaPila(VtPilaProducto  vtPilaProducto);

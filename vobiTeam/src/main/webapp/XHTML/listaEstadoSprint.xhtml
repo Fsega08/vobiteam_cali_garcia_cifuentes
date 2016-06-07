@@ -50,7 +50,8 @@
 						rowsPerPageTemplate="10, 15" rowKey="#{estados.estsprCodigo}"
 						emptyMessage="No se encontraron Estadoes"
 						selection="#{vtEstadoSprintView.elEstadoSprint}" selectionMode="single"
-						paginatorPosition="bottom">
+						paginatorPosition="bottom"
+						sortBy="#{estados.estsprCodigo}">
 
 						<p:column headerText="Estado" filterBy="#{estados.nombre}"
 							sortBy="#{estados.nombre}" filterMatchMode="contains">

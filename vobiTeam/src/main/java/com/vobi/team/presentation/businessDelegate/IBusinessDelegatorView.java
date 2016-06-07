@@ -577,5 +577,9 @@ public interface IBusinessDelegatorView {
 	 public Boolean findUsuarioRolByRolAndUser(VtUsuario vtUsuario, VtRol vtRol);
 	 
 	 public VtSprint buscarSprintActivoEnLaMismaPila(VtPilaProducto  vtPilaProducto);
+	 
+	 public List<VtSprint> findSprintEnCursoByBacklog(VtPilaProducto vtBacklog, VtEstadoSprint vtEstadoSprint) 
+				throws Exception;
+	 
 
 }

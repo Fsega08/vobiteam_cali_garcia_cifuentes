@@ -310,10 +310,23 @@ public class testUsuarios {
 	
 	@Test
 	public void testR() throws Exception{
-		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(27L);
+//		VtArtefacto vtArtefacto = vtArtefactoLogic.getVtArtefacto(27L);
+//		
+//		
+//		log.info(""+vtArtefacto.getVtPrioridad().getNombre());
+	}
+	
+	@Test
+	public void testS() throws Exception{
+		VtSprint sprint = vtSprintLogic.getVtSprint(13L);
+		
+		if (sprint.getVtEstadoSprint().getEstsprCodigo().equals(2L) && vtSprintLogic.findSprintEnCursoByBacklog(sprint.getVtPilaProducto(), sprint.getVtEstadoSprint()).size()>1) {
+			
+			log.info("Si");
+			
+        }
 		
 		
-		log.info(""+vtArtefacto.getVtPrioridad().getNombre());
 	}
 
 }

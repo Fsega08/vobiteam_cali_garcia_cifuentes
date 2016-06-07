@@ -1299,5 +1299,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	
 		return vtSprintLogic.buscarSprintActivoEnLaMismaPila(vtPilaProducto);
 	}
-
+	
+	@Override
+	public List<VtSprint> findSprintEnCursoByBacklog(VtPilaProducto vtBacklog, VtEstadoSprint vtEstadoSprint) throws Exception {
+		return vtSprintLogic.findSprintEnCursoByBacklog(vtBacklog, vtEstadoSprint);
+	}
 }

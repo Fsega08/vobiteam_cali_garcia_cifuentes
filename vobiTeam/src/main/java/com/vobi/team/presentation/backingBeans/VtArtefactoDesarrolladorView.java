@@ -31,6 +31,7 @@ import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
@@ -127,25 +128,15 @@ public class VtArtefactoDesarrolladorView {
 			log.info(e.getMessage());
 		}		
 		
-		
 	}
-	
-	
-	
 	
 	public Long getPermisos() {
 		return permisos;
 	}
-
-
-
-
+	
 	public void setPermisos(Long permisos) {
 		this.permisos = permisos;
 	}
-
-
-
 
 	public VtArtefactoDTO getArtefactoSeleccionadoDTO() {
 		return artefactoSeleccionadoDTO;
@@ -506,8 +497,8 @@ public class VtArtefactoDesarrolladorView {
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(Long.parseLong(somCrearEstadoArtefacto.getValue().toString().trim()));
 			vtArtefacto.setVtEstado(vtEstado);
 
-	
-
+			VtSprint sprintActivo = businessDelegatorView.buscarSprintActivoEnLaMismaPila(backlogSeleccionado);
+			vtArtefacto.setVtSprint(sprintActivo);
 			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somCrearPrioridadesArtefacto.getValue().toString().trim()));
 			vtArtefacto.setVtPrioridad(vtPrioridad);
 

@@ -481,9 +481,10 @@ public class VtDesarrolladorView {
 			businessDelegatorView.updateVtArtefacto(artefactoSeleccionado);
 
 			FacesUtils.addInfoMessage("El progreso fue agregado con exito");
-			
+			getLosArtefactos();
 			artefactoSeleccionadoAction();
-			backlogListener();
+			limpiarAction();
+			
 
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

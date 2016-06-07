@@ -29,7 +29,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtPilaProducto;
-import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.dto.VtSprintDTO;

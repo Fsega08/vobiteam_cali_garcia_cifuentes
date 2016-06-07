@@ -253,6 +253,14 @@ public class VtSprintLogic implements IVtSprintLogic {
                 throw new ZMessManager().new EmptyFieldException(
                     "pilaCodigo_VtPilaProducto");
             }
+            
+            //------------------------------------------------------------------
+//            VtSprint sprint = buscarSprintActivoEnLaMismaPila(entity.getVtPilaProducto());
+//            if(sprint != null){
+//	            if (entity.getVtEstadoSprint().getEstsprCodigo().equals(2L) && !sprint.getSpriCodigo().equals(entity.getSpriCodigo())) {
+//	    			throw new Exception("Ya existe un sprint en curso");    			
+//	            }
+//            }
 
             vtSprintDAO.update(entity);
 
@@ -580,6 +588,29 @@ public class VtSprintLogic implements IVtSprintLogic {
 
 		return (vtSprints != null && !vtSprints.isEmpty()
 				? vtSprints : null);
+	}
+    
+    @Transactional(readOnly = true)
+	public List<VtSprint> findSprintEnCursoByBacklog(VtPilaProducto vtBacklog, VtEstadoSprint vtEstadoSprint) 
+			throws Exception{
+		log.info("Entro al metodo para buscar los sprints");
+
+		List<VtSprint> vtSprints = new ArrayList<>();
+
+		try {
+			Object[] variables = {
+					"vtPilaProducto.pilaCodigo", false, vtBacklog.getPilaCodigo(), "=",
+					"vtEstadoSprint.estsprCodigo", false, vtEstadoSprint.getEstsprCodigo(), "="};
+
+			vtSprints = findByCriteria(variables, null, null);
+
+		} catch (Exception e) {
+			log.info(e.getMessage(), e);
+			throw new Exception("No se encontro sprint por ese Id");
+		}
+
+		return (vtSprints != null && !vtSprints.isEmpty()
+				? vtSprints : vtSprints);
 	}
     
     @Transactional(readOnly = true)
