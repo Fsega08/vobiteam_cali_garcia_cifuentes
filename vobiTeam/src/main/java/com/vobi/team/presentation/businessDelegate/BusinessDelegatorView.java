@@ -1294,4 +1294,10 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtUsuarioRolLogic.findUsuarioRolByRolAndUser(vtUsuario, vtRol);
 	}
 
+	@Override
+	public VtSprint buscarSprintActivoEnLaMismaPila(VtPilaProducto vtPilaProducto) {
+	
+		return vtSprintLogic.buscarSprintActivoEnLaMismaPila(vtPilaProducto);
+	}
+
 }

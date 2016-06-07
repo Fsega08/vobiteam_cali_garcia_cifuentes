@@ -13,5 +13,5 @@ import com.vobi.team.modelo.VtSprint;
 */
 public interface IVtSprintDAO extends Dao<VtSprint, Long> {
 
-	public List<VtSprint> findSprintEstadoActivo(VtPilaProducto vtPilaProducto);
+	public VtSprint findSprintEstadoActivo(VtPilaProducto vtPilaProducto);
 }

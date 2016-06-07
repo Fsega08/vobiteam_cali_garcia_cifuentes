@@ -54,11 +54,11 @@ public class VtSprintDAO extends HibernateDaoImpl<VtSprint, Long>
     }
     
 	@Override
-	public List<VtSprint> findSprintEstadoActivo(VtPilaProducto vtPilaProducto) {
+	public VtSprint findSprintEstadoActivo(VtPilaProducto vtPilaProducto) {
 		Query query = getSession().getNamedQuery("consultarSprintsConEstadoEnCursoEnUnaPila");
 		query.setParameter("pilaCodigo", vtPilaProducto.getPilaCodigo());
 		
-		List<VtSprint> vtSprints = query.list();
+		VtSprint vtSprints = (VtSprint) query.uniqueResult();
 		return vtSprints;
 	}
 }

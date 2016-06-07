@@ -585,11 +585,20 @@ public class VtSprintLogic implements IVtSprintLogic {
     @Transactional(readOnly = true)
     public Boolean sprintActivoEnLaMismaPila(VtPilaProducto  vtPilaProducto){
     	
-    	List<VtSprint> vtSprints = vtSprintDAO.findSprintEstadoActivo(vtPilaProducto);
+    	VtSprint vtSprints = vtSprintDAO.findSprintEstadoActivo(vtPilaProducto);
     	
     	
-    	return (vtSprints != null && !vtSprints.isEmpty()
-				? true : false);
+    	return (vtSprints != null ? true : false);
+   	
+    }
+    
+    @Transactional(readOnly = true)
+    public VtSprint buscarSprintActivoEnLaMismaPila(VtPilaProducto  vtPilaProducto){
+    	
+    	VtSprint vtSprints = vtSprintDAO.findSprintEstadoActivo(vtPilaProducto);
+    	
+    	
+    	return (vtSprints != null ? vtSprints : null);
    	
     }
     

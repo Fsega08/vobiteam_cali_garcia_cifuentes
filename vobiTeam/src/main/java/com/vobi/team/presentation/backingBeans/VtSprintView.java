@@ -1125,9 +1125,10 @@ public class VtSprintView {
 			
 			Boolean sprintActivo = businessDelegatorView.sprintActivoEnLaMismaPila(backlogSeleccionado);
 			Boolean sprintVacio = businessDelegatorView.findArtefactosBySprint(sprintSeleccionado.getSpriCodigo());
+			VtSprint vtSprint = businessDelegatorView.buscarSprintActivoEnLaMismaPila(backlogSeleccionado);
 			log.info("SPRINT ACTIVO "+sprintAction());
 			
-			if (sprintActivo == true) {
+			if (sprintActivo == true && vtSprint.getSpriCodigo() != sprintSeleccionado.getSpriCodigo()) {
 				throw new Exception("Ya hay un sprint activo en esta pila.");
 			}if (sprintVacio == false) {
 				throw new Exception("El sprint no tiene artefactos.");
