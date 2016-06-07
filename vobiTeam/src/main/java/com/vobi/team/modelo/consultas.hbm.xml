@@ -90,5 +90,11 @@
 	   		Select art from VtArtefacto art where art.vtSprint.spriCodigo=:spriCodigo 
 	   	]]>
 	</query>
-
+	
+	<query name="consultarRolEnRolesUsuario">
+	   	<![CDATA[
+	   		select usuR from VtUsuarioRol as usuR where usuR.vtUsuario.usuaCodigo =:usuaCodigo and usuR.vtRol.rolCodigo=:rolCodigo and usuR.activo = 'S'
+	   	]]>
+	</query>
+	
 </hibernate-mapping>

@@ -121,7 +121,7 @@ public class VtSprintLogic implements IVtSprintLogic {
 
             if ((entity.getObjetivo() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
-                        entity.getObjetivo(), 255) == false)) {
+                        entity.getObjetivo(), 2300) == false)) {
                 throw new ZMessManager().new NotValidFormatException("objetivo");
             }
 
@@ -232,7 +232,7 @@ public class VtSprintLogic implements IVtSprintLogic {
 
             if ((entity.getObjetivo() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
-                        entity.getObjetivo(), 255) == false)) {
+                        entity.getObjetivo(), 2300) == false)) {
                 throw new ZMessManager().new NotValidFormatException("objetivo");
             }
 

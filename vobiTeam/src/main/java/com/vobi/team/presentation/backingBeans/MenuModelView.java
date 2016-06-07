@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.vobi.team.modelo.VtRol;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -28,7 +30,6 @@ public class MenuModelView {
 
 	private MenuModel menuModel;
 
-	@SuppressWarnings("unused")
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 	
 	private Long permisos;
@@ -103,7 +104,11 @@ public class MenuModelView {
 		menuModel.addElement(orientacion);
 	}
 
-	private void menuDesarrollador() {
+	private void menuDesarrollador() throws Exception {
+		
+		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+		VtRol vtRol = businessDelegatorView.getVtRol(3L);
+		Boolean desarrolladorCliente = businessDelegatorView.findUsuarioRolByRolAndUser(vtUsuario, vtRol);
 
 		
 		DefaultMenuItem dashboard = new DefaultMenuItem("Dashboard");
@@ -118,6 +123,14 @@ public class MenuModelView {
 		menuProyectos.setId("sm_Proyectos");
 		menuProyectos.setIcon("icon-indent-right");
 		menuModel.addElement(menuProyectos);
+		
+		if (desarrolladorCliente == true) {
+			DefaultMenuItem menuProyectosCliente = new DefaultMenuItem("Ver Proyectos Como Cliente");
+			menuProyectosCliente.setOutcome("/cliente/TreeTableCliente.xhtml");
+			menuProyectosCliente.setId("sm_TreeCliente");
+			menuProyectosCliente.setIcon("icon-indent-right");
+			menuModel.addElement(menuProyectosCliente);
+		}
 		
 		DefaultSubMenu orientacion = new DefaultSubMenu("Orientación del menu");		
 
@@ -140,7 +153,11 @@ public class MenuModelView {
 
 	}
 
-	private void menuAdministrador() {
+	private void menuAdministrador() throws Exception {
+		
+		VtUsuario vtUsuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);
+		VtRol vtRol = businessDelegatorView.getVtRol(2L);
+		Boolean adminDesarrollador = businessDelegatorView.findUsuarioRolByRolAndUser(vtUsuario, vtRol);
 		
 		DefaultMenuItem dashboard = new DefaultMenuItem("Dashboard");
 		dashboard.setOutcome("/XHTML/dashboard.xhtml");
@@ -160,7 +177,15 @@ public class MenuModelView {
 		empresaSubmenu.setIcon("icon-building-filled");
 		empresaSubmenu.addElement(empresaItem);
 		menuModel.addElement(empresaSubmenu);
-
+		
+		if (adminDesarrollador == true) {
+			DefaultMenuItem menuProyectos = new DefaultMenuItem("Ver Proyectos");
+			menuProyectos.setOutcome("/desarrollador/tableDesarrollador.xhtml");
+			menuProyectos.setId("sm_Proyectos");
+			menuProyectos.setIcon("icon-indent-right");
+			menuModel.addElement(menuProyectos);
+		}
+		
 		//Usuario
 		DefaultSubMenu usuarioSubmenu = new DefaultSubMenu("Usuario");
 		DefaultMenuItem usuarioItem = new DefaultMenuItem("Lista de usuarios");

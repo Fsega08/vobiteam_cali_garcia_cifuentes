@@ -102,10 +102,10 @@
 									
 									<h:outputText value="Titulo del artefacto" />
 									<p:inputText id="txtCrearNombre" placeholder="Título"
-										binding="#{vtTreeClienteView.txtCrearNombre}" size="148" />
+										binding="#{vtTreeClienteView.txtCrearNombre}" maxlength="250" size="148" />
 									<h:outputText value="Descripción del artefacto" />
 									<p:inputTextarea id="txtAreaCrearDescripcion"
-										placeholder="Descripcion"
+										placeholder="Descripcion" maxlength="2300"
 										binding="#{vtTreeClienteView.txtCrearDescripcion}" cols="148" />
 
 									<p:separator />

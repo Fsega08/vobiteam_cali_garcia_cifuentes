@@ -1289,4 +1289,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.findArtefactosBySprint(spriCodigo);
 	}
 
+	@Override
+	public Boolean findUsuarioRolByRolAndUser(VtUsuario vtUsuario, VtRol vtRol) {
+		return vtUsuarioRolLogic.findUsuarioRolByRolAndUser(vtUsuario, vtRol);
+	}
+
 }

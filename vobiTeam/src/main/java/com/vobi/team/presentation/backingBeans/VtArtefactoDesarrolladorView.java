@@ -89,12 +89,28 @@ public class VtArtefactoDesarrolladorView {
 	private VtPilaProducto backlogSeleccionado;
 	private VtProyecto proyectoActual;
 	private VtUsuarioArtefacto usuarioArtefacto;
+	
+	private Long permisos;
 
 	@PostConstruct
 	public void init(){
 
 		try {
-
+			
+			permisos = (Long) FacesUtils.getfromSession("permisos");
+			
+			if (FacesUtils.getfromSession("backlogSeleccionado") == null) {
+				if (permisos == 1) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/XHTML/TreeTable.xhtml");
+				}
+				if (permisos == 2) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/desarrollador/tableDesarrollador.xhtml");
+				}
+				if (permisos == 3) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/cliente/TreeTableCliente.xhtml");
+				}
+			}
+			
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
 			subirArchivos = new ArrayList<VtArchivo>();
 			proyectoActual = backlogSeleccionado.getVtProyecto();
@@ -114,6 +130,23 @@ public class VtArtefactoDesarrolladorView {
 		
 	}
 	
+	
+	
+	
+	public Long getPermisos() {
+		return permisos;
+	}
+
+
+
+
+	public void setPermisos(Long permisos) {
+		this.permisos = permisos;
+	}
+
+
+
+
 	public VtArtefactoDTO getArtefactoSeleccionadoDTO() {
 		return artefactoSeleccionadoDTO;
 	}

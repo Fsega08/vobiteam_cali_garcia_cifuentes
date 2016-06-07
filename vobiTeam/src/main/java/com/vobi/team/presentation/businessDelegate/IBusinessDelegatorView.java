@@ -573,5 +573,7 @@ public interface IBusinessDelegatorView {
 	 public Boolean sprintActivoEnLaMismaPila(VtPilaProducto  vtPilaProducto);
 	 
 	 public Boolean findArtefactosBySprint(Long spriCodigo);
+	 
+	 public Boolean findUsuarioRolByRolAndUser(VtUsuario vtUsuario, VtRol vtRol);
 
 }

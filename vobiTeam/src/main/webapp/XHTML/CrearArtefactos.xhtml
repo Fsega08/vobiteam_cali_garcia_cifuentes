@@ -42,7 +42,7 @@
 						<p:spacer width="100" height="10" />
 
 						<h:outputText value="Titulo del artefacto" />
-						<p:inputText id="txtCrearNombre" placeholder="Título" maxlength="100"
+						<p:inputText id="txtCrearNombre" placeholder="Título" maxlength="250"
 							binding="#{vtArtefactoView.txtCrearNombre}" size="75" />
 					</h:panelGrid>
 
@@ -50,7 +50,7 @@
 						<h:outputText value="Descripción del artefacto" />
 						<p:inputTextarea id="txtAreaCrearDescripcion"
 							placeholder="Descripcion" autoResize="false" style="overflow:auto;"
-							binding="#{vtArtefactoView.txtCrearDescripcion}" cols="150" />
+							binding="#{vtArtefactoView.txtCrearDescripcion}" cols="150" maxlength="2300"/>
 
 						<p:separator />
 					</h:panelGrid>
@@ -97,7 +97,7 @@
 						<p:inputMask id="txtCrearPuntos" binding="#{vtArtefactoView.txtCrearPuntos}" mask="99:99" placeholder="Puntos" disabled="true"/>					
 												
 						<h:outputText value="Origen del artefacto" />
-						<p:inputText id="txtCrearOrigen" placeholder="Origen" maxlength="60"
+						<p:inputText id="txtCrearOrigen" placeholder="Origen" maxlength="250"
 							binding="#{vtArtefactoView.txtCrearOrigen}" />
 							
 							<p:spacer width="100" height="10" />

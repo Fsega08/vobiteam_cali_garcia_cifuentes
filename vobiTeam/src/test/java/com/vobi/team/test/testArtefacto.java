@@ -19,12 +19,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProgresoArtefacto;
+import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
 import com.vobi.team.modelo.control.IVtPilaProductoLogic;
 import com.vobi.team.modelo.control.IVtProgresoArtefactoLogic;
+import com.vobi.team.modelo.control.IVtRolLogic;
 import com.vobi.team.modelo.control.IVtSprintLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
@@ -56,9 +58,11 @@ public class testArtefacto {
 	 @Autowired
 	private IVtUsuarioLogic vtUsuarioLogic;
 	 
+	 @Autowired
+	private IVtRolLogic vtRolLogic;
 	 
 	 @Autowired
-	private IVtUsuarioRolLogic vtUsuarioRolLogic;
+	 private IVtUsuarioRolLogic vtUsuarioRolLogic;
 	 
 	 @Autowired
 	 private IVtSprintLogic vtSprintLogic;
@@ -208,6 +212,19 @@ public class testArtefacto {
 		
 		log.info(""+pilaProducto.getNombre());
 		log.info(""+vtSprintLogic.sprintActivoEnLaMismaPila(pilaProducto));
+		
+		
+	}
+	
+	
+	@Test    
+	public void testJ() throws Exception {
+		
+		VtUsuario vtUsuario = vtUsuarioLogic.getVtUsuario(2L);
+		VtRol vtRol = vtRolLogic.getVtRol(3L);
+		
+		log.info(""+vtUsuario.getNombre());
+		log.info(""+vtUsuarioRolLogic.findUsuarioRolByRolAndUser(vtUsuario, vtRol));
 		
 		
 	}

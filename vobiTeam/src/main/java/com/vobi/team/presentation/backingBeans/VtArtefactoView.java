@@ -117,11 +117,28 @@ public class VtArtefactoView {
 	private VtPilaProducto backlogSeleccionado;
 	private VtProyecto proyectoActual;
 	private VtUsuarioArtefacto usuarioArtefacto;
-
+	
+	private Long permisos;
+	
 	@PostConstruct
 	public void init(){
 
 		try {
+			
+			permisos = (Long) FacesUtils.getfromSession("permisos");
+			
+			if (FacesUtils.getfromSession("backlogSeleccionado") == null) {
+				if (permisos == 1) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/XHTML/TreeTable.xhtml");
+				}
+				if (permisos == 2) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/desarrollador/tableDesarrollador.xhtml");
+				}
+				if (permisos == 3) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/cliente/TreeTableCliente.xhtml");
+				}
+			}
+			
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
 			subirArchivos = new ArrayList<VtArchivo>();
@@ -140,6 +157,19 @@ public class VtArtefactoView {
 		}	
 	}		
 	
+	
+
+	public Long getPermisos() {
+		return permisos;
+	}
+
+
+
+	public void setPermisos(Long permisos) {
+		this.permisos = permisos;
+	}
+
+
 
 	public VtArtefactoDTO getArtefactoSeleccionadoDTO() {
 		return artefactoSeleccionadoDTO;
@@ -617,6 +647,7 @@ public class VtArtefactoView {
 				List<VtUsuario> listaDesarrolladores = businessDelegatorView.getVtUsuarioAsignados(proyectoActual);
 				losDesarrolladores = new ArrayList<SelectItem>();
 				for (VtUsuario vtUsuario : listaDesarrolladores) {
+					
 					losDesarrolladores.add(new SelectItem(vtUsuario.getUsuaCodigo(), vtUsuario.getNombre()));
 				}				
 			}	
@@ -806,7 +837,7 @@ public class VtArtefactoView {
 				vtUsuarioArtefacto.setActivo("S");
 				
 				businessDelegatorView.saveVtUsuarioArtefacto(vtUsuarioArtefacto);
-				FacesUtils.addInfoMessage("Se a asignado correcamente");
+				FacesUtils.addInfoMessage("Se ha asignado correcamente");
 			}else{
 				
 				vtUsuarioArtefacto.setVtUsuario(vtUsuario);
@@ -816,7 +847,7 @@ public class VtArtefactoView {
 				vtUsuarioArtefacto.setUsuModificador(vtUsuarioActual.getUsuaCodigo());
 				
 				businessDelegatorView.updateVtUsuarioArtefacto(vtUsuarioArtefacto);
-				FacesUtils.addInfoMessage("Se a re-asignado correcamente");
+				FacesUtils.addInfoMessage("Se ha re-asignado correcamente");
 			}
 			
 			losArtefactos = businessDelegatorView.findArtefactosVaciosPorBacklog(backlogSeleccionado.getPilaCodigo());

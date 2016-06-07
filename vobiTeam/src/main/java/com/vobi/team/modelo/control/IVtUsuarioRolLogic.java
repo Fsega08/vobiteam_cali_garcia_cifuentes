@@ -69,5 +69,6 @@ public interface IVtUsuarioRolLogic {
 	
     public Long rolMasBajoPorUsuario(VtUsuario vtUsuario);
     
+    public Boolean findUsuarioRolByRolAndUser(VtUsuario vtUsuario, VtRol vtRol);
 
 }

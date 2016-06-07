@@ -117,6 +117,8 @@ public class VtSprintView {
 	private MeterGaugeChartModel chartModel;
 	int sumaEsfuerzoReal;
 	Integer capReal;
+	
+	private Long permisos;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -124,11 +126,28 @@ public class VtSprintView {
 	public void init(){
 
 		try {
+			
+			permisos = (Long) FacesUtils.getfromSession("permisos");
+			
+			if (FacesUtils.getfromSession("backlogSeleccionado") == null) {
+				if (permisos == 1) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/XHTML/TreeTable.xhtml");
+				}
+				if (permisos == 2) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/desarrollador/tableDesarrollador.xhtml");
+				}
+				if (permisos == 3) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/cliente/TreeTableCliente.xhtml");
+				}
+				
+			}
+			
 			sumaEsfuerzoReal = 0;
 			sumaCrearEsfuerzoEstimado = 0;
 			sumaCrearEsfuerzoReal = 0;
 			capacidadEstimada = "";
 			capReal = 0;
+			
 
 			backlogSeleccionado = (VtPilaProducto) FacesUtils.getfromSession("backlogSeleccionado");
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
@@ -188,6 +207,18 @@ public class VtSprintView {
 	
 	
 	
+	public Long getPermisos() {
+		return permisos;
+	}
+
+
+
+	public void setPermisos(Long permisos) {
+		this.permisos = permisos;
+	}
+
+
+
 	public List<VtArtefacto> getArtefactosSacadosDelSprint() {
 		return artefactosSacadosDelSprint;
 	}
@@ -1097,9 +1128,11 @@ public class VtSprintView {
 			log.info("SPRINT ACTIVO "+sprintAction());
 			
 			if (sprintActivo == true) {
-				throw new Exception("Ya hay un sprint activo en esta pila");
+				throw new Exception("Ya hay un sprint activo en esta pila.");
 			}if (sprintVacio == false) {
-				throw new Exception("El sprint no tiene artefactos");
+				throw new Exception("El sprint no tiene artefactos.");
+			}if (sprintSeleccionado.getActivo().equals("N") == true) {
+				throw new Exception("El sprint esta inactivo.");
 			}
 			
 			if (sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 1L) {

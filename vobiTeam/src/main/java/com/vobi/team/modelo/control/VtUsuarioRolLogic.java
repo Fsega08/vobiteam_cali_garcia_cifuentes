@@ -516,6 +516,14 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
 				? permisos : 0L);	
 	}
 
+    @Transactional(readOnly = true)
+	public Boolean findUsuarioRolByRolAndUser(VtUsuario vtUsuario, VtRol vtRol) {
+
+    	VtUsuarioRol vtUsuarioRol = vtUsuarioRolDAO.findUsuarioRolByRolAndUser(vtUsuario, vtRol);
+    	
+    	return (vtUsuarioRol != null ? true : false);
+	}
+
 
 
     

@@ -109,7 +109,7 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 
             if ((entity.getDescripcion() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
-                        entity.getDescripcion(), 255) == false)) {
+                        entity.getDescripcion(), 2300) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "descripcion");
             }
@@ -252,7 +252,7 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 
             if ((entity.getDescripcion() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
-                        entity.getDescripcion(), 255) == false)) {
+                        entity.getDescripcion(), 2300) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "descripcion");
             }

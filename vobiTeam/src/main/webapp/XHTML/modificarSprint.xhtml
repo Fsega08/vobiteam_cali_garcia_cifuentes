@@ -32,7 +32,7 @@
 
 						<h:outputText value="Nombre del Sprint" />
 						<p:inputText id="txtMNombre" placeholder="Nombre"
-							binding="#{vtSprintView.txtMNombre}"
+							binding="#{vtSprintView.txtMNombre}" maxlength="250"
 							value="#{vtSprintView.sprintSeleccionado.nombre}" size="31" />
 
 						<h:outputText value="Acitividad del Sprint" />
@@ -55,10 +55,10 @@
 
 						<h:outputText value="Descripción del Sprint" />
 						<p:inputTextarea id="txtMDescripcion" rows="7" cols="148"
-							placeholder="Descripcion"
+							placeholder="Descripcion" 
 							binding="#{vtSprintView.txtMDescripcion}"
 							value="#{vtSprintView.sprintSeleccionado.objetivo}"
-							maxlength="100000000" />
+							maxlength="2300" />
 
 						
 					</h:panelGrid>
@@ -86,7 +86,7 @@
 						
 						<h:outputText value="Capacidad Estimada" />
 						<p:inputText id="txtMCapacidadEstimada"
-						
+							maxlength="5"
 							placeholder="Capacidad Estimada" value="#{vtSprintView.sprintDTOseleccionado.horaCapacidadEstimada}"
 							binding="#{vtSprintView.txtMCapacidadEstimada}" size="27">
 							

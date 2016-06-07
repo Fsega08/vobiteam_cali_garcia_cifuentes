@@ -31,14 +31,14 @@
 					<h:panelGrid columns="2" layout="grid" id="pnlgTit">
 
 						<h:outputText value="Nombre del Sprint" />
-						<p:inputText id="txtCNombre" placeholder="Nombre"
+						<p:inputText id="txtCNombre" placeholder="Nombre" maxlength="250"
 							binding="#{vtSprintView.txtNombre}" size="85" />
 					</h:panelGrid>
 
 					<h:panelGrid columns="1" layout="grid" id="pnlgDesc">
 						<h:outputText value="Descripción del Sprint" />
 						<p:inputTextarea id="txtAreaCrearDescripcion"
-							placeholder="Descripcion"
+							placeholder="Descripcion" maxlength="2300"
 							binding="#{vtSprintView.txtDescripcion}" cols="148" />
 
 						<p:separator />
@@ -62,7 +62,7 @@
 							value="#{vtSprintView.fechaFin}" size="31" />
 
 						<h:outputText value="Capacidad Estimada del Sprint" />
-						<p:inputText id="txtCapacidadEstimada"
+						<p:inputText id="txtCapacidadEstimada" maxlength="5"
 							placeholder="Capacidad Estimada del Sprint" size="31"
 							binding="#{vtSprintView.txtCapacidadEstimada}">
 							

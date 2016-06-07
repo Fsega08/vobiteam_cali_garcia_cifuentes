@@ -54,6 +54,8 @@ public class DashboardView {
 	@PostConstruct
 	public void init(){
 		try {
+			
+			
 			usuSesion = businessDelegatorView.findUsuarioByLogin(usuarioActual);
 			usuarioArtefactos = businessDelegatorView.findUsuarioArtefactoByUsuarios(usuSesion);
 			cantidadArtefactos = usuarioArtefactos.size();

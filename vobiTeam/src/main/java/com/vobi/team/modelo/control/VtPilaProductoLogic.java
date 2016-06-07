@@ -108,7 +108,7 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
 
             if ((entity.getDescripcion() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
-                        entity.getDescripcion(), 255) == false)) {
+                        entity.getDescripcion(), 2300) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "descripcion");
             }
@@ -218,7 +218,7 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
 
             if ((entity.getDescripcion() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
-                        entity.getDescripcion(), 255) == false)) {
+                        entity.getDescripcion(), 2300) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "descripcion");
             }

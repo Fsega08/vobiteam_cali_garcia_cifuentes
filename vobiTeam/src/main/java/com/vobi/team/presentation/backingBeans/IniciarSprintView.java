@@ -1,5 +1,6 @@
 package com.vobi.team.presentation.backingBeans;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,9 +10,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.treetable.TreeTable;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartSeries;
@@ -68,7 +71,9 @@ public class IniciarSprintView {
 	private LineChartModel burndownChart;
 
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
-
+	
+	private Long permisos;
+	
 	public IniciarSprintView() {
 		super();
 		//		this.losArtefactosPorHacer = new ArrayList<VtArtefacto>();
@@ -80,7 +85,20 @@ public class IniciarSprintView {
 	@PostConstruct
 	public void init(){
 		try {			 
-
+			
+			permisos = (Long) FacesUtils.getfromSession("permisos");
+			
+			if (FacesUtils.getfromSession("sprintSeleccionado") == null) {
+				if (permisos == 1) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/XHTML/TreeTable.xhtml");
+				}
+				if (permisos == 2) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/desarrollador/tableDesarrollador.xhtml");
+				}
+				if (permisos == 3) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/cliente/TreeTableCliente.xhtml");
+				}
+			}
 			sprintSeleccionado = (VtSprint) FacesUtils.getfromSession("sprintSeleccionado");
 
 			if(sprintSeleccionado.getVtEstadoSprint().getEstsprCodigo() == 3L){
@@ -113,6 +131,16 @@ public class IniciarSprintView {
 					+ "Todavia hay artefactos sin terminar.";
 		}
 		return msg;
+	}
+	
+	
+	
+	public Long getPermisos() {
+		return permisos;
+	}
+
+	public void setPermisos(Long permisos) {
+		this.permisos = permisos;
 	}
 
 	public void setMsg(String msg) {
