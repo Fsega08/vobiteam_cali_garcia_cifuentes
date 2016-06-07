@@ -483,6 +483,7 @@ public class VtDesarrolladorView {
 			FacesUtils.addInfoMessage("El progreso fue agregado con exito");
 			
 			artefactoSeleccionadoAction();
+			backlogListener();
 
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

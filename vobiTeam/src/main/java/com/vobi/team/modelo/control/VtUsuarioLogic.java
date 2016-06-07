@@ -319,7 +319,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 						"emprCodigo_VtEmpresa");
 			}
 			
-			if (entity.getActivo() == "N"){
+			if (entity.getActivo().equals("N")){
 				deleteVtUsuario(entity);
 			}
 

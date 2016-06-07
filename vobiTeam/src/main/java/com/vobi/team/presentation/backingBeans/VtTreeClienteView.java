@@ -71,6 +71,8 @@ public class VtTreeClienteView {
 	private List<SelectItem> lasCrearPrioridadesArtefactos;
 	private SelectOneMenu somCrearPrioridadesArtefacto;
 	
+	private VtTipoArtefacto vtTipoArtefacto;
+	
 	//////////////////////////////////////////////////////////////
 
 	
@@ -90,6 +92,8 @@ public class VtTreeClienteView {
 			usuario = businessDelegatorView.findUsuarioByLogin(usuarioActual);			
 			subirArchivos = new ArrayList<VtArchivo>();
 			TreeNode empresa = new DefaultTreeNode("Empresa",usuario.getVtEmpresa(), root);	
+			
+			vtTipoArtefacto = new VtTipoArtefacto();
 			
 			if (usuario.getVtProyectoUsuarios() != null) {
 				for (VtProyectoUsuario vtProyectoUsuarios  : usuario.getVtProyectoUsuarios()) {
@@ -114,8 +118,17 @@ public class VtTreeClienteView {
 			log.error(e.getMessage());
 		}
 	}
-
 	
+	
+	
+	public VtTipoArtefacto getVtTipoArtefacto() {
+		return vtTipoArtefacto;
+	}
+
+	public void setVtTipoArtefacto(VtTipoArtefacto vtTipoArtefacto) {
+		this.vtTipoArtefacto = vtTipoArtefacto;
+	}
+
 	public InputText getTxtCrearNombre() {
 		return txtCrearNombre;
 	}
@@ -402,12 +415,12 @@ public class VtTreeClienteView {
 
 	}
 	
-	public void crearReportarNoConformidadCliente() {
-		somCrearTipoArtefacto.setValue("3");
+	public void crearReportarNoConformidadCliente() throws Exception {
+		vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(3L);
 	}
 	
-	public void crearReportarControlCambioCliente() {
-		somCrearTipoArtefacto.setValue("2");
+	public void crearReportarControlCambioCliente() throws Exception {
+		vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(2L);
 	}
 	
 	public void crearReporteClienteAction() {
@@ -432,9 +445,7 @@ public class VtTreeClienteView {
 			if (somCrearPrioridadesArtefacto.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione una prioridad para el artefacto");
 			}
-			if (somCrearTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
-				throw new Exception("Seleccione un tipo de artefacto");
-			}
+
 
 			VtArtefacto vtArtefacto = new VtArtefacto();
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
@@ -454,7 +465,7 @@ public class VtTreeClienteView {
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(1L);
 			vtArtefacto.setVtEstado(vtEstado);
 
-			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somCrearTipoArtefacto.getValue().toString().trim()));
+			
 			vtArtefacto.setVtTipoArtefacto(vtTipoArtefacto);
 
 			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somCrearPrioridadesArtefacto.getValue().toString().trim()));

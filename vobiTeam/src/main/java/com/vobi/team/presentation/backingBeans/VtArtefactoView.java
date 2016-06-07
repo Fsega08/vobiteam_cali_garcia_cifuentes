@@ -118,6 +118,7 @@ public class VtArtefactoView {
 	private VtProyecto proyectoActual;
 	private VtUsuarioArtefacto usuarioArtefacto;
 	
+	private VtTipoArtefacto vtTipoArtefactoCli;
 	private Long permisos;
 	
 	@PostConstruct
@@ -1224,12 +1225,12 @@ public class VtArtefactoView {
 
 	}
 	
-	public void crearReportarNoConformidadCliente() {
-		somCrearTipoArtefacto.setValue("3");
+	public void crearReportarNoConformidadCliente() throws Exception {
+		vtTipoArtefactoCli = businessDelegatorView.getVtTipoArtefacto(2L);
 	}
 	
-	public void crearReportarControlCambioCliente() {
-		somCrearTipoArtefacto.setValue("2");
+	public void crearReportarControlCambioCliente() throws Exception {
+		vtTipoArtefactoCli = businessDelegatorView.getVtTipoArtefacto(2L);
 	}
 	
 	public void crearReporteClienteAction() {
@@ -1245,9 +1246,7 @@ public class VtArtefactoView {
 			if (somCrearPrioridadesArtefacto.getValue().toString().trim().equals("-1") == true) {
 				throw new Exception("Seleccione una prioridad para el artefacto");
 			}
-			if (somCrearTipoArtefacto.getValue().toString().trim().equals("-1") == true) {
-				throw new Exception("Seleccione un tipo de artefacto");
-			}
+
 
 			VtArtefacto vtArtefacto = new VtArtefacto();
 			VtUsuario vtUsuarioActual = businessDelegatorView.findUsuarioByLogin(usuarioActual);
@@ -1267,8 +1266,7 @@ public class VtArtefactoView {
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(1L);
 			vtArtefacto.setVtEstado(vtEstado);
 
-			VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(Long.parseLong(somCrearTipoArtefacto.getValue().toString().trim()));
-			vtArtefacto.setVtTipoArtefacto(vtTipoArtefacto);
+			vtArtefacto.setVtTipoArtefacto(vtTipoArtefactoCli);
 
 			VtPrioridad vtPrioridad = businessDelegatorView.getVtPrioridad(Long.parseLong(somCrearPrioridadesArtefacto.getValue().toString().trim()));
 			vtArtefacto.setVtPrioridad(vtPrioridad);

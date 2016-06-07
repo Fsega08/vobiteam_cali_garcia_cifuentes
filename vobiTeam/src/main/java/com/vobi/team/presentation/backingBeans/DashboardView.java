@@ -46,7 +46,9 @@ public class DashboardView {
 	private int cantidadArtefactos;
 	private int empresas;
 	private int proyectos;
-
+	
+	private Long permisos;
+	
 	private String usuarioActual=SecurityContextHolder.getContext().getAuthentication().getName();
 
 	private VtUsuario usuSesion;
@@ -60,7 +62,9 @@ public class DashboardView {
 			usuarioArtefactos = businessDelegatorView.findUsuarioArtefactoByUsuarios(usuSesion);
 			cantidadArtefactos = usuarioArtefactos.size();
 			usuarioRol = businessDelegatorView.getRolesAsignados(usuSesion);
-
+			
+			permisos = (Long) FacesUtils.getfromSession("permisos");
+			
 			empresas = businessDelegatorView.getVtEmpresa().size();
 			proyectos = businessDelegatorView.getVtProyecto().size();
 
@@ -72,6 +76,20 @@ public class DashboardView {
 
 
 	}
+	
+	
+	
+	public Long getPermisos() {
+		return permisos;
+	}
+
+
+
+	public void setPermisos(Long permisos) {
+		this.permisos = permisos;
+	}
+
+
 
 	public VtUsuario getUsuSesion() {
 		return usuSesion;
@@ -141,18 +159,22 @@ public class DashboardView {
 
 	public String sprintAction(){
 		try {
-			usuarioRol = businessDelegatorView.getRolesAsignados(usuSesion);
-			for (VtRol vtRol : usuarioRol) {
-				if (vtRol.getRolCodigo()==1L) {
+
+			
+			
+				if (permisos == 1) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/XHTML/TreeTable.xhtml");
 					return "/XHTML/TreeTable.xhtml";
 				}
-				// Aqui se colocara mostrar artefactos del desarrollador para
-				// que juegue
-				if (vtRol.getRolCodigo()==2L) {
-					return "/dashboard.xhtml";
+				if (permisos == 2) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/desarrollador/tableDesarrollador.xhtml");
+					return "/desarrollador/tableDesarrollador.xhtml";
 				}
-			}
-
+				if (permisos == 3) {
+					FacesUtils.getExternalContext().redirect("/vobiTeam/cliente/TreeTableCliente.xhtml");
+					return "/cliente/TreeTableCliente.xhtml";
+				}
+			
 			return "";
 		} catch (Exception e) {
 			log.info(e.getMessage());

@@ -11,6 +11,8 @@
         
         <intercept-url pattern="/perfil.*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
         
+         <intercept-url pattern="/sentinel/*" access="hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DESARROLLADOR') or hasRole('ROLE_CLIENTE')"/>
+        
         <intercept-url pattern="/desarrollador/*" access="hasRole('ROLE_DESARROLLADOR')"/>
         
         <intercept-url pattern="/cliente/*" access="hasRole('ROLE_CLIENTE')"/>
