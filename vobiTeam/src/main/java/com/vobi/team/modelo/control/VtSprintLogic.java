@@ -255,12 +255,14 @@ public class VtSprintLogic implements IVtSprintLogic {
             }
             
             //------------------------------------------------------------------
-//            VtSprint sprint = buscarSprintActivoEnLaMismaPila(entity.getVtPilaProducto());
-//            if(sprint != null){
-//	            if (entity.getVtEstadoSprint().getEstsprCodigo().equals(2L) && !sprint.getSpriCodigo().equals(entity.getSpriCodigo())) {
-//	    			throw new Exception("Ya existe un sprint en curso");    			
-//	            }
-//            }
+            VtSprint sprint = buscarSprintActivoEnLaMismaPila(entity.getVtPilaProducto());
+            
+            
+            if(sprint != null){
+	            if (entity.getVtEstadoSprint().getEstsprCodigo() == 2L && entity.getSpriCodigo() != sprint.getSpriCodigo()) {
+	    			throw new Exception("Ya existe un sprint en curso");    			
+	            }
+            }
 
             vtSprintDAO.update(entity);
 
