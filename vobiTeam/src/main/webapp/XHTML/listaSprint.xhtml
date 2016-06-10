@@ -78,22 +78,22 @@
 						filterMatchMode="contains">
 						<h:outputText value="#{sprint.objetivo}"
 							title="Presiona click derecho para ver las opciones" />
-					</p:column>
-
-					<p:column headerText="Inicio" filterBy="#{sprint.fechaInicio}"
-						sortBy="#{sprint.fechaInicio} ">
-
-						<h:outputText value="#{sprint.fechaInicio}"
-							title="Presiona click derecho para ver las opciones">
-							<f:convertDateTime dateStyle="full" type="date" />
-						</h:outputText>
-					</p:column>
+					</p:column>					
 					
 					<p:column headerText="Estado de Sprint" filterBy="#{sprint.vtEstadoSprint.nombre}"
 						sortBy="#{sprint.vtEstadoSprint.nombre}" filterMatchMode="contains">
 						<h:outputText value="#{sprint.vtEstadoSprint.nombre}"
 							title="Presiona click derecho para ver las opciones">
 			
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Inicio" filterBy="#{sprint.fechaInicio}"
+						sortBy="#{sprint.fechaInicio} ">
+
+						<h:outputText value="#{sprint.fechaInicio}"
+							title="Presiona click derecho para ver las opciones">
+							<f:convertDateTime dateStyle="full" type="date" />
 						</h:outputText>
 					</p:column>
 					
