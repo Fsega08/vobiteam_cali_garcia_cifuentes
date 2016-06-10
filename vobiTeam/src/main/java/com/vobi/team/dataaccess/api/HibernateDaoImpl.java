@@ -71,6 +71,8 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements Dao<T, PK> 
     }
 
     public void update(T entity) throws DaoException {
+    	getSession().flush();
+    	getSession().clear();
         getSession().update(entity);
     }
 
